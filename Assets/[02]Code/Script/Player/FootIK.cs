@@ -20,7 +20,6 @@ public class FootIK : MonoBehaviour
     void SetFootIK(AvatarIKGoal foot)
     {
         float weight = anim.GetFloat(foot == AvatarIKGoal.LeftFoot ? "LeftFootWeight" : "RightFootWeight");
-        // หรือใช้ anim.GetIKWeight ถ้าตั้งจาก Curve ในคลิปแล้ว
 
         Vector3 footPos = anim.GetIKPosition(foot);
         Ray ray = new Ray(footPos + Vector3.up * raycastDistance * 0.5f, Vector3.down);
