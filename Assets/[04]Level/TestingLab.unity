@@ -290,7 +290,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainCharacter_Female_V1_Model
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 5866666021909216657, guid: d53cd6d40aa523947ad523dda0d85fdd, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: ac7d9471a91f38c479044b4d71342464, type: 2}
+    m_RemovedComponents:
+    - {fileID: 5866666021909216657, guid: d53cd6d40aa523947ad523dda0d85fdd, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -560,9 +565,11 @@ GameObject:
   m_Component:
   - component: {fileID: 936923248}
   - component: {fileID: 936923249}
-  - component: {fileID: 936923250}
   - component: {fileID: 936923251}
   - component: {fileID: 936923252}
+  - component: {fileID: 936923255}
+  - component: {fileID: 936923254}
+  - component: {fileID: 936923253}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -615,18 +622,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 80
   m_CollisionDetection: 1
---- !u!114 &936923250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 936923247}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3257fd8f92f606d45b4e07417f554e81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
 --- !u!114 &936923251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -654,7 +649,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   orientation: {fileID: 729805203}
   rb: {fileID: 936923249}
-  moveSpeed: 6
+  moveSpeed: 3
   groundDrag: 6
   airMultiplier: 0.01
   jumpForce: 5
@@ -667,6 +662,58 @@ MonoBehaviour:
   slopeStickForce: 30
   moveInput: {fileID: -263566852394675967, guid: c32589b3e95ba5044800c48f983ef7c5, type: 3}
   jumpInput: {fileID: 8583494107974789064, guid: c32589b3e95ba5044800c48f983ef7c5, type: 3}
+--- !u!114 &936923253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936923247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf6cea58073db944a92cff9172308aa5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FootIK
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  footOffset: 0.1
+  raycastDistance: 1.5
+--- !u!95 &936923254
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936923247}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: d53cd6d40aa523947ad523dda0d85fdd, type: 3}
+  m_Controller: {fileID: 9100000, guid: ac7d9471a91f38c479044b4d71342464, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &936923255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936923247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80e8bbefe8964234f91f24042b960676, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimationController
+  playerMovement: {fileID: 936923252}
 --- !u!1 &977710135
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,8 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
 public class PlayerMovement : MonoBehaviour
 {
+    //Events
+    public event Action<float> OnSpeedChanged;
+    public event Action OnJumped;
+
     [Header("References")]
     public Transform orientation;
     public Rigidbody rb;
@@ -81,6 +86,8 @@ public class PlayerMovement : MonoBehaviour
         bool canControl = StateManager.Instance == null || StateManager.Instance.CanControlPlayer();
         inputVector = canControl ? moveInput.action.ReadValue<Vector2>() : Vector2.zero;
 
+        OnSpeedChanged?.Invoke(inputVector.magnitude);
+
         // ควบคุม Drag ตามสถานะการติดพื้น
         rb.linearDamping = isGrounded ? groundDrag : 0f;
 
@@ -156,6 +163,7 @@ public class PlayerMovement : MonoBehaviour
         // รีเซ็ต Velocity แกน Y ก่อนกระโดด เพื่อให้แรงกระโดดสม่ำเสมอ
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        OnJumped?.Invoke();
 
         Invoke(nameof(ResetJump), jumpCooldown);
     }
