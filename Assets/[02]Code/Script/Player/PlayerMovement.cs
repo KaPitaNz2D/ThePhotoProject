@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     public float playerHeight = 2f;
     public LayerMask groundLayer;
     private bool isGrounded;
+    public bool IsGrounded => isGrounded;
 
     [Header("Slope Handling")]
     [Tooltip("มุมทางลาดสูงสุดที่เดินขึ้น-ลงได้แบบปกติ (องศา)")]
@@ -36,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     public InputActionReference jumpInput;
 
     private Vector2 inputVector;
+    public Vector2 CurrentInput => inputVector;
     private Vector3 moveDirection;
 
     private void Start()
