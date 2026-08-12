@@ -2417,6 +2417,7 @@ GameObject:
   - component: {fileID: 1858479248}
   - component: {fileID: 1858479247}
   - component: {fileID: 1858479250}
+  - component: {fileID: 1858479251}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2465,7 +2466,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60.000004
+  field of view: 50
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -2491,8 +2492,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1858479246}
   serializedVersion: 2
-  m_LocalRotation: {x: -4.959346e-16, y: 0.10108676, z: 5.0390546e-17, w: 0.99487764}
-  m_LocalPosition: {x: 0.23, y: 2.1469998, z: -3.856}
+  m_LocalRotation: {x: 4.135903e-25, y: 0.000000028196885, z: -1.1661958e-32, w: 1}
+  m_LocalPosition: {x: 0.23, y: 2.1469998, z: -1.856}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2530,6 +2531,50 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
+--- !u!114 &1858479251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1858479246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
+  m_Version: 2
 --- !u!1 &1925262319
 GameObject:
   m_ObjectHideFlags: 0
@@ -2656,8 +2701,8 @@ GameObject:
   - component: {fileID: 1958216231}
   - component: {fileID: 1958216226}
   - component: {fileID: 1958216225}
-  - component: {fileID: 1958216232}
   - component: {fileID: 1958216233}
+  - component: {fileID: 1958216232}
   - component: {fileID: 1958216234}
   m_Layer: 0
   m_Name: ThirdPersonCam
@@ -2710,7 +2755,7 @@ MonoBehaviour:
       Enabled: 1
       Input:
         InputAction: {fileID: 5082991133974614888, guid: 1d6e640e716dc4ff6989b73d02023f2b, type: 3}
-        Gain: -1
+        Gain: -10
         CancelDeltaTime: 0
       InputValue: 0
       Driver:
@@ -2750,7 +2795,7 @@ MonoBehaviour:
   TargetOffset: {x: 0, y: 0, z: 0}
   TrackerSettings:
     BindingMode: 4
-    PositionDamping: {x: 1, y: 1, z: 1}
+    PositionDamping: {x: 0.5, y: 0.5, z: 0.5}
     AngularDampingMode: 0
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
@@ -2761,7 +2806,7 @@ MonoBehaviour:
       Radius: 2
       Height: 3
     Center:
-      Radius: 4
+      Radius: 2
       Height: 0
     Bottom:
       Radius: 2.5
@@ -2791,7 +2836,7 @@ MonoBehaviour:
   RadialAxis:
     Value: 1
     Center: 1
-    Range: {x: 1, y: 1}
+    Range: {x: 0.8, y: 1.5}
     Wrap: 0
     Recentering:
       Enabled: 0
@@ -2822,7 +2867,7 @@ MonoBehaviour:
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
-    FieldOfView: 60.000004
+    FieldOfView: 50
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -2849,8 +2894,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1958216224}
   serializedVersion: 2
-  m_LocalRotation: {x: -4.9831515e-16, y: 0.10108675, z: 2.6961613e-17, w: 0.99487764}
-  m_LocalPosition: {x: 0.23, y: 2.1469998, z: -3.856}
+  m_LocalRotation: {x: 4.135903e-25, y: 0.000000028196885, z: 2.5785093e-26, w: 1}
+  m_LocalPosition: {x: 0.23, y: 2.1469998, z: -1.856}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2869,7 +2914,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineRotationComposer
   Composition:
-    ScreenPosition: {x: -0.1, y: 0}
+    ScreenPosition: {x: 0, y: 0}
     DeadZone:
       Enabled: 0
       Size: {x: 0.2, y: 0.2}
@@ -2902,9 +2947,6 @@ MonoBehaviour:
   playerObj: {fileID: 63306550}
   rotationSpeed: 7
   moveInput: {fileID: -263566852394675967, guid: c32589b3e95ba5044800c48f983ef7c5, type: 3}
-  lookInput: {fileID: -22152819878740444, guid: c32589b3e95ba5044800c48f983ef7c5, type: 3}
-  lookThreshold: 0.05
-  cameraTurnHoldTime: 0.15
 --- !u!114 &1958216233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2957,9 +2999,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraShoulderSwitch
   switchShoulderInput: {fileID: 8940252613681116552, guid: c32589b3e95ba5044800c48f983ef7c5, type: 3}
-  rightShoulderX: 0.1
-  leftShoulderX: -0.1
-  switchSpeed: 8
+  ShoulderOffset: 0.18
+  switchSpeed: 4
 --- !u!1 &2003199735
 GameObject:
   m_ObjectHideFlags: 0
