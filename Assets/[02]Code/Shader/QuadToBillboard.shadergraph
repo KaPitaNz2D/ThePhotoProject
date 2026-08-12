@@ -1384,7 +1384,7 @@
     "m_ZTestMode": 4,
     "m_ZWriteControl": 0,
     "m_AlphaMode": 1,
-    "m_RenderFace": 0,
+    "m_RenderFace": 2,
     "m_AlphaClip": true,
     "m_CastShadows": true,
     "m_ReceiveShadows": true,
@@ -1392,7 +1392,7 @@
     "m_Sort3DAs2DCompatible": false,
     "m_AdditionalMotionVectorMode": 0,
     "m_AlembicMotionVectors": false,
-    "m_SupportsLODCrossFade": false,
+    "m_SupportsLODCrossFade": true,
     "m_CustomEditorGUI": "",
     "m_SupportVFX": false
 }
@@ -1404,7 +1404,7 @@
     "m_Title": "Inflate",
     "m_Position": {
         "x": -1939.0,
-        "y": -322.0000305175781
+        "y": -322.0
     }
 }
 
@@ -1562,7 +1562,7 @@
     "m_PerRendererData": false,
     "m_customAttributes": [],
     "m_Value": {
-        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"40880bd9191bbee41879dc7c30dcb183\",\"type\":3}}",
+        "m_SerializedTexture": "",
         "m_Guid": ""
     },
     "isMainTexture": false,
@@ -1684,7 +1684,7 @@
     "m_PerRendererData": false,
     "m_customAttributes": [],
     "m_Value": {
-        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"40880bd9191bbee41879dc7c30dcb183\",\"type\":3}}",
+        "m_SerializedTexture": "",
         "m_Guid": ""
     },
     "isMainTexture": false,
@@ -2994,7 +2994,7 @@
     "m_Title": "Leap Effect Billboard",
     "m_Position": {
         "x": -2339.0,
-        "y": 108.99995422363281
+        "y": 109.0
     }
 }
 
@@ -4396,7 +4396,7 @@
     "m_Title": "Billbaord Size",
     "m_Position": {
         "x": -1870.0,
-        "y": 102.99993896484375
+        "y": 103.0
     }
 }
 

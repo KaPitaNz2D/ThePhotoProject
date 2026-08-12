@@ -3,7 +3,17 @@ guid: 8c57d09461df55c409173ef466b61cfe
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: LeafMat
+    second: {fileID: 2100000, guid: 72794879e32ff734d9635b8001eef4d6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TruckMat
+    second: {fileID: 2100000, guid: 802894204bf7dea4c82203a273ac8c0e, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
