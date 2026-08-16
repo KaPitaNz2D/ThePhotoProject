@@ -282,7 +282,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5040367}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.0000000062342607, y: 0.10106089, z: 6.3328215e-10, w: 0.99488026}
+  m_LocalRotation: {x: -0.0000000059299494, y: 0.10106092, z: 6.023701e-10, w: 0.99488026}
   m_LocalPosition: {x: 81.6, y: 13.7, z: 48.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -994,16 +994,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f710250abab6f24a954bdf3c3c1ac64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: sc.vegetationspawner.runtime::sc.terrain.vegetationspawner.VegetationSpawner
-  seed: 0
+  seed: 99393
   terrains:
   - {fileID: 1697791239}
-  visibleTerrainsOnly: 0
+  visibleTerrainsOnly: 1
   treeTypes:
   - enabled: 1
-    name: DemoBroadleaf
-    seed: 5277
-    probability: 12.8
+    name: SugarMaple002_Modeling_004
+    seed: 3990
+    probability: 100
     collisionCheck: 0
+    rejectUnderwater: 1
+    heightRange: {x: 0, y: 1000}
+    slopeRange: {x: 0, y: 60}
+    curvatureRange: {x: 0, y: 1}
+    layerMasks: []
+    instanceCount: 128
+    prefabs:
+    - index: 0
+      probability: 100
+      prefab: {fileID: 2340120025382474641, guid: 63dd1d8b5155046448d969f8b39fdb08, type: 3}
+    distance: 16
+    scaleRange: {x: 0.8, y: 1.2}
+    sinkAmount: 0
+  - enabled: 1
+    name: DemoSpruce
+    seed: 8630
+    probability: 0
+    collisionCheck: 1
     rejectUnderwater: 1
     heightRange: {x: 0, y: 1000}
     slopeRange: {x: 0, y: 60}
@@ -1011,49 +1029,59 @@ MonoBehaviour:
     layerMasks: []
     instanceCount: 0
     prefabs:
-    - index: 0
-      probability: 0
-      prefab: {fileID: 3419883363128097502, guid: ee761a3475b476040a2a6844b77eb15a, type: 3}
-    distance: 6
-    scaleRange: {x: 0.8, y: 1.2}
+    - index: 1
+      probability: 100
+      prefab: {fileID: 7488343770391138834, guid: d269f456157d06948a7ff3854fe78119, type: 3}
+    distance: 5
+    scaleRange: {x: 0.5175141, y: 1.2}
     sinkAmount: 0
   - enabled: 1
     name: SugarMaple_Modeling_011
-    seed: 3037
-    probability: 35.6
-    collisionCheck: 0
+    seed: 7876
+    probability: 100
+    collisionCheck: 1
     rejectUnderwater: 1
     heightRange: {x: 0, y: 1000}
     slopeRange: {x: 0, y: 60}
     curvatureRange: {x: 0, y: 1}
     layerMasks: []
-    instanceCount: 477
-    prefabs:
-    - index: 1
-      probability: 100
-      prefab: {fileID: 3038984318404539964, guid: 066c60b9c4544af48b6c4ba6c02d9364, type: 3}
-    distance: 5
-    scaleRange: {x: 0.8, y: 1.2}
-    sinkAmount: 0
-  - enabled: 1
-    name: SugarMaple002_Modeling_004
-    seed: 4900
-    probability: 18.5
-    collisionCheck: 0
-    rejectUnderwater: 1
-    heightRange: {x: 0, y: 1000}
-    slopeRange: {x: 0, y: 60}
-    curvatureRange: {x: 0, y: 1}
-    layerMasks: []
-    instanceCount: 160
+    instanceCount: 1035
     prefabs:
     - index: 2
       probability: 100
-      prefab: {fileID: 2340120025382474641, guid: 63dd1d8b5155046448d969f8b39fdb08, type: 3}
-    distance: 6
-    scaleRange: {x: 1, y: 1.2}
+      prefab: {fileID: 3038984318404539964, guid: 066c60b9c4544af48b6c4ba6c02d9364, type: 3}
+    distance: 5
+    scaleRange: {x: 1.5, y: 2}
     sinkAmount: 0
-  grassPrefabs: []
+  grassPrefabs:
+  - enabled: 1
+    name: GrassField
+    seed: 5293
+    probability: 28.3
+    collisionCheck: 0
+    rejectUnderwater: 1
+    heightRange: {x: 0, y: 1000}
+    slopeRange: {x: 0, y: 60}
+    curvatureRange: {x: 0, y: 1}
+    layerMasks: []
+    instanceCount: 64800
+    index: 0
+    type: 1
+    renderAsBillboard: 1
+    prefab: {fileID: 0}
+    gpuInstancing: 1
+    holeEdgePadding: 2
+    alignToGround: 100
+    positionJitter: 0
+    useDensityScaling: 1
+    density: 1.62
+    billboard: {fileID: 2800000, guid: 409c39177d5ac5545bede68eed1c290b, type: 3}
+    mainColor: {r: 0.88971615, g: 0.9622642, b: 0, a: 1}
+    secondaryColor: {r: 0.9622642, g: 0.27687788, b: 0.27687788, a: 1}
+    linkColors: 0
+    minMaxHeight: {x: 0.5, y: 1}
+    minMaxWidth: {x: 0.8, y: 1.4203391}
+    noiseSize: 0.1
   terrainSettings:
     drawTreesAndFoliage: 1
     preservePrefabLayer: 1
@@ -1081,7 +1109,7 @@ MonoBehaviour:
   grassPatchSize: 128
   grassPatchSizeIndex: 4
   tempColliders: []
-  waterHeight: 9.41
+  waterHeight: 9.21
 --- !u!1 &150888165
 GameObject:
   m_ObjectHideFlags: 0
@@ -4636,11 +4664,11 @@ Terrain:
   m_Enabled: 1
   serializedVersion: 6
   m_TerrainData: {fileID: 15600000, guid: 1f39cc3448068dc4cad5a20bba4698ee, type: 2}
-  m_TreeDistance: 1000
+  m_TreeDistance: 0
   m_TreeBillboardDistance: 300
   m_TreeCrossFadeLength: 5
   m_TreeMaximumFullLODCount: 50
-  m_DetailObjectDistance: 200
+  m_DetailObjectDistance: 100
   m_DetailObjectDensity: 1
   m_HeightmapPixelError: 50
   m_SplatMapDistance: 1000
@@ -4649,7 +4677,7 @@ Terrain:
   m_ShadowCastingMode: 1
   m_DrawHeightmap: 1
   m_DrawInstanced: 1
-  m_DrawTreesAndFoliage: 0
+  m_DrawTreesAndFoliage: 1
   m_StaticShadowCaster: 0
   m_IgnoreQualitySettings: 0
   m_ReflectionProbeUsage: 1
@@ -4694,9 +4722,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a502df8d1ef96594a9e2186348f519cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InstancedTreeRenderer
-  disableNativeTreeDrawing: 0
-  cullDistance: 300
-  cullRadius: 6
+  disableNativeTreeDrawing: 1
+  cullDistance: 500
+  cullRadius: 5
   shadowCastingMode: 1
 --- !u!1 &1726206723
 GameObject:
@@ -5387,63 +5415,6 @@ Transform:
   - {fileID: 1785521238}
   m_Father: {fileID: 118331278}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &3470849751152737946
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2340120025382474641, guid: 63dd1d8b5155046448d969f8b39fdb08, type: 3}
-      propertyPath: m_Name
-      value: SugarMaple002_Modeling_004
-      objectReference: {fileID: 0}
-    - target: {fileID: 6594767621174879537, guid: 63dd1d8b5155046448d969f8b39fdb08, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 85.56042
-      objectReference: {fileID: 0}
-    - target: {fileID: 6594767621174879537, guid: 63dd1d8b5155046448d969f8b39fdb08, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 11.00226
-      objectReference: {fileID: 0}
-    - target: {fileID: 6594767621174879537, guid: 63dd1d8b5155046448d969f8b39fdb08, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 106.29674
-      objectReference: {fileID: 0}
-    - target: {fileID: 6594767621174879537, guid: 63dd1d8b5155046448d969f8b39fdb08, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6594767621174879537, guid: 63dd1d8b5155046448d969f8b39fdb08, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6594767621174879537, guid: 63dd1d8b5155046448d969f8b39fdb08, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6594767621174879537, guid: 63dd1d8b5155046448d969f8b39fdb08, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6594767621174879537, guid: 63dd1d8b5155046448d969f8b39fdb08, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6594767621174879537, guid: 63dd1d8b5155046448d969f8b39fdb08, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6594767621174879537, guid: 63dd1d8b5155046448d969f8b39fdb08, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 63dd1d8b5155046448d969f8b39fdb08, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -5458,4 +5429,3 @@ SceneRoots:
   - {fileID: 1638075362}
   - {fileID: 1317107096}
   - {fileID: 49699903}
-  - {fileID: 3470849751152737946}

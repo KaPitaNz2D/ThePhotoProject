@@ -46,17 +46,37 @@ public class InstancedTreeRenderer : MonoBehaviour
     // in OnEnable) keeps the renderer from drawing a stale prefab at the wrong prototype index.
     private int cachedPrototypeSignature = int.MinValue;
 
+    private float originalTreeDistance;
+    private bool nativeTreeDrawingSuppressed;
+
     private void OnEnable()
     {
         terrain = GetComponent<Terrain>();
         RebuildPrototypeCache();
-        if (disableNativeTreeDrawing) terrain.drawTreesAndFoliage = false;
+
+        // Terrain.drawTreesAndFoliage gates BOTH trees and grass/detail objects together —
+        // turning it off would silently disable grass rendering too. Suppress only native
+        // TREE rendering via treeDistance = 0 (grass uses the separate detailObjectDistance),
+        // so this renderer stays compatible with terrain grass/detail layers.
+        if (disableNativeTreeDrawing)
+        {
+            originalTreeDistance = terrain.treeDistance;
+            terrain.treeDistance = 0f;
+            nativeTreeDrawingSuppressed = true;
+        }
+
         RenderPipelineManager.beginCameraRendering += OnBeginCameraRendering;
     }
 
     private void OnDisable()
     {
         RenderPipelineManager.beginCameraRendering -= OnBeginCameraRendering;
+
+        if (nativeTreeDrawingSuppressed && terrain != null)
+        {
+            terrain.treeDistance = originalTreeDistance;
+            nativeTreeDrawingSuppressed = false;
+        }
     }
 
     private int ComputePrototypeSignature()
