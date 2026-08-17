@@ -186,12 +186,71 @@
                 },
                 {
                     "name": "",
+                    "id": "8a3a80fb-d239-46f3-a33d-1315d76d2f1e",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "331f82e9-a590-423d-b9c3-49de981c9a60",
                     "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "SwitchShoulder",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Photograph",
+            "id": "ba33b301-6e89-4215-aed3-ee90ae735296",
+            "actions": [
+                {
+                    "name": "EnterPhotoMode",
+                    "type": "Button",
+                    "id": "dc6045f1-a0fd-4ea8-a468-8b90a376a6c6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Shutter",
+                    "type": "Button",
+                    "id": "5cb5991d-c420-4de2-9f44-654cb84731b9",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e7adc7bb-eba8-47ac-9284-89db17a5c5b8",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EnterPhotoMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f1dd25e2-d5ab-4a0b-bf6f-23abfcd07880",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shutter",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

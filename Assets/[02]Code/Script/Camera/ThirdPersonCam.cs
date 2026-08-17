@@ -46,6 +46,13 @@ public class ThirdPersonCam : MonoBehaviour
         Vector2 inputVector = moveInput.action.ReadValue<Vector2>();
         Vector3 moveDir = orientation.forward * inputVector.y + orientation.right * inputVector.x;
 
+        // ถ้าอยู่ในโหมดถ่ายรูป (หรือโหมดอื่นที่ไม่ใช่ Normal) ตัวละครหยุดหมุนสนิท
+        // ไม่งั้นตอนเล็งกล้องถ่ายรูปด้วยเมาส์ ตัวละครจะพยายามหมุนตามไปด้วยพร้อมกัน ดูแปลกๆ
+        if (StateManager.Instance != null && !StateManager.Instance.IsSystemState(StateManager.SystemState.Normal))
+        {
+            return;
+        }
+
         // 3. เช็คว่าผู้เล่นกำลังขยับมุมกล้องอยู่หรือไม่ — ใช้ Hold Timer แทนการเช็คค่าเฟรมต่อเฟรมตรงๆ
         // เพราะ Mouse Delta จะรีเซ็ตเป็น 0 ในเฟรมที่ไม่มี Event เมาส์ใหม่เข้ามา (โดยเฉพาะเมาส์ Polling Rate ต่ำ)
         // ถ้าไม่มี Hold Timer ค่านี้จะกระพริบ true/false สลับกันเร็วมาก ทำให้ตัวละครหันไปมาสองทางพร้อมกัน

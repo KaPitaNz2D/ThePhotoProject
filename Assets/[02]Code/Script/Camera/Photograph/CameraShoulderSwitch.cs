@@ -51,6 +51,12 @@ public class CameraShoulderSwitch : MonoBehaviour
 
     private void OnSwitchShoulder(InputAction.CallbackContext ctx)
     {
+        // บล็อกการสลับไหล่ตอนไม่ได้อยู่ใน SystemState.Normal (เช่นกำลังถ่ายรูป/คุยกับ NPC/Pause อยู่)
+        if (StateManager.Instance != null && !StateManager.Instance.IsSystemState(StateManager.SystemState.Normal))
+        {
+            return;
+        }
+
         isRightShoulder = !isRightShoulder;
         targetX = isRightShoulder ? rightShoulderX : leftShoulderX;
     }
