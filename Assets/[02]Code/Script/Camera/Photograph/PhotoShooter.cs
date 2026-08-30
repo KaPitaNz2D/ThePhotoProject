@@ -123,6 +123,14 @@ public class PhotoShooter : MonoBehaviour
         if (StateManager.Instance == null) return;
         if (StateManager.Instance.CurrentSystemState != StateManager.SystemState.Photograph) return;
 
+        // Storage เต็มแล้ว -> ถ่ายไม่ได้เลย เช็คจุดนี้ก่อน Cooldown เพื่อไม่ให้เสีย Cooldown ไปฟรีๆ
+        if (PhotoStorage.Instance != null && PhotoStorage.Instance.IsFull)
+        {
+            Debug.LogWarning($"[PhotoShooter] Storage เต็มแล้ว ({PhotoStorage.Instance.Photos.Count}/{PhotoStorage.Instance.maxCapacity}) " +
+                              "ถ่ายเพิ่มไม่ได้ ต้องลบภาพเก่าออกจาก Storage ก่อน");
+            return;
+        }
+
         // กันสแปมชัตเตอร์ — ต้องรอครบ Cooldown ก่อนถึงจะถ่ายรอบถัดไปได้
         if (Time.time - lastShotTime < shutterCooldown) return;
         lastShotTime = Time.time;
@@ -209,7 +217,7 @@ public class PhotoShooter : MonoBehaviour
             {
                 // กันลืม: ติด Tag Photographable ไว้แล้ว แต่ลืมแปะ PhotoSubject ไว้ที่ Root
                 Debug.LogWarning($"[PhotoShooter] '{hit.collider.name}' ติด Tag {photographableTag} " +
-                                 "แต่หา PhotoSubject ที่ Root ไม่เจอ — ข้ามไปก่อน ลองเช็คว่าลืมแปะ Component ไว้หรือเปล่า");
+                                  "แต่หา PhotoSubject ที่ Root ไม่เจอ — ข้ามไปก่อน ลองเช็คว่าลืมแปะ Component ไว้หรือเปล่า");
                 continue;
             }
 

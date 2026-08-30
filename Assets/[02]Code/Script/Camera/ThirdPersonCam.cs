@@ -27,21 +27,61 @@ public class ThirdPersonCam : MonoBehaviour
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
         if (moveInput != null) moveInput.action.Enable();
         if (lookInput != null) lookInput.action.Enable();
+
+        if (StateManager.Instance != null)
+        {
+            StateManager.Instance.OnSystemStateChanged += HandleSystemStateChanged;
+            ApplyCameraControlState(StateManager.Instance.CurrentSystemState);
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (StateManager.Instance != null)
+        {
+            StateManager.Instance.OnSystemStateChanged -= HandleSystemStateChanged;
+        }
+    }
+
+    private void HandleSystemStateChanged(StateManager.SystemState oldState, StateManager.SystemState newState)
+    {
+        ApplyCameraControlState(newState);
+    }
+
+    /// <summary>
+    /// เปิด/ปิดการควบคุมกล้องตาม SystemState — Normal/Photograph เท่านั้นที่หมุนกล้องได้
+    /// ส่วน Storage/Journal/Pause/Talking จะปิด Look Action และปลดล็อก Cursor ให้คลิก UI ได้
+    ///
+    /// สำคัญ: การ Disable() Action "Look" ตรงนี้ ทำให้ Cinemachine's Input Axis Controller
+    /// (ที่อ่าน Action ตัวเดียวกัน) ไม่ได้รับค่าไปด้วย กล้องเลยหยุดหมุนสนิทแม้จะเป็น Orbital Follow ก็ตาม
+    /// </summary>
+    private void ApplyCameraControlState(StateManager.SystemState state)
+    {
+        bool allowCameraControl = state == StateManager.SystemState.Normal || state == StateManager.SystemState.Photograph;
+
+        if (allowCameraControl)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            if (lookInput != null) lookInput.action.Enable();
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            if (lookInput != null) lookInput.action.Disable();
+        }
     }
 
     private void Update()
     {
-        // --- เพิ่มเงื่อนไขเช็ค State ตรงนี้ ---
-        // หากไม่สามารถควบคุมตัวละครได้ (เช่น อยู่ในโหมด Photograph) ให้หยุดการทำงานของกล้องและการหมุนตัวละครทันที
-        if (StateManager.Instance != null && !StateManager.Instance.CanControlPlayer())
-        {
-            return;
-        }
-
         if (player == null || orientation == null || playerObj == null || moveInput == null || lookInput == null) return;
 
         // 1. คำนวณ Orientation ของกล้องเพื่อใช้เป็นแกนอ้างอิงเสมอ (ห้ามเอียงตามแกน Y)
@@ -52,6 +92,13 @@ public class ThirdPersonCam : MonoBehaviour
         // 2. อ่านค่าการเดิน
         Vector2 inputVector = moveInput.action.ReadValue<Vector2>();
         Vector3 moveDir = orientation.forward * inputVector.y + orientation.right * inputVector.x;
+
+        // ถ้าอยู่ในโหมดถ่ายรูป (หรือโหมดอื่นที่ไม่ใช่ Normal) ตัวละครหยุดหมุนสนิท
+        // ไม่งั้นตอนเล็งกล้องถ่ายรูปด้วยเมาส์ ตัวละครจะพยายามหมุนตามไปด้วยพร้อมกัน ดูแปลกๆ
+        if (StateManager.Instance != null && !StateManager.Instance.IsSystemState(StateManager.SystemState.Normal))
+        {
+            return;
+        }
 
         // 3. เช็คว่าผู้เล่นกำลังขยับมุมกล้องอยู่หรือไม่ — ใช้ Hold Timer แทนการเช็คค่าเฟรมต่อเฟรมตรงๆ
         // เพราะ Mouse Delta จะรีเซ็ตเป็น 0 ในเฟรมที่ไม่มี Event เมาส์ใหม่เข้ามา (โดยเฉพาะเมาส์ Polling Rate ต่ำ)

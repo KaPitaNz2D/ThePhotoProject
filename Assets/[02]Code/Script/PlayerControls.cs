@@ -381,6 +381,34 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Storage UI"",
+            ""id"": ""e6a26987-037e-4e15-9b24-1238fcae8cbe"",
+            ""actions"": [
+                {
+                    ""name"": ""Get in/out"",
+                    ""type"": ""Button"",
+                    ""id"": ""c60df403-ff54-467a-ab96-c35ead95773f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""5a254255-1114-46d1-aaf8-923bb2e8ffe5"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Get in/out"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -399,6 +427,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Photograph_EnterPhotoMode = m_Photograph.FindAction("EnterPhotoMode", throwIfNotFound: true);
         m_Photograph_Shutter = m_Photograph.FindAction("Shutter", throwIfNotFound: true);
         m_Photograph_Zoom = m_Photograph.FindAction("Zoom", throwIfNotFound: true);
+        // Storage UI
+        m_StorageUI = asset.FindActionMap("Storage UI", throwIfNotFound: true);
+        m_StorageUI_Getinout = m_StorageUI.FindAction("Get in/out", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -406,6 +437,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_PlayerMovement.enabled, "This will cause a leak and performance issues, PlayerControls.PlayerMovement.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Camera.enabled, "This will cause a leak and performance issues, PlayerControls.Camera.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Photograph.enabled, "This will cause a leak and performance issues, PlayerControls.Photograph.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_StorageUI.enabled, "This will cause a leak and performance issues, PlayerControls.StorageUI.Disable() has not been called.");
     }
 
     /// <summary>
@@ -820,6 +852,102 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="PhotographActions" /> instance referencing this action map.
     /// </summary>
     public PhotographActions @Photograph => new PhotographActions(this);
+
+    // Storage UI
+    private readonly InputActionMap m_StorageUI;
+    private List<IStorageUIActions> m_StorageUIActionsCallbackInterfaces = new List<IStorageUIActions>();
+    private readonly InputAction m_StorageUI_Getinout;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Storage UI".
+    /// </summary>
+    public struct StorageUIActions
+    {
+        private @PlayerControls m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public StorageUIActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "StorageUI/Getinout".
+        /// </summary>
+        public InputAction @Getinout => m_Wrapper.m_StorageUI_Getinout;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_StorageUI; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="StorageUIActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(StorageUIActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="StorageUIActions" />
+        public void AddCallbacks(IStorageUIActions instance)
+        {
+            if (instance == null || m_Wrapper.m_StorageUIActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_StorageUIActionsCallbackInterfaces.Add(instance);
+            @Getinout.started += instance.OnGetinout;
+            @Getinout.performed += instance.OnGetinout;
+            @Getinout.canceled += instance.OnGetinout;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="StorageUIActions" />
+        private void UnregisterCallbacks(IStorageUIActions instance)
+        {
+            @Getinout.started -= instance.OnGetinout;
+            @Getinout.performed -= instance.OnGetinout;
+            @Getinout.canceled -= instance.OnGetinout;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="StorageUIActions.UnregisterCallbacks(IStorageUIActions)" />.
+        /// </summary>
+        /// <seealso cref="StorageUIActions.UnregisterCallbacks(IStorageUIActions)" />
+        public void RemoveCallbacks(IStorageUIActions instance)
+        {
+            if (m_Wrapper.m_StorageUIActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="StorageUIActions.AddCallbacks(IStorageUIActions)" />
+        /// <seealso cref="StorageUIActions.RemoveCallbacks(IStorageUIActions)" />
+        /// <seealso cref="StorageUIActions.UnregisterCallbacks(IStorageUIActions)" />
+        public void SetCallbacks(IStorageUIActions instance)
+        {
+            foreach (var item in m_Wrapper.m_StorageUIActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_StorageUIActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="StorageUIActions" /> instance referencing this action map.
+    /// </summary>
+    public StorageUIActions @StorageUI => new StorageUIActions(this);
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Player Movement" which allows adding and removing callbacks.
     /// </summary>
@@ -899,5 +1027,20 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnZoom(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Storage UI" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="StorageUIActions.AddCallbacks(IStorageUIActions)" />
+    /// <seealso cref="StorageUIActions.RemoveCallbacks(IStorageUIActions)" />
+    public interface IStorageUIActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Get in/out" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnGetinout(InputAction.CallbackContext context);
     }
 }

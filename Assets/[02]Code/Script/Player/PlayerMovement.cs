@@ -49,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log(Application.persistentDataPath);
         // ป้องกัน Error หากไม่ได้ผูก Rigidbody
         if (rb == null)
         {
