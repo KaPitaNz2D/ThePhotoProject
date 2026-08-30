@@ -45,8 +45,8 @@ public class PhotoShooter : MonoBehaviour
     [Header("Shutter Settings")]
     [Tooltip("ระยะเวลาขั้นต่ำระหว่างการถ่ายรูปแต่ละครั้ง (วินาที) กันสแปมชัตเตอร์")]
     public float shutterCooldown = 1f;
-    [Tooltip("ถ้าใส่ไว้ จะเล่นเอฟเฟกต์ Flash ดำสั้นๆ ทุกครั้งที่ถ่ายรูปสำเร็จ")]
-    public PhotoTransitionUI transitionUI;
+    //[Tooltip("ถ้าใส่ไว้ จะเล่นเอฟเฟกต์ Flash ดำสั้นๆ ทุกครั้งที่ถ่ายรูปสำเร็จ")]
+    //public PhotoTransitionUI transitionUI;
 
     [Header("Audio — ลาก AudioClip ใส่ได้ตามต้องการ ไม่ใส่ก็ได้ไม่ error")]
     public AudioClip shutterSound;
@@ -135,10 +135,10 @@ public class PhotoShooter : MonoBehaviour
         List<GameObject> subjects = DetectSubjects();
         Texture2D photo = CaptureRenderTexture();
 
-        if (transitionUI != null)
-        {
-            transitionUI.PlayShutterFlash();
-        }
+        //if (transitionUI != null)
+        //{
+        //    transitionUI.PlayShutterFlash();
+        //}
         AudioManager.Instance?.PlaySFX(shutterSound);
 
         // TODO: ลบ Debug.Log นี้ทิ้งตอนมีสคริปต์แสดงผล/เซฟภาพแล้ว — ไว้ใช้เช็คว่า Logic ทำงานถูกไหมชั่วคราว
@@ -204,19 +204,19 @@ public class PhotoShooter : MonoBehaviour
 
             // ไม่นับ Collider ย่อยตรงๆ (เช่น Neck, Head) แต่ไล่หา PhotoSubject ที่ Root แทน
             // ทำให้ต่อให้ถ่ายติดหลายส่วนของสิ่งมีชีวิตตัวเดียวกัน (คอ+หัว+เขา ฯลฯ) จะนับรวมเป็นชิ้นเดียว
-            PhotoSubject subject = hit.collider.GetComponentInParent<PhotoSubject>();
-            if (subject == null)
-            {
-                // กันลืม: ติด Tag Photographable ไว้แล้ว แต่ลืมแปะ PhotoSubject ไว้ที่ Root
-                Debug.LogWarning($"[PhotoShooter] '{hit.collider.name}' ติด Tag {photographableTag} " +
-                                  "แต่หา PhotoSubject ที่ Root ไม่เจอ — ข้ามไปก่อน ลองเช็คว่าลืมแปะ Component ไว้หรือเปล่า");
-                continue;
-            }
+            //PhotoSubject subject = hit.collider.GetComponentInParent<PhotoSubject>();
+            //if (subject == null)
+            //{
+            //    // กันลืม: ติด Tag Photographable ไว้แล้ว แต่ลืมแปะ PhotoSubject ไว้ที่ Root
+            //    Debug.LogWarning($"[PhotoShooter] '{hit.collider.name}' ติด Tag {photographableTag} " +
+            //                      "แต่หา PhotoSubject ที่ Root ไม่เจอ — ข้ามไปก่อน ลองเช็คว่าลืมแปะ Component ไว้หรือเปล่า");
+            //    continue;
+            //}
 
-            if (!hitSubjects.Contains(subject.gameObject))
-            {
-                hitSubjects.Add(subject.gameObject);
-            }
+            //if (!hitSubjects.Contains(subject.gameObject))
+            //{
+            //    hitSubjects.Add(subject.gameObject);
+            //}
         }
 
         return hitSubjects;
