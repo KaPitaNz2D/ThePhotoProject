@@ -36,6 +36,13 @@ public class PlayerMovement : MonoBehaviour
     [Tooltip("อย่าลืมลาก Action การกระโดด (เช่น Space) มาใส่ช่องนี้")]
     public InputActionReference jumpInput;
 
+    [Header("Crouch")]
+    [Tooltip("ถ้าใส่ไว้ จะลดความเร็วเดินตอนย่อ และรายงาน MovementState.Crouch ให้ StateManager")]
+    public PlayerCrouch playerCrouch;
+    [Tooltip("ตัวคูณความเร็วตอนย่อ (0.5 = เดินช้าลงครึ่งหนึ่ง)")]
+    [Range(0.1f, 1f)]
+    public float crouchSpeedMultiplier = 0.5f;
+
     private Vector2 inputVector;
     public Vector2 CurrentInput => inputVector;
     private Vector3 moveDirection;
@@ -93,7 +100,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if (StateManager.Instance == null) return;
 
-        // ยังไม่มี Running/Crouch ตอนนี้ เลยเช็คแค่ขยับหรือไม่ขยับพอ
+        // ย่ออยู่ -> รายงาน Crouch เสมอ ไม่ว่าจะขยับหรือไม่ก็ตาม (Priority สูงสุด)
+        if (playerCrouch != null && playerCrouch.IsCrouching)
+        {
+            StateManager.Instance.SetMovementState(StateManager.MovementState.Crouch);
+            return;
+        }
+
+        // ยังไม่มี Running ตอนนี้ เลยเช็คแค่ขยับหรือไม่ขยับพอ
         if (inputVector.sqrMagnitude > 0.01f)
         {
             StateManager.Instance.SetMovementState(StateManager.MovementState.Walking);
@@ -115,24 +129,31 @@ public class PlayerMovement : MonoBehaviour
         // คำนวณทิศทางการเดินโดยอ้างอิงจาก Orientation (เหมือนกับกล้อง)
         moveDirection = orientation.forward * inputVector.y + orientation.right * inputVector.x;
 
+        // ลดความเร็วตอนย่อ — คูณเข้ากับ moveSpeed ก่อนใส่แรง ใช้ร่วมกับทุกโหมด (พื้นราบ/ทางลาด/กลางอากาศ)
+        float effectiveSpeed = moveSpeed;
+        if (playerCrouch != null && playerCrouch.IsCrouching)
+        {
+            effectiveSpeed *= crouchSpeedMultiplier;
+        }
+
         if (isGrounded && OnSlope())
         {
             // ปรับทิศทางเดินให้ขนานไปกับพื้นทางลาด แทนที่จะเดินตรงแนวราบ
             // ทำให้ตอนลงเนินไม่มีช่วงที่ตัวละคร "หลุดลอย" จากพื้น
             Vector3 slopeMoveDirection = Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
-            rb.AddForce(slopeMoveDirection * moveSpeed * 10f, ForceMode.Force);
+            rb.AddForce(slopeMoveDirection * effectiveSpeed * 10f, ForceMode.Force);
 
             // แรงกดลงตามแนว Normal ของพื้นลาด ช่วยให้ตัวละคร "แปะ" ติดพื้นตอนข้ามขอบเนิน
             rb.AddForce(-slopeHit.normal * slopeStickForce, ForceMode.Force);
         }
         else if (isGrounded)
         {
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+            rb.AddForce(moveDirection.normalized * effectiveSpeed * 10f, ForceMode.Force);
         }
         else
         {
             // เดินอากาศได้แต่แรงน้อยลง
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+            rb.AddForce(moveDirection.normalized * effectiveSpeed * 10f * airMultiplier, ForceMode.Force);
         }
     }
 
