@@ -769,11 +769,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: sc.vegetationspawner.runtime::sc.terrain.vegetationspawner.VegetationSpawner
   seed: 99393
   terrains:
-  - {fileID: 1697791239}
   - {fileID: 192985463}
   visibleTerrainsOnly: 1
   treeTypes:
-  - enabled: 1
+  - enabled: 0
     name: SugarMaple_Modeling_011
     seed: 503
     probability: 100
@@ -783,7 +782,7 @@ MonoBehaviour:
     slopeRange: {x: 0, y: 60}
     curvatureRange: {x: 0, y: 1}
     layerMasks: []
-    instanceCount: 151
+    instanceCount: 0
     prefabs:
     - index: 0
       probability: 100
@@ -791,7 +790,7 @@ MonoBehaviour:
     distance: 12
     scaleRange: {x: 1.5532467, y: 2}
     sinkAmount: 0
-  - enabled: 1
+  - enabled: 0
     name: SugarMaple002_Modeling_004
     seed: 3063
     probability: 100
@@ -801,7 +800,7 @@ MonoBehaviour:
     slopeRange: {x: 0, y: 60}
     curvatureRange: {x: 0, y: 1}
     layerMasks: []
-    instanceCount: 186
+    instanceCount: 0
     prefabs:
     - index: 1
       probability: 100
@@ -809,7 +808,7 @@ MonoBehaviour:
     distance: 12
     scaleRange: {x: 1, y: 1.2}
     sinkAmount: 0
-  - enabled: 1
+  - enabled: 0
     name: SugarMaple002_Modeling_005
     seed: 2346
     probability: 100
@@ -819,7 +818,7 @@ MonoBehaviour:
     slopeRange: {x: 0, y: 60}
     curvatureRange: {x: 0, y: 1}
     layerMasks: []
-    instanceCount: 36
+    instanceCount: 0
     prefabs:
     - index: 2
       probability: 100
@@ -976,7 +975,7 @@ Terrain:
   serializedVersion: 6
   m_TerrainData: {fileID: 15600000, guid: 29fb1dff716c7bf429bc2599617d8238, type: 2}
   m_TreeDistance: 1200
-  m_TreeBillboardDistance: 150
+  m_TreeBillboardDistance: 300
   m_TreeCrossFadeLength: 5
   m_TreeMaximumFullLODCount: 50
   m_DetailObjectDistance: 80
