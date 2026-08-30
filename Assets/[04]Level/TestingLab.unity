@@ -1277,7 +1277,7 @@ Transform:
   m_GameObject: {fileID: 923126609}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.691, y: 1.22, z: 11.26415}
+  m_LocalPosition: {x: 9.691, y: 1.429, z: 11.26415}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1324,7 +1324,7 @@ MonoBehaviour:
   idleMinDuration: 2
   idleMaxDuration: 6
   walkSpeed: 1.5
-  runSpeed: 6
+  runSpeed: 8
   fleeDistance: 10
   safeDistance: 20
   fleeRecalculateInterval: 1
@@ -1363,12 +1363,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4055fa91709b4f34095324ee9cc88c6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreatureVision
-  viewAngle: 110
-  viewRadius: 15
+  viewAngle: 120
+  viewRadius: 25
   awarenessRadius: 6
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   eyeHeight: 1
   crouchRangeMultiplier: 0.6
   showFullConeComparison: 1
@@ -1537,6 +1537,7 @@ MonoBehaviour:
   photoWidth: 1920
   photoHeight: 1080
   shutterCooldown: 1
+  transitionUI: {fileID: 716152330}
   shutterSound: {fileID: 0}
   enterPhotoModeSound: {fileID: 0}
   exitPhotoModeSound: {fileID: 0}
@@ -1949,6 +1950,7 @@ GameObject:
   - component: {fileID: 1183480383}
   - component: {fileID: 1183480386}
   - component: {fileID: 1183480385}
+  - component: {fileID: 1183480387}
   m_Layer: 0
   m_Name: PhotoCam
   m_TagString: Untagged
@@ -2102,6 +2104,29 @@ MonoBehaviour:
       Wait: 1
       Time: 2
     Restrictions: 0
+--- !u!114 &1183480387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183480381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19c29718dbdff5b41a4c13ab2fe835d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PhotoZoom
+  photoVcam: {fileID: 1183480382}
+  captureCamera: {fileID: 1858479248}
+  zoomInput: {fileID: 8544418576020390015, guid: c32589b3e95ba5044800c48f983ef7c5, type: 3}
+  maxFOV: 60
+  minFOV: 15
+  zoomSpeed: 20
+  fovSmoothing: 10
+  zoomBlurVolume: {fileID: 0}
+  blurFadeSpeed: 6
+  stationaryThreshold: 0.05
+  zoomLimitSound: {fileID: 0}
 --- !u!1 &1282945470
 GameObject:
   m_ObjectHideFlags: 0
@@ -2181,6 +2206,70 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.24147, y: -0, z: 1.45638}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1388208374
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1388208376}
+  - component: {fileID: 1388208375}
+  m_Layer: 0
+  m_Name: NavMesh
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1388208375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1388208374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: -334000983
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.45666668
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 7118cca22762c1445bcf070173adc280, type: 2}
+  m_BuildHeightMesh: 0
+--- !u!4 &1388208376
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1388208374}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.2384, y: 0, z: -1.47565}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2346,7 +2435,7 @@ MonoBehaviour:
   photoCam: {fileID: 1183480382}
   activePriority: 20
   inactivePriority: 0
-  transitionUI: {fileID: 716152328}
+  transitionUI: {fileID: 716152330}
 --- !u!1 &1573522822
 GameObject:
   m_ObjectHideFlags: 0
@@ -2851,7 +2940,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.32881, y: -0, z: -0.56339}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalScale: {x: 8, y: 8, z: 8}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -4597,3 +4686,4 @@ SceneRoots:
   - {fileID: 1167510220}
   - {fileID: 716152329}
   - {fileID: 2137629753}
+  - {fileID: 1388208376}

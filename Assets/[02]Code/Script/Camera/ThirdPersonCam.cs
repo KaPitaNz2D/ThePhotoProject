@@ -35,6 +35,13 @@ public class ThirdPersonCam : MonoBehaviour
 
     private void Update()
     {
+        // --- เพิ่มเงื่อนไขเช็ค State ตรงนี้ ---
+        // หากไม่สามารถควบคุมตัวละครได้ (เช่น อยู่ในโหมด Photograph) ให้หยุดการทำงานของกล้องและการหมุนตัวละครทันที
+        if (StateManager.Instance != null && !StateManager.Instance.CanControlPlayer())
+        {
+            return;
+        }
+
         if (player == null || orientation == null || playerObj == null || moveInput == null || lookInput == null) return;
 
         // 1. คำนวณ Orientation ของกล้องเพื่อใช้เป็นแกนอ้างอิงเสมอ (ห้ามเอียงตามแกน Y)
