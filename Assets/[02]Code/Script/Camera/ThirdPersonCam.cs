@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Cinemachine;
 
 public class ThirdPersonCam : MonoBehaviour
 {
@@ -21,29 +22,34 @@ public class ThirdPersonCam : MonoBehaviour
     public float lookThreshold = 0.05f;
     [Tooltip("ระยะเวลาที่ยัง \"นับว่ากำลังหมุนกล้องอยู่\" ต่อ หลังจาก Look input ล่าสุดที่รับมา " +
              "ป้องกันอาการทิศทางตีกันตอน Mouse Delta กระพริบเป็น 0 สลับไปมาในบางเฟรม")]
+    private float lastLookTime = -999f;
+
+
+    [Header("Cinemachine Components")]
+    [Tooltip("ลากกล้อง ThirdPersonCam (ตัวที่มี Input Axis Controller) มาใส่ช่องนี้")]
+    public CinemachineInputAxisController cinemachineInput;
+
     public float cameraTurnHoldTime = 0.15f;
 
-    private float lastLookTime = -999f;
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
         if (moveInput != null) moveInput.action.Enable();
         if (lookInput != null) lookInput.action.Enable();
 
+        // สมัครรับ Event เมื่อ SystemState เปลี่ยนแปลง
         if (StateManager.Instance != null)
         {
             StateManager.Instance.OnSystemStateChanged += HandleSystemStateChanged;
-            ApplyCameraControlState(StateManager.Instance.CurrentSystemState);
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
         }
     }
 
     private void OnDestroy()
     {
+        // ยกเลิกรับ Event เมื่อถูกทำลายเพื่อป้องกัน Memory Leak
         if (StateManager.Instance != null)
         {
             StateManager.Instance.OnSystemStateChanged -= HandleSystemStateChanged;
@@ -52,7 +58,11 @@ public class ThirdPersonCam : MonoBehaviour
 
     private void HandleSystemStateChanged(StateManager.SystemState oldState, StateManager.SystemState newState)
     {
-        ApplyCameraControlState(newState);
+        if (cinemachineInput != null)
+        {
+            // ถ้าเป็นโหมด Normal ให้เปิดรับเมาส์ ถ้าเป็นโหมดอื่นให้ปิดรับเมาส์ทันที
+            cinemachineInput.enabled = (newState == StateManager.SystemState.Normal);
+        }
     }
 
     /// <summary>
@@ -82,6 +92,20 @@ public class ThirdPersonCam : MonoBehaviour
 
     private void Update()
     {
+        // 1. เช็คก่อนเลยว่าถ้าไม่ใช่โหมด Normal (เช่น ตอนถ่ายรูป, เปิด UI) ให้หยุดการทำงานของสคริปต์นี้ไปเลย
+        if (StateManager.Instance != null && !StateManager.Instance.IsSystemState(StateManager.SystemState.Normal))
+        {
+            return;
+        }
+
+        if (player == null || orientation == null || playerObj == null || moveInput == null || lookInput == null) return;
+
+        // หากไม่สามารถควบคุมตัวละครได้ (เช่น อยู่ในโหมด Photograph) ให้หยุดการทำงานของกล้องและการหมุนตัวละครทันที
+        if (StateManager.Instance != null && !StateManager.Instance.CanControlPlayer())
+        {
+            return;
+        }
+
         if (player == null || orientation == null || playerObj == null || moveInput == null || lookInput == null) return;
 
         // 1. คำนวณ Orientation ของกล้องเพื่อใช้เป็นแกนอ้างอิงเสมอ (ห้ามเอียงตามแกน Y)

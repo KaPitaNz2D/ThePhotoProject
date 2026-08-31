@@ -344,6 +344,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""BackToGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""0e361840-f967-4320-813a-ab4118e6ab4d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -379,6 +388,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dde68dda-6e43-481e-975f-cbaf91fca24b"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BackToGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -394,6 +414,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Back"",
+                    ""type"": ""Button"",
+                    ""id"": ""56367516-3b8c-4774-9d43-40cb2b340abe"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -405,6 +434,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Get in/out"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b80df515-0ba9-4ebf-aa28-3695a7b466fb"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Back"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -427,9 +467,11 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Photograph_EnterPhotoMode = m_Photograph.FindAction("EnterPhotoMode", throwIfNotFound: true);
         m_Photograph_Shutter = m_Photograph.FindAction("Shutter", throwIfNotFound: true);
         m_Photograph_Zoom = m_Photograph.FindAction("Zoom", throwIfNotFound: true);
+        m_Photograph_BackToGame = m_Photograph.FindAction("BackToGame", throwIfNotFound: true);
         // Storage UI
         m_StorageUI = asset.FindActionMap("Storage UI", throwIfNotFound: true);
         m_StorageUI_Getinout = m_StorageUI.FindAction("Get in/out", throwIfNotFound: true);
+        m_StorageUI_Back = m_StorageUI.FindAction("Back", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -741,6 +783,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Photograph_EnterPhotoMode;
     private readonly InputAction m_Photograph_Shutter;
     private readonly InputAction m_Photograph_Zoom;
+    private readonly InputAction m_Photograph_BackToGame;
     /// <summary>
     /// Provides access to input actions defined in input action map "Photograph".
     /// </summary>
@@ -764,6 +807,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Photograph/Zoom".
         /// </summary>
         public InputAction @Zoom => m_Wrapper.m_Photograph_Zoom;
+        /// <summary>
+        /// Provides access to the underlying input action "Photograph/BackToGame".
+        /// </summary>
+        public InputAction @BackToGame => m_Wrapper.m_Photograph_BackToGame;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -799,6 +846,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Zoom.started += instance.OnZoom;
             @Zoom.performed += instance.OnZoom;
             @Zoom.canceled += instance.OnZoom;
+            @BackToGame.started += instance.OnBackToGame;
+            @BackToGame.performed += instance.OnBackToGame;
+            @BackToGame.canceled += instance.OnBackToGame;
         }
 
         /// <summary>
@@ -819,6 +869,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Zoom.started -= instance.OnZoom;
             @Zoom.performed -= instance.OnZoom;
             @Zoom.canceled -= instance.OnZoom;
+            @BackToGame.started -= instance.OnBackToGame;
+            @BackToGame.performed -= instance.OnBackToGame;
+            @BackToGame.canceled -= instance.OnBackToGame;
         }
 
         /// <summary>
@@ -857,6 +910,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_StorageUI;
     private List<IStorageUIActions> m_StorageUIActionsCallbackInterfaces = new List<IStorageUIActions>();
     private readonly InputAction m_StorageUI_Getinout;
+    private readonly InputAction m_StorageUI_Back;
     /// <summary>
     /// Provides access to input actions defined in input action map "Storage UI".
     /// </summary>
@@ -872,6 +926,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "StorageUI/Getinout".
         /// </summary>
         public InputAction @Getinout => m_Wrapper.m_StorageUI_Getinout;
+        /// <summary>
+        /// Provides access to the underlying input action "StorageUI/Back".
+        /// </summary>
+        public InputAction @Back => m_Wrapper.m_StorageUI_Back;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -901,6 +959,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Getinout.started += instance.OnGetinout;
             @Getinout.performed += instance.OnGetinout;
             @Getinout.canceled += instance.OnGetinout;
+            @Back.started += instance.OnBack;
+            @Back.performed += instance.OnBack;
+            @Back.canceled += instance.OnBack;
         }
 
         /// <summary>
@@ -915,6 +976,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Getinout.started -= instance.OnGetinout;
             @Getinout.performed -= instance.OnGetinout;
             @Getinout.canceled -= instance.OnGetinout;
+            @Back.started -= instance.OnBack;
+            @Back.performed -= instance.OnBack;
+            @Back.canceled -= instance.OnBack;
         }
 
         /// <summary>
@@ -1027,6 +1091,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnZoom(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "BackToGame" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBackToGame(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Storage UI" which allows adding and removing callbacks.
@@ -1042,5 +1113,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnGetinout(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Back" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBack(InputAction.CallbackContext context);
     }
 }
