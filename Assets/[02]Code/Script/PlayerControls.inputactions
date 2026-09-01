@@ -363,6 +363,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Journal UI",
+            "id": "397fdcb0-2759-4d8f-b998-ea2c510151a5",
+            "actions": [
+                {
+                    "name": "Journal Toggle",
+                    "type": "Button",
+                    "id": "2ff4bcda-d4d4-4540-a387-ca13448ad4c6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Back",
+                    "type": "Button",
+                    "id": "876d27a2-3418-4b10-896c-40085f204256",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "915886c9-3ba3-4982-846c-07d40b39ac4f",
+                    "path": "<Keyboard>/j",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Journal Toggle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "07a4fe3f-b8ee-4ecb-a519-68202426e127",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Back",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

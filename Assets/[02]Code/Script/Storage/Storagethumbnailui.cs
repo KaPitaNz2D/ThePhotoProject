@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 /// ตรรกะจริง (จะเปิดขยาย/จะลบ) ให้ StorageUI เป็นคนจัดการทั้งหมด
 /// </summary>
 public class StorageThumbnailUI : MonoBehaviour//, IPointerClickHandler 
-    , ISelectHandler, IDeselectHandler, IPointerEnterHandler
+    , ISelectHandler, IDeselectHandler, IPointerEnterHandler, IPointerClickHandler, ISubmitHandler
 {
     [Header("References")]
     public Image thumbnailImage;
@@ -21,6 +21,7 @@ public class StorageThumbnailUI : MonoBehaviour//, IPointerClickHandler
     private int photoIndex;
     //private StorageUI owner;
     private StorageUI mainUI;
+
 
     private void Start()
     {
@@ -39,19 +40,29 @@ public class StorageThumbnailUI : MonoBehaviour//, IPointerClickHandler
         mainUI = ui; // เก็บค่าอ้างอิงไว้ใช้สั่งเลื่อนจอ
     }
 
-    //public void OnPointerClick(PointerEventData eventData)
-    //{
-    //    if (owner == null) return;
+    // ==================== 2. รับคำสั่งจากจอยสติ๊ก / คีย์บอร์ด ====================
+    // จะทำงานเมื่อโฟกัสอยู่ที่รูปนี้ แล้วผู้เล่นกดปุ่ม Submit (Enter บนคีย์บอร์ด หรือปุ่ม A/Cross บนจอย)
+    public void OnSubmit(BaseEventData eventData)
+    {
+        if (mainUI != null)
+        {
+            mainUI.OnThumbnailClicked(photoIndex);
+        }
+    }
+    // ==================== 1. รับคำสั่งจากเมาส์ ====================
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (mainUI == null) return;
 
-    //    if (eventData.button == PointerEventData.InputButton.Left)
-    //    {
-    //        owner.OnThumbnailClicked(photoIndex);
-    //    }
-    //    else if (eventData.button == PointerEventData.InputButton.Right)
-    //    {
-    //        owner.OnThumbnailRightClicked(photoIndex);
-    //    }
-    //}
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            mainUI.OnThumbnailClicked(photoIndex);
+        }
+        else if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            mainUI.OnThumbnailRightClicked(photoIndex);
+        }
+    }
 
     // เมื่อใช้จอย/คีย์บอร์ด เลื่อนมาตกที่ปุ่มนี้
     public void OnSelect(BaseEventData eventData)
