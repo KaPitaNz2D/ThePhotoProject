@@ -836,11 +836,11 @@ MonoBehaviour:
     slopeRange: {x: 0, y: 60}
     curvatureRange: {x: 0, y: 1}
     layerMasks: []
-    instanceCount: 203
+    instanceCount: 124
     prefabs:
     - index: 3
       probability: 25
-      prefab: {fileID: 1945439363643014831, guid: f5e61ec2a8cbf904094ddd0b80751c5a, type: 3}
+      prefab: {fileID: 2815541389363234526, guid: f5e61ec2a8cbf904094ddd0b80751c5a, type: 3}
     distance: 5
     scaleRange: {x: 0.7118943, y: 2}
     sinkAmount: 0
@@ -854,11 +854,11 @@ MonoBehaviour:
     slopeRange: {x: 0, y: 60}
     curvatureRange: {x: 0, y: 1}
     layerMasks: []
-    instanceCount: 941
+    instanceCount: 557
     prefabs:
     - index: 4
       probability: 25
-      prefab: {fileID: 4267944041854902577, guid: 9ffb6c499a934134fbdd3c4c0e66b8fa, type: 3}
+      prefab: {fileID: 6411969778343769444, guid: 9ffb6c499a934134fbdd3c4c0e66b8fa, type: 3}
     distance: 5
     scaleRange: {x: 1.2, y: 2}
     sinkAmount: 0
@@ -872,11 +872,11 @@ MonoBehaviour:
     slopeRange: {x: 0, y: 60}
     curvatureRange: {x: 0, y: 1}
     layerMasks: []
-    instanceCount: 198
+    instanceCount: 111
     prefabs:
     - index: 5
       probability: 25
-      prefab: {fileID: 603703283860266168, guid: 10cc1c4d332ea1b4289bd3e8a23dcb3c, type: 3}
+      prefab: {fileID: 5195768249679466540, guid: 10cc1c4d332ea1b4289bd3e8a23dcb3c, type: 3}
     distance: 5
     scaleRange: {x: 0.8, y: 1.737445}
     sinkAmount: 0
@@ -1634,7 +1634,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 155a1602ab8245a44a6904cf22c16039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TreeLODDebugController
-  forceHighestLOD: 1
+  forceHighestLOD: 0
 --- !u!4 &973849247
 Transform:
   m_ObjectHideFlags: 0
@@ -2402,6 +2402,8 @@ MonoBehaviour:
   slopeStickForce: 30
   moveInput: {fileID: -263566852394675967, guid: c32589b3e95ba5044800c48f983ef7c5, type: 3}
   jumpInput: {fileID: 8583494107974789064, guid: c32589b3e95ba5044800c48f983ef7c5, type: 3}
+  playerCrouch: {fileID: 0}
+  crouchSpeedMultiplier: 0.5
 --- !u!114 &1328302330
 MonoBehaviour:
   m_ObjectHideFlags: 0
