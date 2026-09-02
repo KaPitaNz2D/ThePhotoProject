@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
-using Unity.Cinemachine;
 
 public class ThirdPersonCam : MonoBehaviour
 {
@@ -13,99 +12,17 @@ public class ThirdPersonCam : MonoBehaviour
 
     [Header("Input References")]
     public InputActionReference moveInput;
-    [Tooltip("Action การหมุนกล้อง (เช่น Mouse Delta) เพื่อใช้เช็คว่ากำลังขยับกล้องไหม")]
-    public InputActionReference lookInput;
-
-    [Header("Settings")]
-    [Tooltip("ค่าความไวขั้นต่ำของเมาส์/จอย ที่นับว่ากำลังขยับกล้องอยู่ (กันเมาส์สั่น)")]
-    public float lookThreshold = 0.05f;
-    [Tooltip("ระยะเวลาที่ยัง \"นับว่ากำลังหมุนกล้องอยู่\" ต่อ หลังจาก Look input ล่าสุดที่รับมา " +
-             "ป้องกันอาการทิศทางตีกันตอน Mouse Delta กระพริบเป็น 0 สลับไปมาในบางเฟรม")]
-    private float lastLookTime = -999f;
-
-
-    [Header("Cinemachine Components")]
-    [Tooltip("ลากกล้อง ThirdPersonCam (ตัวที่มี Input Axis Controller) มาใส่ช่องนี้")]
-    public CinemachineInputAxisController cinemachineInput;
-
-    public float cameraTurnHoldTime = 0.15f;
-
 
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
         if (moveInput != null) moveInput.action.Enable();
-        if (lookInput != null) lookInput.action.Enable();
-
-        // สมัครรับ Event เมื่อ SystemState เปลี่ยนแปลง
-        if (StateManager.Instance != null)
-        {
-            StateManager.Instance.OnSystemStateChanged += HandleSystemStateChanged;
-        }
-    }
-
-    private void OnDestroy()
-    {
-        // ยกเลิกรับ Event เมื่อถูกทำลายเพื่อป้องกัน Memory Leak
-        if (StateManager.Instance != null)
-        {
-            StateManager.Instance.OnSystemStateChanged -= HandleSystemStateChanged;
-        }
-    }
-
-    private void HandleSystemStateChanged(StateManager.SystemState oldState, StateManager.SystemState newState)
-    {
-        if (cinemachineInput != null)
-        {
-            // ถ้าเป็นโหมด Normal ให้เปิดรับเมาส์ ถ้าเป็นโหมดอื่นให้ปิดรับเมาส์ทันที
-            cinemachineInput.enabled = (newState == StateManager.SystemState.Normal);
-        }
-    }
-
-    /// <summary>
-    /// เปิด/ปิดการควบคุมกล้องตาม SystemState — Normal/Photograph เท่านั้นที่หมุนกล้องได้
-    /// ส่วน Storage/Journal/Pause/Talking จะปิด Look Action และปลดล็อก Cursor ให้คลิก UI ได้
-    ///
-    /// สำคัญ: การ Disable() Action "Look" ตรงนี้ ทำให้ Cinemachine's Input Axis Controller
-    /// (ที่อ่าน Action ตัวเดียวกัน) ไม่ได้รับค่าไปด้วย กล้องเลยหยุดหมุนสนิทแม้จะเป็น Orbital Follow ก็ตาม
-    /// </summary>
-    private void ApplyCameraControlState(StateManager.SystemState state)
-    {
-        bool allowCameraControl = state == StateManager.SystemState.Normal || state == StateManager.SystemState.Photograph;
-
-        if (allowCameraControl)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            if (lookInput != null) lookInput.action.Enable();
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            if (lookInput != null) lookInput.action.Disable();
-        }
     }
 
     private void Update()
     {
-        // 1. เช็คก่อนเลยว่าถ้าไม่ใช่โหมด Normal (เช่น ตอนถ่ายรูป, เปิด UI) ให้หยุดการทำงานของสคริปต์นี้ไปเลย
-        if (StateManager.Instance != null && !StateManager.Instance.IsSystemState(StateManager.SystemState.Normal))
-        {
-            return;
-        }
-
-        if (player == null || orientation == null || playerObj == null || moveInput == null || lookInput == null) return;
-
-        // หากไม่สามารถควบคุมตัวละครได้ (เช่น อยู่ในโหมด Photograph) ให้หยุดการทำงานของกล้องและการหมุนตัวละครทันที
-        if (StateManager.Instance != null && !StateManager.Instance.CanControlPlayer())
-        {
-            return;
-        }
-
-        if (player == null || orientation == null || playerObj == null || moveInput == null || lookInput == null) return;
+        if (player == null || orientation == null || playerObj == null || moveInput == null) return;
 
         // Use the camera's actual look direction instead of camera->player position vector,
         // since shoulder cam offsets the camera sideways and breaks the position-based vector
@@ -117,30 +34,8 @@ public class ThirdPersonCam : MonoBehaviour
         Vector2 inputVector = moveInput.action.ReadValue<Vector2>();
         Vector3 moveDir = orientation.forward * inputVector.y + orientation.right * inputVector.x;
 
-        // ถ้าอยู่ในโหมดถ่ายรูป (หรือโหมดอื่นที่ไม่ใช่ Normal) ตัวละครหยุดหมุนสนิท
-        // ไม่งั้นตอนเล็งกล้องถ่ายรูปด้วยเมาส์ ตัวละครจะพยายามหมุนตามไปด้วยพร้อมกัน ดูแปลกๆ
-        if (StateManager.Instance != null && !StateManager.Instance.IsSystemState(StateManager.SystemState.Normal))
-        {
-            return;
-        }
-
-        // 3. เช็คว่าผู้เล่นกำลังขยับมุมกล้องอยู่หรือไม่ — ใช้ Hold Timer แทนการเช็คค่าเฟรมต่อเฟรมตรงๆ
-        // เพราะ Mouse Delta จะรีเซ็ตเป็น 0 ในเฟรมที่ไม่มี Event เมาส์ใหม่เข้ามา (โดยเฉพาะเมาส์ Polling Rate ต่ำ)
-        // ถ้าไม่มี Hold Timer ค่านี้จะกระพริบ true/false สลับกันเร็วมาก ทำให้ตัวละครหันไปมาสองทางพร้อมกัน
-        Vector2 lookVector = lookInput.action.ReadValue<Vector2>();
-        if (lookVector.sqrMagnitude > (lookThreshold * lookThreshold))
-        {
-            lastLookTime = Time.time;
-        }
-        bool isTurningCamera = (Time.time - lastLookTime) < cameraTurnHoldTime;
-
-        // 4. ตัดสินใจหมุนโมเดลตัวละคร (PlayerObj) — Priority: กล้อง > ปุ่มเดิน > ไม่หมุนเลย
-        if (isTurningCamera)
-        {
-            // [กรณีที่ 1] ขยับกล้องอยู่ (หรือเพิ่งขยับไปเมื่อครู่ ยังอยู่ในช่วง Hold) -> หันตามกล้องเสมอ
-            playerObj.forward = Vector3.Slerp(playerObj.forward, orientation.forward, Time.deltaTime * rotationSpeed);
-        }
-        else if (moveDir != Vector3.zero)
+        // Smoothly rotate visual mesh to face the movement direction
+        if (moveDir.sqrMagnitude > 0.0001f)
         {
             playerObj.forward = Vector3.Slerp(playerObj.forward, moveDir.normalized, Time.deltaTime * rotationSpeed);
         }
