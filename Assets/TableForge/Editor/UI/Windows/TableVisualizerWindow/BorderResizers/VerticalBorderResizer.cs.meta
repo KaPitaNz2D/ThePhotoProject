@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: a2e7f6432b5a4b02ae74174a18f66867
+timeCreated: 1739021540
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Windows/TableVisualizerWindow/BorderResizers/VerticalBorderResizer.cs
+  uploadId: 831058

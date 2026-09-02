@@ -1,0 +1,16 @@
+{
+    "name": "TableForge.Demo",
+    "rootNamespace": "TableForge.Demo",
+    "references": [
+        "GUID:979e8efe6d3b8a7449bbe88af2aed48c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: d673dc8ce8354f39b41c1953764c6ae3
+timeCreated: 1748446718
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Utilities/UndoRedo/Commands/AddCollectionRowCommand.cs
+  uploadId: 831058

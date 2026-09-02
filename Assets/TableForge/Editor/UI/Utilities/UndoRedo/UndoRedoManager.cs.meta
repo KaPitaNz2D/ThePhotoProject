@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: a05af3ac56364382aa79d422883109cc
+timeCreated: 1748170861
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Utilities/UndoRedo/UndoRedoManager.cs
+  uploadId: 831058

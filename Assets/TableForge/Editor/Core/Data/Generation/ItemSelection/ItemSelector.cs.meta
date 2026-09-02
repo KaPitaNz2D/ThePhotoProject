@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 3e9ff5b01f134eee86a8c1d9acf115b9
+timeCreated: 1737985634
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/Core/Data/Generation/ItemSelection/ItemSelector.cs
+  uploadId: 831058

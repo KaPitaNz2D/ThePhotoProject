@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: e907a40ff9be4495b44268c50b26b006
+timeCreated: 1748343191
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Utilities/UndoRedo/Commands/RemoveRowCommand.cs
+  uploadId: 831058

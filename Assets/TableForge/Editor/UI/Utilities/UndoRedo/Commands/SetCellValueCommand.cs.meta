@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 14e02dc792d545838a6a0ab17f0bd899
+timeCreated: 1748171652
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Utilities/UndoRedo/Commands/SetCellValueCommand.cs
+  uploadId: 831058

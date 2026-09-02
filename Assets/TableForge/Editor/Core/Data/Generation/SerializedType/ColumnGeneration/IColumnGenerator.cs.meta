@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: a0fb4e1f9fb1486a83096e7665926948
+timeCreated: 1739633556
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/Core/Data/Generation/SerializedType/ColumnGeneration/IColumnGenerator.cs
+  uploadId: 831058

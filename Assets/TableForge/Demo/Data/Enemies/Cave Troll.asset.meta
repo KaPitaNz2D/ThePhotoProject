@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: dedd81673454cbf4983a6ca49e7b4043
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Demo/Data/Enemies/Cave Troll.asset
+  uploadId: 831058

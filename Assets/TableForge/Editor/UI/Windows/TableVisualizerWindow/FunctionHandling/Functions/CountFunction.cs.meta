@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: b2e69b5f770f4e5697b3bb756fff973b
+timeCreated: 1750351024
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Windows/TableVisualizerWindow/FunctionHandling/Functions/CountFunction.cs
+  uploadId: 831058

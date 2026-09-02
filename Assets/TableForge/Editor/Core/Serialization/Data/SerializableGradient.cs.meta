@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 5d0aee5533044b088aa5dccb00b3e1c0
+timeCreated: 1744534541
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/Core/Serialization/Data/SerializableGradient.cs
+  uploadId: 831058

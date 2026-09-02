@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: a59fbd08a81c4ce59657aab9ff411420
+timeCreated: 1752492287
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/CustomControls/ControlOverrides/ButtonBehaviorOverrider.cs
+  uploadId: 831058

@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 2cf3bdb0251a45129abe20d0729c04ef
+timeCreated: 1752227307
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Windows/ExportWindow/ExportWindow.uss
+  uploadId: 831058

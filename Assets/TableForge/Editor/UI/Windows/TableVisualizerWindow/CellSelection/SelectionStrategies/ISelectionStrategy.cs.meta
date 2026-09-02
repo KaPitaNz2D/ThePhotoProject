@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: ff3b7896b103452cb8a5a00c79a46a70
+timeCreated: 1745338728
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Windows/TableVisualizerWindow/CellSelection/SelectionStrategies/ISelectionStrategy.cs
+  uploadId: 831058

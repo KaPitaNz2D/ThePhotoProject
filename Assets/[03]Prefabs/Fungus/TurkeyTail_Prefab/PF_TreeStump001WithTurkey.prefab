@@ -528,15 +528,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3020304196419193100, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3020304196419193100, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.00000004299693
       objectReference: {fileID: 0}
     - target: {fileID: 3020304196419193100, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6
+      value: -122.95357
       objectReference: {fileID: 0}
     - target: {fileID: 3020304196419193100, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -568,7 +568,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6941052214315967161, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}
       propertyPath: m_Name
-      value: PF_TreeStump001WithTurkey Variant
+      value: PF_TreeStump001WithTurkey
+      objectReference: {fileID: 0}
+    - target: {fileID: 6941052214315967161, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}
+      propertyPath: m_TagString
+      value: Photographable
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -597,8 +601,29 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3020304196419193100, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5448600049987248977}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6941052214315967161, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 652746920218713223}
   m_SourcePrefab: {fileID: 100100000, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}
+--- !u!1 &1416251070007894816 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6941052214315967161, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}
+  m_PrefabInstance: {fileID: 8355332820417872281}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &652746920218713223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1416251070007894816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a73f2ea9b12f80246beab020b9f15143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PhotoSubject
+  creatureId: Turkey
 --- !u!4 &6493729162260088981 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3020304196419193100, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7c86e6c7de0f80b45a53fa398b1b9c94
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Demo/Data/Weapons/Dragon's Breath.asset
+  uploadId: 831058

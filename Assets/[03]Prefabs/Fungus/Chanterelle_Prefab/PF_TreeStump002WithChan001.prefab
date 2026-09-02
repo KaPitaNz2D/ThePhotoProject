@@ -640,9 +640,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8250804348124844761}
   - component: {fileID: 3071093994423628763}
+  - component: {fileID: 3438030814364644608}
   m_Layer: 0
   m_Name: Collider
-  m_TagString: Untagged
+  m_TagString: Photographable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -685,6 +686,19 @@ CapsuleCollider:
   m_Height: 0.25
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3438030814364644608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5953252014353930271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a73f2ea9b12f80246beab020b9f15143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PhotoSubject
+  creatureId: Chan
 --- !u!1 &7181073671936081829
 GameObject:
   m_ObjectHideFlags: 0
@@ -1147,17 +1161,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: PF_TreeStump002WithChan001
       objectReference: {fileID: 0}
+    - target: {fileID: 1275608396492112830, guid: 2fd771e2c6a04f24f84c5d245e0e96b3, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 2039750061952868844, guid: 2fd771e2c6a04f24f84c5d245e0e96b3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 2039750061952868844, guid: 2fd771e2c6a04f24f84c5d245e0e96b3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.000000027274496
       objectReference: {fileID: 0}
     - target: {fileID: 2039750061952868844, guid: 2fd771e2c6a04f24f84c5d245e0e96b3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7
+      value: -125
       objectReference: {fileID: 0}
     - target: {fileID: 2039750061952868844, guid: 2fd771e2c6a04f24f84c5d245e0e96b3, type: 3}
       propertyPath: m_LocalRotation.w

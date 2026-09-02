@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: c4561f9db51e4573ae901ce186e3e83b
+timeCreated: 1739992745
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/Core/Data/Cells/Implementations/SimpleCells/LayerMaskCell.cs
+  uploadId: 831058

@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 6f268b89de994c8d9b93325087c27068
+timeCreated: 1750351036
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Windows/TableVisualizerWindow/FunctionHandling/Functions/AverageFunction.cs
+  uploadId: 831058

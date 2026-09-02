@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: b02ee4c6aee14594a606eeb04ea681f2
+timeCreated: 1745314135
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Windows/TableVisualizerWindow/Controls/Cells/SubtableCells/DynamicSubTableCellControl.cs
+  uploadId: 831058

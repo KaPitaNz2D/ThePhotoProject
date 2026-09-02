@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: e80986998e258724cb48f09043d0df55
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Utilities/CellLocator.cs
+  uploadId: 831058

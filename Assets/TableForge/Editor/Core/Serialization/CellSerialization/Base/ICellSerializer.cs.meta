@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 91db3835c95d8dc438c40298899a13c6
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/Core/Serialization/CellSerialization/Base/ICellSerializer.cs
+  uploadId: 831058

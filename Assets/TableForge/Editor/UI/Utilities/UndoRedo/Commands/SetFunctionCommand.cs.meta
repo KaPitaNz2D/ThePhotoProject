@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: f09e4a3b0cc94aa989204ff7adcacd52
+timeCreated: 1750960576
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Utilities/UndoRedo/Commands/SetFunctionCommand.cs
+  uploadId: 831058

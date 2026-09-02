@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: f9d0c17b374a4c0d81e34d897f0e2d27
+timeCreated: 1750522575
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Windows/TableVisualizerWindow/FunctionHandling/Functions/RoundFunction.cs
+  uploadId: 831058

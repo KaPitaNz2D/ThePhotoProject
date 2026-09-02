@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: af1dc6dd395f404481ecc7aa206ba4ab
+timeCreated: 1739731923
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Attributes/SubTableCellControlUsageAttribute.cs
+  uploadId: 831058

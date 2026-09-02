@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 83622478261e4e01a20e12cfd9f87250
+timeCreated: 1738273903
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/Core/Data/Cells/Implementations/SubtableCells/CollectionCells/DictionaryCell.cs
+  uploadId: 831058

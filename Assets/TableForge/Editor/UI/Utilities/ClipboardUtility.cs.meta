@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 467d2912815ee9f41bafe39ee156efac
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Utilities/ClipboardUtility.cs
+  uploadId: 831058

@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 1f2e3f619d15407caf00894ecd6b7c26
+timeCreated: 1752401809
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/CustomControls/ControlOverrides/ToggleButton/ToggleButton.cs
+  uploadId: 831058

@@ -370,9 +370,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8318023058463319566}
   - component: {fileID: 6406152657738436216}
+  - component: {fileID: 4670375119266510028}
   m_Layer: 0
   m_Name: Collider
-  m_TagString: Untagged
+  m_TagString: Photographable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -415,6 +416,19 @@ CapsuleCollider:
   m_Height: 0.25
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4670375119266510028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5905639326055701208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a73f2ea9b12f80246beab020b9f15143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PhotoSubject
+  creatureId: Chan
 --- !u!1 &7357756108321008190
 GameObject:
   m_ObjectHideFlags: 0
@@ -1145,15 +1159,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3020304196419193100, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3020304196419193100, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.00000030361653
       objectReference: {fileID: 0}
     - target: {fileID: 3020304196419193100, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9
+      value: -125
       objectReference: {fileID: 0}
     - target: {fileID: 3020304196419193100, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1185,7 +1199,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6941052214315967161, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}
       propertyPath: m_Name
-      value: PF_TreeStump001WithChan001 Variant
+      value: PF_TreeStump001WithChan001
+      objectReference: {fileID: 0}
+    - target: {fileID: 6941052214315967161, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 7606276022882296860, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}
       propertyPath: m_LocalReferencePoint.x

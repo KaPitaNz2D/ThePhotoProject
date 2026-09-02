@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 417bc4b21df84e92845c675299b62d5e
+timeCreated: 1741894206
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Windows/TableVisualizerWindow/VisibilityManager/IHeaderVisibilityNotifier.cs
+  uploadId: 831058

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 979e8efe6d3b8a7449bbe88af2aed48c
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Runtime/TableForge.Runtime.asmdef
+  uploadId: 831058

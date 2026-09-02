@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 076d3a5497933b340997ff1b4aef6a9a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Demo/Data/Weapons/Ironhowl.asset
+  uploadId: 831058

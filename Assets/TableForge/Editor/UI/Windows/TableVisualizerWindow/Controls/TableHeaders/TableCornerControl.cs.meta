@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: dafd832bef854acdb1b6b4347029643a
+timeCreated: 1739127529
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Windows/TableVisualizerWindow/Controls/TableHeaders/TableCornerControl.cs
+  uploadId: 831058

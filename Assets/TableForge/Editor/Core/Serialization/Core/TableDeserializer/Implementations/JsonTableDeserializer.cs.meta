@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 4dbc21bf48f24903940a95f705390a9f
+timeCreated: 1752662123
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/Core/Serialization/Core/TableDeserializer/Implementations/JsonTableDeserializer.cs
+  uploadId: 831058

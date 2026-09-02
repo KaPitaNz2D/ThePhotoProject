@@ -1,0 +1,38 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/TableForge/Editor/UI/Windows/ImportWIndow/ImportWindow.uss?fileID=7433441132597879392&amp;guid=479796cd6a9c48a88c05037cccac3aa2&amp;type=3#ImportWindow" />
+    <ui:ScrollView>
+        <ui:VisualElement name="data-processing-container" class="step-container">
+            <ui:Label text="Import Table Data" class="step-title" />
+            <ui:TextField label="Table Name" name="table-name-field" />
+            <ui:TextField label="New Items Folder" name="base-path-field" tooltip="Folder where newly created items will be stored." />
+            <ui:TextField label="New Items Name   " name="base-name-field" tooltip="Base name for newly created items." />
+            <uie:EnumField label="Data Format" name="format-field" />
+            <ui:Toggle label="First row contains headers" name="csv-header-toggle" value="true" tooltip="Whether the first row of the CSV input contains the names of the columns." />
+            <ui:VisualElement class="horizontal-group">
+                <uie:DropdownField label="Namespace" name="namespace-dropdown" />
+                <uie:DropdownField label="Data Type" name="type-dropdown" />
+            </ui:VisualElement>
+            <ui:Label text="Data Preview" />
+            <ui:TextField name="data-preview-text-field" multiline="true" vertical-scroller-visibility="Auto" readonly="true" style="height: 150px;"/>
+            <ui:Button text="Import from File" name="import-file-button" />
+        </ui:VisualElement>
+        <ui:VisualElement name="column-mapping-container" display="none" class="step-container">
+            <ui:Label text="Map Columns to Fields" class="step-title" />
+            <ui:TextField name="data-info-text-field" multiline="true" vertical-scroller-visibility="Auto" readonly="true" />
+            <ui:VisualElement name="column-mapping-list-container">
+                <ui:ListView class="list-container" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="item-review-container" display="none" class="step-container">
+            <ui:Label text="Review Import Items" class="step-title" />
+            <ui:VisualElement name="item-review-list-container">
+                <ui:ListView class="list-container" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="buttons-container" class="buttons-container">
+            <ui:Button text="Back to Processing" name="cancel-button" class="action-button" style="width: 140px;" />
+            <ui:Button text="Confirm Mapping" name="accept-button" class="action-button" />
+        </ui:VisualElement>
+        <ui:Label name="error-label" class="error-label" />
+    </ui:ScrollView>
+</ui:UXML>

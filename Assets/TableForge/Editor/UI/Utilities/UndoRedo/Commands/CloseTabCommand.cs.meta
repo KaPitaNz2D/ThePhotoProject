@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 7c17735607794bf999bd30be7b70917b
+timeCreated: 1748447714
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Utilities/UndoRedo/Commands/CloseTabCommand.cs
+  uploadId: 831058

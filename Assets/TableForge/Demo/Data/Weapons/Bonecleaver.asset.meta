@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9da01610583b67c4bb62d71f6ac89a30
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Demo/Data/Weapons/Bonecleaver.asset
+  uploadId: 831058

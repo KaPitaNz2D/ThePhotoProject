@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 73f6e8d9e557442a9051852a74c2fec6
+timeCreated: 1744020900
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Utilities/Extensions/ScrollViewExtension.cs
+  uploadId: 831058

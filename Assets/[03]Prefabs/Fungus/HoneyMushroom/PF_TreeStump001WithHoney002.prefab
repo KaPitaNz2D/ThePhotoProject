@@ -190,9 +190,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3881436453059559912}
   - component: {fileID: 395275692452706478}
+  - component: {fileID: 4946886413540800989}
   m_Layer: 0
   m_Name: Colider
-  m_TagString: Untagged
+  m_TagString: Photographable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -235,6 +236,19 @@ CapsuleCollider:
   m_Height: 0.19
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4946886413540800989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8442917529664085361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a73f2ea9b12f80246beab020b9f15143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PhotoSubject
+  creatureId: Honey
 --- !u!1001 &4356968120615471180
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -245,15 +259,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3020304196419193100, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.94097424
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3020304196419193100, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.00000017184996
       objectReference: {fileID: 0}
     - target: {fileID: 3020304196419193100, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5
+      value: -124
       objectReference: {fileID: 0}
     - target: {fileID: 3020304196419193100, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -285,7 +299,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6941052214315967161, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}
       propertyPath: m_Name
-      value: PF_TreeStump001_WithHoney002 Variant
+      value: PF_TreeStump001WithHoney002
+      objectReference: {fileID: 0}
+    - target: {fileID: 6941052214315967161, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 7606276022882296860, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}
       propertyPath: m_Size

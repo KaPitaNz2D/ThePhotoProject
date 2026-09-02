@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 438c7fdcc5d543bf845d2e2b85253e1b
+timeCreated: 1743845936
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Windows/TableVisualizerWindow/Controls/Cells/SimpleCells/TextBasedCells/UIntCellControl.cs
+  uploadId: 831058

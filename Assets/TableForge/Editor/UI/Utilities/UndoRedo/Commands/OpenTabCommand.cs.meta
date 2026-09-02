@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 6756b4dce4c7425990a9ec78844421a2
+timeCreated: 1748447710
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Utilities/UndoRedo/Commands/OpenTabCommand.cs
+  uploadId: 831058

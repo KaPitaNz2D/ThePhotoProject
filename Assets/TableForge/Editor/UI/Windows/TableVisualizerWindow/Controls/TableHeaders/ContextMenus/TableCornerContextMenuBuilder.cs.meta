@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: c953bbe0d8f7448b97961e2cac5601d5
+timeCreated: 1752421784
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Windows/TableVisualizerWindow/Controls/TableHeaders/ContextMenus/TableCornerContextMenuBuilder.cs
+  uploadId: 831058

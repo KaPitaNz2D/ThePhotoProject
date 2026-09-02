@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: a16f45c51d4b4c10b820ebc7261b56cc
+timeCreated: 1750350230
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Windows/TableVisualizerWindow/FunctionHandling/FunctionContext.cs
+  uploadId: 831058

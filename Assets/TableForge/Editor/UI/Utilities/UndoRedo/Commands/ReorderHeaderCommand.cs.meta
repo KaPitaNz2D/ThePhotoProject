@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 32af13b9fb7a42e7b4308ae118080ba6
+timeCreated: 1748336344
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Utilities/UndoRedo/Commands/ReorderHeaderCommand.cs
+  uploadId: 831058

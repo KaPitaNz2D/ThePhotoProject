@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c9372f3d95daee84a8b3bf793db490c6
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Demo/Data/Enemies/Goblin Scout.asset
+  uploadId: 831058

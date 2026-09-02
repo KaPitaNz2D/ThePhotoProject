@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 77bcc200b24b42049a33500613b81f08
+timeCreated: 1740343093
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Windows/TableVisualizerWindow/Controls/RowEditionButtons/AddRowButtons/AdditionStategy/NullItemRowAdditionStrategy.cs
+  uploadId: 831058

@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: d316c9374b3e4f0e86a24f458739d7bd
+timeCreated: 1737988451
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/Core/Data/Cells/Implementations/SimpleCells/GradientCell.cs
+  uploadId: 831058

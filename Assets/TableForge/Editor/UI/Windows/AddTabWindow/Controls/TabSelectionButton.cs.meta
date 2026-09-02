@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 425644bbf06943d6afac056784e80fc5
+timeCreated: 1745601237
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Windows/AddTabWindow/Controls/TabSelectionButton.cs
+  uploadId: 831058

@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 2f55456456c84b0f8844a3840e760e5c
+timeCreated: 1750351033
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Windows/TableVisualizerWindow/FunctionHandling/Functions/MaxFunction.cs
+  uploadId: 831058

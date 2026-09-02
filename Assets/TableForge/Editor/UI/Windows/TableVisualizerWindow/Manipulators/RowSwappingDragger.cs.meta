@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 58d7d1d1f95f49fcad6973d9506547c3
+timeCreated: 1740249558
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Windows/TableVisualizerWindow/Manipulators/RowSwappingDragger.cs
+  uploadId: 831058

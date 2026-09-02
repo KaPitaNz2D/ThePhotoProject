@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: fe4ac6bf0201f7649a5a2e77edce4a8f
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Demo/WeaponStats.cs
+  uploadId: 831058

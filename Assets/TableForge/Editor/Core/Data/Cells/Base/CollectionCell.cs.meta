@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 747a957557994c1597d9b130a8772454
+timeCreated: 1744884202
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/Core/Data/Cells/Base/CollectionCell.cs
+  uploadId: 831058

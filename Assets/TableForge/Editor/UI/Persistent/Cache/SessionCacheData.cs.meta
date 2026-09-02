@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: e1795d1b862b4b4db11941c6a9aa857e
+timeCreated: 1746381032
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Persistent/Cache/SessionCacheData.cs
+  uploadId: 831058

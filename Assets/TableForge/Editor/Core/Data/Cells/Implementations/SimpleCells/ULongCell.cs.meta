@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: e717cd4be4a1451bbb6a81cbcdfcb3c4
+timeCreated: 1743845147
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/Core/Data/Cells/Implementations/SimpleCells/ULongCell.cs
+  uploadId: 831058

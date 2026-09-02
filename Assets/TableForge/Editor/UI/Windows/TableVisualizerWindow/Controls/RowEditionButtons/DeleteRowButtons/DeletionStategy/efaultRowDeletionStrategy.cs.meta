@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 9dae15bb9d5147c8acf410b2320a1c32
+timeCreated: 1745312005
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Windows/TableVisualizerWindow/Controls/RowEditionButtons/DeleteRowButtons/DeletionStategy/efaultRowDeletionStrategy.cs
+  uploadId: 831058

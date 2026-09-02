@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 745e6a59f84acc54c9ddb49f185cc3dc
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/Core/Serialization/Core/SerializationConstants.cs
+  uploadId: 831058

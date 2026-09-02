@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 07b1640c46ad4778b420446f8e2a939c
+timeCreated: 1748337110
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Utilities/UndoRedo/Commands/ChangeTabCommand.cs
+  uploadId: 831058

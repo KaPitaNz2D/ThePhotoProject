@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 6e0f83af022b4b4089f4b46b0de2216b
+timeCreated: 1747327483
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/CustomControls/ControlOverrides/MultiselectionDropdown/MultiSelectDropdownPopup.cs
+  uploadId: 831058

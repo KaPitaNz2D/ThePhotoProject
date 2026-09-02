@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 8b99d702de6f4ec9960db9ec97300020
+timeCreated: 1739546796
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Windows/TableVisualizerWindow/VisibilityManager/RowVisibilityManager.cs
+  uploadId: 831058

@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 92a95df6fa0744b8acca002809e02084
+timeCreated: 1737988522
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/Core/Data/Cells/Implementations/SimpleCells/AnimationCurveCell.cs
+  uploadId: 831058

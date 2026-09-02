@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: f35c222c7d1c410881930d2a6ea2ed08
+timeCreated: 1744638056
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/Core/Utilities/Extensions/LayerMaskExtension.cs
+  uploadId: 831058

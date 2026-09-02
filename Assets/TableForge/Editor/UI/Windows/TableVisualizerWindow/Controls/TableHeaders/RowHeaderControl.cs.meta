@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: da508c05359d4a358fb3cb9dd26385b8
+timeCreated: 1739022148
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Windows/TableVisualizerWindow/Controls/TableHeaders/RowHeaderControl.cs
+  uploadId: 831058

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 84ae49b3420006b4fb2fe19e5c94cf3d
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Demo/Data/Enemies/Ancient Dragon.asset
+  uploadId: 831058

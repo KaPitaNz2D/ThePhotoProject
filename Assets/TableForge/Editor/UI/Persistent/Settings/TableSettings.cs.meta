@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: a0fc8e2c13774db69cfb23dd1130cec6
+timeCreated: 1739747002
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Persistent/Settings/TableSettings.cs
+  uploadId: 831058

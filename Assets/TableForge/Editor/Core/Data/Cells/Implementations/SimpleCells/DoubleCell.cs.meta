@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 3ef70ecb5af6434d9be9dd1cda0e15d3
+timeCreated: 1743844919
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/Core/Data/Cells/Implementations/SimpleCells/DoubleCell.cs
+  uploadId: 831058

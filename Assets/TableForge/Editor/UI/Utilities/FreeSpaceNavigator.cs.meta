@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: f181defd4ddb2a542bbb797c6d2cc10c
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Utilities/FreeSpaceNavigator.cs
+  uploadId: 831058

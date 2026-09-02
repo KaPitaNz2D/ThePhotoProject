@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 6731988f5f93484ca688adfa6de248bf
+timeCreated: 1752073505
+AssetOrigin:
+  serializedVersion: 1
+  productId: 326608
+  packageName: TableForge - ScriptableObject Management Tool
+  packageVersion: 1.0.5
+  assetPath: Assets/TableForge/Editor/UI/Windows/ImportWindow/ColumnMapping.cs
+  uploadId: 831058
