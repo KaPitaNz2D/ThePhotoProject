@@ -1,8 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
 public class PlayerMovement : MonoBehaviour
 {
+    // Events
+    public event Action<float> OnSpeedChanged;
+    public event Action OnJumped;
+
     [Header("References")]
     public Transform orientation;
     public Rigidbody rb;
@@ -24,16 +29,14 @@ public class PlayerMovement : MonoBehaviour
     public bool IsGrounded => isGrounded;
 
     [Header("Slope Handling")]
-    [Tooltip("มุมทางลาดสูงสุดที่เดินขึ้น-ลงได้แบบปกติ (องศา)")]
+    [Tooltip("Maximum walkable slope angle in degrees")]
     public float maxSlopeAngle = 45f;
-    [Tooltip("แรงกดลงพื้นตอนอยู่บนทางลาด ป้องกันอาการลอย/กระเด้ง")]
+    [Tooltip("Downward force to keep player attached to slope surface")]
     public float slopeStickForce = 10f;
     private RaycastHit slopeHit;
 
     [Header("Input References")]
-    [Tooltip("อย่าลืมลาก Action การเดิน (เช่น WASD/Joystick) มาใส่ช่องนี้")]
     public InputActionReference moveInput;
-    [Tooltip("อย่าลืมลาก Action การกระโดด (เช่น Space) มาใส่ช่องนี้")]
     public InputActionReference jumpInput;
 
     [Header("Crouch")]
@@ -57,14 +60,14 @@ public class PlayerMovement : MonoBehaviour
         }
         rb.freezeRotation = true;
 
-        // เช็คว่ามีการใส่ Input มาหรือยัง ก่อน Enable
+        // Enable inputs
         if (moveInput != null)
         {
             moveInput.action.Enable();
         }
         else
         {
-            Debug.LogError("ยังไม่ได้ใส่ moveInput ใน Inspector!");
+            Debug.LogError("moveInput is not assigned!");
         }
 
         if (jumpInput != null)
@@ -74,25 +77,32 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            Debug.LogError("ยังไม่ได้ใส่ jumpInput ใน Inspector!");
+            Debug.LogError("jumpInput is not assigned!");
         }
     }
 
     private void Update()
     {
-        // ป้องกัน Error หากลืมลาก Object มาใส่ใน Inspector
         if (orientation == null || rb == null || moveInput == null) return;
 
-        // เช็คว่าติดพื้นอยู่หรือไม่ ด้วยการยิง Raycast ลงไปด้านล่าง
+        // Ground check via downward raycast
         isGrounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, groundLayer);
 
-        // เดินได้เฉพาะตอน SystemState เป็น Normal เท่านั้น
-        // (ถ้าอยู่ใน Photograph, Talking, Pause, Journal ให้ inputVector เป็นศูนย์ไปเลย)
+        // Read input if control is permitted
         bool canControl = StateManager.Instance == null || StateManager.Instance.CanControlPlayer();
         inputVector = canControl ? moveInput.action.ReadValue<Vector2>() : Vector2.zero;
 
-        // ควบคุม Drag ตามสถานะการติดพื้น
-        rb.linearDamping = isGrounded ? groundDrag : 0f;
+        OnSpeedChanged?.Invoke(inputVector.magnitude);
+
+        // Apply drag only when grounded on flat ground (Disable drag on slope to prevent speed loss)
+        if (isGrounded && !OnSlope())
+        {
+            rb.linearDamping = groundDrag;
+        }
+        else
+        {
+            rb.linearDamping = 0f;
+        }
 
         UpdateMovementState();
     }
@@ -127,7 +137,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
-        // คำนวณทิศทางการเดินโดยอ้างอิงจาก Orientation (เหมือนกับกล้อง)
+        // Calculate move direction relative to orientation
         moveDirection = orientation.forward * inputVector.y + orientation.right * inputVector.x;
 
         // ลดความเร็วตอนย่อ — คูณเข้ากับ moveSpeed ก่อนใส่แรง ใช้ร่วมกับทุกโหมด (พื้นราบ/ทางลาด/กลางอากาศ)
@@ -139,12 +149,14 @@ public class PlayerMovement : MonoBehaviour
 
         if (isGrounded && OnSlope())
         {
-            // ปรับทิศทางเดินให้ขนานไปกับพื้นทางลาด แทนที่จะเดินตรงแนวราบ
-            // ทำให้ตอนลงเนินไม่มีช่วงที่ตัวละคร "หลุดลอย" จากพื้น
+            // Disable gravity on slopes
+            rb.useGravity = false;
+
+            // Calculate exact target velocity along slope surface
             Vector3 slopeMoveDirection = Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
             rb.AddForce(slopeMoveDirection * effectiveSpeed * 10f, ForceMode.Force);
 
-            // แรงกดลงตามแนว Normal ของพื้นลาด ช่วยให้ตัวละคร "แปะ" ติดพื้นตอนข้ามขอบเนิน
+            // Apply downward force against slope normal to stay attached when moving downhill
             rb.AddForce(-slopeHit.normal * slopeStickForce, ForceMode.Force);
         }
         else if (isGrounded)
@@ -160,11 +172,10 @@ public class PlayerMovement : MonoBehaviour
 
     private bool OnSlope()
     {
-        // ยิง Raycast ลงพื้นเพื่อหา Normal ของพื้นผิวที่ยืนอยู่
-        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.3f, groundLayer))
+        // Slightly increased ray length (+0.5f) to ensure ground contact when running downhill
+        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.5f, groundLayer))
         {
             float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
-            // ถือว่าเป็น "ทางลาด" เมื่อมุมมากกว่า 0 แต่ไม่ชันเกินที่กำหนด
             return angle < maxSlopeAngle && angle != 0f;
         }
         return false;
@@ -177,9 +188,13 @@ public class PlayerMovement : MonoBehaviour
 
         readyToJump = false;
 
-        // รีเซ็ต Velocity แกน Y ก่อนกระโดด เพื่อให้แรงกระโดดสม่ำเสมอ
+        // Re-enable gravity before jumping
+        rb.useGravity = true;
+
+        // Reset Y velocity for consistent jump height
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        OnJumped?.Invoke();
 
         Invoke(nameof(ResetJump), jumpCooldown);
     }

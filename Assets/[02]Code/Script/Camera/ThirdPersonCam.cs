@@ -5,14 +5,13 @@ using Unity.Cinemachine;
 public class ThirdPersonCam : MonoBehaviour
 {
     [Header("References")]
-    public Transform orientation;
-    public Transform player;
-    public Transform playerObj;
+    public Transform orientation; // Movement directional reference based on camera
+    public Transform player;      // Reference to the main player GameObject
+    public Transform playerObj;   // Visual mesh that rotates towards movement direction
 
     public float rotationSpeed = 7f;
 
     [Header("Input References")]
-    [Tooltip("Action การเดิน (เช่น WASD/Joystick)")]
     public InputActionReference moveInput;
     [Tooltip("Action การหมุนกล้อง (เช่น Mouse Delta) เพื่อใช้เช็คว่ากำลังขยับกล้องไหม")]
     public InputActionReference lookInput;
@@ -108,12 +107,13 @@ public class ThirdPersonCam : MonoBehaviour
 
         if (player == null || orientation == null || playerObj == null || moveInput == null || lookInput == null) return;
 
-        // 1. คำนวณ Orientation ของกล้องเพื่อใช้เป็นแกนอ้างอิงเสมอ (ห้ามเอียงตามแกน Y)
-        Vector3 viewDir = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
-        viewDir.y = 0;
-        orientation.forward = viewDir.normalized;
+        // Use the camera's actual look direction instead of camera->player position vector,
+        // since shoulder cam offsets the camera sideways and breaks the position-based vector
+        Vector3 camForward = transform.forward;
+        camForward.y = 0;
+        orientation.forward = camForward.normalized;
 
-        // 2. อ่านค่าการเดิน
+        // Map 2D input (WASD) relative to orientation's forward and right vectors
         Vector2 inputVector = moveInput.action.ReadValue<Vector2>();
         Vector3 moveDir = orientation.forward * inputVector.y + orientation.right * inputVector.x;
 
@@ -142,9 +142,7 @@ public class ThirdPersonCam : MonoBehaviour
         }
         else if (moveDir != Vector3.zero)
         {
-            // [กรณีที่ 2] ไม่ได้ขยับกล้อง แต่กดเดิน -> หันหน้าไปตามทิศที่เดิน
             playerObj.forward = Vector3.Slerp(playerObj.forward, moveDir.normalized, Time.deltaTime * rotationSpeed);
         }
-        // [กรณีที่ 3] ไม่ได้ขยับกล้อง และไม่ได้เดิน -> ไม่หมุนอะไร ค้างทิศเดิมไว้
     }
 }
