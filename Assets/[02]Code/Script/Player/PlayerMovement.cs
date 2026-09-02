@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     public float playerHeight = 2f;
     public LayerMask groundLayer;
     private bool isGrounded;
+    public bool IsGrounded => isGrounded;
 
     [Header("Slope Handling")]
     [Tooltip("Maximum walkable slope angle in degrees")]
@@ -38,12 +39,25 @@ public class PlayerMovement : MonoBehaviour
     public InputActionReference moveInput;
     public InputActionReference jumpInput;
 
+    [Header("Crouch")]
+    [Tooltip("ถ้าใส่ไว้ จะลดความเร็วเดินตอนย่อ และรายงาน MovementState.Crouch ให้ StateManager")]
+    public PlayerCrouch playerCrouch;
+    [Tooltip("ตัวคูณความเร็วตอนย่อ (0.5 = เดินช้าลงครึ่งหนึ่ง)")]
+    [Range(0.1f, 1f)]
+    public float crouchSpeedMultiplier = 0.5f;
+
     private Vector2 inputVector;
+    public Vector2 CurrentInput => inputVector;
     private Vector3 moveDirection;
 
     private void Start()
     {
-        if (rb == null) rb = GetComponent<Rigidbody>();
+        Debug.Log(Application.persistentDataPath);
+        // ป้องกัน Error หากไม่ได้ผูก Rigidbody
+        if (rb == null)
+        {
+            rb = GetComponent<Rigidbody>();
+        }
         rb.freezeRotation = true;
 
         // Enable inputs
@@ -97,6 +111,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if (StateManager.Instance == null) return;
 
+        // ย่ออยู่ -> รายงาน Crouch เสมอ ไม่ว่าจะขยับหรือไม่ก็ตาม (Priority สูงสุด)
+        if (playerCrouch != null && playerCrouch.IsCrouching)
+        {
+            StateManager.Instance.SetMovementState(StateManager.MovementState.Crouch);
+            return;
+        }
+
+        // ยังไม่มี Running ตอนนี้ เลยเช็คแค่ขยับหรือไม่ขยับพอ
         if (inputVector.sqrMagnitude > 0.01f)
         {
             StateManager.Instance.SetMovementState(StateManager.MovementState.Walking);
@@ -118,6 +140,13 @@ public class PlayerMovement : MonoBehaviour
         // Calculate move direction relative to orientation
         moveDirection = orientation.forward * inputVector.y + orientation.right * inputVector.x;
 
+        // ลดความเร็วตอนย่อ — คูณเข้ากับ moveSpeed ก่อนใส่แรง ใช้ร่วมกับทุกโหมด (พื้นราบ/ทางลาด/กลางอากาศ)
+        float effectiveSpeed = moveSpeed;
+        if (playerCrouch != null && playerCrouch.IsCrouching)
+        {
+            effectiveSpeed *= crouchSpeedMultiplier;
+        }
+
         if (isGrounded && OnSlope())
         {
             // Disable gravity on slopes
@@ -125,26 +154,19 @@ public class PlayerMovement : MonoBehaviour
 
             // Calculate exact target velocity along slope surface
             Vector3 slopeMoveDirection = Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
-            Vector3 targetVelocity = slopeMoveDirection * moveSpeed;
-
-            // Directly override velocity on slope for 100% consistent speed up & down
-            Vector3 velocityChange = targetVelocity - rb.linearVelocity;
-            rb.AddForce(velocityChange, ForceMode.VelocityChange);
+            rb.AddForce(slopeMoveDirection * effectiveSpeed * 10f, ForceMode.Force);
 
             // Apply downward force against slope normal to stay attached when moving downhill
             rb.AddForce(-slopeHit.normal * slopeStickForce, ForceMode.Force);
         }
         else if (isGrounded)
         {
-            // Normal grounded movement
-            rb.useGravity = true;
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+            rb.AddForce(moveDirection.normalized * effectiveSpeed * 10f, ForceMode.Force);
         }
         else
         {
-            // Airborne movement
-            rb.useGravity = true;
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+            // เดินอากาศได้แต่แรงน้อยลง
+            rb.AddForce(moveDirection.normalized * effectiveSpeed * 10f * airMultiplier, ForceMode.Force);
         }
     }
 

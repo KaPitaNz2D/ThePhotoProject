@@ -29,7 +29,8 @@ public class StateManager : MonoBehaviour
         Photograph,  // โหมดถ่ายรูป
         Talking,     // คุยกับ NPC
         Pause,       // เมนู Option
-        Journal      // เปิดสมุดบันทึก
+        Journal,     // เปิดสมุดบันทึก
+        Storage      // เปิดคลังภาพถ่าย
     }
 
     [Header("Current States (Read-only ดูใน Inspector)")]
@@ -102,6 +103,28 @@ public class StateManager : MonoBehaviour
             case SystemState.Talking:
             case SystemState.Pause:
             case SystemState.Journal:
+            case SystemState.Storage:
+                return false;
+            default:
+                return false;
+        }
+    }
+
+    /// <summary>
+    /// เช็คว่าตอนนี้ย่อ/ลุกได้ไหม — อนุญาตกว้างกว่า CanControlPlayer() เพราะย่อได้แม้กำลังเล็งกล้องถ่ายรูปอยู่
+    /// (แค่เดินไม่ได้ตอนถ่ายรูป แต่เปลี่ยนท่ายืน/ย่อได้ปกติ) แต่ยังบล็อกตอน Talking/Pause/Journal/Storage เหมือนเดิม
+    /// </summary>
+    public bool CanCrouch()
+    {
+        switch (currentSystemState)
+        {
+            case SystemState.Normal:
+            case SystemState.Photograph:
+                return true;
+            case SystemState.Talking:
+            case SystemState.Pause:
+            case SystemState.Journal:
+            case SystemState.Storage:
                 return false;
             default:
                 return false;
