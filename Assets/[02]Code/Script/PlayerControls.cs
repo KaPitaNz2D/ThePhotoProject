@@ -109,6 +109,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Crouch"",
+                    ""type"": ""Button"",
+                    ""id"": ""8ccf2068-1789-4404-8579-4aa23764ee13"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -232,6 +241,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3268f067-861e-40cc-bfd0-2e936b0eeb17"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -244,6 +264,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""dc60f185-f737-4ed9-9917-ff5fc1098b31"",
                     ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchShoulder"",
+                    ""type"": ""Button"",
+                    ""id"": ""6f2a1c9d-1b3e-4a8c-9d5f-2e8b7c4a3d1f"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -260,6 +289,212 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8a3a80fb-d239-46f3-a33d-1315d76d2f1e"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""331f82e9-a590-423d-b9c3-49de981c9a60"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchShoulder"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Photograph"",
+            ""id"": ""ba33b301-6e89-4215-aed3-ee90ae735296"",
+            ""actions"": [
+                {
+                    ""name"": ""EnterPhotoMode"",
+                    ""type"": ""Button"",
+                    ""id"": ""dc6045f1-a0fd-4ea8-a468-8b90a376a6c6"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Shutter"",
+                    ""type"": ""Button"",
+                    ""id"": ""5cb5991d-c420-4de2-9f44-654cb84731b9"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""7ad76e53-b73f-481e-a746-24c661bd1bbd"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""BackToGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""0e361840-f967-4320-813a-ab4118e6ab4d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""e7adc7bb-eba8-47ac-9284-89db17a5c5b8"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EnterPhotoMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f1dd25e2-d5ab-4a0b-bf6f-23abfcd07880"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shutter"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4fd1822d-dda4-4b80-bc36-93c97b567056"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dde68dda-6e43-481e-975f-cbaf91fca24b"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BackToGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Storage UI"",
+            ""id"": ""e6a26987-037e-4e15-9b24-1238fcae8cbe"",
+            ""actions"": [
+                {
+                    ""name"": ""Get in/out"",
+                    ""type"": ""Button"",
+                    ""id"": ""c60df403-ff54-467a-ab96-c35ead95773f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Back"",
+                    ""type"": ""Button"",
+                    ""id"": ""56367516-3b8c-4774-9d43-40cb2b340abe"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""5a254255-1114-46d1-aaf8-923bb2e8ffe5"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Get in/out"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b80df515-0ba9-4ebf-aa28-3695a7b466fb"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Back"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Journal UI"",
+            ""id"": ""397fdcb0-2759-4d8f-b998-ea2c510151a5"",
+            ""actions"": [
+                {
+                    ""name"": ""Journal Toggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""2ff4bcda-d4d4-4540-a387-ca13448ad4c6"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Back"",
+                    ""type"": ""Button"",
+                    ""id"": ""876d27a2-3418-4b10-896c-40085f204256"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""915886c9-3ba3-4982-846c-07d40b39ac4f"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Journal Toggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""07a4fe3f-b8ee-4ecb-a519-68202426e127"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Back"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -270,15 +505,34 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerMovement = asset.FindActionMap("Player Movement", throwIfNotFound: true);
         m_PlayerMovement_Movement = m_PlayerMovement.FindAction("Movement", throwIfNotFound: true);
         m_PlayerMovement_Jump = m_PlayerMovement.FindAction("Jump", throwIfNotFound: true);
+        m_PlayerMovement_Crouch = m_PlayerMovement.FindAction("Crouch", throwIfNotFound: true);
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_Look = m_Camera.FindAction("Look", throwIfNotFound: true);
+        m_Camera_SwitchShoulder = m_Camera.FindAction("SwitchShoulder", throwIfNotFound: true);
+        // Photograph
+        m_Photograph = asset.FindActionMap("Photograph", throwIfNotFound: true);
+        m_Photograph_EnterPhotoMode = m_Photograph.FindAction("EnterPhotoMode", throwIfNotFound: true);
+        m_Photograph_Shutter = m_Photograph.FindAction("Shutter", throwIfNotFound: true);
+        m_Photograph_Zoom = m_Photograph.FindAction("Zoom", throwIfNotFound: true);
+        m_Photograph_BackToGame = m_Photograph.FindAction("BackToGame", throwIfNotFound: true);
+        // Storage UI
+        m_StorageUI = asset.FindActionMap("Storage UI", throwIfNotFound: true);
+        m_StorageUI_Getinout = m_StorageUI.FindAction("Get in/out", throwIfNotFound: true);
+        m_StorageUI_Back = m_StorageUI.FindAction("Back", throwIfNotFound: true);
+        // Journal UI
+        m_JournalUI = asset.FindActionMap("Journal UI", throwIfNotFound: true);
+        m_JournalUI_JournalToggle = m_JournalUI.FindAction("Journal Toggle", throwIfNotFound: true);
+        m_JournalUI_Back = m_JournalUI.FindAction("Back", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
     {
         UnityEngine.Debug.Assert(!m_PlayerMovement.enabled, "This will cause a leak and performance issues, PlayerControls.PlayerMovement.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Camera.enabled, "This will cause a leak and performance issues, PlayerControls.Camera.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Photograph.enabled, "This will cause a leak and performance issues, PlayerControls.Photograph.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_StorageUI.enabled, "This will cause a leak and performance issues, PlayerControls.StorageUI.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_JournalUI.enabled, "This will cause a leak and performance issues, PlayerControls.JournalUI.Disable() has not been called.");
     }
 
     /// <summary>
@@ -356,6 +610,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private List<IPlayerMovementActions> m_PlayerMovementActionsCallbackInterfaces = new List<IPlayerMovementActions>();
     private readonly InputAction m_PlayerMovement_Movement;
     private readonly InputAction m_PlayerMovement_Jump;
+    private readonly InputAction m_PlayerMovement_Crouch;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player Movement".
     /// </summary>
@@ -375,6 +630,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerMovement/Jump".
         /// </summary>
         public InputAction @Jump => m_Wrapper.m_PlayerMovement_Jump;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerMovement/Crouch".
+        /// </summary>
+        public InputAction @Crouch => m_Wrapper.m_PlayerMovement_Crouch;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -407,6 +666,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @Crouch.started += instance.OnCrouch;
+            @Crouch.performed += instance.OnCrouch;
+            @Crouch.canceled += instance.OnCrouch;
         }
 
         /// <summary>
@@ -424,6 +686,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @Crouch.started -= instance.OnCrouch;
+            @Crouch.performed -= instance.OnCrouch;
+            @Crouch.canceled -= instance.OnCrouch;
         }
 
         /// <summary>
@@ -462,6 +727,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Camera;
     private List<ICameraActions> m_CameraActionsCallbackInterfaces = new List<ICameraActions>();
     private readonly InputAction m_Camera_Look;
+    private readonly InputAction m_Camera_SwitchShoulder;
     /// <summary>
     /// Provides access to input actions defined in input action map "Camera".
     /// </summary>
@@ -477,6 +743,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Camera/Look".
         /// </summary>
         public InputAction @Look => m_Wrapper.m_Camera_Look;
+        /// <summary>
+        /// Provides access to the underlying input action "Camera/SwitchShoulder".
+        /// </summary>
+        public InputAction @SwitchShoulder => m_Wrapper.m_Camera_SwitchShoulder;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -506,6 +776,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
+            @SwitchShoulder.started += instance.OnSwitchShoulder;
+            @SwitchShoulder.performed += instance.OnSwitchShoulder;
+            @SwitchShoulder.canceled += instance.OnSwitchShoulder;
         }
 
         /// <summary>
@@ -520,6 +793,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
+            @SwitchShoulder.started -= instance.OnSwitchShoulder;
+            @SwitchShoulder.performed -= instance.OnSwitchShoulder;
+            @SwitchShoulder.canceled -= instance.OnSwitchShoulder;
         }
 
         /// <summary>
@@ -553,6 +829,349 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="CameraActions" /> instance referencing this action map.
     /// </summary>
     public CameraActions @Camera => new CameraActions(this);
+
+    // Photograph
+    private readonly InputActionMap m_Photograph;
+    private List<IPhotographActions> m_PhotographActionsCallbackInterfaces = new List<IPhotographActions>();
+    private readonly InputAction m_Photograph_EnterPhotoMode;
+    private readonly InputAction m_Photograph_Shutter;
+    private readonly InputAction m_Photograph_Zoom;
+    private readonly InputAction m_Photograph_BackToGame;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Photograph".
+    /// </summary>
+    public struct PhotographActions
+    {
+        private @PlayerControls m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public PhotographActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Photograph/EnterPhotoMode".
+        /// </summary>
+        public InputAction @EnterPhotoMode => m_Wrapper.m_Photograph_EnterPhotoMode;
+        /// <summary>
+        /// Provides access to the underlying input action "Photograph/Shutter".
+        /// </summary>
+        public InputAction @Shutter => m_Wrapper.m_Photograph_Shutter;
+        /// <summary>
+        /// Provides access to the underlying input action "Photograph/Zoom".
+        /// </summary>
+        public InputAction @Zoom => m_Wrapper.m_Photograph_Zoom;
+        /// <summary>
+        /// Provides access to the underlying input action "Photograph/BackToGame".
+        /// </summary>
+        public InputAction @BackToGame => m_Wrapper.m_Photograph_BackToGame;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Photograph; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="PhotographActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(PhotographActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="PhotographActions" />
+        public void AddCallbacks(IPhotographActions instance)
+        {
+            if (instance == null || m_Wrapper.m_PhotographActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PhotographActionsCallbackInterfaces.Add(instance);
+            @EnterPhotoMode.started += instance.OnEnterPhotoMode;
+            @EnterPhotoMode.performed += instance.OnEnterPhotoMode;
+            @EnterPhotoMode.canceled += instance.OnEnterPhotoMode;
+            @Shutter.started += instance.OnShutter;
+            @Shutter.performed += instance.OnShutter;
+            @Shutter.canceled += instance.OnShutter;
+            @Zoom.started += instance.OnZoom;
+            @Zoom.performed += instance.OnZoom;
+            @Zoom.canceled += instance.OnZoom;
+            @BackToGame.started += instance.OnBackToGame;
+            @BackToGame.performed += instance.OnBackToGame;
+            @BackToGame.canceled += instance.OnBackToGame;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="PhotographActions" />
+        private void UnregisterCallbacks(IPhotographActions instance)
+        {
+            @EnterPhotoMode.started -= instance.OnEnterPhotoMode;
+            @EnterPhotoMode.performed -= instance.OnEnterPhotoMode;
+            @EnterPhotoMode.canceled -= instance.OnEnterPhotoMode;
+            @Shutter.started -= instance.OnShutter;
+            @Shutter.performed -= instance.OnShutter;
+            @Shutter.canceled -= instance.OnShutter;
+            @Zoom.started -= instance.OnZoom;
+            @Zoom.performed -= instance.OnZoom;
+            @Zoom.canceled -= instance.OnZoom;
+            @BackToGame.started -= instance.OnBackToGame;
+            @BackToGame.performed -= instance.OnBackToGame;
+            @BackToGame.canceled -= instance.OnBackToGame;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="PhotographActions.UnregisterCallbacks(IPhotographActions)" />.
+        /// </summary>
+        /// <seealso cref="PhotographActions.UnregisterCallbacks(IPhotographActions)" />
+        public void RemoveCallbacks(IPhotographActions instance)
+        {
+            if (m_Wrapper.m_PhotographActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="PhotographActions.AddCallbacks(IPhotographActions)" />
+        /// <seealso cref="PhotographActions.RemoveCallbacks(IPhotographActions)" />
+        /// <seealso cref="PhotographActions.UnregisterCallbacks(IPhotographActions)" />
+        public void SetCallbacks(IPhotographActions instance)
+        {
+            foreach (var item in m_Wrapper.m_PhotographActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_PhotographActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="PhotographActions" /> instance referencing this action map.
+    /// </summary>
+    public PhotographActions @Photograph => new PhotographActions(this);
+
+    // Storage UI
+    private readonly InputActionMap m_StorageUI;
+    private List<IStorageUIActions> m_StorageUIActionsCallbackInterfaces = new List<IStorageUIActions>();
+    private readonly InputAction m_StorageUI_Getinout;
+    private readonly InputAction m_StorageUI_Back;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Storage UI".
+    /// </summary>
+    public struct StorageUIActions
+    {
+        private @PlayerControls m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public StorageUIActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "StorageUI/Getinout".
+        /// </summary>
+        public InputAction @Getinout => m_Wrapper.m_StorageUI_Getinout;
+        /// <summary>
+        /// Provides access to the underlying input action "StorageUI/Back".
+        /// </summary>
+        public InputAction @Back => m_Wrapper.m_StorageUI_Back;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_StorageUI; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="StorageUIActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(StorageUIActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="StorageUIActions" />
+        public void AddCallbacks(IStorageUIActions instance)
+        {
+            if (instance == null || m_Wrapper.m_StorageUIActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_StorageUIActionsCallbackInterfaces.Add(instance);
+            @Getinout.started += instance.OnGetinout;
+            @Getinout.performed += instance.OnGetinout;
+            @Getinout.canceled += instance.OnGetinout;
+            @Back.started += instance.OnBack;
+            @Back.performed += instance.OnBack;
+            @Back.canceled += instance.OnBack;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="StorageUIActions" />
+        private void UnregisterCallbacks(IStorageUIActions instance)
+        {
+            @Getinout.started -= instance.OnGetinout;
+            @Getinout.performed -= instance.OnGetinout;
+            @Getinout.canceled -= instance.OnGetinout;
+            @Back.started -= instance.OnBack;
+            @Back.performed -= instance.OnBack;
+            @Back.canceled -= instance.OnBack;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="StorageUIActions.UnregisterCallbacks(IStorageUIActions)" />.
+        /// </summary>
+        /// <seealso cref="StorageUIActions.UnregisterCallbacks(IStorageUIActions)" />
+        public void RemoveCallbacks(IStorageUIActions instance)
+        {
+            if (m_Wrapper.m_StorageUIActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="StorageUIActions.AddCallbacks(IStorageUIActions)" />
+        /// <seealso cref="StorageUIActions.RemoveCallbacks(IStorageUIActions)" />
+        /// <seealso cref="StorageUIActions.UnregisterCallbacks(IStorageUIActions)" />
+        public void SetCallbacks(IStorageUIActions instance)
+        {
+            foreach (var item in m_Wrapper.m_StorageUIActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_StorageUIActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="StorageUIActions" /> instance referencing this action map.
+    /// </summary>
+    public StorageUIActions @StorageUI => new StorageUIActions(this);
+
+    // Journal UI
+    private readonly InputActionMap m_JournalUI;
+    private List<IJournalUIActions> m_JournalUIActionsCallbackInterfaces = new List<IJournalUIActions>();
+    private readonly InputAction m_JournalUI_JournalToggle;
+    private readonly InputAction m_JournalUI_Back;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Journal UI".
+    /// </summary>
+    public struct JournalUIActions
+    {
+        private @PlayerControls m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public JournalUIActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "JournalUI/JournalToggle".
+        /// </summary>
+        public InputAction @JournalToggle => m_Wrapper.m_JournalUI_JournalToggle;
+        /// <summary>
+        /// Provides access to the underlying input action "JournalUI/Back".
+        /// </summary>
+        public InputAction @Back => m_Wrapper.m_JournalUI_Back;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_JournalUI; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="JournalUIActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(JournalUIActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="JournalUIActions" />
+        public void AddCallbacks(IJournalUIActions instance)
+        {
+            if (instance == null || m_Wrapper.m_JournalUIActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_JournalUIActionsCallbackInterfaces.Add(instance);
+            @JournalToggle.started += instance.OnJournalToggle;
+            @JournalToggle.performed += instance.OnJournalToggle;
+            @JournalToggle.canceled += instance.OnJournalToggle;
+            @Back.started += instance.OnBack;
+            @Back.performed += instance.OnBack;
+            @Back.canceled += instance.OnBack;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="JournalUIActions" />
+        private void UnregisterCallbacks(IJournalUIActions instance)
+        {
+            @JournalToggle.started -= instance.OnJournalToggle;
+            @JournalToggle.performed -= instance.OnJournalToggle;
+            @JournalToggle.canceled -= instance.OnJournalToggle;
+            @Back.started -= instance.OnBack;
+            @Back.performed -= instance.OnBack;
+            @Back.canceled -= instance.OnBack;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="JournalUIActions.UnregisterCallbacks(IJournalUIActions)" />.
+        /// </summary>
+        /// <seealso cref="JournalUIActions.UnregisterCallbacks(IJournalUIActions)" />
+        public void RemoveCallbacks(IJournalUIActions instance)
+        {
+            if (m_Wrapper.m_JournalUIActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="JournalUIActions.AddCallbacks(IJournalUIActions)" />
+        /// <seealso cref="JournalUIActions.RemoveCallbacks(IJournalUIActions)" />
+        /// <seealso cref="JournalUIActions.UnregisterCallbacks(IJournalUIActions)" />
+        public void SetCallbacks(IJournalUIActions instance)
+        {
+            foreach (var item in m_Wrapper.m_JournalUIActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_JournalUIActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="JournalUIActions" /> instance referencing this action map.
+    /// </summary>
+    public JournalUIActions @JournalUI => new JournalUIActions(this);
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Player Movement" which allows adding and removing callbacks.
     /// </summary>
@@ -574,6 +1193,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnJump(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Crouch" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCrouch(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Camera" which allows adding and removing callbacks.
@@ -589,5 +1215,92 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLook(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SwitchShoulder" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSwitchShoulder(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Photograph" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="PhotographActions.AddCallbacks(IPhotographActions)" />
+    /// <seealso cref="PhotographActions.RemoveCallbacks(IPhotographActions)" />
+    public interface IPhotographActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "EnterPhotoMode" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnEnterPhotoMode(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Shutter" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnShutter(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Zoom" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnZoom(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "BackToGame" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBackToGame(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Storage UI" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="StorageUIActions.AddCallbacks(IStorageUIActions)" />
+    /// <seealso cref="StorageUIActions.RemoveCallbacks(IStorageUIActions)" />
+    public interface IStorageUIActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Get in/out" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnGetinout(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Back" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBack(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Journal UI" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="JournalUIActions.AddCallbacks(IJournalUIActions)" />
+    /// <seealso cref="JournalUIActions.RemoveCallbacks(IJournalUIActions)" />
+    public interface IJournalUIActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Journal Toggle" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnJournalToggle(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Back" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBack(InputAction.CallbackContext context);
     }
 }
