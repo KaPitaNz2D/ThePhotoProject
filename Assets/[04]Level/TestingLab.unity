@@ -2249,6 +2249,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5e7aebac6e57d047aa32276b17ebc39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhotoTransitionUI
+  fadeCanvasGroup: {fileID: 0}
+  fadeDuration: 0.25
+  shutterFlashDuration: 0.1
 --- !u!4 &716152329
 Transform:
   m_ObjectHideFlags: 0
@@ -2997,6 +3000,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3257fd8f92f606d45b4e07417f554e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
+  orientation: {fileID: 0}
+  rb: {fileID: 0}
+  moveSpeed: 6
+  groundDrag: 5
+  airMultiplier: 0.4
+  jumpForce: 8
+  jumpCooldown: 0.25
+  playerHeight: 2
+  groundLayer:
+    m_Bits: 0
+  maxSlopeAngle: 45
+  slopeStickForce: 10
+  moveInput: {fileID: 0}
+  jumpInput: {fileID: 0}
+  playerCrouch: {fileID: 0}
+  crouchSpeedMultiplier: 0.5
 --- !u!114 &936923251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3008,7 +3027,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2c120da4c2facaa40ba0164ef1aef9ca, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InputManage
+  m_EditorClassIdentifier: Assembly-CSharp::InputManager
   movementInput: {x: 0, y: 0}
 --- !u!114 &936923252
 MonoBehaviour:
@@ -5310,6 +5329,19 @@ MonoBehaviour:
   debugWeightValue: 1
   showDebugGizmos: 1
   logWeights: 0
+--- !u!114 &1580457650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 147062192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80e8bbefe8964234f91f24042b960676, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimationController
+  playerMovement: {fileID: 936923252}
 --- !u!1 &1622942562
 GameObject:
   m_ObjectHideFlags: 0
@@ -8018,10 +8050,6 @@ MonoBehaviour:
   playerObj: {fileID: 63306550}
   rotationSpeed: 7
   moveInput: {fileID: -263566852394675967, guid: c32589b3e95ba5044800c48f983ef7c5, type: 3}
-  lookInput: {fileID: -22152819878740444, guid: c32589b3e95ba5044800c48f983ef7c5, type: 3}
-  lookThreshold: 0.05
-  cinemachineInput: {fileID: 1958216225}
-  cameraTurnHoldTime: 0.15
 --- !u!114 &1958216233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8649,6 +8677,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: ac7d9471a91f38c479044b4d71342464, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 8f1ab072f3604f74e90b929399c7cca1, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8656,6 +8688,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8f1ab072f3604f74e90b929399c7cca1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1580457648}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8f1ab072f3604f74e90b929399c7cca1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1580457650}
   m_SourcePrefab: {fileID: 100100000, guid: 8f1ab072f3604f74e90b929399c7cca1, type: 3}
 --- !u!1 &2123483758
 GameObject:
@@ -8801,6 +8836,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f07a175a6c0b9c14a96d5128bdc20365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhotoGridUI
+  gridOverlay: {fileID: 0}
 --- !u!4 &2137629753
 Transform:
   m_ObjectHideFlags: 0
