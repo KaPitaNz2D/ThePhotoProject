@@ -49,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 inputVector;
     public Vector2 CurrentInput => inputVector;
     private Vector3 moveDirection;
+    private float currentEffectiveSpeed;
 
     private void Start()
     {
@@ -133,30 +134,27 @@ public class PlayerMovement : MonoBehaviour
     {
         if (orientation == null || rb == null) return;
         MovePlayer();
+        SpeedControl();
     }
 
     private void MovePlayer()
     {
-        // Calculate move direction relative to orientation
         moveDirection = orientation.forward * inputVector.y + orientation.right * inputVector.x;
 
-        // ลดความเร็วตอนย่อ — คูณเข้ากับ moveSpeed ก่อนใส่แรง ใช้ร่วมกับทุกโหมด (พื้นราบ/ทางลาด/กลางอากาศ)
         float effectiveSpeed = moveSpeed;
         if (playerCrouch != null && playerCrouch.IsCrouching)
         {
             effectiveSpeed *= crouchSpeedMultiplier;
         }
+        currentEffectiveSpeed = effectiveSpeed;
 
-        if (isGrounded && OnSlope())
+        bool onSlope = isGrounded && OnSlope();
+        rb.useGravity = !onSlope;
+
+        if (onSlope)
         {
-            // Disable gravity on slopes
-            rb.useGravity = false;
-
-            // Calculate exact target velocity along slope surface
             Vector3 slopeMoveDirection = Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
             rb.AddForce(slopeMoveDirection * effectiveSpeed * 10f, ForceMode.Force);
-
-            // Apply downward force against slope normal to stay attached when moving downhill
             rb.AddForce(-slopeHit.normal * slopeStickForce, ForceMode.Force);
         }
         else if (isGrounded)
@@ -165,8 +163,29 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            // เดินอากาศได้แต่แรงน้อยลง
             rb.AddForce(moveDirection.normalized * effectiveSpeed * 10f * airMultiplier, ForceMode.Force);
+        }
+    }
+
+    private void SpeedControl()
+    {
+        if (isGrounded && OnSlope())
+        {
+            // บน slope: จำกัดความเร็วรวม (รวมองค์ประกอบขึ้น/ลงตามความชัน)
+            if (rb.linearVelocity.magnitude > currentEffectiveSpeed)
+            {
+                rb.linearVelocity = rb.linearVelocity.normalized * currentEffectiveSpeed;
+            }
+        }
+        else
+        {
+            // พื้นราบ/กลางอากาศ: จำกัดเฉพาะความเร็วแนวราบ ปล่อย Y ไว้ให้ gravity/jump คุม
+            Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+            if (flatVel.magnitude > currentEffectiveSpeed)
+            {
+                Vector3 limitedVel = flatVel.normalized * currentEffectiveSpeed;
+                rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
+            }
         }
     }
 
