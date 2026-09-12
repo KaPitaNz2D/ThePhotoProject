@@ -7520,6 +7520,7 @@ GameObject:
   - component: {fileID: 526013797}
   - component: {fileID: 526013796}
   - component: {fileID: 526013795}
+  - component: {fileID: 526013799}
   m_Layer: 0
   m_Name: Plane (1)
   m_TagString: Untagged
@@ -7621,6 +7622,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &526013799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526013794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1001 &533743499
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10982,6 +11003,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1409637616912434165, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
+      propertyPath: profile
+      value: 
+      objectReference: {fileID: 11400000, guid: 386ae2bcf6e760a459bc2d5b0bab3446, type: 2}
     - target: {fileID: 3293762268181601916, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
       propertyPath: m_Name
       value: Deer
@@ -10991,8 +11016,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3630993909939304183, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
+      propertyPath: profile
+      value: 
+      objectReference: {fileID: 11400000, guid: 386ae2bcf6e760a459bc2d5b0bab3446, type: 2}
+    - target: {fileID: 3630993909939304183, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
       propertyPath: eyeHeight
-      value: 3
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3630993909939304183, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
+      propertyPath: showFullConeComparison
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3630993909939304183, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
+      propertyPath: logCrouchDetectionChange
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5672296455345238967, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11004,7 +11041,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5672296455345238967, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -80.73569
+      value: -81.95
       objectReference: {fileID: 0}
     - target: {fileID: 5672296455345238967, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -11034,6 +11071,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5690309917369328606, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1410891738}
+    - target: {fileID: 5690309917369328606, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
+      propertyPath: profile
+      value: 
+      objectReference: {fileID: 11400000, guid: 386ae2bcf6e760a459bc2d5b0bab3446, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -28594,8 +28639,8 @@ MonoBehaviour:
   m_IgnoreNavMeshObstacle: 1
   m_OverrideTileSize: 0
   m_TileSize: 256
-  m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.14999999
+  m_OverrideVoxelSize: 1
+  m_VoxelSize: 0.05
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: d9134a2a34f6a854488652eb321c6d12, type: 2}
   m_BuildHeightMesh: 0

@@ -1,85 +1,98 @@
 ﻿using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 /// <summary>
 /// ตรวจจับผู้เล่นด้วย 2 ระบบ ไม่ยุ่งกับ State/พฤติกรรมเลย — แค่ตอบว่า "เจอผู้เล่นไหม" เท่านั้น
+/// ค่าปรับแต่งทั้งหมด (มุม, ระยะ, Layer ฯลฯ) ดึงมาจาก CreatureProfile ที่ผูกไว้ ไม่มี Field ของตัวเองอีกต่อไป
+/// แก้พฤติกรรมทั้งสายพันธุ์ได้จาก Asset เดียว
 ///
-///   1) Vision Cone (โคนสายตาด้านหน้า) — มีมุมกับระยะที่ปรับได้ ต้องไม่มีอะไรบัง (Line of Sight)
-///      ลดลงอัตโนมัติตอนผู้เล่นย่ออยู่ (อ่านจาก StateManager กลาง)
-///   2) Awareness Radius (วงรับรู้รอบตัว) — ตรวจจับได้ทุกทิศทางไม่ต้องเห็น ระยะสั้นกว่า Vision Cone
-///      ไว้จับกรณีผู้เล่นย่องมาจากด้านหลัง/ด้านข้างใกล้เกินไป (ไม่ลดตาม Crouch)
+///   1) Vision Cone (โคนสายตาด้านหน้า) — ต้องไม่มีอะไรบัง (Line of Sight) ลดลงอัตโนมัติตอนผู้เล่นย่ออยู่
+///   2) Awareness Radius (วงรับรู้รอบตัว) — ตรวจจับได้ทุกทิศทางไม่ต้องเห็น (ไม่ลดตาม Crouch)
 /// </summary>
 public class CreatureVision : MonoBehaviour
 {
-    [Header("Vision Cone (ด้านหน้า)")]
-    [Tooltip("มุมกว้างของโคนสายตารวม (องศา) เช่น 110 = กว้างข้างละ 55 องศาจากกึ่งกลาง")]
-    public float viewAngle = 110f;
-    [Tooltip("ระยะไกลสุดที่มองเห็น")]
-    public float viewRadius = 15f;
+    [Header("Data")]
+    [Tooltip("Asset ที่กำหนดค่าปรับแต่งทั้งหมดของสายพันธุ์นี้")]
+    public CreatureProfile profile;
 
-    [Header("Awareness Radius (รอบตัว)")]
-    [Tooltip("ระยะรับรู้รอบตัวแบบไม่ต้องเห็น ตรวจจับได้ทุกทิศทาง (ควรเล็กกว่า View Radius มาก)")]
-    public float awarenessRadius = 3f;
-
-    [Header("Detection Settings")]
-    [Tooltip("Layer ของสิ่งกีดขวางที่บัง Line of Sight ได้ เช่นกำแพง/ก้อนหิน/ต้นไม้")]
-    public LayerMask obstacleLayer;
-    [Tooltip("ความสูงจุดตาโดยประมาณ ใช้เป็นจุดเริ่ม Raycast เช็คสิ่งกีดขวาง")]
-    public float eyeHeight = 1f;
-
-    [Header("Stealth เมื่อผู้เล่นย่อ")]
-    [Tooltip("ตัวคูณลดระยะและมุมของ Vision Cone ตอนผู้เล่นย่ออยู่ (0.6 = เหลือ 60%) ไม่มีผลกับ Awareness Radius")]
-    [Range(0.1f, 1f)]
-    public float crouchRangeMultiplier = 0.6f;
-
-    [Header("Debug")]
-    [Tooltip("แสดง Gizmo โคนสายตาแบบเต็ม (ไม่ลด) เป็นเส้นจางๆ เทียบกับโคนจริงตอนนี้ ให้เห็นผลต่างชัดๆ")]
+    [Header("Debug (ค่า Editor ล้วนๆ ไม่ใช่ข้อมูลสายพันธุ์ เลยไม่ย้ายไป Profile)")]
+    [Tooltip("แสดง Gizmo โคนสายตาแบบเต็ม (ไม่ลด) จางๆ เทียบกับโคนจริงตอนนี้ ให้เห็นผลต่างชัดๆ")]
     public bool showFullConeComparison = true;
     [Tooltip("Log ใน Console ทุกครั้งที่ผู้เล่นสลับย่อ/ลุก บอกตัวเลขก่อน-หลังของ Vision Cone")]
     public bool logCrouchDetectionChange = true;
+    [Tooltip("ความสูงของโคน Debug ที่วาด (ไม่กระทบ Logic การตรวจจับ)")]
+    public float debugConeHeight = 2f;
 
     private bool cachedCrouchState;
     private bool crouchStateInitialized;
 
+    // เก็บผลลัพธ์ Line of Sight ล่าสุดไว้วาด Debug Gizmo
+    private bool lastLOSChecked;
+    private bool lastLOSBlocked;
+    private Vector3 lastEyePosition;
+    private Vector3 lastTargetPosition;
+
+    private void Awake()
+    {
+        if (profile == null)
+        {
+            Debug.LogError($"[CreatureVision] {gameObject.name} ไม่ได้ผูก CreatureProfile ไว้! " +
+                            "ลาก Asset ใส่ช่อง Profile ก่อน ไม่งั้นตรวจจับผู้เล่นไม่ได้เลย");
+        }
+    }
+
     /// <summary>เช็คเฉพาะ Awareness Radius (รอบตัว ไม่ต้องเห็นด้วยตา) — ใช้ Trigger ทันทีไม่ต้องจับเวลา</summary>
     public bool IsPlayerInAwarenessRadius(Transform player)
     {
-        if (player == null) return false;
+        if (player == null || profile == null) return false;
         float distance = Vector3.Distance(transform.position, player.position);
-        return distance <= awarenessRadius;
+        return distance <= profile.awarenessRadius;
     }
 
-    /// <summary>เช็คเฉพาะ Vision Cone (ต้องอยู่ในระยะ, อยู่ในมุมมอง, และไม่มีอะไรบัง) — ใช้คู่กับตัวจับเวลาฝั่ง CreatureAI</summary>
+    /// <summary>เช็คเฉพาะ Vision Cone (ต้องอยู่ในระยะ, อยู่ในมุมมอง, และไม่มีอะไรบัง)</summary>
     public bool IsPlayerInVisionCone(Transform player)
     {
-        if (player == null) return false;
+        if (player == null || profile == null) return false;
 
         GetEffectiveVisionParams(out float effectiveViewRadius, out float effectiveViewAngle);
 
+        // เล็งไปที่ระดับอกผู้เล่น (Root + Offset) ไม่ใช่เท้าตรงๆ — กันเส้นเฉียงลงชนพื้นก่อนถึงตัวผู้เล่น
+        Vector3 targetPosition = player.position + Vector3.up * profile.playerHeightOffset;
+        Vector3 eyePosition = transform.position + Vector3.up * profile.eyeHeight;
+
         float distance = Vector3.Distance(transform.position, player.position);
-        if (distance > effectiveViewRadius) return false;
-
-        Vector3 directionToPlayer = (player.position - transform.position).normalized;
-        float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
-        if (angleToPlayer > effectiveViewAngle / 2f) return false;
-
-        Vector3 eyePosition = transform.position + Vector3.up * eyeHeight;
-        if (Physics.Linecast(eyePosition, player.position, obstacleLayer))
+        if (distance > effectiveViewRadius)
         {
-            return false; // โดนบัง มองไม่เห็น
+            lastLOSChecked = false;
+            return false;
         }
 
-        return true;
+        Vector3 directionToTarget = (targetPosition - eyePosition).normalized;
+        float angleToPlayer = Vector3.Angle(transform.forward, directionToTarget);
+        if (angleToPlayer > effectiveViewAngle / 2f)
+        {
+            lastLOSChecked = false;
+            return false;
+        }
+
+        bool blocked = Physics.Linecast(eyePosition, targetPosition, profile.obstacleLayer);
+
+        lastLOSChecked = true;
+        lastEyePosition = eyePosition;
+        lastTargetPosition = targetPosition;
+        lastLOSBlocked = blocked;
+
+        return !blocked;
     }
 
-    /// <summary>
-    /// คำนวณระยะ/มุมสายตาที่ใช้จริง ณ ตอนนี้ (ลดแล้วถ้าผู้เล่นย่ออยู่)
-    /// รวม Logic เช็คสถานะ Crouch ไว้จุดเดียว ทั้ง IsPlayerInVisionCone และ Gizmo Debug เรียกใช้ตัวเดียวกัน
-    /// </summary>
+    /// <summary>คำนวณระยะ/มุมสายตาที่ใช้จริง ณ ตอนนี้ (ลดแล้วถ้าผู้เล่นย่ออยู่)</summary>
     private void GetEffectiveVisionParams(out float effectiveViewRadius, out float effectiveViewAngle)
     {
         bool playerCrouching = IsPlayerCrouchingNow();
-        effectiveViewRadius = playerCrouching ? viewRadius * crouchRangeMultiplier : viewRadius;
-        effectiveViewAngle = playerCrouching ? viewAngle * crouchRangeMultiplier : viewAngle;
+        effectiveViewRadius = playerCrouching ? profile.viewRadius * profile.crouchRangeMultiplier : profile.viewRadius;
+        effectiveViewAngle = playerCrouching ? profile.viewAngle * profile.crouchRangeMultiplier : profile.viewAngle;
     }
 
     private bool IsPlayerCrouchingNow()
@@ -87,26 +100,25 @@ public class CreatureVision : MonoBehaviour
         bool crouching = StateManager.Instance != null &&
             StateManager.Instance.CurrentMovementState == StateManager.MovementState.Crouch;
 
-        // Log แค่ตอน "เปลี่ยนสถานะ" เท่านั้น ไม่ Log รัวทุกเฟรม
         if (logCrouchDetectionChange && (!crouchStateInitialized || crouching != cachedCrouchState))
         {
             crouchStateInitialized = true;
             cachedCrouchState = crouching;
 
-            float reducedRadius = viewRadius * crouchRangeMultiplier;
-            float reducedAngle = viewAngle * crouchRangeMultiplier;
+            float reducedRadius = profile.viewRadius * profile.crouchRangeMultiplier;
+            float reducedAngle = profile.viewAngle * profile.crouchRangeMultiplier;
 
             if (crouching)
             {
                 Debug.Log($"[CreatureVision] {gameObject.name}: ผู้เล่นย่อ -> " +
-                          $"View Radius {viewRadius:F1} -> {reducedRadius:F1} | " +
-                          $"View Angle {viewAngle:F1}° -> {reducedAngle:F1}°");
+                          $"View Radius {profile.viewRadius:F1} -> {reducedRadius:F1} | " +
+                          $"View Angle {profile.viewAngle:F1}° -> {reducedAngle:F1}°");
             }
             else
             {
                 Debug.Log($"[CreatureVision] {gameObject.name}: ผู้เล่นลุกยืน -> " +
-                          $"View Radius {reducedRadius:F1} -> {viewRadius:F1} | " +
-                          $"View Angle {reducedAngle:F1}° -> {viewAngle:F1}°");
+                          $"View Radius {reducedRadius:F1} -> {profile.viewRadius:F1} | " +
+                          $"View Angle {reducedAngle:F1}° -> {profile.viewAngle:F1}°");
             }
         }
 
@@ -116,41 +128,51 @@ public class CreatureVision : MonoBehaviour
     // ==================== Debug Gizmos ====================
     private void OnDrawGizmosSelected()
     {
+        if (profile == null) return;
+
         GetEffectiveVisionParams(out float effectiveViewRadius, out float effectiveViewAngle);
 
-        // โคนเต็ม (ไม่ลด) วาดเป็นเส้นจางๆ ไว้เทียบ — เห็นเฉพาะตอนผู้เล่นกำลังย่ออยู่เท่านั้น (ไม่งั้นจะซ้อนทับโคนจริงพอดี มองไม่เห็นความต่าง)
-        if (showFullConeComparison && !Mathf.Approximately(effectiveViewRadius, viewRadius))
+        if (showFullConeComparison && !Mathf.Approximately(effectiveViewRadius, profile.viewRadius))
         {
-            Gizmos.color = new Color(1f, 1f, 0f, 0.25f);
-            DrawVisionCone(viewAngle, viewRadius);
+            DrawSolidVisionCone(profile.viewAngle, profile.viewRadius, new Color(1f, 1f, 0f, 0.08f));
         }
 
-        // โคนจริงตอนนี้ (ลดแล้วถ้าผู้เล่นย่ออยู่) วาดเป็นเส้นสว่างชัดเจน
-        Gizmos.color = Color.yellow;
-        DrawVisionCone(effectiveViewAngle, effectiveViewRadius);
+        DrawSolidVisionCone(effectiveViewAngle, effectiveViewRadius, new Color(1f, 1f, 0f, 0.28f));
 
         Gizmos.color = new Color(1f, 0.3f, 0.3f);
-        DrawCircle(transform.position, awarenessRadius);
+        DrawCircle(transform.position, profile.awarenessRadius);
+
+        if (lastLOSChecked)
+        {
+            Gizmos.color = lastLOSBlocked ? Color.red : Color.green;
+            Gizmos.DrawLine(lastEyePosition, lastTargetPosition);
+            Gizmos.DrawWireSphere(lastTargetPosition, 0.15f);
+        }
     }
 
-    private void DrawVisionCone(float angle, float radius)
+    private void DrawSolidVisionCone(float angle, float radius, Color fillColor)
     {
-        Vector3 forward = transform.forward;
-        Vector3 leftDir = Quaternion.AngleAxis(-angle / 2f, Vector3.up) * forward;
-        Vector3 rightDir = Quaternion.AngleAxis(angle / 2f, Vector3.up) * forward;
+#if UNITY_EDITOR
+        Vector3 bottomCenter = transform.position;
+        Vector3 topCenter = transform.position + Vector3.up * debugConeHeight;
+        Vector3 startDir = Quaternion.AngleAxis(-angle / 2f, Vector3.up) * transform.forward;
 
-        Gizmos.DrawLine(transform.position, transform.position + leftDir * radius);
-        Gizmos.DrawLine(transform.position, transform.position + rightDir * radius);
+        Handles.color = fillColor;
+        Handles.DrawSolidArc(bottomCenter, Vector3.up, startDir, angle, radius);
+        Handles.DrawSolidArc(topCenter, Vector3.up, startDir, angle, radius);
 
-        int segments = 20;
-        Vector3 prevPoint = transform.position + leftDir * radius;
-        for (int i = 1; i <= segments; i++)
-        {
-            float currentAngle = -angle / 2f + (angle * i / segments);
-            Vector3 point = transform.position + (Quaternion.AngleAxis(currentAngle, Vector3.up) * forward) * radius;
-            Gizmos.DrawLine(prevPoint, point);
-            prevPoint = point;
-        }
+        Handles.color = new Color(fillColor.r, fillColor.g, fillColor.b, 1f);
+        Vector3 leftDir = Quaternion.AngleAxis(-angle / 2f, Vector3.up) * transform.forward;
+        Vector3 rightDir = Quaternion.AngleAxis(angle / 2f, Vector3.up) * transform.forward;
+        Vector3 midDir = transform.forward;
+
+        Handles.DrawLine(bottomCenter + leftDir * radius, topCenter + leftDir * radius);
+        Handles.DrawLine(bottomCenter + rightDir * radius, topCenter + rightDir * radius);
+        Handles.DrawLine(bottomCenter + midDir * radius, topCenter + midDir * radius);
+
+        Handles.DrawWireArc(bottomCenter, Vector3.up, startDir, angle, radius);
+        Handles.DrawWireArc(topCenter, Vector3.up, startDir, angle, radius);
+#endif
     }
 
     private void DrawCircle(Vector3 center, float radius)

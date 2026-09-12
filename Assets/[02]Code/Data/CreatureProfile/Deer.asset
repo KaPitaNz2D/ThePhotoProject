@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c2fe4745ff4fc54c95909550ccdcde4, type: 3}
+  m_Name: Deer
+  m_EditorClassIdentifier: Assembly-CSharp::CreatureProfile
+  creatureId: Deer_01
+  journalEntry: {fileID: 0}
+  viewAngle: 110
+  viewRadius: 15
+  awarenessRadius: 3
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  eyeHeight: 1
+  playerHeightOffset: 1.4
+  crouchRangeMultiplier: 0.6
+  wanderRadius: 10
+  idleMinDuration: 2
+  idleMaxDuration: 6
+  walkSpeed: 1.5
+  runSpeed: 6
+  fleeDistance: 10
+  safeDistance: 20
+  fleeRecalculateInterval: 1
+  visionDetectionTime: 1
+  crouchDetectionTimeMultiplier: 2

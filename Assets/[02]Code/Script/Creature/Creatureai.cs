@@ -3,49 +3,39 @@ using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
-/// State Machine หลักของ AI สัตว์ — เดินสุ่ม (Walking) / ยืนนิ่ง (Idle) / วิ่งหนีผู้เล่น (Run)
-/// ถาม CreatureVision ว่าเจอผู้เล่นไหม แล้วตัดสินใจเปลี่ยน State เอง
+/// สมองของ AI สัตว์ — เปลี่ยนจาก FSM ธรรมดามาเป็น Behavior Tree (BTSelector/BTSequence) ตามแผนผังที่ออกแบบไว้
 ///
-/// ยังไม่ทำ: สุ่มเกิด, ขอบเขตพื้นที่ (Area), การหายไปตอนวิ่งหนีไกลเกินระยะ — ตามที่ตกลงกันไว้ว่าเก็บไว้ทีหลัง
-/// ยังไม่ผูก Animator — แต่มี Event OnStateChanged เตรียมไว้ให้สคริปต์ Animator มา Subscribe ต่อได้เลย
+/// โครงสร้าง Tree:
+///   Root (Selector: ลองกิ่ง Engage ก่อน ถ้าไม่เข้าเงื่อนไขค่อยตกไป Normal)
+///   ├── Engage
+///   │    ├── Awareness Radius ตรงตัว -> Run ทันที (ไม่ผ่าน Alert)
+///   │    ├── กำลัง Run อยู่แล้ว -> ทำต่อจนกว่าจะปลอดภัย
+///   │    └── เห็นในโคนสายตา -> เข้า Alert สะสมเวลา ครบแล้วค่อย Run
+///   └── Normal
+///        ├── Idle -> Walking (ครบเวลา)
+///        ├── Walking -> Idle (ถึงจุดหมาย)
+///        └── (fallback) เริ่มต้นที่ Idle
+///
+/// ค่าปรับแต่งทั้งหมดดึงจาก CreatureProfile ไม่มี Field ของตัวเองอีกต่อไป
+/// Time Cycle (Normal/Engage แยกตามช่วงเวลา) ยังไม่ทำตามที่ตกลงกันไว้ — Root ยังไม่มี Gate นี้
 /// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(CreatureVision))]
 public class CreatureAI : MonoBehaviour
 {
-    public enum CreatureState { Idle, Walking, Run }
+    public enum CreatureState { Idle, Walking, Alert, Run }
+
+    [Header("Data")]
+    [Tooltip("Asset ที่กำหนดค่าปรับแต่งทั้งหมดของสายพันธุ์นี้ (ตัวเดียวกับที่ผูกไว้ใน CreatureVision)")]
+    public CreatureProfile profile;
 
     [Header("References")]
     [Tooltip("Transform ของผู้เล่น ถ้าไม่ใส่ไว้จะหาจาก GameObject ที่ติด Tag \"Player\" ให้เอง")]
     public Transform player;
 
-    [Header("Wander Settings (Idle <-> Walking)")]
-    [Tooltip("รัศมีที่สุ่มเดินได้ วัดจากจุดเกิดตอนเริ่มเกม")]
-    public float wanderRadius = 10f;
-    public float idleMinDuration = 2f;
-    public float idleMaxDuration = 6f;
-    public float walkSpeed = 1.5f;
-
-    [Header("Run Settings")]
-    public float runSpeed = 6f;
-    [Tooltip("ระยะที่วิ่งหนีออกไปทุกครั้งที่คำนวณจุดหนีใหม่")]
-    public float fleeDistance = 10f;
-    [Tooltip("ระยะห่างจากผู้เล่นที่ถือว่า \"ปลอดภัยแล้ว\" กลับไป Idle ได้ (ควรตั้งมากกว่า View Radius ใน CreatureVision)")]
-    public float safeDistance = 20f;
-    [Tooltip("ความถี่ในการคำนวณจุดวิ่งหนีใหม่ระหว่างที่ยังวิ่งอยู่ (วินาที)")]
-    public float fleeRecalculateInterval = 1f;
-
-    [Header("Detection Timing (Vision Cone เท่านั้น)")]
-    [Tooltip("ต้องเห็นผู้เล่นในโคนสายตาต่อเนื่องกี่วินาที ถึงจะเริ่มวิ่งหนี (แบบเกม REPO) " +
-             "ไม่มีผลกับ Awareness Radius ซึ่งยังคง Trigger ทันทีเหมือนเดิม")]
-    public float visionDetectionTime = 1f;
-
-    /// <summary>ความคืบหน้าการจับเวลาเห็นผู้เล่น (0-1) เอาไปทำ UI แถบจับเวลา/ไอคอนตกใจได้</summary>
-    public float DetectionProgress01 => visionDetectionTime > 0f ? Mathf.Clamp01(visionTimer / visionDetectionTime) : 0f;
-
     public CreatureState CurrentState { get; private set; } = CreatureState.Idle;
 
-    /// <summary>ยิงทุกครั้งที่ State เปลี่ยน (old, new) — สคริปต์ Animator ในอนาคตมา Subscribe ตรงนี้ได้เลย</summary>
+    /// <summary>ยิงทุกครั้งที่ State เปลี่ยน (old, new) — สคริปต์ Animator มา Subscribe ตรงนี้ได้เลย</summary>
     public event Action<CreatureState, CreatureState> OnStateChanged;
 
     private NavMeshAgent agent;
@@ -54,6 +44,7 @@ public class CreatureAI : MonoBehaviour
     private float stateTimer;
     private float fleeTimer;
     private float visionTimer;
+    private BTNode root;
 
     private void Awake()
     {
@@ -66,6 +57,14 @@ public class CreatureAI : MonoBehaviour
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
             if (playerObj != null) player = playerObj.transform;
         }
+
+        if (profile == null)
+        {
+            Debug.LogError($"[CreatureAI] {gameObject.name} ไม่ได้ผูก CreatureProfile ไว้! " +
+                            "ลาก Asset ใส่ช่อง Profile ก่อน ไม่งั้น AI จะไม่ขยับเลย");
+        }
+
+        root = BuildTree();
     }
 
     private void Start()
@@ -75,44 +74,61 @@ public class CreatureAI : MonoBehaviour
 
     private void Update()
     {
-        if (player == null) return;
+        if (player == null || profile == null) return;
+        root.Tick();
+    }
 
-        // เช็คการตรวจจับ (ยกเว้นตอนวิ่งหนีอยู่แล้ว ไม่ต้องเช็คซ้ำ)
-        if (CurrentState != CreatureState.Run)
-        {
-            if (vision.IsPlayerInAwarenessRadius(player))
-            {
-                // ผู้เล่นย่องมาใกล้เกินไป -> ตกใจ Trigger ทันที ไม่ต้องจับเวลา
-                EnterRun();
-            }
-            else if (vision.IsPlayerInVisionCone(player))
-            {
-                // เห็นในโคนสายตา -> เริ่ม/สะสมจับเวลา ถ้ายังเห็นต่อเนื่องครบ visionDetectionTime ค่อยวิ่งหนี
-                visionTimer += Time.deltaTime;
-                if (visionTimer >= visionDetectionTime)
+    // ==================== สร้างโครงสร้าง Behavior Tree ====================
+    private BTNode BuildTree()
+    {
+        BTNode engageBranch = new BTSelector(
+            // 1) ผู้เล่นย่องมาใกล้เกินไป -> ตกใจ Trigger ทันที ข้าม Alert ไปเลย
+            new BTSequence(
+                new BTCondition(() => vision.IsPlayerInAwarenessRadius(player)),
+                new BTAction(() => { EnterRun(); return BTStatus.Success; })
+            ),
+            // 2) กำลังวิ่งหนีอยู่แล้ว -> ทำต่อเนื่องจนกว่าจะปลอดภัย ไม่ให้สลับกลับ Normal ระหว่างวิ่ง
+            new BTSequence(
+                new BTCondition(() => CurrentState == CreatureState.Run),
+                new BTAction(() => { UpdateRun(); return BTStatus.Success; })
+            ),
+            // 3) เห็นในโคนสายตา -> เข้า/สะสมเวลาใน Alert ครบกำหนดค่อย Run
+            new BTSequence(
+                new BTCondition(() => vision.IsPlayerInVisionCone(player)),
+                new BTAction(() =>
                 {
-                    EnterRun();
-                }
-            }
-            else
-            {
-                // หลุดจากโคนสายตาไปแล้ว รีเซ็ตตัวจับเวลา (ต้องเริ่มนับใหม่ตั้งแต่ 0 ถ้าเจอใหม่)
-                visionTimer = 0f;
-            }
-        }
+                    if (CurrentState != CreatureState.Alert) EnterAlert();
 
-        switch (CurrentState)
-        {
-            case CreatureState.Idle:
-                UpdateIdle();
-                break;
-            case CreatureState.Walking:
-                UpdateWalking();
-                break;
-            case CreatureState.Run:
-                UpdateRun();
-                break;
-        }
+                    visionTimer += Time.deltaTime;
+                    bool playerCrouching = StateManager.Instance != null &&
+                        StateManager.Instance.CurrentMovementState == StateManager.MovementState.Crouch;
+                    float requiredTime = playerCrouching
+                        ? profile.visionDetectionTime * profile.crouchDetectionTimeMultiplier
+                        : profile.visionDetectionTime;
+
+                    if (visionTimer >= requiredTime)
+                    {
+                        EnterRun();
+                    }
+                    return BTStatus.Success;
+                })
+            )
+        );
+
+        BTNode normalBranch = new BTSelector(
+            new BTSequence(
+                new BTCondition(() => CurrentState == CreatureState.Idle),
+                new BTAction(() => { UpdateIdle(); return BTStatus.Success; })
+            ),
+            new BTSequence(
+                new BTCondition(() => CurrentState == CreatureState.Walking),
+                new BTAction(() => { UpdateWalking(); return BTStatus.Success; })
+            ),
+            // Fallback: หลุดจาก Alert มาโดยไม่ทันเข้า Run (ผู้เล่นหลบออกจากสายตาทัน) -> กลับ Idle
+            new BTAction(() => { EnterIdle(); return BTStatus.Success; })
+        );
+
+        return new BTSelector(engageBranch, normalBranch);
     }
 
     // ==================== Idle ====================
@@ -120,7 +136,8 @@ public class CreatureAI : MonoBehaviour
     {
         ChangeState(CreatureState.Idle);
         agent.isStopped = true;
-        stateTimer = UnityEngine.Random.Range(idleMinDuration, idleMaxDuration);
+        visionTimer = 0f; // เผื่อเพิ่งหลุดจาก Alert มา ต้องรีเซ็ตตัวจับเวลาด้วย
+        stateTimer = UnityEngine.Random.Range(profile.idleMinDuration, profile.idleMaxDuration);
     }
 
     private void UpdateIdle()
@@ -137,8 +154,8 @@ public class CreatureAI : MonoBehaviour
     {
         ChangeState(CreatureState.Walking);
         agent.isStopped = false;
-        agent.speed = walkSpeed;
-        agent.SetDestination(GetRandomPointInRadius(spawnOrigin, wanderRadius));
+        agent.speed = profile.walkSpeed;
+        agent.SetDestination(GetRandomPointInRadius(spawnOrigin, profile.wanderRadius));
     }
 
     private void UpdateWalking()
@@ -149,12 +166,19 @@ public class CreatureAI : MonoBehaviour
         }
     }
 
+    // ==================== Alert (ระแวง — หยุดนิ่งมองก่อนตัดสินใจวิ่ง) ====================
+    private void EnterAlert()
+    {
+        ChangeState(CreatureState.Alert);
+        agent.isStopped = true; // หยุดเดิน/หยุดกิน หันมามองทาง (ท่าทางจริงให้ Animator จัดการต่อผ่าน OnStateChanged)
+    }
+
     // ==================== Run (วิ่งหนีผู้เล่น) ====================
     private void EnterRun()
     {
         ChangeState(CreatureState.Run);
         agent.isStopped = false;
-        agent.speed = runSpeed;
+        agent.speed = profile.runSpeed;
         fleeTimer = 0f;
         visionTimer = 0f;
         UpdateFleeDestination();
@@ -166,12 +190,11 @@ public class CreatureAI : MonoBehaviour
         if (fleeTimer <= 0f)
         {
             UpdateFleeDestination();
-            fleeTimer = fleeRecalculateInterval;
+            fleeTimer = profile.fleeRecalculateInterval;
         }
 
-        // ห่างจากผู้เล่นพอแล้ว -> เลิกวิ่ง กลับไปยืนพัก
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        if (distanceToPlayer >= safeDistance)
+        if (distanceToPlayer >= profile.safeDistance)
         {
             EnterIdle();
         }
@@ -180,9 +203,9 @@ public class CreatureAI : MonoBehaviour
     private void UpdateFleeDestination()
     {
         Vector3 directionAway = (transform.position - player.position).normalized;
-        Vector3 fleeTarget = transform.position + directionAway * fleeDistance;
+        Vector3 fleeTarget = transform.position + directionAway * profile.fleeDistance;
 
-        if (NavMesh.SamplePosition(fleeTarget, out NavMeshHit hit, fleeDistance, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(fleeTarget, out NavMeshHit hit, profile.fleeDistance, NavMesh.AllAreas))
         {
             agent.SetDestination(hit.position);
         }
@@ -197,7 +220,7 @@ public class CreatureAI : MonoBehaviour
         {
             return hit.position;
         }
-        return center; // หาจุดบน NavMesh ไม่เจอ -> อยู่ที่จุดเกิดไปก่อน
+        return center;
     }
 
     private void ChangeState(CreatureState newState)
