@@ -1,0 +1,23 @@
+{
+    "name": "YarnSpinner.Addons.TextAnimatorIntegration.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:1e113d3b5d77bc04eab508251483e8ff",
+        "GUID:e539678cf69674b418d82e89c16a9753",
+        "GUID:34aa492b82754644eac2f903cd496268",
+        "GUID:44199294ed9884553846d30d420ad69a",
+        "GUID:3a299c53e4c683b4eb4a04c9ad9e648f",
+        "UniTask"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

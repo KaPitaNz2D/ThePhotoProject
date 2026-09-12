@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c2fe4745ff4fc54c95909550ccdcde4, type: 3}
   m_Name: Deer
   m_EditorClassIdentifier: Assembly-CSharp::CreatureProfile
-  creatureId: Deer_01
-  journalEntry: {fileID: 0}
+  creatureId: deer_01
+  journalEntry: {fileID: 11400000, guid: 6f10f5fdfa7a84f4c8c9bf8a31befa0d, type: 2}
   viewAngle: 110
   viewRadius: 15
   awarenessRadius: 3
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   eyeHeight: 1
   playerHeightOffset: 1.4
   crouchRangeMultiplier: 0.6

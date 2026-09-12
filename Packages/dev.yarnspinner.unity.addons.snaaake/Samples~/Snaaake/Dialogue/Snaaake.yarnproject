@@ -1,0 +1,16 @@
+{
+  "projectFileVersion": 4,
+  "sourceFiles": [
+    "**/*.yarn"
+  ],
+  "excludeFiles": [],
+  "localisation": {
+    "en": {
+      "assets": "Audio"
+    }
+  },
+  "baseLanguage": "en",
+  "compilerOptions": {
+    "diagnosticsSeverity": {}
+  }
+}

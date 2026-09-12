@@ -411,6 +411,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "NPC Interection",
+            "id": "097b0549-d282-4575-abce-b5be0c4ce2df",
+            "actions": [
+                {
+                    "name": "Interect",
+                    "type": "Button",
+                    "id": "f0158060-3bfa-4897-a38e-010c684e0678",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f514b339-ab8a-49f1-a65a-6663a01a0799",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

@@ -13,14 +13,20 @@ public class JournalGridSlotUI : MonoBehaviour, IPointerClickHandler, ISelectHan
     public Image silhouetteImage;
     [Tooltip("กรอบไฮไลท์ตอนถูกเลือก (เมาส์/จอย) — Optional")]
     public GameObject highlightFrame;
+    [Tooltip("จุดแดงบอกว่า Entry นี้มี Quest ที่ยังไม่ Complete อยู่")]
+    public GameObject questIndicator;
 
     // Index ในลิสต์ที่กรองตามหมวดหมู่แล้ว (ไม่ใช่ index ของ allEntries ทั้งหมด) — JournalUI เป็นคนตั้งค่าให้
     private int entryIndex;
     private JournalUI owner;
 
-    private void Start()
+    private void Awake()
     {
+        // ใช้ Awake() แทน Start() เพราะ Awake() ทำงานทันทีตอน Instantiate()
+        // (ก่อนที่ JournalUI จะเรียก Setup()/SetQuestActive()) ต่างจาก Start() ที่หน่วงไปทำงานทีหลัง
+        // ถ้า Reset ค่าใน Start() จะไปเขียนทับค่าที่ JournalUI เพิ่งตั้งไว้ทันทีหลัง Instantiate
         if (highlightFrame != null) highlightFrame.SetActive(false);
+        if (questIndicator != null) questIndicator.SetActive(false);
     }
 
     public void Setup(int index, Sprite silhouette, JournalUI ui)
@@ -31,6 +37,12 @@ public class JournalGridSlotUI : MonoBehaviour, IPointerClickHandler, ISelectHan
         {
             silhouetteImage.sprite = silhouette;
         }
+    }
+
+    /// <summary>เปิด/ปิดจุดแดง — JournalUI เรียกหลัง Setup() ทุกครั้งที่สร้าง/รีเฟรชกริด</summary>
+    public void SetQuestActive(bool active)
+    {
+        if (questIndicator != null) questIndicator.SetActive(active);
     }
 
     public void OnPointerClick(PointerEventData eventData)

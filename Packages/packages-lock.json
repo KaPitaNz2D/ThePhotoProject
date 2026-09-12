@@ -262,6 +262,37 @@
       },
       "url": "https://packages.unity.com"
     },
+    "dev.yarnspinner.unity": {
+      "version": "file:dev.yarnspinner.unity",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "dev.yarnspinner.unity.addons.classicrpg": {
+      "version": "file:dev.yarnspinner.unity.addons.classicrpg",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "dev.yarnspinner.unity": "3.2.0",
+        "com.unity.cinemachine": "3.1.0"
+      }
+    },
+    "dev.yarnspinner.unity.addons.snaaake": {
+      "version": "file:dev.yarnspinner.unity.addons.snaaake",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "dev.yarnspinner.unity": "3.2.1"
+      }
+    },
+    "dev.yarnspinner.unity.addons.textanimator": {
+      "version": "file:dev.yarnspinner.unity.addons.textanimator",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "dev.yarnspinner.unity": "3.1.0"
+      }
+    },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
       "depth": 0,

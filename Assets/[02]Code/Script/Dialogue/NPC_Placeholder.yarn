@@ -1,0 +1,20 @@
+title: NPC_Start
+---
+<<if quest_status("deer_01") == "NotStarted">>
+    NPC: Hello newbie.
+    NPC: Can you go take a picture of deer for me?
+    -> Yeah.
+        <<start_quest "deer_01">>
+        NPC: Thank you.
+    -> Maybe next time.
+        NPC: Okay i'll wait.
+<<elseif quest_status("deer_01") == "Active" && has_photo("deer_01")>>
+    NPC: Meet the deer tell me about it
+    <<complete_quest "deer_01">>
+    NPC: Thank you very much this will help our research alot.
+<<elseif quest_status("deer_01") == "Active">>
+    NPC: Not found yet? maybe check around the lake.
+<<elseif quest_status("deer_01") == "Completed">>
+    NPC: Oh i see you get the deer. Thank for your service.
+<<endif>>
+===

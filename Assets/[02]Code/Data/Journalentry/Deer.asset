@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f386bcd54ee194b96608af997094bc, type: 3}
   m_Name: Deer
   m_EditorClassIdentifier: Assembly-CSharp::JournalEntry
-  creatureId: Deer_01
+  creatureId: deer_01
   category: 1
   displayName: Deer
   description: Very Big Ear grass and run when see you
+  questRewardDetails: 
   silhouette: {fileID: 0}

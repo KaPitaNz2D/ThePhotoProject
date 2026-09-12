@@ -76,13 +76,28 @@ public class JournalUI : MonoBehaviour
         if (nextPageButton != null) nextPageButton.onClick.AddListener(NextPage);
         if (prevPageButton != null) prevPageButton.onClick.AddListener(PrevPage);
 
+        if (QuestManager.Instance != null)
+        {
+            QuestManager.Instance.OnQuestStatusChanged += HandleQuestStatusChanged;
+        }
+
         if (journalRootPanel != null) journalRootPanel.SetActive(false);
+    }
+
+    private void HandleQuestStatusChanged(string creatureId, QuestManager.QuestStatus status)
+    {
+        // รีเฟรชหน้ากริดที่เปิดค้างอยู่ทันที เผื่อ Complete Quest ระหว่างเปิด Journal ค้างไว้พอดี
+        if (currentView == JournalView.Grid)
+        {
+            PopulateGridPage();
+        }
     }
 
     private void OnDestroy()
     {
         if (toggleJournalInput != null) toggleJournalInput.action.performed -= OnToggleJournal;
         if (cancelInput != null) cancelInput.action.performed -= OnCancelPressed;
+        if (QuestManager.Instance != null) QuestManager.Instance.OnQuestStatusChanged -= HandleQuestStatusChanged;
     }
 
     // ==================== เปิด/ปิด ====================
@@ -191,11 +206,15 @@ public class JournalUI : MonoBehaviour
         for (int i = startIndex; i < endIndex; i++)
         {
             JournalEntry entry = currentCategoryEntries[i];
-            GameObject slotObj = Instantiate(gridSlotPrefab, gridContent, false);
+            GameObject slotObj = Instantiate(gridSlotPrefab, gridContent);
             JournalGridSlotUI slot = slotObj.GetComponent<JournalGridSlotUI>();
             if (slot != null)
             {
                 slot.Setup(i, entry.silhouette, this);
+
+                bool questActive = QuestManager.Instance != null &&
+                    QuestManager.Instance.GetStatus(entry.creatureId) == QuestManager.QuestStatus.Active;
+                slot.SetQuestActive(questActive);
             }
         }
 
@@ -260,7 +279,19 @@ public class JournalUI : MonoBehaviour
             loadedDetailTexture = journalManager.LoadPhotoForEntry(entry);
 
             if (detailNameText != null) detailNameText.text = entry.displayName;
-            if (detailDescriptionText != null) detailDescriptionText.text = entry.description;
+
+            // ต่อท้ายข้อความเฉพาะตอน Quest Complete แล้วเท่านั้น (ตัด Hint ตอนยัง Active ออก)
+            string extraText = "";
+            if (QuestManager.Instance != null)
+            {
+                QuestManager.QuestStatus status = QuestManager.Instance.GetStatus(entry.creatureId);
+                if (status == QuestManager.QuestStatus.Completed && !string.IsNullOrEmpty(entry.questRewardDetails))
+                {
+                    extraText = "\n\n" + entry.questRewardDetails;
+                }
+            }
+            if (detailDescriptionText != null) detailDescriptionText.text = entry.description + extraText;
+
             if (detailSilhouetteImage != null) detailSilhouetteImage.gameObject.SetActive(false);
 
             if (detailPhotoImage != null)
