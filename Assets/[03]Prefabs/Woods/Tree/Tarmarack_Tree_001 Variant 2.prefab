@@ -14,19 +14,19 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 3ad196446e58210e3a9532a914c78535, type: 2}
     - target: {fileID: 2116547703998838115, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
       propertyPath: m_Name
-      value: Tarmarack_Tree_001 (2) Variant
+      value: Tarmarack_Tree_001 Variant 2
       objectReference: {fileID: 0}
     - target: {fileID: 3641252400980561334, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 24.852299
+      value: -5.8977013
       objectReference: {fileID: 0}
     - target: {fileID: 3641252400980561334, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.000000027567921
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3641252400980561334, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -125.9727
+      value: 6.0772552
       objectReference: {fileID: 0}
     - target: {fileID: 3641252400980561334, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
       propertyPath: m_LocalRotation.w
@@ -34,15 +34,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3641252400980561334, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3641252400980561334, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3641252400980561334, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3641252400980561334, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -56,12 +56,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5273005798776484969, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: bf7ff049e3736174d93ca4b739c0226b, type: 2}
+    - target: {fileID: 6855233418726598419, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
+      propertyPath: m_LODs.Array.data[2].screenRelativeHeight
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 7994030560701832516, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 3ad196446e58210e3a9532a914c78535, type: 2}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2654472610434266862, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
