@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8985636684062506568}
   - component: {fileID: 577246864024053338}
   - component: {fileID: 193631495956047154}
+  - component: {fileID: -9155943270791245129}
   m_Layer: 0
   m_Name: Tarmarack_Tree_001_Impostor_20260913_230836_745
   m_TagString: Untagged
@@ -90,3 +91,17 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-9155943270791245129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6625690160816508658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10a07e62cb9a6f742afcf5b3e747a4cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Roundy.Vegetation.BillboardEffect
+  mode: 0
+  targetCamera: {fileID: 0}
