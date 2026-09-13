@@ -45,6 +45,9 @@ public class JournalUI : MonoBehaviour
     public Image detailPhotoImage;
     public Image detailSilhouetteImage;
     public TMP_Text detailNameText;
+    [Tooltip("ช่องสถานที่ — โชว์ตลอดตั้งแต่ยังไม่ปลดล็อกจนถึงหลังปลดล็อก ไม่มีอะไรมาทับ แยกจาก Description")]
+    public TMP_Text detailHabitatText;
+    [Tooltip("ช่องคำอธิบาย + Quest Reward — โชว์เฉพาะตอนปลดล็อกแล้วเท่านั้น")]
     public TMP_Text detailDescriptionText;
 
     private enum JournalView { Category, Grid, Detail }
@@ -53,8 +56,6 @@ public class JournalUI : MonoBehaviour
     private JournalEntry.JournalCategory currentCategory;
     private List<JournalEntry> currentCategoryEntries = new List<JournalEntry>();
     private int currentPage;
-
-    private Texture2D loadedDetailTexture;
 
     private void Start()
     {
@@ -129,7 +130,6 @@ public class JournalUI : MonoBehaviour
 
     private void CloseJournal()
     {
-        ClearDetailTexture();
         ClearGrid();
 
         if (journalRootPanel != null) journalRootPanel.SetActive(false);
@@ -162,7 +162,6 @@ public class JournalUI : MonoBehaviour
     private void ShowCategoryView()
     {
         currentView = JournalView.Category;
-        ClearDetailTexture();
         ClearGrid();
 
         if (categoryPanel != null) categoryPanel.SetActive(true);
@@ -181,7 +180,6 @@ public class JournalUI : MonoBehaviour
     private void ShowGridView()
     {
         currentView = JournalView.Grid;
-        ClearDetailTexture();
 
         if (categoryPanel != null) categoryPanel.SetActive(false);
         if (gridPanel != null) gridPanel.SetActive(true);
@@ -270,15 +268,23 @@ public class JournalUI : MonoBehaviour
         if (gridPanel != null) gridPanel.SetActive(false);
         if (detailPanel != null) detailPanel.SetActive(true);
 
-        ClearDetailTexture();
-
         bool unlocked = journalManager != null && journalManager.IsUnlocked(entry);
+
+        // สถานที่ — โชว์ตลอด ไม่ว่าจะปลดล็อกหรือยัง เพราะผู้เล่นต้องรู้ก่อนถึงจะไปถ่ายได้ ไม่มีอะไรมาทับช่องนี้
+        if (detailHabitatText != null)
+        {
+            detailHabitatText.text = !string.IsNullOrEmpty(entry.habitatInfo)
+                ? entry.habitatInfo
+                : "No location data yet";
+        }
+
+        if (detailNameText != null) detailNameText.text = entry.displayName;
 
         if (unlocked)
         {
-            loadedDetailTexture = journalManager.LoadPhotoForEntry(entry);
-
-            if (detailNameText != null) detailNameText.text = entry.displayName;
+            // ยืม Texture2D มาจาก JournalManager (สำเนาถาวรของมันเอง) — ห้าม Destroy() ตัวนี้เด็ดขาด
+            // เพราะเป็น Object เดียวกับที่ JournalManager ถืออยู่ตลอด Session ไม่ใช่ของชั่วคราวที่นี่แล้ว
+            Texture2D photoTexture = journalManager.LoadPhotoForEntry(entry);
 
             // ต่อท้ายข้อความเฉพาะตอน Quest Complete แล้วเท่านั้น (ตัด Hint ตอนยัง Active ออก)
             string extraText = "";
@@ -297,11 +303,11 @@ public class JournalUI : MonoBehaviour
             if (detailPhotoImage != null)
             {
                 detailPhotoImage.gameObject.SetActive(true);
-                if (loadedDetailTexture != null)
+                if (photoTexture != null)
                 {
                     Sprite sprite = Sprite.Create(
-                        loadedDetailTexture,
-                        new Rect(0, 0, loadedDetailTexture.width, loadedDetailTexture.height),
+                        photoTexture,
+                        new Rect(0, 0, photoTexture.width, photoTexture.height),
                         new Vector2(0.5f, 0.5f)
                     );
                     detailPhotoImage.sprite = sprite;
@@ -310,9 +316,10 @@ public class JournalUI : MonoBehaviour
         }
         else
         {
-            // ยังไม่เคยถ่ายติด -> โชว์ "???" กับเงาดำแทน
-            if (detailNameText != null) detailNameText.text = "???";
-            if (detailDescriptionText != null) detailDescriptionText.text = "ยังไม่เคยถ่ายรูปสิ่งมีชีวิตนี้";
+            // ยังไม่เคยถ่ายติด -> ชื่อกับสถานที่เผยไว้ก่อนแล้วด้านบน (นอกเงื่อนไขนี้)
+            // ส่วนคำอธิบายยังไม่เผย เพราะเป็นข้อมูลที่ควรได้จากการถ่ายรูปจริง
+            if (detailDescriptionText != null) detailDescriptionText.text = "";
+
             if (detailPhotoImage != null) detailPhotoImage.gameObject.SetActive(false);
 
             if (detailSilhouetteImage != null)
@@ -320,15 +327,6 @@ public class JournalUI : MonoBehaviour
                 detailSilhouetteImage.gameObject.SetActive(true);
                 detailSilhouetteImage.sprite = entry.silhouette;
             }
-        }
-    }
-
-    private void ClearDetailTexture()
-    {
-        if (loadedDetailTexture != null)
-        {
-            Destroy(loadedDetailTexture);
-            loadedDetailTexture = null;
         }
     }
 }

@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI; // เพิ่มใช้งาน UI
+using UnityEngine.UI;
 
 /// <summary>
-/// จัดการ 3 หน้าที่หลักของระบบถ่ายรูป:
+/// จัดการหน้าที่หลักของระบบถ่ายรูป:
 ///   1) รับปุ่มเข้า/ออกโหมดถ่ายรูป -> สั่งเปลี่ยน StateManager.SystemState
 ///   2) รับปุ่มชัตเตอร์ -> ยิง SphereCast เช็คว่าถ่ายติดวัตถุที่มี Tag "Photographable"
 ///   3) Capture ภาพผ่าน RenderTexture แล้วส่งต่อผ่าน Event
 ///   4) อัปเดตสีจุดเล็งเป้าหมาย (Crosshair) กลางจอแบบ Real-time
+///   5) ยืดระยะ SphereCast อัตโนมัติตามระดับซูม (ผูกกับ PhotoZoom)
 /// </summary>
 public class PhotoShooter : MonoBehaviour
 {
@@ -20,18 +21,26 @@ public class PhotoShooter : MonoBehaviour
     [Header("UI Crosshair")]
     [Tooltip("UI Image จุดเล็งกลางจอ")]
     public Image centerDotImage;
-    public Color normalColor = new Color(1f, 1f, 1f, 0.3f); // สีขาวโปร่งใส
-    public Color detectedColor = new Color(0.6f, 1f, 0.6f, 0.8f); // สีเขียวสว่างเมื่อเจอเป้าหมาย
+    public Color normalColor = new Color(1f, 1f, 1f, 0.3f);
+    public Color detectedColor = new Color(0.6f, 1f, 0.6f, 0.8f);
 
     [Header("Input")]
     public InputActionReference enterPhotoModeInput;
     public InputActionReference shutterInput;
 
     [Header("Detection Settings")]
+    [Tooltip("ระยะยิง SphereCast พื้นฐาน (ตอนไม่ได้ซูมเลย)")]
     public float castDistance = 20f;
     public float castRadius = 0.5f;
+    [Tooltip("Layer ที่ SphereCast จะชนด้วย — ห้ามปล่อยเป็น \"Nothing\" ไม่งั้นตรวจจับอะไรไม่ได้เลยสักชิ้น")]
     public LayerMask detectableLayer;
     public string photographableTag = "Photographable";
+
+    [Header("Zoom Integration")]
+    [Tooltip("ถ้าใส่ไว้ ระยะ SphereCast (ทั้ง Crosshair และตอนกดชัตเตอร์) จะยืดออกอัตโนมัติตามระดับซูม")]
+    public PhotoZoom photoZoom;
+    [Tooltip("เพดานตัวคูณระยะสูงสุด กันค่าพุ่งเกินจริงตอนซูมสุดขีด")]
+    public float maxZoomCastDistanceMultiplier = 5f;
 
     [Header("Render Texture")]
     public RenderTexture photoRenderTexture;
@@ -47,9 +56,31 @@ public class PhotoShooter : MonoBehaviour
     public AudioClip enterPhotoModeSound;
     public AudioClip exitPhotoModeSound;
 
+    [Header("Debug")]
+    public bool showDebugGizmo = true;
+
     private float lastShotTime = -999f;
-    public event Action<Texture2D, List<GameObject>> OnPhotoCaptured;
     private int lastDetectedCount = -1;
+
+    public event Action<Texture2D, List<GameObject>> OnPhotoCaptured;
+
+    /// <summary>
+    /// ระยะยิง SphereCast จริง ณ ตอนนี้ — คำนวณจากอัตราส่วน FOV ปัจจุบันเทียบกับ FOV ตอนไม่ซูม
+    /// ใช้ร่วมกันทั้ง Crosshair (Update ทุกเฟรม) และตอนกดชัตเตอร์จริง ให้ตรงกันเป๊ะเสมอ
+    /// </summary>
+    private float EffectiveCastDistance
+    {
+        get
+        {
+            if (photoZoom == null) return castDistance;
+
+            float currentFOV = Mathf.Lerp(photoZoom.MaxFOV, photoZoom.MinFOV, photoZoom.CurrentZoomNormalized);
+            float magnification = photoZoom.MaxFOV / currentFOV;
+            magnification = Mathf.Clamp(magnification, 1f, maxZoomCastDistanceMultiplier);
+
+            return castDistance * magnification;
+        }
+    }
 
     private void Awake()
     {
@@ -57,6 +88,22 @@ public class PhotoShooter : MonoBehaviour
         {
             castOrigin = photoCamera.transform;
         }
+
+        // เตือนไว้ก่อนตั้งแต่ Awake ถ้าลืมตั้ง Detectable Layer จะได้เห็น Warning ทันทีตั้งแต่เปิดเกม
+        // ไม่ต้องรอไปเจอปัญหา "ถ่ายไม่ติดอะไรเลย" ตอนเล่นจริงแล้วงงว่าทำไม
+        if (detectableLayer.value == 0)
+        {
+            Debug.LogWarning("[PhotoShooter] Detectable Layer ถูกตั้งเป็น \"Nothing\" อยู่! " +
+                              "SphereCast จะตรวจจับอะไรไม่ได้เลยสักชิ้น ต้องเลือก Layer ของสิ่งที่ถ่ายได้ใน Inspector ก่อน");
+        }
+    }
+
+    private void Start()
+    {
+        // บังคับปิดจุดเล็งไว้ก่อนตั้งแต่ตอนเริ่มเกม ไม่รอให้ Update() เป็นคนสั่งซ่อนทีหลัง
+        // (กันเคส StateManager.Instance ยังไม่พร้อมในเฟรมแรกๆ ทำให้ Update() ข้ามไปเงียบๆ
+        // แล้วจุดเล็งค้างโชว์ตามค่า Enabled เดิมที่ตั้งไว้ใน Editor)
+        if (centerDotImage != null) centerDotImage.enabled = false;
     }
 
     private void OnEnable()
@@ -79,19 +126,17 @@ public class PhotoShooter : MonoBehaviour
         if (shutterInput != null) shutterInput.action.performed -= OnShutterPressed;
     }
 
-    // ==================== เช็คเป้าหมายอัปเดต UI (เพิ่มใหม่) ====================
+    // ==================== เช็คเป้าหมายอัปเดต UI ====================
     private void Update()
     {
         if (StateManager.Instance == null) return;
 
-        // ถ้าไม่ได้เปิดกล้องอยู่ ให้ซ่อนเป้าเล็ง
         if (StateManager.Instance.CurrentSystemState != StateManager.SystemState.Photograph)
         {
             if (centerDotImage != null) centerDotImage.enabled = false;
             return;
         }
 
-        // เปิดกล้องอยู่ ให้โชว์เป้าเล็งและยิง SphereCast เช็คสี
         if (centerDotImage != null)
         {
             centerDotImage.enabled = true;
@@ -103,33 +148,30 @@ public class PhotoShooter : MonoBehaviour
     {
         if (castOrigin == null) return;
 
-        // เปลี่ยนมาใช้ SphereCastAll แบบเดียวกับตอนถ่ายรูป เพื่อกวาดวัตถุทุกชิ้นในรัศมี
         RaycastHit[] hits = Physics.SphereCastAll(
             castOrigin.position,
             castRadius,
             castOrigin.forward,
-            castDistance,
+            EffectiveCastDistance,
             detectableLayer
         );
 
         foreach (RaycastHit hit in hits)
         {
-            // เช็คว่ามีชิ้นไหนในกลุ่มที่โดนชน มี Tag ที่ถูกต้องหรือไม่
             if (hit.collider.CompareTag(photographableTag))
             {
                 PhotoSubject subject = hit.collider.GetComponentInParent<PhotoSubject>();
                 if (subject != null)
                 {
-                    // เจอเป้าหมายปุ๊บ เปลี่ยนจุดเป็นสีเขียว แล้วจบการทำงานทันที
                     centerDotImage.color = detectedColor;
                     return;
                 }
             }
         }
 
-        // ถ้าวนลูปจนจบแล้วยังไม่เจอเป้าหมายที่ตรงเงื่อนไขเลย ให้กลับเป็นสีปกติ
         centerDotImage.color = normalColor;
     }
+
     // ==================== เข้า/ออกโหมดถ่ายรูป ====================
     private void OnToggleEnterPhotoMode(InputAction.CallbackContext ctx)
     {
@@ -157,7 +199,7 @@ public class PhotoShooter : MonoBehaviour
 
         if (PhotoStorage.Instance != null && PhotoStorage.Instance.IsFull)
         {
-            Debug.LogWarning($"[PhotoShooter] Storage เต็มแล้ว ถ่ายเพิ่มไม่ได้");
+            Debug.LogWarning("[PhotoShooter] Storage เต็มแล้ว ถ่ายเพิ่มไม่ได้");
             return;
         }
 
@@ -189,7 +231,7 @@ public class PhotoShooter : MonoBehaviour
             castOrigin.position,
             castRadius,
             castOrigin.forward,
-            castDistance,
+            EffectiveCastDistance,
             detectableLayer
         );
 
@@ -236,9 +278,6 @@ public class PhotoShooter : MonoBehaviour
     }
 
     // ==================== Debug Gizmos ====================
-    [Header("Debug")]
-    public bool showDebugGizmo = true;
-
     private void OnDrawGizmosSelected()
     {
         if (!showDebugGizmo) return;
@@ -249,7 +288,7 @@ public class PhotoShooter : MonoBehaviour
         Gizmos.color = lastDetectedCount > 0 ? Color.green : (lastDetectedCount == 0 ? Color.red : Color.yellow);
 
         Vector3 startPos = origin.position;
-        Vector3 endPos = startPos + origin.forward * castDistance;
+        Vector3 endPos = startPos + origin.forward * EffectiveCastDistance;
 
         Gizmos.DrawWireSphere(startPos, castRadius);
         Gizmos.DrawWireSphere(endPos, castRadius);

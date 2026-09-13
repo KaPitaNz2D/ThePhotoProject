@@ -27,6 +27,13 @@ public class JournalEntry : ScriptableObject
     [TextArea(3, 6)]
     public string questRewardDetails;
 
+    [Header("ข้อมูลสถานที่ — โชว์ทันทีแม้ยังไม่ได้ถ่ายรูป ช่วยผู้เล่นหาตัวเจอ")]
+    [Tooltip("รูปสิ่งมีชีวิตแบบชัดเจน (ภาพอ้างอิง ไม่ใช่รูปที่ผู้เล่นถ่ายเอง)")]
+    public Sprite referenceImage;
+    [Tooltip("รายละเอียดสถานที่ที่คาดว่าจะพบได้ — เขียนในมุม \"บ้าน\" ของมันได้ ผูก Theme ไปในตัว")]
+    [TextArea(2, 4)]
+    public string habitatInfo;
+
     [Header("รูปเงา/ภาพมืด")]
     [Tooltip("โชว์เสมอในกริด 9 ช่อง (ไม่ว่าจะปลดล็อกหรือยัง) และโชว์ในหน้า Detail ถ้ายังไม่ปลดล็อก")]
     public Sprite silhouette;

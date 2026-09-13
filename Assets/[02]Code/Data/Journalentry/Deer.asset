@@ -15,6 +15,8 @@ MonoBehaviour:
   creatureId: deer_01
   category: 1
   displayName: Deer
-  description: Very Big Ear grass and run when see you
+  description: I don't know
   questRewardDetails: 
+  referenceImage: {fileID: 0}
+  habitatInfo: Live in tree
   silhouette: {fileID: 0}

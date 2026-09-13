@@ -623,7 +623,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a73f2ea9b12f80246beab020b9f15143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhotoSubject
-  creatureId: Turkey
+  profile: {fileID: 11400000, guid: a484898e4e8fa3b4ca6a90c7e6473056, type: 2}
 --- !u!4 &6493729162260088981 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3020304196419193100, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}

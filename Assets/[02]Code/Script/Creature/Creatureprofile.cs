@@ -1,22 +1,16 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// ข้อมูลกลางของสิ่งมีชีวิต 1 สายพันธุ์ (เช่น กวาง, กระต่าย) — รวมค่าที่เคยกระจายอยู่ใน
-/// CreatureVision/CreatureAI มาไว้ไฟล์เดียว แก้ตรงนี้ที่เดียวก็เปลี่ยนพฤติกรรมทั้งสายพันธุ์ได้เลย
-/// ไม่ต้องไล่แก้ Component ทีละตัวในซีน
+/// ข้อมูลกลางของ "สัตว์" 1 สายพันธุ์ (เช่น กวาง, กระต่าย) — สืบทอด Identity (CreatureId/JournalEntry)
+/// จาก JournalSubjectProfile แล้วเพิ่มข้อมูลเฉพาะของสัตว์ (Vision, Wander, Run, Detection Timing)
+/// ที่พืชไม่จำเป็นต้องมี (ดูคู่กับ PlantProfile ที่ไม่มีส่วนนี้เลย)
 ///
 /// สร้าง Asset ผ่าน Create > Creature > Creature Profile แล้วลากไปใส่ทั้ง CreatureAI และ CreatureVision
 /// ของ Prefab สายพันธุ์นั้น (ในอนาคต CreatureSpawn จะมาอ่าน Asset นี้ด้วยเช่นกันตามที่ออกแบบไว้)
 /// </summary>
 [CreateAssetMenu(fileName = "New Creature Profile", menuName = "Creature/Creature Profile")]
-public class CreatureProfile : ScriptableObject
+public class CreatureProfile : JournalSubjectProfile
 {
-    [Header("Identity")]
-    [Tooltip("ต้องตรงกับ PhotoSubject.creatureId เป๊ะ ใช้จับคู่ระบบถ่ายรูป/Journal")]
-    public string creatureId;
-    [Tooltip("ลิงก์ไปยัง JournalEntry ของสิ่งมีชีวิตนี้ ไว้อ้างอิง/เปิดดูจากที่เดียวกัน (ยังไม่ได้ใช้ในโค้ดโดยตรง)")]
-    public JournalEntry journalEntry;
-
     [Header("Vision Cone (ด้านหน้า)")]
     [Tooltip("มุมกว้างของโคนสายตารวม (องศา)")]
     public float viewAngle = 110f;

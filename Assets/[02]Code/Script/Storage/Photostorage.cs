@@ -36,8 +36,14 @@ public class PhotoStorage : MonoBehaviour
     /// <summary>เต็มแล้วหรือยัง — ใช้เช็คก่อนอนุญาตให้ถ่ายรูปเพิ่ม</summary>
     public bool IsFull => storedPhotos.Count >= maxCapacity;
 
-    /// <summary>ยิงทุกครั้งที่รายการภาพเปลี่ยน (เพิ่ม/ลบ) — UI Storage ในอนาคตมา Subscribe รีเฟรชรายการได้</summary>
+    /// <summary>ยิงทุกครั้งที่รายการภาพเปลี่ยน (เพิ่ม/ลบ) — UI Storage มา Subscribe รีเฟรชรายการได้</summary>
     public event Action OnStorageChanged;
+
+    /// <summary>
+    /// ยิงเฉพาะตอน "เพิ่มภาพใหม่สำเร็จ" เท่านั้น (ไม่ยิงตอนลบ) — JournalManager ใช้จุดนี้ทำสำเนาถาวรของตัวเอง
+    /// เพื่อไม่ให้ผูกกับวงจรชีวิตของไฟล์ใน Storage อีกต่อไป (ลบใน Storage แล้ว Journal ต้องไม่หายตาม)
+    /// </summary>
+    public event Action<StoredPhoto> OnPhotoAdded;
 
     private List<StoredPhoto> storedPhotos = new List<StoredPhoto>();
     private string FolderPath => Path.Combine(Application.persistentDataPath, saveFolderName);
@@ -97,14 +103,16 @@ public class PhotoStorage : MonoBehaviour
         string fullPath = Path.Combine(FolderPath, fileName);
         File.WriteAllBytes(fullPath, pngBytes);
 
-        storedPhotos.Add(new StoredPhoto
+        StoredPhoto newPhoto = new StoredPhoto
         {
             filePath = fullPath,
             creatureIds = creatureIds ?? new List<string>(),
             capturedAt = DateTime.Now
-        });
+        };
+        storedPhotos.Add(newPhoto);
 
         OnStorageChanged?.Invoke();
+        OnPhotoAdded?.Invoke(newPhoto);
         return true;
     }
 
