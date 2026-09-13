@@ -1744,7 +1744,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00074312126}
+  m_AnchoredPosition: {x: 0, y: -0.00001616072}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &127498114340193394
@@ -1950,6 +1950,7 @@ GameObject:
   - component: {fileID: 2913956134073656389}
   - component: {fileID: 5160260424754451105}
   - component: {fileID: 3942936210642854089}
+  - component: {fileID: 8262122318018214598}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2113,6 +2114,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhotoSaveHandler
   photoShooter: {fileID: 2913956134073656389}
+--- !u!114 &8262122318018214598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3193203250615546887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 949e14c56f3c0a14898ae375ab498210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FaceController
+  faceRenderer: {fileID: 3077851435873032011}
+  animations:
+  - expression: 0
+    frames:
+    - {fileID: 2800000, guid: 3ede9905237c83848b794a4ca711628d, type: 3}
+    frameRate: 1
+  - expression: 5
+    frames:
+    - {fileID: 2800000, guid: 3dd3bb0b94f26da439043d8312735418, type: 3}
+    frameRate: 1
+  - expression: 4
+    frames:
+    - {fileID: 2800000, guid: 3ede9905237c83848b794a4ca711628d, type: 3}
+    - {fileID: 2800000, guid: cf41b320efb3a604f96e8eeed022f1db, type: 3}
+    - {fileID: 2800000, guid: fecf8617238012947975c31ff3273cc2, type: 3}
+    frameRate: 12
+  blinkMinInterval: 2
+  blinkMaxInterval: 5
 --- !u!1 &3563213955300687131
 GameObject:
   m_ObjectHideFlags: 0
@@ -4439,8 +4470,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2787649498287626028}
   m_HandleRect: {fileID: 6203382844928663476}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.99998325
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5809,6 +5840,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Female_BaseCharacter_V1A
       objectReference: {fileID: 0}
+    - target: {fileID: 1267761045594498016, guid: 8f1ab072f3604f74e90b929399c7cca1, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 4cf552029b6bd454598b7dc9c0b5bec3, type: 2}
     - target: {fileID: 5866666021909216657, guid: 8f1ab072f3604f74e90b929399c7cca1, type: 3}
       propertyPath: m_Controller
       value: 
@@ -5828,6 +5863,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 8988041252489302555}
   m_SourcePrefab: {fileID: 100100000, guid: 8f1ab072f3604f74e90b929399c7cca1, type: 3}
+--- !u!137 &3077851435873032011 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1267761045594498016, guid: 8f1ab072f3604f74e90b929399c7cca1, type: 3}
+  m_PrefabInstance: {fileID: 4260761931039618219}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4026268331812227578 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8f1ab072f3604f74e90b929399c7cca1, type: 3}
