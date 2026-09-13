@@ -31,14 +31,16 @@ Shader "Roundy/Vegetation/ImpostorCrossBIRP"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            #pragma multi_compile_fwdbase
             #pragma multi_compile_fog
             #pragma multi_compile _ LOD_FADE_CROSSFADE
             #pragma multi_compile _ ALPHA_TO_COVERAGE
             #pragma multi_compile_instancing
             #pragma target 3.0
-            
+
             #include "UnityCG.cginc"
             #include "UnityLightingCommon.cginc"
+            #include "AutoLight.cginc"
 
             struct appdata
             {
@@ -58,6 +60,7 @@ Shader "Roundy/Vegetation/ImpostorCrossBIRP"
                 float3 worldBitangent : TEXCOORD3;
                 UNITY_FOG_COORDS(4)
                 float4 screenPos : TEXCOORD5;
+                SHADOW_COORDS(6)
                 UNITY_VERTEX_INPUT_INSTANCE_ID
                 UNITY_VERTEX_OUTPUT_STEREO
             };
@@ -94,6 +97,7 @@ Shader "Roundy/Vegetation/ImpostorCrossBIRP"
                 o.worldBitangent = cross(o.worldNormal, o.worldTangent) * v.tangent.w;
                 o.screenPos = ComputeScreenPos(o.pos);
                 UNITY_TRANSFER_FOG(o, o.pos);
+                TRANSFER_SHADOW(o);
                 return o;
             }
             
@@ -157,10 +161,14 @@ Shader "Roundy/Vegetation/ImpostorCrossBIRP"
                     worldNormal = normalize(i.worldNormal);
                 }
 
+                // Without SHADOW_COORDS/TRANSFER_SHADOW/SHADOW_ATTENUATION, the impostor would
+                // stay fully lit regardless of any shadow caster or how low the light angle
+                // gets, since nothing would ever attenuate the direct-light term below.
                 half3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
                 half NdotL = saturate(dot(worldNormal, lightDir));
                 half3 ambient = ShadeSH9(half4(worldNormal, 1));
-                col.rgb *= (ambient + NdotL * _LightColor0.rgb);
+                fixed shadow = SHADOW_ATTENUATION(i);
+                col.rgb *= (ambient + NdotL * _LightColor0.rgb * shadow);
                 
                 col.a = alpha;
                 UNITY_APPLY_FOG(i.fogCoord, col);

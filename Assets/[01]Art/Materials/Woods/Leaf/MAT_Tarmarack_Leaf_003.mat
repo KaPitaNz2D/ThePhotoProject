@@ -50,7 +50,7 @@ Material:
     - _wind_speed: 1.2
     - _wind_strength: 0.2
     m_Colors:
-    - _Color: {r: 1, g: 0.81521934, b: 0, a: 1}
+    - _Color: {r: 0.99607843, g: 0.7607843, b: 0.33333334, a: 1}
     - _Color_1: {r: 1, g: 0.5489638, b: 0.1745283, a: 1}
     - _Color_2: {r: 1, g: 0.76555127, b: 0, a: 1}
     - _wind_direction: {r: 1, g: 0, b: 0, a: 0}

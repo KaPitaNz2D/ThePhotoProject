@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7288057570295112742}
   - component: {fileID: 5461590239045506810}
   - component: {fileID: 9035331074205717091}
+  - component: {fileID: 9080229991508909786}
   m_Layer: 0
   m_Name: Pine_Tree_004_Impostor_20260914_000355_952
   m_TagString: Untagged
@@ -90,3 +91,17 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &9080229991508909786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376970624285605742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10a07e62cb9a6f742afcf5b3e747a4cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Roundy.Vegetation.BillboardEffect
+  mode: 0
+  targetCamera: {fileID: 0}

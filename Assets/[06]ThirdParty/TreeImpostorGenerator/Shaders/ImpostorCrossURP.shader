@@ -35,7 +35,11 @@ Shader "Roundy/Vegetation/ImpostorCrossURP"
             #pragma multi_compile_fog
             #pragma multi_compile _ LOD_FADE_CROSSFADE
             #pragma multi_compile _ ALPHA_TO_COVERAGE
-            #pragma target 2.0
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS_SCREEN
+            #pragma multi_compile _ _SHADOWS_SOFT
+            #pragma target 3.5
            
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
@@ -77,22 +81,25 @@ Shader "Roundy/Vegetation/ImpostorCrossURP"
                 float3 worldBitangent : TEXCOORD3;
                 float fogCoord : TEXCOORD4;
                 float4 screenPos : TEXCOORD5;
+                float4 shadowCoord : TEXCOORD6;
                 UNITY_VERTEX_OUTPUT_STEREO
             };
-           
+
             Varyings vert(Attributes input)
             {
                 Varyings output = (Varyings)0;
                 UNITY_SETUP_INSTANCE_ID(input);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
-                
-                output.positionCS = TransformObjectToHClip(input.positionOS.xyz);
+
+                float3 positionWS = TransformObjectToWorld(input.positionOS.xyz);
+                output.positionCS = TransformWorldToHClip(positionWS);
                 output.uv = TRANSFORM_TEX(input.uv, _MainTex);
                 output.worldNormal = TransformObjectToWorldNormal(input.normalOS);
                 output.worldTangent = TransformObjectToWorldDir(input.tangentOS.xyz);
                 output.worldBitangent = cross(output.worldNormal, output.worldTangent) * input.tangentOS.w;
                 output.screenPos = ComputeScreenPos(output.positionCS);
                 output.fogCoord = ComputeFogFactor(output.positionCS.z);
+                output.shadowCoord = TransformWorldToShadowCoord(positionWS);
                 return output;
             }
            
@@ -154,10 +161,14 @@ Shader "Roundy/Vegetation/ImpostorCrossURP"
                     worldNormal = normalize(input.worldNormal);
                 }
 
-                Light mainLight = GetMainLight();
+                // GetMainLight() with no argument skips shadow sampling entirely - the impostor
+                // would stay fully lit regardless of any shadow caster (terrain, other trees) or
+                // how low/behind-the-horizon the light angle gets, since nothing would ever
+                // attenuate it. Passing the shadow coord makes mainLight.shadowAttenuation real.
+                Light mainLight = GetMainLight(input.shadowCoord);
                 half NdotL = saturate(dot(worldNormal, mainLight.direction));
                 half3 ambient = SampleSH(worldNormal);
-                col.rgb *= (ambient + NdotL * mainLight.color);
+                col.rgb *= (ambient + NdotL * mainLight.color * mainLight.shadowAttenuation);
                 
                 col.a = alpha;
                 col.rgb = MixFog(col.rgb, input.fogCoord);

@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: MAT_Tarmarack_Leaf_001
-  m_Shader: {fileID: -6465566751694194690, guid: b33f13b4f36eadd4f9183dc72f8c42ec, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: aee4ef18a3e04154ebbdec88a9bc169c, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -42,16 +42,21 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _GradientDivide: 2
+    - _GrdientOffset: 1
     - _Multi: -10.07
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SeedControl: 0
+    - _USE_TEXTURE: 0
     - _wind_speed: 1.2
     - _wind_strength: 0.2
     m_Colors:
-    - _Color: {r: 0.41190842, g: 0.46226418, b: 0, a: 1}
+    - _ButtomColor: {r: 0.34117648, g: 0.3529412, b: 0.17254902, a: 1}
+    - _Color: {r: 0.5647059, g: 0.6509804, b: 0.19215682, a: 1}
     - _Color_1: {r: 1, g: 0.5489638, b: 0.1745283, a: 1}
     - _Color_2: {r: 1, g: 0.76555127, b: 0, a: 1}
+    - _TopColor: {r: 0.5647059, g: 0.6509804, b: 0.19215688, a: 1}
     - _wind_direction: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

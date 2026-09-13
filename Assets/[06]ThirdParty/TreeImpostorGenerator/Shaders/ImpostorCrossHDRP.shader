@@ -162,6 +162,14 @@ Shader "Roundy/Vegetation/ImpostorCrossHDRP"
                     worldNormal = normalize(input.worldNormal);
                 }
 
+                // NOTE: same gap as before applies to shadows too - this does not sample HDRP's
+                // shadow atlas at all (that needs the HDShadowContext / GetDirectionalShadowAttenuation
+                // machinery from HDRP's Lighting.hlsl, which is too deep/version-fragile to guess at
+                // without the package installed to compile against). Until that's added, this impostor
+                // will stay fully lit under terrain/other-object shadows and at low/behind-horizon
+                // light angles - see the equivalent, verified fix in ImpostorCrossURP.shader/
+                // ImpostorCrossBIRP.shader (GetMainLight(shadowCoord) / SHADOW_ATTENUATION) for the
+                // pattern to port once this can actually be compiled and tested.
                 half3 lightColor = 0;
                 half NdotL = 0;
                 if (_DirectionalLightCount > 0)

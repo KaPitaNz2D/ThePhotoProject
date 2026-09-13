@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &2870526417747970629
+--- !u!1001 &5640455484861974995
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -11,14 +11,14 @@ PrefabInstance:
     - target: {fileID: 816132908050270093, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 11c721e2e13a0bf2faf56307b3c36e8c, type: 2}
+      objectReference: {fileID: 2100000, guid: 3ad196446e58210e3a9532a914c78535, type: 2}
     - target: {fileID: 2116547703998838115, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
       propertyPath: m_Name
-      value: Tarmarack_Tree_001 Variant 1
+      value: PF_Tarmarack_Tree_001_2
       objectReference: {fileID: 0}
     - target: {fileID: 3641252400980561334, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.8977013
+      value: -5.75
       objectReference: {fileID: 0}
     - target: {fileID: 3641252400980561334, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
       propertyPath: m_LocalPosition.y
@@ -26,7 +26,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3641252400980561334, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.07725525
+      value: 6.0499573
       objectReference: {fileID: 0}
     - target: {fileID: 3641252400980561334, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
       propertyPath: m_LocalRotation.w
@@ -56,10 +56,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3977229270478991123, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.073864795
+      objectReference: {fileID: 0}
+    - target: {fileID: 3977229270478991123, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.99726826
+      objectReference: {fileID: 0}
     - target: {fileID: 5273005798776484969, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 2948d9dd9bb856745902bd334db4c10d, type: 2}
+      objectReference: {fileID: 2100000, guid: bf7ff049e3736174d93ca4b739c0226b, type: 2}
     - target: {fileID: 6855233418726598419, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
       propertyPath: m_LODs.Array.data[2].screenRelativeHeight
       value: 0.01
@@ -67,7 +75,7 @@ PrefabInstance:
     - target: {fileID: 7994030560701832516, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 11c721e2e13a0bf2faf56307b3c36e8c, type: 2}
+      objectReference: {fileID: 2100000, guid: 3ad196446e58210e3a9532a914c78535, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 2654472610434266862, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
