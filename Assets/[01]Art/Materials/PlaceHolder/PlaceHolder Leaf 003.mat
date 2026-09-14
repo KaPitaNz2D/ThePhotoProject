@@ -64,8 +64,8 @@ Material:
     m_Colors:
     - _BaseColor1: {r: 1, g: 0.47843137, b: 0, a: 1}
     - _BaseColor2: {r: 0.9490196, g: 0.105882354, b: 0.1764706, a: 1}
-    - _Color1: {r: 0.5447296, g: 1, b: 0, a: 1}
-    - _Color2: {r: 1, g: 0, b: 0.20334098, a: 1}
+    - _Color1: {r: 1, g: 0.70009536, b: 0, a: 1}
+    - _Color2: {r: 0.6981132, g: 0, b: 0.14236017, a: 1}
     - _HighLightColor: {r: 0, g: 0, b: 0, a: 1}
     - _WindDirection: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
