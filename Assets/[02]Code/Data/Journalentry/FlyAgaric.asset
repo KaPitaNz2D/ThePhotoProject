@@ -15,5 +15,10 @@ MonoBehaviour:
   creatureId: FlyAgaric
   category: 0
   displayName: FlyAgaric
-  description: FlyAgaric is poison
+  description: The iconic red-capped mushroom covered in white warts. Toxic if eaten
+    raw - admire, don't taste.
+  questRewardDetails:
+  referenceImage: {fileID: 0}
+  habitatInfo: Beneath birch, pine and spruce trees, often near old stumps and roots
+    in autumn.
   silhouette: {fileID: 0}

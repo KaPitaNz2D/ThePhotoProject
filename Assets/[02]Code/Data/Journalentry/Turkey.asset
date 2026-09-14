@@ -15,5 +15,9 @@ MonoBehaviour:
   creatureId: Turkey
   category: 0
   displayName: Turkey
-  description: Turkey like chicken joggy
+  description: A thin, leathery bracket fungus with colorful ringed bands resembling
+    a turkey's tail feathers. Too tough to eat, but used in herbal teas.
+  questRewardDetails:
+  referenceImage: {fileID: 0}
+  habitatInfo: Layered over dead logs and stumps in shaded, damp parts of the forest.
   silhouette: {fileID: 0}

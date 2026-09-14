@@ -149,4 +149,12 @@ public class PhotoStorage : MonoBehaviour
         OnStorageChanged?.Invoke();
         return true;
     }
+
+    /// <summary>ลบภาพทั้งหมดทั้งไฟล์บนดิสก์และ Metadata ทันที — ใช้กับ Debug Reset เพื่อเริ่ม Storage ใหม่โดยไม่ต้องปิดเกม</summary>
+    public void ClearAllPhotos()
+    {
+        ClearAllPhotosFromDisk();
+        storedPhotos.Clear();
+        OnStorageChanged?.Invoke();
+    }
 }

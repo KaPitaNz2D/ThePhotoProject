@@ -15,5 +15,9 @@ MonoBehaviour:
   creatureId: Honey
   category: 0
   displayName: Honey
-  description: Honey is like Honey from Bee
+  description: A honey-yellow mushroom that grows in clumps on wood - a parasitic
+    fungus that slowly decays the tree it feeds on.
+  questRewardDetails:
+  referenceImage: {fileID: 0}
+  habitatInfo: Dense clusters on old tree stumps and the base of dying trunks.
   silhouette: {fileID: 0}

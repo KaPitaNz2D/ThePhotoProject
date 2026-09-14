@@ -15,7 +15,10 @@ MonoBehaviour:
   creatureId: Chan
   category: 0
   displayName: Chan
-  description: 'Chan is very good for your mom
-
-    don''t foget to bring home '
+  description: A funnel-shaped, golden-orange edible mushroom with a fruity, apricot-like
+    scent and wavy ridged gills.
+  questRewardDetails:
+  referenceImage: {fileID: 0}
+  habitatInfo: Grows on the forest floor near oak, pine and birch roots, hidden in
+    leaf litter and shaded undergrowth.
   silhouette: {fileID: 0}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Yarn.Unity;
 
 /// <summary>
@@ -24,6 +25,10 @@ public class QuestManager : MonoBehaviour
 
     private Dictionary<string, QuestStatus> questStates = new Dictionary<string, QuestStatus>();
 
+    // creatureId ที่ NPC เคยเล่าข้อมูลให้ฟังแล้ว (ผ่าน mark_informed ใน Yarn) — Journal ใช้เช็คก่อนโชว์คำอธิบาย
+    // ตั้งใจแยกจาก has_photo เพราะ "มีรูป" กับ "ได้ฟังความรู้จาก NPC แล้ว" เป็นคนละเงื่อนไขกัน
+    private HashSet<string> informedCreatureIds = new HashSet<string>();
+
     /// <summary>ยิงทุกครั้งที่ Quest เปลี่ยนสถานะ (creatureId, สถานะใหม่) — JournalUI มา Subscribe อัพเดทจุดแดงได้</summary>
     public event Action<string, QuestStatus> OnQuestStatusChanged;
 
@@ -36,6 +41,27 @@ public class QuestManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        SceneManager.sceneLoaded += HandleSceneLoaded;
+    }
+
+    // journalManager ถูกผูกไว้ตอน Edit-time กับ Instance ในซีนเดิม พอ Reload Scene (เช่นจาก Debug Reset)
+    // Instance เดิมถูกทำลายไปแล้วแต่ QuestManager (DontDestroyOnLoad) ยังถือ Reference ค้างอยู่
+    // เลยต้องหา JournalManager ตัวใหม่ในซีนที่เพิ่งโหลดมาผูกใหม่ทุกครั้ง กัน HasPhoto() คืนค่า false ค้างตลอดไป
+    private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        JournalManager foundJournalManager = FindFirstObjectByType<JournalManager>();
+        if (foundJournalManager != null)
+        {
+            journalManager = foundJournalManager;
+        }
+    }
+
+    /// <summary>รีเซ็ตสถานะ Quest + ความรู้ที่ NPC เคยเล่าให้ฟังทั้งหมด — ใช้กับ Debug Reset เพื่อเริ่มใหม่โดยไม่ต้องปิดเกม</summary>
+    public void ResetAllQuests()
+    {
+        questStates.Clear();
+        informedCreatureIds.Clear();
     }
 
     public QuestStatus GetStatus(string creatureId)
@@ -88,5 +114,26 @@ public class QuestManager : MonoBehaviour
     {
         if (Instance == null) return QuestStatus.NotStarted.ToString();
         return Instance.GetStatus(creatureId).ToString();
+    }
+
+    /// <summary>เรียกจาก Yarn Node หลัง NPC เล่าข้อมูลของสิ่งนั้นให้ฟังจบแล้ว: &lt;&lt;mark_informed "Chan"&gt;&gt;</summary>
+    [YarnCommand("mark_informed")]
+    public static void MarkInformed(string creatureId)
+    {
+        if (Instance == null || string.IsNullOrEmpty(creatureId)) return;
+        Instance.informedCreatureIds.Add(creatureId);
+    }
+
+    /// <summary>เรียกจาก Yarn Node: &lt;&lt;if is_informed("Chan")&gt;&gt; — กันไม่ให้ NPC เล่าเรื่องเดิมซ้ำอีก</summary>
+    [YarnFunction("is_informed")]
+    public static bool IsInformedYarn(string creatureId)
+    {
+        return Instance != null && Instance.IsInformed(creatureId);
+    }
+
+    /// <summary>ใช้จาก Journal (C#) เช็คว่า NPC เคยเล่าข้อมูลของสิ่งนี้ให้ฟังแล้วหรือยัง ก่อนจะโชว์คำอธิบาย</summary>
+    public bool IsInformed(string creatureId)
+    {
+        return !string.IsNullOrEmpty(creatureId) && informedCreatureIds.Contains(creatureId);
     }
 }
