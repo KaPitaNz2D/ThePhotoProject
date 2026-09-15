@@ -62,7 +62,7 @@ Material:
     - _MinEdge: 0.15
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Shadow: 0.3
+    - _Shadow: 0.7
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

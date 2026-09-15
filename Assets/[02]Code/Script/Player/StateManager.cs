@@ -1,65 +1,54 @@
 ﻿using System;
 using UnityEngine;
 
-/// <summary>
-/// จัดการ State กลางของเกม แบ่งเป็น 2 กลุ่ม:
-/// - MovementState : สถานะการเคลื่อนไหวของตัวละคร (ใช้กับ Animator เป็นหลัก)
-/// - SystemState   : สถานะระบบเกมโดยรวม (ใช้คุม Input/UI/Gameplay flow)
-///
-/// ระบบอื่นๆ (Animation, PlayerMovement, UI) ไม่จำเป็นต้อง Reference กันตรงๆ
-/// แค่ Subscribe Event จากตัวนี้แทน ทำให้เพิ่ม/แก้ State ในอนาคตได้ง่าย
-/// </summary>
 public class StateManager : MonoBehaviour
 {
     public static StateManager Instance { get; private set; }
 
     // ==================== State Definitions ====================
-    // เพิ่ม State ใหม่ในอนาคตแค่เติมเข้าไปใน enum ตรงนี้ได้เลย
+    // ✨ เอา Crouch ออกจาก enum นี้แล้ว เพราะ crouch ไม่ใช่ "ท่าเดิน" แต่เป็นคนละมิติที่ซ้อนกับ Idle/Walking/Running ได้
     public enum MovementState
     {
         Idle,
         Walking,
-        Running,
-        Crouch
+        Running
     }
 
     public enum SystemState
     {
-        Normal,      // เล่นปกติ
-        Photograph,  // โหมดถ่ายรูป
-        Talking,     // คุยกับ NPC
-        Pause,       // เมนู Option
-        Journal,     // เปิดสมุดบันทึก
-        Storage      // เปิดคลังภาพถ่าย
+        Normal,
+        Photograph,
+        Talking,
+        Pause,
+        Journal,
+        Storage
     }
 
     [Header("Current States (Read-only ดูใน Inspector)")]
     [SerializeField] private MovementState currentMovementState = MovementState.Idle;
     [SerializeField] private SystemState currentSystemState = SystemState.Normal;
+    [SerializeField] private bool isCrouching; // แยกจาก MovementState
 
     public MovementState CurrentMovementState => currentMovementState;
     public SystemState CurrentSystemState => currentSystemState;
+    public bool IsCrouching => isCrouching;
 
     public MovementState PreviousMovementState { get; private set; }
     public SystemState PreviousSystemState { get; private set; }
 
     // ==================== Events ====================
-    // ระบบอื่นเช่น Animator Controller หรือ PlayerMovement มา Subscribe ตรงนี้
-    // ตัวอย่าง: StateManager.Instance.OnMovementStateChanged += HandleMovementChanged;
-    public event Action<MovementState, MovementState> OnMovementStateChanged; // (old, new)
-    public event Action<SystemState, SystemState> OnSystemStateChanged;       // (old, new)
+    public event Action<MovementState, MovementState> OnMovementStateChanged;
+    public event Action<SystemState, SystemState> OnSystemStateChanged;
+    public event Action<bool> OnCrouchChanged;
 
     private void Awake()
     {
-        // ป้องกันการมี StateManager ซ้ำซ้อนในซีน
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
         Instance = this;
-        // ถ้าอยากให้คงอยู่ข้ามซีน ให้เปิดบรรทัดนี้
-        // DontDestroyOnLoad(gameObject);
     }
 
     // ==================== Movement State ====================
@@ -75,6 +64,15 @@ public class StateManager : MonoBehaviour
 
     public bool IsMovementState(MovementState state) => currentMovementState == state;
 
+    // ==================== Crouch (แยกใหม่) ====================
+    public void SetCrouch(bool value)
+    {
+        if (isCrouching == value) return;
+
+        isCrouching = value;
+        OnCrouchChanged?.Invoke(isCrouching);
+    }
+
     // ==================== System State ====================
     public void SetSystemState(SystemState newState)
     {
@@ -88,11 +86,6 @@ public class StateManager : MonoBehaviour
 
     public bool IsSystemState(SystemState state) => currentSystemState == state;
 
-    /// <summary>
-    /// Helper สำหรับเช็คว่าตอนนี้ควรให้ผู้เล่นควบคุมตัวละครได้ปกติหรือไม่
-    /// เช่น ระบบ PlayerMovement เรียกเช็คก่อนรับ Input ทุกครั้ง
-    /// เพิ่ม/ลด SystemState ที่ควร "บล็อกการเคลื่อนที่" ได้ตรงนี้ที่เดียว
-    /// </summary>
     public bool CanControlPlayer()
     {
         switch (currentSystemState)
@@ -110,10 +103,6 @@ public class StateManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// เช็คว่าตอนนี้ย่อ/ลุกได้ไหม — อนุญาตกว้างกว่า CanControlPlayer() เพราะย่อได้แม้กำลังเล็งกล้องถ่ายรูปอยู่
-    /// (แค่เดินไม่ได้ตอนถ่ายรูป แต่เปลี่ยนท่ายืน/ย่อได้ปกติ) แต่ยังบล็อกตอน Talking/Pause/Journal/Storage เหมือนเดิม
-    /// </summary>
     public bool CanCrouch()
     {
         switch (currentSystemState)

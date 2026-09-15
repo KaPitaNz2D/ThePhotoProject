@@ -86,6 +86,7 @@ public class PlayerSprint : MonoBehaviour
     private void OnSprintPerformed(InputAction.CallbackContext ctx) => sprintHeld = true;
     private void OnSprintCanceled(InputAction.CallbackContext ctx) => sprintHeld = false;
 
+    public float WalkSpeed => walkSpeed;
     private void Update()
     {
         if (playerMovement == null) return;
@@ -95,10 +96,21 @@ public class PlayerSprint : MonoBehaviour
         bool wantsSprint = sprintHeld && canControl;
 
         if (requireGrounded)
-            wantsSprint &= playerMovement.IsGrounded;
+        {
+            if (playerMovement.IsGrounded)
+            {
+            }
+            else
+            {
+                wantsSprint &= IsSprinting;
+            }
+        }
 
         if (requireMovingInput)
             wantsSprint &= playerMovement.CurrentInput.sqrMagnitude > 0.01f;
+
+        if (StateManager.Instance != null && StateManager.Instance.IsCrouching)
+            wantsSprint = false;
 
         if (useStamina)
         {
@@ -107,17 +119,12 @@ public class PlayerSprint : MonoBehaviour
 
         IsSprinting = wantsSprint;
 
-        // ไล่ปรับ moveSpeed แบบ smooth แทนการสลับค่าแบบทันที
-        // เพื่อไม่ให้ Rigidbody กระตุกตอนเริ่ม/หยุดวิ่ง
         float targetSpeed = IsSprinting ? sprintSpeed : walkSpeed;
         playerMovement.moveSpeed = Mathf.Lerp(
             playerMovement.moveSpeed,
             targetSpeed,
             Time.deltaTime * speedTransitionRate
         );
-
-        // แจ้ง StateManager ว่ากำลังวิ่งอยู่ (ถ้ามี Running state ในระบบ ให้ไปเพิ่ม case ใน StateManager เอง)
-        UpdateMovementState();
     }
 
     private bool HandleStamina(bool wantsSprint)
@@ -142,15 +149,4 @@ public class PlayerSprint : MonoBehaviour
         return false;
     }
 
-    private void UpdateMovementState()
-    {
-        if (StateManager.Instance == null) return;
-
-        // หมายเหตุ: ตอนนี้ StateManager.MovementState ยังไม่มี "Running"
-        // ถ้าต้องการแยก Animation/State ของการวิ่ง ให้เพิ่ม enum ค่า Running
-        // ใน StateManager แล้วเปลี่ยนบรรทัดด้านล่างเป็น:
-        //
-        // if (IsSprinting)
-        //     StateManager.Instance.SetMovementState(StateManager.MovementState.Running);
-    }
 }

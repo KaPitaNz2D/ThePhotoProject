@@ -4,7 +4,6 @@ using System;
 
 public class PlayerMovement : MonoBehaviour
 {
-    // Events
     public event Action<float> OnSpeedChanged;
     public event Action OnJumped;
 
@@ -29,9 +28,7 @@ public class PlayerMovement : MonoBehaviour
     public bool IsGrounded => isGrounded;
 
     [Header("Slope Handling")]
-    [Tooltip("Maximum walkable slope angle in degrees")]
     public float maxSlopeAngle = 45f;
-    [Tooltip("Downward force to keep player attached to slope surface")]
     public float slopeStickForce = 10f;
     private RaycastHit slopeHit;
 
@@ -39,10 +36,12 @@ public class PlayerMovement : MonoBehaviour
     public InputActionReference moveInput;
     public InputActionReference jumpInput;
 
+    [Header("Sprint")]
+    [Tooltip("drag PlayerSprint component into this box")]
+    public PlayerSprint playerSprint;
+
     [Header("Crouch")]
-    [Tooltip("ถ้าใส่ไว้ จะลดความเร็วเดินตอนย่อ และรายงาน MovementState.Crouch ให้ StateManager")]
     public PlayerCrouch playerCrouch;
-    [Tooltip("ตัวคูณความเร็วตอนย่อ (0.5 = เดินช้าลงครึ่งหนึ่ง)")]
     [Range(0.1f, 1f)]
     public float crouchSpeedMultiplier = 0.5f;
 
@@ -54,14 +53,12 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         Debug.Log(Application.persistentDataPath);
-        // ป้องกัน Error หากไม่ได้ผูก Rigidbody
         if (rb == null)
         {
             rb = GetComponent<Rigidbody>();
         }
         rb.freezeRotation = true;
 
-        // Enable inputs
         if (moveInput != null)
         {
             moveInput.action.Enable();
@@ -86,16 +83,26 @@ public class PlayerMovement : MonoBehaviour
     {
         if (orientation == null || rb == null || moveInput == null) return;
 
-        // Ground check via downward raycast
         isGrounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, groundLayer);
-
-        // Read input if control is permitted
         bool canControl = StateManager.Instance == null || StateManager.Instance.CanControlPlayer();
         inputVector = canControl ? moveInput.action.ReadValue<Vector2>() : Vector2.zero;
 
-        OnSpeedChanged?.Invoke(inputVector.magnitude);
+        bool crouchingNow = playerCrouch != null && playerCrouch.IsCrouching;
+        bool isSprintingNow = playerSprint != null && playerSprint.IsSprinting;
 
-        // Apply drag only when grounded on flat ground (Disable drag on slope to prevent speed loss)
+        float speedRatio = 1f;
+        if (crouchingNow)
+        {
+            speedRatio = crouchSpeedMultiplier;
+        }
+        else if (isSprintingNow && playerSprint != null && playerSprint.WalkSpeed > 0f)
+        {
+            speedRatio = moveSpeed / playerSprint.WalkSpeed;
+        }
+
+        float effectiveSpeedNormalized = inputVector.magnitude * speedRatio;
+        OnSpeedChanged?.Invoke(effectiveSpeedNormalized);
+
         if (isGrounded && !OnSlope())
         {
             rb.linearDamping = groundDrag;
@@ -112,17 +119,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if (StateManager.Instance == null) return;
 
-        // ย่ออยู่ -> รายงาน Crouch เสมอ ไม่ว่าจะขยับหรือไม่ก็ตาม (Priority สูงสุด)
-        if (playerCrouch != null && playerCrouch.IsCrouching)
-        {
-            StateManager.Instance.SetMovementState(StateManager.MovementState.Crouch);
-            return;
-        }
+        StateManager.Instance.SetCrouch(playerCrouch != null && playerCrouch.IsCrouching);
 
-        // ยังไม่มี Running ตอนนี้ เลยเช็คแค่ขยับหรือไม่ขยับพอ
+        bool isSprinting = playerSprint != null && playerSprint.IsSprinting;
+
         if (inputVector.sqrMagnitude > 0.01f)
         {
-            StateManager.Instance.SetMovementState(StateManager.MovementState.Walking);
+            bool canRun = isSprinting && !(playerCrouch != null && playerCrouch.IsCrouching);
+            StateManager.Instance.SetMovementState(canRun ? StateManager.MovementState.Running : StateManager.MovementState.Walking);
         }
         else
         {
@@ -171,7 +175,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isGrounded && OnSlope())
         {
-            // บน slope: จำกัดความเร็วรวม (รวมองค์ประกอบขึ้น/ลงตามความชัน)
             if (rb.linearVelocity.magnitude > currentEffectiveSpeed)
             {
                 rb.linearVelocity = rb.linearVelocity.normalized * currentEffectiveSpeed;
@@ -179,7 +182,6 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            // พื้นราบ/กลางอากาศ: จำกัดเฉพาะความเร็วแนวราบ ปล่อย Y ไว้ให้ gravity/jump คุม
             Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
             if (flatVel.magnitude > currentEffectiveSpeed)
             {
@@ -191,7 +193,6 @@ public class PlayerMovement : MonoBehaviour
 
     private bool OnSlope()
     {
-        // Slightly increased ray length (+0.5f) to ensure ground contact when running downhill
         if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.5f, groundLayer))
         {
             float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
@@ -207,10 +208,7 @@ public class PlayerMovement : MonoBehaviour
 
         readyToJump = false;
 
-        // Re-enable gravity before jumping
         rb.useGravity = true;
-
-        // Reset Y velocity for consistent jump height
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         OnJumped?.Invoke();
