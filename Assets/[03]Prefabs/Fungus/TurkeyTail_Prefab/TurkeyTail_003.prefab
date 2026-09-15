@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 5823678094840553707}
   - component: {fileID: 1502349976950846389}
   - component: {fileID: 9085344577047306576}
+  - component: {fileID: -8073871071174207649}
   m_Layer: 0
   m_Name: TurkeyTail_003
   m_TagString: Untagged
@@ -179,6 +180,19 @@ CapsuleCollider:
   m_Height: 0.1
   m_Direction: 1
   m_Center: {x: 0.03, y: 0.05, z: 0.1}
+--- !u!114 &-8073871071174207649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1623660551645988665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a73f2ea9b12f80246beab020b9f15143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PhotoSubject
+  profile: {fileID: 11400000, guid: a484898e4e8fa3b4ca6a90c7e6473056, type: 2}
 --- !u!1 &2819982384823698459
 GameObject:
   m_ObjectHideFlags: 0

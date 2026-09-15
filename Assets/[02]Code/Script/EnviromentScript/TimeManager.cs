@@ -56,6 +56,28 @@ public class TimeManager : MonoBehaviour
         StartDay();
     }
 
+#if UNITY_EDITOR
+    // Lets you scrub Start Hour (or reassign the light/skyboxes) in the Inspector while in Edit
+    // Mode and see the skybox/light/fog update immediately in the Scene view, instead of only
+    // taking effect once you press Play. Deferred via delayCall because OnValidate runs during
+    // Unity's serialization pass, where touching Light/RenderSettings can throw.
+    private void OnValidate()
+    {
+        if (Application.isPlaying) return;
+
+        UnityEditor.EditorApplication.delayCall += () =>
+        {
+            if (this == null || Application.isPlaying) return;
+            if (globalLight == null) return;
+
+            hours = startHour;
+            minutes = 0;
+            UpdateSunRotation(hours, minutes);
+            SetEnvironmentForHour(hours);
+        };
+    }
+#endif
+
     // Initializes every time-of-day-driven environment element (sun rotation, skybox, light
     // color, fog color) to match whatever hours/minutes the scene starts at - not just the
     // sun's rotation. Without this, starting the scene at e.g. hour 14 would still show
@@ -74,7 +96,7 @@ public class TimeManager : MonoBehaviour
     private void SetEnvironmentForHour(int hour)
     {
         TimePeriod period = GetPeriodForHour(hour);
-        if (period == null) return;
+        if (period == null || RenderSettings.skybox == null) return;
 
         RenderSettings.skybox.SetTexture("_Texture1", period.skybox);
         RenderSettings.skybox.SetTexture("_Texture2", period.skybox);

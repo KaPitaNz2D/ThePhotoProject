@@ -1837,7 +1837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6232914b7aa1a842930ef065e9b82b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuController
-  gameSceneName: Level_Prototype
+  gameSceneName: PlaytestLevel_1
 --- !u!4 &1487871290
 Transform:
   m_ObjectHideFlags: 0
