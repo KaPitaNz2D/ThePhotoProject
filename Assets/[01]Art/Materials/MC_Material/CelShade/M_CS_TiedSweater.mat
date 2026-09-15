@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_CS_TiedSweater
-  m_Shader: {fileID: -6465566751694194690, guid: ecea92297803f704fb1ea86909c1b134, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 65b007c5c6d5a4b4686d7841245484a4, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -55,11 +55,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Brightness: 2
+    - _Brightness: 1.2
     - _Max: 0.5
-    - _MaxEdge: 0.4
+    - _MaxEdge: 0.3
     - _Min: 0.2
-    - _MinEdge: 0.3
+    - _MinEdge: 0.2
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Shadow: 0.3
