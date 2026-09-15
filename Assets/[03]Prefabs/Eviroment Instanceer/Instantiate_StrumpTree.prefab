@@ -10,11 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6056857166078306185, guid: c0238ed3cd435a34ea4520aedb65f8d9, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6056857166078306185, guid: c0238ed3cd435a34ea4520aedb65f8d9, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6056857166078306185, guid: c0238ed3cd435a34ea4520aedb65f8d9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -70,7 +70,7 @@ PrefabInstance:
       objectReference: {fileID: 1275608396492112830, guid: 2fd771e2c6a04f24f84c5d245e0e96b3, type: 3}
     - target: {fileID: 7635912734852883533, guid: c0238ed3cd435a34ea4520aedb65f8d9, type: 3}
       propertyPath: m_Name
-      value: Instantiate_StrumpTree Variant
+      value: Instantiate_StrumpTree
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
