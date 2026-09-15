@@ -1,16 +1,19 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 /// <summary>
 /// แปะไว้ที่ Prefab 1 ช่องในกริด 9 ช่องของ Journal
-/// แสดงแค่ Silhouette (ภาพเงาดำ) เสมอ ไม่สนใจว่าปลดล็อกหรือยัง — แค่แจ้ง JournalUI ว่าช่องไหนถูกคลิก
-/// การตัดสินใจว่าจะโชว์ข้อมูลจริงหรือ "???" เป็นหน้าที่ของหน้า Detail ใน JournalUI ทั้งหมด
+/// แสดงแค่ Silhouette (ภาพเงาดำ) + ชื่อใต้รูปเสมอ ไม่สนใจว่าปลดล็อกหรือยัง — แค่แจ้ง JournalUI ว่าช่องไหนถูกคลิก
+/// การตัดสินใจว่าจะโชว์ข้อมูลจริง (รูป/คำอธิบาย) หรือ "???" เป็นหน้าที่ของหน้า Detail ใน JournalUI ทั้งหมด
 /// </summary>
 public class JournalGridSlotUI : MonoBehaviour, IPointerClickHandler, ISelectHandler, IDeselectHandler, ISubmitHandler
 {
     [Header("References")]
     public Image silhouetteImage;
+    [Tooltip("ชื่อสิ่งมีชีวิต/พืช โชว์ใต้รูปเสมอ ไม่ว่าจะปลดล็อกหรือยัง")]
+    public TMP_Text nameText;
     [Tooltip("กรอบไฮไลท์ตอนถูกเลือก (เมาส์/จอย) — Optional")]
     public GameObject highlightFrame;
     [Tooltip("จุดแดงบอกว่า Entry นี้มี Quest ที่ยังไม่ Complete อยู่")]
@@ -29,13 +32,17 @@ public class JournalGridSlotUI : MonoBehaviour, IPointerClickHandler, ISelectHan
         if (questIndicator != null) questIndicator.SetActive(false);
     }
 
-    public void Setup(int index, Sprite silhouette, JournalUI ui)
+    public void Setup(int index, Sprite silhouette, string displayName, JournalUI ui)
     {
         entryIndex = index;
         owner = ui;
         if (silhouetteImage != null)
         {
             silhouetteImage.sprite = silhouette;
+        }
+        if (nameText != null)
+        {
+            nameText.text = displayName;
         }
     }
 

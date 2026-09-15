@@ -15,6 +15,10 @@ MonoBehaviour:
   creatureId: deer_01
   category: 1
   displayName: Deer
-  description: Very Big Ear grass and run when see you
-  questRewardDetails: 
+  description: A shy, herbivorous forest deer that grazes on grass and leaves. It
+    startles easily and flees at the first sign of a human nearby.
+  questRewardDetails:
+  referenceImage: {fileID: 0}
+  habitatInfo: Found in forest clearings and near the lake, especially at dawn and
+    dusk when it grazes.
   silhouette: {fileID: 0}

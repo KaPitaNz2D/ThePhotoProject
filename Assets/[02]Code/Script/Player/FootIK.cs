@@ -18,14 +18,18 @@ public class FootIK : MonoBehaviour
     public float hipAdjustSpeed = 7f;
     float currentHipOffset = 0f;
 
+    [Header("Crouch Awareness")]
+    [Tooltip("ลาก PlayerCrouch เข้ามา เพื่อปิด Hip Adjustment ตอน crouch (ป้องกันการจมซ้อนทับ)")]
+    public PlayerCrouch playerCrouch;
+
     [Header("Smoothing")]
-    public float positionSmoothSpeed = 20f; // ใช้หน่วงความสูงแกน Y บนเนิน/บันได
+    public float positionSmoothSpeed = 20f;
     public float weightSmoothSpeed = 15f;
-    public float releaseWeightMultiplier = 2.5f; // คลาย weight เร็วขึ้นเมื่อยกเท้า
+    public float releaseWeightMultiplier = 2.5f;
 
     [Header("Speed Threshold (AAA Trick)")]
     public bool disableIKWhenMovingFast = true;
-    public float maxSpeedForIK = 6f; // ความเร็ววิ่งสปริ้นท์ที่ตัด IK
+    public float maxSpeedForIK = 6f;
 
     [Header("Debug")]
     public bool debugForceWeight = false;
@@ -75,7 +79,10 @@ public class FootIK : MonoBehaviour
             speedWeightFactor = Mathf.Clamp01(1f - (characterSpeed / maxSpeedForIK));
         }
 
-        if (enableHipAdjustment)
+        bool isCrouching = playerCrouch != null && playerCrouch.IsCrouching;
+
+        // ตอนนี้ข้ามการคำนวณตอน crouch แล้วค่อยๆ lerp offset กลับ 0 แทน ป้องกันจมซ้อนกับ pose crouch ที่ต่ำอยู่แล้ว
+        if (enableHipAdjustment && !isCrouching)
         {
             float leftDelta = CalculateFootDelta(AvatarIKGoal.LeftFoot);
             float rightDelta = CalculateFootDelta(AvatarIKGoal.RightFoot);
@@ -86,6 +93,10 @@ public class FootIK : MonoBehaviour
             Vector3 bodyPos = anim.bodyPosition;
             bodyPos.y += currentHipOffset;
             anim.bodyPosition = bodyPos;
+        }
+        else if (isCrouching)
+        {
+            currentHipOffset = Mathf.Lerp(currentHipOffset, 0f, Time.deltaTime * hipAdjustSpeed);
         }
 
         SetFootIK(AvatarIKGoal.LeftFoot, speedWeightFactor);
@@ -162,10 +173,8 @@ public class FootIK : MonoBehaviour
         {
             float currentWeightSpeed = targetWeight < leftCurrentWeight ? weightSmoothSpeed * releaseWeightMultiplier : weightSmoothSpeed;
 
-            // ✨ แก้ไขหลัก: แกน X, Z ไปตาม Animation ทันที ไม่โดน Lerp ดึงรั้งไปข้างหลัง
             leftCurrentPos.x = targetPos.x;
             leftCurrentPos.z = targetPos.z;
-            // Lerp เฉพาะแกน Y ความสูงพื้น เพื่อความนุ่มนวล
             leftCurrentPos.y = Mathf.Lerp(leftCurrentPos.y, targetPos.y, Time.deltaTime * positionSmoothSpeed);
 
             leftCurrentWeight = Mathf.Lerp(leftCurrentWeight, targetWeight, Time.deltaTime * currentWeightSpeed);
@@ -180,10 +189,8 @@ public class FootIK : MonoBehaviour
         {
             float currentWeightSpeed = targetWeight < rightCurrentWeight ? weightSmoothSpeed * releaseWeightMultiplier : weightSmoothSpeed;
 
-            // ✨ แก้ไขหลัก: แกน X, Z ไปตาม Animation ทันที ไม่โดน Lerp ดึงรั้งไปข้างหลัง
             rightCurrentPos.x = targetPos.x;
             rightCurrentPos.z = targetPos.z;
-            // Lerp เฉพาะแกน Y ความสูงพื้น เพื่อความนุ่มนวล
             rightCurrentPos.y = Mathf.Lerp(rightCurrentPos.y, targetPos.y, Time.deltaTime * positionSmoothSpeed);
 
             rightCurrentWeight = Mathf.Lerp(rightCurrentWeight, targetWeight, Time.deltaTime * currentWeightSpeed);

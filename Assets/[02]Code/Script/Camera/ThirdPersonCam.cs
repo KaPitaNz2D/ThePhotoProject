@@ -30,6 +30,11 @@ public class ThirdPersonCam : MonoBehaviour
         camForward.y = 0;
         orientation.forward = camForward.normalized;
 
+        // Don't turn the visual mesh from movement input while the player isn't allowed to move
+        // (e.g. Photograph/Talking/Journal/Storage/Pause) - matches the gate PlayerMovement uses
+        bool canControl = StateManager.Instance == null || StateManager.Instance.CanControlPlayer();
+        if (!canControl) return;
+
         // Map 2D input (WASD) relative to orientation's forward and right vectors
         Vector2 inputVector = moveInput.action.ReadValue<Vector2>();
         Vector3 moveDir = orientation.forward * inputVector.y + orientation.right * inputVector.x;

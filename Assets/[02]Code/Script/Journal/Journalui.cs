@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -45,7 +46,12 @@ public class JournalUI : MonoBehaviour
     public Image detailPhotoImage;
     public Image detailSilhouetteImage;
     public TMP_Text detailNameText;
+    [Tooltip("ช่องสถานที่ — โชว์ตลอดตั้งแต่ยังไม่ปลดล็อกจนถึงหลังปลดล็อก ไม่มีอะไรมาทับ แยกจาก Description")]
+    public TMP_Text detailHabitatText;
+    [Tooltip("ช่องคำอธิบาย + Quest Reward — โชว์เฉพาะตอนปลดล็อกแล้วเท่านั้น")]
     public TMP_Text detailDescriptionText;
+    [Tooltip("ระยะเวลาเฟดจากรูปเงาไปเป็นรูปที่ถ่ายจริง เล่นแค่ครั้งแรกที่เปิดดู Entry นั้นหลังปลดล็อก")]
+    public float photoRevealFadeDuration = 0.6f;
 
     private enum JournalView { Category, Grid, Detail }
     private JournalView currentView;
@@ -53,8 +59,10 @@ public class JournalUI : MonoBehaviour
     private JournalEntry.JournalCategory currentCategory;
     private List<JournalEntry> currentCategoryEntries = new List<JournalEntry>();
     private int currentPage;
+    private Coroutine photoRevealRoutine;
 
-    private Texture2D loadedDetailTexture;
+    // เก็บ creatureId ที่เคยเล่นเฟดเผยรูปไปแล้ว — เปิดดูซ้ำครั้งต่อไปโชว์รูปจริงทันทีไม่ต้องเฟดอีก
+    private HashSet<string> revealedCreatureIds = new HashSet<string>();
 
     private void Start()
     {
@@ -101,7 +109,10 @@ public class JournalUI : MonoBehaviour
     }
 
     // ==================== เปิด/ปิด ====================
-    private void OnToggleJournal(InputAction.CallbackContext ctx)
+    private void OnToggleJournal(InputAction.CallbackContext ctx) => ToggleJournalUI();
+
+    /// <summary>เรียกจากปุ่ม UI (Button.onClick) หรือ Input Action ก็ได้ — สลับเปิด/ปิด Journal</summary>
+    public void ToggleJournalUI()
     {
         if (StateManager.Instance == null) return;
         StateManager.SystemState current = StateManager.Instance.CurrentSystemState;
@@ -129,8 +140,8 @@ public class JournalUI : MonoBehaviour
 
     private void CloseJournal()
     {
-        ClearDetailTexture();
         ClearGrid();
+        StopPhotoRevealFade();
 
         if (journalRootPanel != null) journalRootPanel.SetActive(false);
         StateManager.Instance.SetSystemState(StateManager.SystemState.Normal);
@@ -162,8 +173,8 @@ public class JournalUI : MonoBehaviour
     private void ShowCategoryView()
     {
         currentView = JournalView.Category;
-        ClearDetailTexture();
         ClearGrid();
+        StopPhotoRevealFade();
 
         if (categoryPanel != null) categoryPanel.SetActive(true);
         if (gridPanel != null) gridPanel.SetActive(false);
@@ -181,7 +192,7 @@ public class JournalUI : MonoBehaviour
     private void ShowGridView()
     {
         currentView = JournalView.Grid;
-        ClearDetailTexture();
+        StopPhotoRevealFade();
 
         if (categoryPanel != null) categoryPanel.SetActive(false);
         if (gridPanel != null) gridPanel.SetActive(true);
@@ -210,7 +221,7 @@ public class JournalUI : MonoBehaviour
             JournalGridSlotUI slot = slotObj.GetComponent<JournalGridSlotUI>();
             if (slot != null)
             {
-                slot.Setup(i, entry.silhouette, this);
+                slot.Setup(i, entry.silhouette, entry.displayName, this);
 
                 bool questActive = QuestManager.Instance != null &&
                     QuestManager.Instance.GetStatus(entry.creatureId) == QuestManager.QuestStatus.Active;
@@ -270,65 +281,122 @@ public class JournalUI : MonoBehaviour
         if (gridPanel != null) gridPanel.SetActive(false);
         if (detailPanel != null) detailPanel.SetActive(true);
 
-        ClearDetailTexture();
-
         bool unlocked = journalManager != null && journalManager.IsUnlocked(entry);
+
+        // สถานที่ — โชว์ตลอด ไม่ว่าจะปลดล็อกหรือยัง เพราะผู้เล่นต้องรู้ก่อนถึงจะไปถ่ายได้ ไม่มีอะไรมาทับช่องนี้
+        if (detailHabitatText != null)
+        {
+            detailHabitatText.text = !string.IsNullOrEmpty(entry.habitatInfo)
+                ? entry.habitatInfo
+                : "No location data yet";
+        }
+
+        if (detailNameText != null) detailNameText.text = entry.displayName;
+
+        StopPhotoRevealFade();
 
         if (unlocked)
         {
-            loadedDetailTexture = journalManager.LoadPhotoForEntry(entry);
+            // ยืม Texture2D มาจาก JournalManager (สำเนาถาวรของมันเอง) — ห้าม Destroy() ตัวนี้เด็ดขาด
+            // เพราะเป็น Object เดียวกับที่ JournalManager ถืออยู่ตลอด Session ไม่ใช่ของชั่วคราวที่นี่แล้ว
+            Texture2D photoTexture = journalManager.LoadPhotoForEntry(entry);
 
-            if (detailNameText != null) detailNameText.text = entry.displayName;
+            // คำอธิบายโชว์ต่อเมื่อ "คุยกับ NPC จนได้ฟังเรื่องนี้แล้ว" ด้วยเท่านั้น ไม่ใช่แค่ถ่ายรูปติด
+            // เหมือนได้ความรู้จาก NPC มาจดลงสมุดบันทึกเอง (ดู QuestManager.MarkInformed / mark_informed ใน Yarn)
+            bool informed = QuestManager.Instance != null && QuestManager.Instance.IsInformed(entry.creatureId);
+            if (detailDescriptionText != null) detailDescriptionText.text = informed ? entry.description : "";
 
-            // ต่อท้ายข้อความเฉพาะตอน Quest Complete แล้วเท่านั้น (ตัด Hint ตอนยัง Active ออก)
-            string extraText = "";
-            if (QuestManager.Instance != null)
+            if (detailPhotoImage != null && photoTexture != null)
             {
-                QuestManager.QuestStatus status = QuestManager.Instance.GetStatus(entry.creatureId);
-                if (status == QuestManager.QuestStatus.Completed && !string.IsNullOrEmpty(entry.questRewardDetails))
+                Sprite sprite = Sprite.Create(
+                    photoTexture,
+                    new Rect(0, 0, photoTexture.width, photoTexture.height),
+                    new Vector2(0.5f, 0.5f)
+                );
+                detailPhotoImage.sprite = sprite;
+            }
+
+            if (revealedCreatureIds.Contains(entry.creatureId))
+            {
+                // เคยเฟดให้ดูไปแล้วรอบก่อน -> โชว์รูปจริงทันที ไม่ต้องเฟดซ้ำ
+                if (detailSilhouetteImage != null)
                 {
-                    extraText = "\n\n" + entry.questRewardDetails;
+                    SetImageAlpha(detailSilhouetteImage, 0f);
+                    detailSilhouetteImage.gameObject.SetActive(false);
+                }
+                if (detailPhotoImage != null)
+                {
+                    SetImageAlpha(detailPhotoImage, 1f);
+                    detailPhotoImage.gameObject.SetActive(true);
                 }
             }
-            if (detailDescriptionText != null) detailDescriptionText.text = entry.description + extraText;
-
-            if (detailSilhouetteImage != null) detailSilhouetteImage.gameObject.SetActive(false);
-
-            if (detailPhotoImage != null)
+            else
             {
-                detailPhotoImage.gameObject.SetActive(true);
-                if (loadedDetailTexture != null)
-                {
-                    Sprite sprite = Sprite.Create(
-                        loadedDetailTexture,
-                        new Rect(0, 0, loadedDetailTexture.width, loadedDetailTexture.height),
-                        new Vector2(0.5f, 0.5f)
-                    );
-                    detailPhotoImage.sprite = sprite;
-                }
+                // เปิดดู Entry นี้เป็นครั้งแรกหลังปลดล็อก -> เฟดจากรูปเงาไปเป็นรูปที่ถ่ายจริง
+                revealedCreatureIds.Add(entry.creatureId);
+                if (detailSilhouetteImage != null) detailSilhouetteImage.sprite = entry.silhouette;
+                photoRevealRoutine = StartCoroutine(RevealPhotoFade());
             }
         }
         else
         {
-            // ยังไม่เคยถ่ายติด -> โชว์ "???" กับเงาดำแทน
-            if (detailNameText != null) detailNameText.text = "???";
-            if (detailDescriptionText != null) detailDescriptionText.text = "ยังไม่เคยถ่ายรูปสิ่งมีชีวิตนี้";
-            if (detailPhotoImage != null) detailPhotoImage.gameObject.SetActive(false);
+            // ยังไม่เคยถ่ายติด -> ชื่อกับสถานที่เผยไว้ก่อนแล้วด้านบน (นอกเงื่อนไขนี้)
+            // ส่วนคำอธิบายยังไม่เผย เพราะเป็นข้อมูลที่ควรได้จากการถ่ายรูปจริง
+            if (detailDescriptionText != null) detailDescriptionText.text = "";
+
+            if (detailPhotoImage != null)
+            {
+                SetImageAlpha(detailPhotoImage, 1f);
+                detailPhotoImage.gameObject.SetActive(false);
+            }
 
             if (detailSilhouetteImage != null)
             {
+                SetImageAlpha(detailSilhouetteImage, 1f);
                 detailSilhouetteImage.gameObject.SetActive(true);
                 detailSilhouetteImage.sprite = entry.silhouette;
             }
         }
     }
 
-    private void ClearDetailTexture()
+    // ==================== เฟดรูปเงา -> รูปจริง (Detail Panel) ====================
+    private IEnumerator RevealPhotoFade()
     {
-        if (loadedDetailTexture != null)
+        if (detailSilhouetteImage == null || detailPhotoImage == null) yield break;
+
+        detailSilhouetteImage.gameObject.SetActive(true);
+        detailPhotoImage.gameObject.SetActive(true);
+        SetImageAlpha(detailSilhouetteImage, 1f);
+        SetImageAlpha(detailPhotoImage, 0f);
+
+        float elapsed = 0f;
+        while (elapsed < photoRevealFadeDuration)
         {
-            Destroy(loadedDetailTexture);
-            loadedDetailTexture = null;
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / photoRevealFadeDuration);
+            SetImageAlpha(detailSilhouetteImage, 1f - t);
+            SetImageAlpha(detailPhotoImage, t);
+            yield return null;
         }
+
+        SetImageAlpha(detailPhotoImage, 1f);
+        detailSilhouetteImage.gameObject.SetActive(false);
+        photoRevealRoutine = null;
+    }
+
+    private void StopPhotoRevealFade()
+    {
+        if (photoRevealRoutine != null)
+        {
+            StopCoroutine(photoRevealRoutine);
+            photoRevealRoutine = null;
+        }
+    }
+
+    private void SetImageAlpha(Image image, float alpha)
+    {
+        Color color = image.color;
+        color.a = alpha;
+        image.color = color;
     }
 }

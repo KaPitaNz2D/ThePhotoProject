@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 /// <summary>
 /// ตรวจจับผู้เล่นด้วย 2 ระบบ ไม่ยุ่งกับ State/พฤติกรรมเลย — แค่ตอบว่า "เจอผู้เล่นไหม" เท่านั้น
@@ -22,8 +19,6 @@ public class CreatureVision : MonoBehaviour
     public bool showFullConeComparison = true;
     [Tooltip("Log ใน Console ทุกครั้งที่ผู้เล่นสลับย่อ/ลุก บอกตัวเลขก่อน-หลังของ Vision Cone")]
     public bool logCrouchDetectionChange = true;
-    [Tooltip("ความสูงของโคน Debug ที่วาด (ไม่กระทบ Logic การตรวจจับ)")]
-    public float debugConeHeight = 2f;
 
     private bool cachedCrouchState;
     private bool crouchStateInitialized;
@@ -97,8 +92,7 @@ public class CreatureVision : MonoBehaviour
 
     private bool IsPlayerCrouchingNow()
     {
-        bool crouching = StateManager.Instance != null &&
-            StateManager.Instance.CurrentMovementState == StateManager.MovementState.Crouch;
+        bool crouching = StateManager.Instance != null && StateManager.Instance.IsCrouching;
 
         if (logCrouchDetectionChange && (!crouchStateInitialized || crouching != cachedCrouchState))
         {
@@ -132,16 +126,21 @@ public class CreatureVision : MonoBehaviour
 
         GetEffectiveVisionParams(out float effectiveViewRadius, out float effectiveViewAngle);
 
+        // โคนเต็ม (ไม่ลด) วาดจางๆ ไว้เทียบ — เห็นเฉพาะตอนผู้เล่นกำลังย่ออยู่เท่านั้น
         if (showFullConeComparison && !Mathf.Approximately(effectiveViewRadius, profile.viewRadius))
         {
-            DrawSolidVisionCone(profile.viewAngle, profile.viewRadius, new Color(1f, 1f, 0f, 0.08f));
+            Gizmos.color = new Color(1f, 1f, 0f, 0.25f);
+            DrawVisionCone(profile.viewAngle, profile.viewRadius);
         }
 
-        DrawSolidVisionCone(effectiveViewAngle, effectiveViewRadius, new Color(1f, 1f, 0f, 0.28f));
+        // โคนจริงตอนนี้ (ลดแล้วถ้าผู้เล่นย่ออยู่) วาดเป็นเส้นสว่างชัดเจน
+        Gizmos.color = Color.yellow;
+        DrawVisionCone(effectiveViewAngle, effectiveViewRadius);
 
         Gizmos.color = new Color(1f, 0.3f, 0.3f);
         DrawCircle(transform.position, profile.awarenessRadius);
 
+        // เส้น Line of Sight จริงที่ใช้เช็คล่าสุด — เขียว = เห็นผู้เล่น, แดง = โดนบัง
         if (lastLOSChecked)
         {
             Gizmos.color = lastLOSBlocked ? Color.red : Color.green;
@@ -150,29 +149,24 @@ public class CreatureVision : MonoBehaviour
         }
     }
 
-    private void DrawSolidVisionCone(float angle, float radius, Color fillColor)
+    private void DrawVisionCone(float angle, float radius)
     {
-#if UNITY_EDITOR
-        Vector3 bottomCenter = transform.position;
-        Vector3 topCenter = transform.position + Vector3.up * debugConeHeight;
-        Vector3 startDir = Quaternion.AngleAxis(-angle / 2f, Vector3.up) * transform.forward;
+        Vector3 forward = transform.forward;
+        Vector3 leftDir = Quaternion.AngleAxis(-angle / 2f, Vector3.up) * forward;
+        Vector3 rightDir = Quaternion.AngleAxis(angle / 2f, Vector3.up) * forward;
 
-        Handles.color = fillColor;
-        Handles.DrawSolidArc(bottomCenter, Vector3.up, startDir, angle, radius);
-        Handles.DrawSolidArc(topCenter, Vector3.up, startDir, angle, radius);
+        Gizmos.DrawLine(transform.position, transform.position + leftDir * radius);
+        Gizmos.DrawLine(transform.position, transform.position + rightDir * radius);
 
-        Handles.color = new Color(fillColor.r, fillColor.g, fillColor.b, 1f);
-        Vector3 leftDir = Quaternion.AngleAxis(-angle / 2f, Vector3.up) * transform.forward;
-        Vector3 rightDir = Quaternion.AngleAxis(angle / 2f, Vector3.up) * transform.forward;
-        Vector3 midDir = transform.forward;
-
-        Handles.DrawLine(bottomCenter + leftDir * radius, topCenter + leftDir * radius);
-        Handles.DrawLine(bottomCenter + rightDir * radius, topCenter + rightDir * radius);
-        Handles.DrawLine(bottomCenter + midDir * radius, topCenter + midDir * radius);
-
-        Handles.DrawWireArc(bottomCenter, Vector3.up, startDir, angle, radius);
-        Handles.DrawWireArc(topCenter, Vector3.up, startDir, angle, radius);
-#endif
+        int segments = 20;
+        Vector3 prevPoint = transform.position + leftDir * radius;
+        for (int i = 1; i <= segments; i++)
+        {
+            float currentAngle = -angle / 2f + (angle * i / segments);
+            Vector3 point = transform.position + (Quaternion.AngleAxis(currentAngle, Vector3.up) * forward) * radius;
+            Gizmos.DrawLine(prevPoint, point);
+            prevPoint = point;
+        }
     }
 
     private void DrawCircle(Vector3 center, float radius)
