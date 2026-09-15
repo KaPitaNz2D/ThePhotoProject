@@ -8,52 +8,52 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: M_Bag
-    second: {fileID: 2100000, guid: 425f354fb93ec9849bb406b11df97ee7, type: 2}
+    second: {fileID: 2100000, guid: b130ed923d087ae4d84f670774ce7d7b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: M_BaseBody
-    second: {fileID: 2100000, guid: 6a4e4761f1052994baad56f63b045f51, type: 2}
+    second: {fileID: 2100000, guid: 538cb44f858880549a0359120ebcb8b4, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: M_Beret
-    second: {fileID: 2100000, guid: 12290d6d01c352d4aa7d54427ba48ab4, type: 2}
+    second: {fileID: 2100000, guid: d8bd7148f60054a4db231098a3fd52a8, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: M_Face_Default
-    second: {fileID: 2100000, guid: f0c3c9e13a0936945abb824d969142d3, type: 2}
+    second: {fileID: 2100000, guid: 4cf552029b6bd454598b7dc9c0b5bec3, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: M_Hair
-    second: {fileID: 2100000, guid: 0e6c7ba3031314647acad6676766b193, type: 2}
+    second: {fileID: 2100000, guid: 6fa15af84e74ff5489289d12f5fbcff0, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: M_Pants
-    second: {fileID: 2100000, guid: 5e4b16f720c984141acd45df10b7c18d, type: 2}
+    second: {fileID: 2100000, guid: f3086a476deb5634fbdb42dd4af11a66, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: M_Shirt
-    second: {fileID: 2100000, guid: b158878bbebd6d34cacb461e209405b4, type: 2}
+    second: {fileID: 2100000, guid: 8e153b7e72a6c6b4585d1569a555c2f9, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: M_Shoes
-    second: {fileID: 2100000, guid: bc30451aed94ccd49bb130c9734aa46f, type: 2}
+    second: {fileID: 2100000, guid: 5950e5e64072e114eaaa18095f30021c, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: M_TiedSweater
-    second: {fileID: 2100000, guid: ac2af4fda43447e4ba22598eceb6ba8b, type: 2}
+    second: {fileID: 2100000, guid: f5aa22f8ccd4edd4488175b3862e1633, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: M_Watch
-    second: {fileID: 2100000, guid: 0e5a0e4fe354fe7449d92d81f433865d, type: 2}
+    second: {fileID: 2100000, guid: cbbc283317e76b7489866e609474c56a, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
