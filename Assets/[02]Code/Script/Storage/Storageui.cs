@@ -103,7 +103,10 @@ public class StorageUI : MonoBehaviour
     }
 
     // ==================== เปิด/ปิด Panel หลัก ====================
-    private void OnToggleStorage(InputAction.CallbackContext ctx)
+    private void OnToggleStorage(InputAction.CallbackContext ctx) => ToggleStorageUI();
+
+    /// <summary>เรียกจากปุ่ม UI (Button.onClick) หรือ Input Action ก็ได้ — สลับเปิด/ปิด Storage</summary>
+    public void ToggleStorageUI()
     {
         if (StateManager.Instance == null) return;
 

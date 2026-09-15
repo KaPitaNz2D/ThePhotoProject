@@ -24,6 +24,12 @@
       },
       "hash": "4ce7dd3cc54e37e2ed6dc59cb5a047f3dccb3f50"
     },
+    "com.unity.2d.sprite": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
     "com.unity.ai.navigation": {
       "version": "2.0.13",
       "depth": 0,
@@ -261,6 +267,37 @@
         "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"
+    },
+    "dev.yarnspinner.unity": {
+      "version": "file:dev.yarnspinner.unity",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "dev.yarnspinner.unity.addons.classicrpg": {
+      "version": "file:dev.yarnspinner.unity.addons.classicrpg",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "dev.yarnspinner.unity": "3.2.0",
+        "com.unity.cinemachine": "3.1.0"
+      }
+    },
+    "dev.yarnspinner.unity.addons.snaaake": {
+      "version": "file:dev.yarnspinner.unity.addons.snaaake",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "dev.yarnspinner.unity": "3.2.1"
+      }
+    },
+    "dev.yarnspinner.unity.addons.textanimator": {
+      "version": "file:dev.yarnspinner.unity.addons.textanimator",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "dev.yarnspinner.unity": "3.1.0"
+      }
     },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",

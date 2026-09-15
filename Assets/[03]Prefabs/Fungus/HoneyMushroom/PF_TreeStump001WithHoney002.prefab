@@ -248,7 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a73f2ea9b12f80246beab020b9f15143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhotoSubject
-  creatureId: Honey
+  profile: {fileID: 11400000, guid: 0a87115df4dac55418292367a5fd835f, type: 2}
 --- !u!1001 &4356968120615471180
 PrefabInstance:
   m_ObjectHideFlags: 0

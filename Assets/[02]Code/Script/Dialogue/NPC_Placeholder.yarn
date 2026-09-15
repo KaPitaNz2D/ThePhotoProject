@@ -1,0 +1,47 @@
+title: NPC_Start
+---
+<<if quest_status("deer_01") == "NotStarted">>
+    NPC: Oh, hello there! Welcome to the park.
+    Player: Hi I'm the new kid who just moved in.
+    NPC: I don't think we've met before - nice to see a new face around here.
+    NPC: Actually, since you're here, I could use your help with something.
+    Player: Okay, go ahead and tell me.
+    NPC: There's a deer that lives around these parts. Could you go find it and take a nice close-up photo for me?
+    NPC: And hey, while you're out there, feel free to snap pictures of any other interesting plants or mushrooms you come across too. I'd love to see what you find.
+    -> Sure, I'll go take a look.
+        <<start_quest "deer_01">>
+        NPC: Great, thank you! Take it slow, the deer spooks easily.
+    -> Maybe later.
+        NPC: No rush. I'll be right here whenever you're ready.
+<<elseif quest_status("deer_01") == "Active" && has_photo("deer_01")>>
+    NPC: Oh, you're back! Let's see what you got.
+    NPC: A nice close-up of the deer - exactly what I was hoping for. Thank you!
+    <<complete_quest "deer_01">>
+    <<mark_informed "deer_01">>
+    NPC: Thank you very much, this will help our research a lot.
+<<elseif quest_status("deer_01") == "Active">>
+    NPC: Still haven't found the deer? Try checking around the lake, it likes to graze there.
+<<elseif quest_status("deer_01") == "Completed">>
+    NPC: Thanks again for your help with the deer earlier.
+<<endif>>
+<<if has_photo("Chan") && !is_informed("Chan")>>
+    NPC: Ah, a chanterelle too, I see. That golden color gives it away.
+    NPC: See the ridges underneath? Those aren't real gills - and it only grows near tree roots like oak or birch.
+    <<mark_informed "Chan">>
+<<endif>>
+<<if has_photo("FlyAgaric") && !is_informed("FlyAgaric")>>
+    NPC: And a fly agaric - hard to miss that red cap with the white warts.
+    NPC: Pretty to look at, but never eat one raw.
+    <<mark_informed "FlyAgaric">>
+<<endif>>
+<<if has_photo("Honey") && !is_informed("Honey")>>
+    NPC: Honey fungus, growing right on that old stump.
+    NPC: It's slowly feeding on the wood underneath - its threads can spread for miles underground.
+    <<mark_informed "Honey">>
+<<endif>>
+<<if has_photo("Turkey") && !is_informed("Turkey")>>
+    NPC: Turkey tail, with those banded rings of color.
+    NPC: It breaks down dead wood bit by bit. Too tough to eat, but good for tea.
+    <<mark_informed "Turkey">>
+<<endif>>
+===

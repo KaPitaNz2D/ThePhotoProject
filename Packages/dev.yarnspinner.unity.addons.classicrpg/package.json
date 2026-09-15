@@ -1,0 +1,28 @@
+{
+    "name": "dev.yarnspinner.unity.addons.classicrpg",
+    "version": "3.2.0",
+    "displayName": "Classic RPG for Yarn Spinner",
+    "description": "A classic RPG dialogue presenter for Yarn Spinner for Unity.",
+    "unity": "6000.0",
+    "dependencies": {
+        "dev.yarnspinner.unity": "3.2.0",
+        "com.unity.cinemachine": "3.1.0"
+    },
+    "keywords": [
+        "Dialogue",
+        "Yarn"
+    ],
+    "author": {
+        "name": "Yarn Spinner Pty Ltd",
+        "url": "https://yarnspinner.dev"
+    },
+    "hideInEditor": false,
+    "type": "tool",
+    "samples": [
+        {
+            "displayName": "Classic RPG",
+            "description": "Demonstrates using the Classic RPG dialogue presenter. NOTE: You must install the free Yarn Spinner Samples package before installing this sample!",
+            "path": "Samples~/ClassicRPG"
+        }
+    ]
+}

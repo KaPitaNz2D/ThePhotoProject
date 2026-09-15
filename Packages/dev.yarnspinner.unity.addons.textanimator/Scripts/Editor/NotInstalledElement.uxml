@@ -1,0 +1,5 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Packages/dev.yarnspinner.unity.addons.textanimator/Scripts/Editor/TextAnimatorConfigurationWindow.uss?fileID=7433441132597879392&amp;guid=e52662955dcee47bbbe24c3602e61bf7&amp;type=3#TextAnimatorConfigurationWindow" />
+    <engine:Label text="Text Animator for Unity is not installed. You will need to install it before you can use it with Yarn Spinner." style="white-space: normal; margin-left: 4px; flex-wrap: wrap;" />
+    <engine:Button text="Get Text Animator for Unity" name="notInstalledButton" style="margin-left: 8px; margin-right: 8px; margin-bottom: 4px;" />
+</engine:UXML>

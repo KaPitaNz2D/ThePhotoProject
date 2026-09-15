@@ -1,0 +1,21 @@
+{
+	"name": "dev.yarnspinner.unity.addons.snaaake",
+	"displayName": "Snaaake for Yarn Spinner",
+	"version": "3.2.0",
+	"unity": "6000.0",
+	"author": {
+		"name": "Yarn Spinner Pty Ltd",
+		"url": "https://yarnspinner.dev"
+	},
+	"description": "A Dialogue Presenter for Yarn Spinner designed to look a retro action game.",
+	"dependencies": {
+		"dev.yarnspinner.unity": "3.2.1"
+	},
+	"samples": [
+		{
+			"displayName": "Snaaaake",
+			"description": "Demonstrates using the Snaaake dialogue presenter.",
+			"path": "Samples~/Snaaake"
+		}
+	]
+}

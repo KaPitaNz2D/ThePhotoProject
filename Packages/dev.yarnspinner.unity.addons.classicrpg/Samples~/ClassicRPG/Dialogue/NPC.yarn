@@ -1,0 +1,55 @@
+﻿title: NPC
+---
+NPC: Hi! I'm demoing this dialogue view!
+-> Lines
+    <<jump LinesTest>>
+-> Options
+    <<jump OptionsTest>>
+-> Icons
+    <<jump IconTest>>
+
+NPC: Goodbye! #end
+===
+title: IconTest
+---
+NPC: You should buy a [c2]shield[/c2]! #icon:ItemShield #end
+===
+title: OptionsTest
+---
+NPC: Want to buy a [c1]stick[/c1]?
+-> Yes
+    // Switch to the blue dialogue style
+    <<hide_dialogue>>
+    <<set_dialogue_style blue>>
+    Great! You now own this fantastic [c1]stick[/c1]! #icon:ItemStick #end
+-> No
+    NPC: Oh. Nobody wants to buy my [c1]stick[/c1].
+    NPC: Dang it! #center #end
+===
+title: LinesTest
+---
+NPC: Hey, I'm an NPC! [pause=500/] [speed=120]How cool is that![/speed]
+NPC: I'm gonna [speed=0]say [pause=500/]some [pause=500/]words [pause=500/]one [pause=500/]by [pause=500/]one[/speed]!!!
+NPC: Look at me go!
+NPC: [speed=5]...[/speed][pause=1000/][speed=30]......[/speed]
+NPC: Wait...
+NPC: You aren't saying anything at all! #noskip
+NPC: Well bye #end
+===
+title: NPCVideoTest
+---
+NPC: Hi! I'm a friendly merchant!
+NPC: Why am I out here at night and not inside the town walls?
+NPC: [speed=0]It's [pause=500/]simple!![/speed] [pause=1000/] [speed=100]I'm a [c0]crook[/c0]![/]
+NPC: Anyway[speed=5]...[/speed] [pause=500/] buy my wares!
+-> Buy a stick
+    <<hide_dialogue>>
+    <<set_dialogue_style blue>>
+    You now own this fantastic [c1]stick[/c1]! This wasn't a great investment. #icon:ItemStick #end
+    <<hide_dialogue>>
+    <<set_dialogue_style normal>>
+-> Don't buy
+
+NPC: Well, see you later!
+
+===

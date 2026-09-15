@@ -1,13 +1,18 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// แปะไว้ที่ Root GameObject ของสิ่งมีชีวิต/วัตถุที่ถ่ายรูปได้เท่านั้น (เช่น "Deer")
-/// ส่วนย่อยๆ ข้างใน (Neck, Head, Antler, Leg ฯลฯ) ไม่ต้องแปะ — แค่ติด Tag "Photographable"
-/// กับ Collider ของมันพอ ระบบจะไล่หา Component นี้ที่ Parent เพื่อรู้ว่า
-/// "ส่วนที่ถ่ายติดนี้ เป็นของสิ่งมีชีวิตตัวไหนกันแน่" ไม่ว่าจะมีกี่ Collider ย่อยก็ตาม
+/// แปะไว้ที่ Root GameObject ของสิ่งมีชีวิต/พืชที่ถ่ายรูปได้เท่านั้น (เช่น "Deer", "Berry Bush")
+/// ส่วนย่อยๆ ข้างใน (Neck, Head, Antler ฯลฯ) ไม่ต้องแปะ — แค่ติด Tag "Photographable" พอ
+///
+/// รับ Reference เป็น JournalSubjectProfile (Base Class) ไม่ใช่ CreatureProfile ตรงๆ
+/// เพราะงั้นลากได้ทั้ง CreatureProfile (สัตว์) และ PlantProfile (พืช) เข้าช่องเดียวกันนี้
+/// CreatureId ดึงมาจาก Asset โดยตรง ป้องกันปัญหาพิมพ์ผิดเหมือนเดิม
 /// </summary>
 public class PhotoSubject : MonoBehaviour
 {
-    [Tooltip("ชื่อ/ID ของสิ่งมีชีวิตนี้ ใช้อ้างอิงตอน Unlock Field Guide หรือระบบอื่นๆ ต่อไป")]
-    public string creatureId;
+    [Tooltip("ลาก CreatureProfile (สัตว์) หรือ PlantProfile (พืช) ก็ได้ — CreatureId จะดึงมาจาก Asset นี้โดยตรง")]
+    public JournalSubjectProfile profile;
+
+    /// <summary>CreatureId ที่แท้จริง ดึงจาก Profile ที่ผูกไว้ — คืนค่า null ถ้ายังไม่ได้ผูก Profile</summary>
+    public string CreatureId => profile != null ? profile.CreatureId : null;
 }

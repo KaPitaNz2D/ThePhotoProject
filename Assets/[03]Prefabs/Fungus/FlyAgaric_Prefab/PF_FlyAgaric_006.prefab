@@ -189,7 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a73f2ea9b12f80246beab020b9f15143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhotoSubject
-  creatureId: FlyAgaric
+  profile: {fileID: 11400000, guid: 662172b8f12194d418d41a060fae147a, type: 2}
 --- !u!1 &5252477848582730612
 GameObject:
   m_ObjectHideFlags: 0

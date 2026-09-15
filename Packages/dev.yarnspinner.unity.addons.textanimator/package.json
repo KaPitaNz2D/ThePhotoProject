@@ -1,0 +1,20 @@
+{
+  "name": "dev.yarnspinner.unity.addons.textanimator",
+  "version": "3.1.0",
+  "displayName": "Text Animator for Yarn Spinner",
+  "description": "Description goes here",
+  "unity": "2022.3",
+  "dependencies": {
+    "dev.yarnspinner.unity": "3.1.0"
+  },
+  "keywords": [
+    "Dialogue",
+    "Yarn"
+  ],
+  "author": {
+    "name": "Yarn Spinner Pty Ltd",
+    "url": "https://yarnspinner.dev"
+  },
+  "hideInEditor": false,
+  "type": "tool"
+}

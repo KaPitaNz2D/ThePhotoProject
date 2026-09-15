@@ -1,0 +1,40 @@
+﻿title: Start
+position: 12,12
+---
+
+<<set_slot Dwight left>>
+<<set_slot Player right>>
+
+<<wait 0.5>>
+
+=> Dwight: Max Force!  #line:Start_0100_Dwight
+=> Dwight: Hurry, Max Force!  #line:Start_0200_Dwight
+=> Dwight: You gotta move fast, Max Force!  #line:Start_0300_Dwight
+
+Dwight: You need to disable the detonators in order, or the submarine will explode, releasing the poison nano-bots!   #line:Start_0400_Dwight
+
+=> Player: On it.   #line:Start_0500_Player
+=> Player: Got it.  #line:Start_0600_Player
+=> Player: I'm on it.  #line:Start_0700_Player
+
+Player: Hey, while I'm down here, saving the world, maybe I'll find clues about how I was betrayed by the Oversight Committee.   #line:Start_0800_Player
+
+=> Dwight: Betrayed? By the Committee? How?   #line:Start_0900_Dwight
+=> Dwight: What do you mean, betrayed?  #line:Start_1000_Dwight
+=> Dwight: The Committee would never betray you!  #line:Start_1100_Dwight
+
+=> Player: Don't play dumb, Dwight.  #line:Start_1200_Player
+=> Player: You're being naive, Dwight.  #line:Start_1300_Player
+=> Player: Don't be stupid, Dwight.  #line:Start_1400_Player
+
+Player: You know they took me off the investigation.   #line:Start_1500_Player
+
+=> Dwight: Into McNeal?   #line:Start_1600_Dwight
+=> Dwight: Into the bomber?  #line:Start_1700_Dwight
+
+Player: Yeah. Funny how she disappeared right afterwards and nobody got assigned to find her.   #line:Start_1800_Player
+Dwight: You don't mean...   #line:Start_1900_Dwight
+Player: The Oversight Committee was protecting her.   #line:Start_2000_Player
+Dwight: My god...   #line:Start_2100_Dwight
+
+===

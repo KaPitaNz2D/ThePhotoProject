@@ -1,0 +1,6 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Packages/dev.yarnspinner.unity.addons.textanimator/Scripts/Editor/TextAnimatorConfigurationWindow.uss?fileID=7433441132597879392&amp;guid=e52662955dcee47bbbe24c3602e61bf7&amp;type=3#TextAnimatorConfigurationWindow" />
+    <engine:Label text="Text Animator for Unity is installed and Yarn Spinner is correctly configured to use it." style="white-space: normal; -unity-text-align: upper-left; margin-bottom: 4px; flex-wrap: wrap; margin-left: 4px;" />
+    <engine:Label text="The default Yarn Spinner action has not been registered with Text Animator yet.&#10;Depending on your setup this may not be an issue, if you want to register it you can here.&#10;Otherwise each typewriter will need to ensure their own action is registered." name="definedLabel" style="white-space: normal; -unity-text-align: upper-left; margin-left: 4px;" />
+    <engine:Button text="Register action" name="definedButton" style="margin-left: 8px; margin-right: 8px;" />
+</engine:UXML>

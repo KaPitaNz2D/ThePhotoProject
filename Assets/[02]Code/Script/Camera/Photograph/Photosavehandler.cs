@@ -56,15 +56,20 @@ public class PhotoSaveHandler : MonoBehaviour
             return;
         }
 
-        // ดึง creatureId จากวัตถุที่ถ่ายติด เก็บเป็น string เท่านั้น (ไม่เก็บ GameObject reference ข้าม Session)
+        // ดึง creatureId จากวัตถุที่ถ่ายติด ผ่าน CreatureProfile ที่ผูกไว้กับ PhotoSubject (กันพิมพ์ผิด)
         List<string> creatureIds = new List<string>();
         foreach (GameObject subject in subjects)
         {
             PhotoSubject photoSubject = subject.GetComponent<PhotoSubject>();
-            if (photoSubject != null)
+            if (photoSubject == null) continue;
+
+            string id = photoSubject.CreatureId;
+            if (string.IsNullOrEmpty(id))
             {
-                creatureIds.Add(photoSubject.creatureId);
+                Debug.LogWarning($"[PhotoSaveHandler] '{subject.name}' มี PhotoSubject แต่ยังไม่ได้ผูก CreatureProfile ไว้ — ข้ามไปก่อน");
+                continue;
             }
+            creatureIds.Add(id);
         }
 
         byte[] pngBytes = photo.EncodeToPNG();

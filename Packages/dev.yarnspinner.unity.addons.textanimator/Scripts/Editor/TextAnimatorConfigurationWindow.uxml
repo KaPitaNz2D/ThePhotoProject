@@ -1,0 +1,5 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Packages/dev.yarnspinner.unity.addons.textanimator/Scripts/Editor/TextAnimatorConfigurationWindow.uss?fileID=7433441132597879392&amp;guid=e52662955dcee47bbbe24c3602e61bf7&amp;type=3#TextAnimatorConfigurationWindow" />
+    <engine:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Packages/dev.yarnspinner.unity.addons.textanimator/Scripts/Editor/banner.jpg?fileID=21300000&amp;guid=a4bc00c6001e94d6d85534ee24530d57&amp;type=3#banner&quot;); min-width: 315px; min-height: 250px; background-position-x: center 0; background-position-y: center 0; -unity-background-scale-mode: scale-to-fit; flex-direction: column;" />
+    <engine:Label text="Text Animator for Unity is a 3rd Party asset for creating gorgeous text effects." style="white-space: normal; margin-top: 2px; flex-wrap: wrap; -unity-text-align: upper-center; margin-bottom: 4px;" />
+</engine:UXML>

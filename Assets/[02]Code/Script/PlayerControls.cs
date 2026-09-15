@@ -497,6 +497,34 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""NPC Interection"",
+            ""id"": ""097b0549-d282-4575-abce-b5be0c4ce2df"",
+            ""actions"": [
+                {
+                    ""name"": ""Interect"",
+                    ""type"": ""Button"",
+                    ""id"": ""f0158060-3bfa-4897-a38e-010c684e0678"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""f514b339-ab8a-49f1-a65a-6663a01a0799"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -524,6 +552,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_JournalUI = asset.FindActionMap("Journal UI", throwIfNotFound: true);
         m_JournalUI_JournalToggle = m_JournalUI.FindAction("Journal Toggle", throwIfNotFound: true);
         m_JournalUI_Back = m_JournalUI.FindAction("Back", throwIfNotFound: true);
+        // NPC Interection
+        m_NPCInterection = asset.FindActionMap("NPC Interection", throwIfNotFound: true);
+        m_NPCInterection_Interect = m_NPCInterection.FindAction("Interect", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -533,6 +564,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_Photograph.enabled, "This will cause a leak and performance issues, PlayerControls.Photograph.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_StorageUI.enabled, "This will cause a leak and performance issues, PlayerControls.StorageUI.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_JournalUI.enabled, "This will cause a leak and performance issues, PlayerControls.JournalUI.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_NPCInterection.enabled, "This will cause a leak and performance issues, PlayerControls.NPCInterection.Disable() has not been called.");
     }
 
     /// <summary>
@@ -1172,6 +1204,102 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="JournalUIActions" /> instance referencing this action map.
     /// </summary>
     public JournalUIActions @JournalUI => new JournalUIActions(this);
+
+    // NPC Interection
+    private readonly InputActionMap m_NPCInterection;
+    private List<INPCInterectionActions> m_NPCInterectionActionsCallbackInterfaces = new List<INPCInterectionActions>();
+    private readonly InputAction m_NPCInterection_Interect;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "NPC Interection".
+    /// </summary>
+    public struct NPCInterectionActions
+    {
+        private @PlayerControls m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public NPCInterectionActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "NPCInterection/Interect".
+        /// </summary>
+        public InputAction @Interect => m_Wrapper.m_NPCInterection_Interect;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_NPCInterection; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="NPCInterectionActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(NPCInterectionActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="NPCInterectionActions" />
+        public void AddCallbacks(INPCInterectionActions instance)
+        {
+            if (instance == null || m_Wrapper.m_NPCInterectionActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_NPCInterectionActionsCallbackInterfaces.Add(instance);
+            @Interect.started += instance.OnInterect;
+            @Interect.performed += instance.OnInterect;
+            @Interect.canceled += instance.OnInterect;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="NPCInterectionActions" />
+        private void UnregisterCallbacks(INPCInterectionActions instance)
+        {
+            @Interect.started -= instance.OnInterect;
+            @Interect.performed -= instance.OnInterect;
+            @Interect.canceled -= instance.OnInterect;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="NPCInterectionActions.UnregisterCallbacks(INPCInterectionActions)" />.
+        /// </summary>
+        /// <seealso cref="NPCInterectionActions.UnregisterCallbacks(INPCInterectionActions)" />
+        public void RemoveCallbacks(INPCInterectionActions instance)
+        {
+            if (m_Wrapper.m_NPCInterectionActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="NPCInterectionActions.AddCallbacks(INPCInterectionActions)" />
+        /// <seealso cref="NPCInterectionActions.RemoveCallbacks(INPCInterectionActions)" />
+        /// <seealso cref="NPCInterectionActions.UnregisterCallbacks(INPCInterectionActions)" />
+        public void SetCallbacks(INPCInterectionActions instance)
+        {
+            foreach (var item in m_Wrapper.m_NPCInterectionActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_NPCInterectionActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="NPCInterectionActions" /> instance referencing this action map.
+    /// </summary>
+    public NPCInterectionActions @NPCInterection => new NPCInterectionActions(this);
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Player Movement" which allows adding and removing callbacks.
     /// </summary>
@@ -1302,5 +1430,20 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnBack(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "NPC Interection" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="NPCInterectionActions.AddCallbacks(INPCInterectionActions)" />
+    /// <seealso cref="NPCInterectionActions.RemoveCallbacks(INPCInterectionActions)" />
+    public interface INPCInterectionActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Interect" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnInterect(InputAction.CallbackContext context);
     }
 }
