@@ -19,6 +19,6 @@ MonoBehaviour:
     raw - admire, don't taste.
   questRewardDetails:
   referenceImage: {fileID: 0}
-  habitatInfo: Beneath birch, pine and spruce trees, often near old stumps and roots
-    in autumn.
+  habitatInfo: Currently found growing throughout the whole forest, not limited to
+    any particular zone.
   silhouette: {fileID: 0}

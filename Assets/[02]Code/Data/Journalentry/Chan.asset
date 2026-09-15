@@ -19,6 +19,6 @@ MonoBehaviour:
     scent and wavy ridged gills.
   questRewardDetails:
   referenceImage: {fileID: 0}
-  habitatInfo: Grows on the forest floor near oak, pine and birch roots, hidden in
-    leaf litter and shaded undergrowth.
+  habitatInfo: Currently found growing throughout the whole forest, not limited to
+    any particular zone.
   silhouette: {fileID: 0}

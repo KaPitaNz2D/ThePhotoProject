@@ -281,9 +281,10 @@ GameObject:
   - component: {fileID: 7894649945393160178}
   - component: {fileID: 547352235398928512}
   - component: {fileID: 6022407254292364850}
+  - component: {fileID: 7516349160008780170}
   m_Layer: 0
   m_Name: PF_Chanterrella_001
-  m_TagString: Untagged
+  m_TagString: Photographable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -363,6 +364,19 @@ CapsuleCollider:
   m_Height: 0.4394524
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7516349160008780170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2599370766304405289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a73f2ea9b12f80246beab020b9f15143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PhotoSubject
+  profile: {fileID: 11400000, guid: 0db0e057fc54c534c994212416ee8ebd, type: 2}
 --- !u!1 &5584112543152995248
 GameObject:
   m_ObjectHideFlags: 0

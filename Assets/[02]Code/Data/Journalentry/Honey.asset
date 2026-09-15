@@ -19,5 +19,5 @@ MonoBehaviour:
     fungus that slowly decays the tree it feeds on.
   questRewardDetails:
   referenceImage: {fileID: 0}
-  habitatInfo: Dense clusters on old tree stumps and the base of dying trunks.
+  habitatInfo: Currently found only around the maple trees.
   silhouette: {fileID: 0}

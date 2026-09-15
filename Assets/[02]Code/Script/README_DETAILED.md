@@ -2,7 +2,7 @@
 
 > เวอร์ชันย่ออ่านเร็วอยู่ที่ [README.md](README.md) — ไฟล์นี้คือรายละเอียดทางเทคนิคของทุกสคริปต์ใน `Assets/[02]Code/Script/`
 >
-> **อัปเดตล่าสุด:** 2026-09-15 (Unity 6000.3.19f1, Input System ใหม่, Yarn Spinner, Cinemachine 3)
+> **อัปเดตล่าสุด:** 2026-09-16 (Unity 6000.3.19f1, Input System ใหม่, Yarn Spinner, Cinemachine 3)
 
 ---
 
@@ -98,14 +98,14 @@ Helper method สำคัญที่ระบบอื่นเรียกเ
 | `Plantprofile.cs` | `PlantProfile : JournalSubjectProfile` | **ไม่มี field เพิ่มเลย** เพราะพืชไม่ขยับ/ไม่มองเห็นผู้เล่น — ใช้แค่ Identity จาก Base Class |
 | `Photosubject.cs` | `PhotoSubject` | แปะที่ Root Object ของสิ่งที่ถ่ายรูปได้ ลาก `JournalSubjectProfile` (จะเป็น Creature หรือ Plant ก็ได้) มาใส่ `profile` แล้ว `CreatureId` จะดึงจาก Asset นั้นอัตโนมัติ (กันพิมพ์ผิด) |
 
-**ข้อมูล Asset จริงตอนนี้** (`Assets/[02]Code/Data/Profile/`): CreatureProfile 1 ตัว (Deer) และ PlantProfile 4 ตัว (Chan/FlyAgaric/Honey/Turkey)
+**ข้อมูล Asset จริงตอนนี้** (`Assets/[02]Code/Data/Profile/`): CreatureProfile 1 ตัว (Deer) และ PlantProfile 5 ตัว (Chan/FlyAgaric/Honey/Turkey/Puffball) — ⚠️ Puffball ยังไม่ถูกใส่เข้าไปใน `JournalManager.allEntries` ของ Scene เลย ถ่ายรูปติดแล้วจะไม่ขึ้นใน Journal จนกว่าจะลาก `Journalentry/Puffball.asset` เข้าไปใส่ List ด้วยตัวเอง
 
 ### `Creature/AI/` — พฤติกรรมสัตว์ (เฉพาะ CreatureProfile เท่านั้น พืชไม่มี AI)
 
 | ไฟล์ | Class | หน้าที่ |
 |---|---|---|
 | `Behaviortree.cs` | `BTNode` (abstract), `BTSelector`, `BTSequence`, `BTCondition`, `BTAction`, enum `BTStatus` | Framework Behavior Tree แบบเบาที่สุด เขียนเป็นโค้ดตรงๆ ไม่มี Visual Editor — `BTSelector` = OR ตามลำดับความสำคัญ, `BTSequence` = AND |
-| `Creatureai.cs` | `CreatureAI` (ต้องมี `NavMeshAgent` + `CreatureVision`) | สมองของสัตว์ ใช้ `CreatureProfile` เป็นค่าปรับแต่งทั้งหมด (ไม่มี Field ของตัวเอง) โครงสร้าง: Root Selector → **Engage branch** (ผู้เล่นเข้า Awareness Radius → วิ่งหนีทันที / เห็นในโคนสายตาต่อเนื่องครบเวลา → Alert แล้วค่อย Run) → **Normal branch** (Idle ↔ Walking สุ่มไปมาในรัศมี `wanderRadius`) State: `Idle, Walking, Alert, Run` ยิง `OnStateChanged` ให้ Animator ฟัง |
+| `Creatureai.cs` | `CreatureAI` (ต้องมี `NavMeshAgent` + `CreatureVision`) | สมองของสัตว์ ใช้ `CreatureProfile` เป็นค่าปรับแต่งทั้งหมด (ไม่มี Field ของตัวเอง) โครงสร้าง: Root Selector → **Engage branch** (ผู้เล่นเข้า Awareness Radius → วิ่งหนีทันที / เห็นในโคนสายตาต่อเนื่องครบเวลา → Alert แล้วค่อย Run) → **Normal branch** (Idle ↔ Walking สุ่มไปมาในรัศมี `wanderRadius`) State: `Idle, Walking, Alert, Run` ยิง `OnStateChanged` ให้ Animator ฟัง — ตอนวิ่งหนี (`UpdateFleeDestination`) สุ่มเบี่ยงมุมจากทิศตรงข้ามผู้เล่น ±`fleeAngleVariance` องศา (ค่าอยู่ใน `CreatureProfile`) กันวิ่งเป็นเส้นตรงเป๊ะทุกครั้ง — ตอนเดินเล่น (`UpdateWalking`) มี timeout `maxWalkDuration` กันเดินติดค้างถาวร (เช่นชนสิ่งกีดขวางที่ NavMesh ไม่ได้กันไว้) ถ้าเดินไม่ถึงจุดหมายภายในเวลานี้จะยกเลิกแล้วกลับ Idle เอง — ระยะเวลาเดินปกติต่อรอบคุมผ่าน `wanderRadius` (ยิ่งกว้างยิ่งเดินนาน) ไม่ใช่ตัวจับเวลาตรงๆ |
 | `Creaturevision.cs` | `CreatureVision` | ตรวจจับผู้เล่น 2 แบบ: **Vision Cone** (ต้องอยู่ในมุม/ระยะ + ไม่มีอะไรบัง (`Physics.Linecast`), หดแคบลงอัตโนมัติเมื่อผู้เล่นย่อ) และ **Awareness Radius** (รอบตัว ตรวจจับได้ทุกทิศทาง ไม่ลดตาม Crouch) |
 
 **ที่ยังไม่ได้ทำ (ระบุไว้ในคอมเมนต์โค้ดเอง):** Time Cycle (แยกพฤติกรรม Normal/Engage ตามช่วงเวลาในเกม) — ตกลงกันไว้แล้วแต่ Root ยังไม่มี Gate นี้
@@ -162,7 +162,8 @@ Helper method สำคัญที่ระบบอื่นเรียกเ
 
 | ไฟล์ | Class | หน้าที่ |
 |---|---|---|
-| `Audiomanager.cs` | `AudioManager` (Singleton, `DontDestroyOnLoad`) | ระบบเสียงกลาง — เรียก `AudioManager.Instance.PlaySFX(clip)` ได้จากทุกที่ ไม่ต้องมี `AudioSource` ของตัวเอง ใช้ Pool ของ `AudioSource` หมุนเวียนกัน (ค่าเริ่มต้น 8 ตัว) รองรับเสียงซ้อนกันหลายตัวพร้อมกัน มี `PlaySFXAtPoint()` สำหรับเสียง 3D ตำแหน่งในโลก **ใช้กับเสียง One-shot เท่านั้น** เสียง Loop ต่อเนื่อง (เช่นมอเตอร์ซูม) ต้องมี `AudioSource` แยกเอง |
+| `Audiomanager.cs` | `AudioManager` (Singleton, `DontDestroyOnLoad`) | ระบบเสียงกลาง — เรียก `AudioManager.Instance.PlaySFX(clip)` ได้จากทุกที่ ไม่ต้องมี `AudioSource` ของตัวเอง ใช้ Pool ของ `AudioSource` หมุนเวียนกัน (ค่าเริ่มต้น 8 ตัว) รองรับเสียงซ้อนกันหลายตัวพร้อมกัน มี `PlaySFXAtPoint()` สำหรับเสียง 3D ตำแหน่งในโลก **ใช้กับเสียง One-shot เท่านั้น** เสียง Loop ต่อเนื่อง (BGM/Ambient เป็นต้น) ต้องมี `AudioSource` แยกเอง (Loop + Play On Awake ตั้งใน Inspector ตรงๆ ไม่ต้องพึ่งสคริปต์) |
+| `DelayedAudioPlay.cs` | `DelayedAudioPlay` (ต้องมี `AudioSource`) | เล่น `AudioSource` บน Object เดียวกันวนซ้ำแบบมีช่วงเว้นระหว่างรอบ — หน่วง `delaySeconds` ก่อนเล่นครั้งแรก แล้วเว้น `gapBetweenLoops` ทุกครั้งที่เล่นจบก่อนเริ่มรอบใหม่ (ปิด `Loop` ของ `AudioSource` ให้อัตโนมัติ คุมจังหวะเองทั้งหมดด้วย Coroutine) ใช้กับเพลง BGM ที่ไม่อยากให้ต่อกันทันทีเหมือน Loop ปกติ ต้องปิด `Play On Awake` ของ `AudioSource` นั้นไว้ก่อน ไม่งั้นจะเล่นซ้ำสองรอบ |
 
 ---
 
@@ -174,6 +175,7 @@ Helper method สำคัญที่ระบบอื่นเรียกเ
 |---|---|---|
 | `InstantiateEnviromentObject.cs` | `InstantiateEnviromentObject` | สุ่มเลือก 1 จาก List Prefab แล้ว Instantiate ที่ตำแหน่งตัวเอง จากนั้น Destroy ตัวเองทิ้ง (ใช้เป็น "ตัวแทน" วางในฉากแล้วสุ่มเป็นของจริงตอนเริ่มเกม) |
 | `TerrainTreeEnviromentSpawner.cs` | `TerrainTreeEnviromentSpawner` (ต้องมี `Terrain`) | ต้นไม้ที่ปลูกด้วยเครื่องมือ Paint Trees ของ Unity (หรือ VegetationSpawner) ไม่ได้เป็น GameObject จริง — Unity วาดจาก `TerrainData` เฉยๆ สคริปต์นี้วน `TreeInstance` ทั้งหมด แปลงตัวที่ Prototype มี `InstantiateEnviromentObject` ให้กลายเป็น GameObject จริงในตำแหน่ง/ขนาด/หมุนเดิม แล้วลบ Instance นั้นออกจาก TerrainData (กันวาดซ้อน) — ต้องทำแบบนี้เพื่อให้ต้นไม้ที่ถ่ายรูปได้ (มี Collider + PhotoSubject) ยังโชว์บน Terrain ได้ |
+| `TimeManager.cs` | `TimeManager` | วงจรกลางวัน-กลางคืน — ไล่ `Hours`/`Minutes` ตาม `Time Scale` ทุกเฟรม แล้วเปลี่ยน Skybox/สี Light/Fog ตาม `Time Periods` (array เรียงจากชั่วโมงน้อยไปมาก) พร้อมหมุนดวงอาทิตย์ (`UpdateSunRotation`) และ Lerp สีตอนเปลี่ยนช่วงเวลา เริ่มต้นที่ `Start Hour` (ตั้งค่าได้ใน Inspector) **ล็อคเวลาไว้ช่วงใดช่วงหนึ่งตลอด (เช่นกลางวัน):** ตั้ง `Start Hour` เป็นชั่วโมงที่ต้องการ แล้วตั้ง `Time Scale = 0` กันไม่ให้เวลาเดินต่อ |
 
 ---
 
@@ -207,7 +209,8 @@ Helper method สำคัญที่ระบบอื่นเรียกเ
 - ไม่มี Tutorial/คำแนะนำผู้เล่นครั้งแรกใดๆ ในเกม
 - `JournalEntry.referenceImage` มี field แต่ไม่มีสคริปต์ไหนอ่านค่านี้เลย
 - Creature AI รองรับ Time Cycle (พฤติกรรมต่างกันตามช่วงเวลา) ไว้ในดีไซน์ แต่ยังไม่ implement ใน `Creatureai.cs`
-- มี Creature ที่ตั้งค่า AI ไว้จริงแค่ 1 สายพันธุ์ (Deer) และมี Quest/Dialogue จริงแค่ 1 เควส ผูกกับ `deer_01` เท่านั้น — พืช 4 ชนิดถ่ายได้แต่ไม่มีเควส
+- มี Creature ที่ตั้งค่า AI ไว้จริงแค่ 1 สายพันธุ์ (Deer) และมี Quest/Dialogue จริงแค่ 1 เควส ผูกกับ `deer_01` เท่านั้น — พืช 5 ชนิด (Chan/FlyAgaric/Honey/Turkey/Puffball) ถ่ายได้ NPC มีบทพูดให้ความรู้ตอนถ่ายติดครบ แต่ไม่มีเควสผูก
+- `Puffball` มี Profile/JournalEntry/PhotoSubject wiring ครบแล้ว แต่ยังไม่ได้ใส่เข้า `JournalManager.allEntries` ในซีน
 - `InputManager.cs` เป็น dead code ไม่มีใครเรียกใช้
 - ไม่มีระบบ Map เลย — ปุ่ม Map บน `WorldHudUI` ยังไม่มีอะไรให้เรียก (แค่ไอคอนเปล่า)
 - `MainMenu.unity` ต้องสร้างเอง (Canvas + EventSystem + ปุ่ม Start/Exit ผูก `MainMenuController`) และเพิ่มเข้า Build Settings คู่กับ `Level_Prototype` — ยังไม่มีในโปรเจกต์จนกว่าจะสร้างใน Editor

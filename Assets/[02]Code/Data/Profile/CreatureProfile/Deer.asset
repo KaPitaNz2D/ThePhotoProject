@@ -15,7 +15,7 @@ MonoBehaviour:
   creatureId: deer_01
   journalEntry: {fileID: 11400000, guid: 6f10f5fdfa7a84f4c8c9bf8a31befa0d, type: 2}
   viewAngle: 150
-  viewRadius: 30
+  viewRadius: 50
   awarenessRadius: 10
   obstacleLayer:
     serializedVersion: 2
@@ -23,13 +23,14 @@ MonoBehaviour:
   eyeHeight: 1
   playerHeightOffset: 1.4
   crouchRangeMultiplier: 0.6
-  wanderRadius: 10
+  wanderRadius: 20
   idleMinDuration: 2
   idleMaxDuration: 8
   walkSpeed: 1.5
   runSpeed: 6
-  fleeDistance: 10
-  safeDistance: 20
-  fleeRecalculateInterval: 1
+  fleeDistance: 30
+  safeDistance: 30
+  fleeRecalculateInterval: 0.5
+  fleeAngleVariance: 45
   visionDetectionTime: 1
   crouchDetectionTimeMultiplier: 2
