@@ -44,6 +44,7 @@ public class CreatureAI : MonoBehaviour
     private float stateTimer;
     private float fleeTimer;
     private float visionTimer;
+    private float walkTimer;
     private BTNode root;
 
     private void Awake()
@@ -155,11 +156,20 @@ public class CreatureAI : MonoBehaviour
         agent.isStopped = false;
         agent.speed = profile.walkSpeed;
         agent.SetDestination(GetRandomPointInRadius(spawnOrigin, profile.wanderRadius));
+        walkTimer = 0f;
     }
 
     private void UpdateWalking()
     {
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        {
+            EnterIdle();
+            return;
+        }
+
+        // กันเดินติดค้าง (เช่นไปเจอสิ่งกีดขวางที่ NavMesh ไม่ได้กันไว้ให้) - นานเกินไปก็เลิกพยายามแล้วกลับ Idle เอง
+        walkTimer += Time.deltaTime;
+        if (walkTimer >= profile.maxWalkDuration)
         {
             EnterIdle();
         }
@@ -201,7 +211,9 @@ public class CreatureAI : MonoBehaviour
 
     private void UpdateFleeDestination()
     {
-        Vector3 directionAway = (transform.position - player.position).normalized;
+        // สุ่มเบี่ยงมุมจากทิศตรงข้ามผู้เล่น กันวิ่งหนีเป็นเส้นตรงเป๊ะๆ ทุกครั้ง
+        float randomAngle = UnityEngine.Random.Range(-profile.fleeAngleVariance, profile.fleeAngleVariance);
+        Vector3 directionAway = Quaternion.Euler(0f, randomAngle, 0f) * (transform.position - player.position).normalized;
         Vector3 fleeTarget = transform.position + directionAway * profile.fleeDistance;
 
         if (NavMesh.SamplePosition(fleeTarget, out NavMeshHit hit, profile.fleeDistance, NavMesh.AllAreas))

@@ -68,6 +68,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PuffBall_004
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d7e6b2e9371583c418967335e546a9aa, type: 3}
+      propertyPath: m_TagString
+      value: Photographable
+      objectReference: {fileID: 0}
     - target: {fileID: 4742473837712756890, guid: d7e6b2e9371583c418967335e546a9aa, type: 3}
       propertyPath: m_Size
       value: 2
@@ -83,5 +87,50 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d7e6b2e9371583c418967335e546a9aa, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4752539365922423220}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d7e6b2e9371583c418967335e546a9aa, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6454507940746125229}
   m_SourcePrefab: {fileID: 100100000, guid: d7e6b2e9371583c418967335e546a9aa, type: 3}
+--- !u!1 &5608420042927647788 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d7e6b2e9371583c418967335e546a9aa, type: 3}
+  m_PrefabInstance: {fileID: 4689502311560450429}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4752539365922423220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5608420042927647788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a73f2ea9b12f80246beab020b9f15143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PhotoSubject
+  profile: {fileID: 11400000, guid: bcdea9f8ec2f8bc45b8d27bd926a1cb9, type: 2}
+--- !u!135 &6454507940746125229
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5608420042927647788}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.1
+  m_Center: {x: 0, y: 0.15, z: 0}

@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65f386bcd54ee194b96608af997094bc, type: 3}
-  m_Name: Chan
+  m_Name: Puffball
   m_EditorClassIdentifier: Assembly-CSharp::JournalEntry
-  creatureId: Chan
+  creatureId: puffball
   category: 0
-  displayName: Chan
-  description: A funnel-shaped, golden-orange edible mushroom with a fruity, apricot-like
-    scent and wavy ridged gills.
-  questRewardDetails:
+  displayName: Puffball
+  description: A round, pale puffball mushroom. When mature, it releases a cloud
+    of spores if brushed or stepped on. Edible only while young, when the inside
+    is still pure white.
   referenceImage: {fileID: 0}
-  habitatInfo: Currently found growing throughout the whole forest, not limited to
-    any particular zone.
+  habitatInfo: Currently found growing throughout the whole forest, not limited
+    to any particular zone.
   silhouette: {fileID: 0}

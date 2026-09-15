@@ -32,16 +32,21 @@ public class CreatureProfile : JournalSubjectProfile
     public float crouchRangeMultiplier = 0.6f;
 
     [Header("Wander Settings (Idle <-> Walking)")]
+    [Tooltip("รัศมีที่สุ่มจุดเดินไปจากจุดเกิด — ยิ่งกว้างยิ่งเดินนานขึ้นเพราะระยะทางไกลขึ้น")]
     public float wanderRadius = 10f;
     public float idleMinDuration = 2f;
     public float idleMaxDuration = 6f;
     public float walkSpeed = 1.5f;
+    [Tooltip("เวลาสูงสุดที่ยอมให้อยู่ในสถานะ Walking ต่อรอบ ถ้าเดินไม่ถึงจุดหมายภายในเวลานี้ (เช่นติดสิ่งกีดขวาง) จะยกเลิกแล้วกลับ Idle เอง กันเดินติดค้างถาวร")]
+    public float maxWalkDuration = 20f;
 
     [Header("Run Settings")]
     public float runSpeed = 6f;
     public float fleeDistance = 10f;
     public float safeDistance = 20f;
     public float fleeRecalculateInterval = 1f;
+    [Tooltip("มุมสุ่มเบี่ยงจากทิศตรงข้ามผู้เล่นตอนวิ่งหนี (± องศา) กันวิ่งหนีเป็นเส้นตรงเป๊ะๆ ทุกครั้ง")]
+    public float fleeAngleVariance = 45f;
 
     [Header("Detection Timing (Vision Cone เท่านั้น — Alert State)")]
     [Tooltip("ต้องเห็นผู้เล่นในโคนสายตาต่อเนื่องกี่วินาที ถึงจะเริ่มวิ่งหนี")]

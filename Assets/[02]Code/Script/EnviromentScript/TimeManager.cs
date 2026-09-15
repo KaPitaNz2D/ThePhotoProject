@@ -33,6 +33,8 @@ public class TimeManager : MonoBehaviour
     [SerializeField] private TimePeriod[] timePeriods;
 
     [Header("Time")]
+    [Tooltip("ชั่วโมงเริ่มต้นตอนเข้าเกม (0-23) — ตั้งค่านี้พร้อมเซ็ต Time Scale เป็น 0 เพื่อล็อคเวลาไว้ที่ช่วงกลางวันตลอด")]
+    [SerializeField] private int startHour = 12;
     [SerializeField] private float timeScale = 1f;
     [SerializeField] private float speedChange = 3f;
 
@@ -50,6 +52,7 @@ public class TimeManager : MonoBehaviour
 
     private void Start()
     {
+        hours = startHour;
         StartDay();
     }
 

@@ -44,4 +44,9 @@ title: NPC_Start
     NPC: It breaks down dead wood bit by bit. Too tough to eat, but good for tea.
     <<mark_informed "Turkey">>
 <<endif>>
+<<if has_photo("puffball") && !is_informed("puffball")>>
+    NPC: Oh, a puffball! Careful giving that one a poke once it's fully grown.
+    NPC: It'll puff out a cloud of spores if you brush against it. Only good to eat while it's still young and white inside.
+    <<mark_informed "puffball">>
+<<endif>>
 ===
