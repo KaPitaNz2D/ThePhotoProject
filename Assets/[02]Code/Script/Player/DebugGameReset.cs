@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class DebugGameReset : MonoBehaviour
 {
+    public string mainMenuSceneName = "MainMenu";
+
     private void Update()
     {
         if (Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame)
@@ -15,6 +17,8 @@ public class DebugGameReset : MonoBehaviour
     private void ResetGame()
     {
         Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
 
         if (QuestManager.Instance != null)
         {
@@ -26,6 +30,6 @@ public class DebugGameReset : MonoBehaviour
             PhotoStorage.Instance.ClearAllPhotos();
         }
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(mainMenuSceneName);
     }
 }

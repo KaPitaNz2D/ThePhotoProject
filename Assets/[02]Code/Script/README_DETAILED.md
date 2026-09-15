@@ -17,8 +17,10 @@
 7. [Storage — คลังภาพ](#7-storage--คลังภาพ)
 8. [Audio](#8-audio)
 9. [Environment — สร้างสิ่งแวดล้อมจาก Terrain](#9-environment--สร้างสิ่งแวดล้อมจาก-terrain)
-10. [ข้อจำกัด/สิ่งที่ยังไม่มีตอนนี้](#10-ข้อจำกัดสิ่งที่ยังไม่มีตอนนี้)
-11. [กติกาการอัปเดตเอกสารนี้](#11-กติกาการอัปเดตเอกสารนี้)
+10. [UI — HUD กลางจอ](#10-ui--hud-กลางจอ)
+11. [Main Menu](#11-main-menu)
+12. [ข้อจำกัด/สิ่งที่ยังไม่มีตอนนี้](#12-ข้อจำกัดสิ่งที่ยังไม่มีตอนนี้)
+13. [กติกาการอัปเดตเอกสารนี้](#13-กติกาการอัปเดตเอกสารนี้)
 
 ---
 
@@ -54,7 +56,7 @@ Helper method สำคัญที่ระบบอื่นเรียกเ
 | `FootIK.cs` | `FootIK` | Foot IK เต็มรูปแบบ: Raycast หาพื้นใต้เท้าซ้าย/ขวา, ปรับตำแหน่ง+มุมเท้าให้แนบพื้น, ปรับสะโพก (Hip) ตาม, ลด/ปิด IK อัตโนมัติเมื่อวิ่งเร็ว |
 | `PlayerAnimationController.cs` | `PlayerAnimationController` | Subscribe `PlayerMovement.OnSpeedChanged/OnJumped` และ `StateManager.OnMovementStateChanged` แล้วส่งเข้า Animator Parameter (`Speed`, `Jump`, `IsWalking`, `IsRunning`, `IsCrouch`) |
 | `InputManager.cs` | `InputManager` | ⚠️ **โค้ดที่ไม่มีใครเรียกใช้ (dead code)** — สร้าง `PlayerControls` แล้วเก็บ `movementInput` ของตัวเอง แต่ไม่มีสคริปต์ไหนอ้างอิงถึงคลาสนี้เลย ทุกสคริปต์ในเกมผูก `InputActionReference` ตรงๆ ของตัวเองแทน (ดูตัวอย่างในตารางนี้ทุกไฟล์) ปลอดภัยที่จะลบทิ้ง |
-| `DebugGameReset.cs` | `DebugGameReset` | **เครื่องมือ Debug สำหรับ Playtest** — กดปุ่ม R แล้ว: ล้างเควสทั้งหมด (`QuestManager.ResetAllQuests()`) → ล้าง Photo Storage ทั้งหมด (`PhotoStorage.ClearAllPhotos()`) → Reload Scene ปัจจุบัน ใช้แทนการปิด-เปิดเกมใหม่ระหว่างเปลี่ยนคนเทส **ต้องถอดออกก่อนปล่อยเกมจริง** |
+| `DebugGameReset.cs` | `DebugGameReset` | **เครื่องมือ Debug สำหรับ Playtest** — กดปุ่ม R แล้ว: ล้างเควสทั้งหมด (`QuestManager.ResetAllQuests()`) → ล้าง Photo Storage ทั้งหมด (`PhotoStorage.ClearAllPhotos()`) → โหลด Scene `mainMenuSceneName` (ค่าเริ่มต้น `"MainMenu"`) ใช้แทนการปิด-เปิดเกมใหม่ระหว่างเปลี่ยนคนเทส **ต้องถอดออกก่อนปล่อยเกมจริง** |
 
 **Input**: ทุกสคริปต์ในตารางนี้ (ยกเว้น `InputManager`) ผูก `public InputActionReference` ของตัวเองใน Inspector แล้ว `Enable()`/subscribe `.performed` เอง ไม่มีจุดกลางแบบ Input Manager
 
@@ -130,10 +132,15 @@ Helper method สำคัญที่ระบบอื่นเรียกเ
 | ไฟล์ | Class | หน้าที่ |
 |---|---|---|
 | `Questmanager.cs` | `QuestManager` (Singleton, `DontDestroyOnLoad`) | คุมสถานะเควสต่อ `creatureId` (`NotStarted → Active → Completed`) **และ** สถานะ "NPC เคยเล่าข้อมูลให้ฟังแล้วหรือยัง" ต่อ `creatureId` แยกกันคนละชุด (`informedCreatureIds`) เชื่อมกับ Yarn ผ่าน `[YarnCommand]`/`[YarnFunction]` โดยตรง ไม่ต้องเขียน Bridge เพิ่ม: `<<start_quest "id">>`, `<<complete_quest "id">>`, `<<mark_informed "id">>`, `<<if has_photo("id")>>`, `<<if quest_status("id") == "Active">>`, `<<if is_informed("id")>>` มี `ResetAllQuests()` ล้างทั้งสถานะเควสและความรู้ที่เคยเล่าไปแล้วสำหรับ Debug Reset และ auto re-hook `journalManager` reference ทุกครั้งที่ Scene โหลดใหม่ (แก้บั๊ก stale reference ตอน reload) |
-| `Npcinteractable.cs` | `NPCInteractable` | ผู้เล่นเดินเข้าใกล้ (`interactRange`) แล้วกด Interact เพื่อเริ่ม Yarn Node (`startNode`) ผ่าน `DialogueRunner` ตั้ง `SystemState.Talking` ระหว่างคุย คืนเป็น `Normal` เองตอนจบบทสนทนา (ผูก `dialogueRunner.onDialogueComplete`) |
+| `Npcinteractable.cs` | `NPCInteractable` | ผู้เล่นเดินเข้าใกล้ (`interactRange`) แล้วกด Interact เพื่อเริ่ม Yarn Node (`startNode`) ผ่าน `DialogueRunner` ตั้ง `SystemState.Talking` ระหว่างคุย คืนเป็น `Normal` เองตอนจบบทสนทนา (ผูก `dialogueRunner.onDialogueComplete`) — โชว์/ซ่อน `interactPrompt` (UI เช่น "กด E เพื่อคุย") ตาม `isInRange` และ `SystemState == Normal` |
 | `Questdebugui.cs` | `QuestDebugUI` | **เครื่องมือ Debug** — โชว์ข้อความ `Capture "ชื่อ"` มุมซ้ายบนจอสำหรับทุกเควสที่กำลัง `Active` อยู่ (สแกน `journalManager.allEntries` ทุกตัว) รีเฟรชอัตโนมัติทุกครั้งที่เควสเปลี่ยนสถานะ |
 
-**เนื้อหา Dialogue จริง**: มีไฟล์เดียว `Assets/[02]Code/Script/Dialogue/NPC_Placeholder.yarn` — 1 Node (`NPC_Start`) ผูกกับเควสเดียว (`deer_01`) เท่านั้น พืชอีก 4 ชนิดถ่ายได้แต่ไม่มีเควสผูกไว้
+โฟลเดอร์ `Assets/[02]Code/Script/Dialogue/`
+
+| ไฟล์ | Class | หน้าที่ |
+|---|---|---|
+| `NPC_Placeholder.yarn` | — | เนื้อหา Dialogue จริง มีไฟล์เดียว 1 Node (`NPC_Start`) ผูกกับเควสเดียว (`deer_01`) เท่านั้น พืชอีก 4 ชนิดถ่ายได้แต่ไม่มีเควสผูกไว้ |
+| `DialogueAnyKeyAdvance.cs` | `DialogueAnyKeyAdvance` (ต้องมี `Yarn.Unity.LineAdvancer` บน Object เดียวกัน) | **เครื่องมือ Playtest** — กดปุ่มไหนก็ได้บนคีย์บอร์ด (`Keyboard.anyKey`) หรือคลิกซ้ายก็เดินบทสนทนาต่อได้ (เรียก `LineAdvancer.OnInputHurryUpLines()` เหมือนกด Space) ⚠️ ยิงซ้ำกับปุ่ม Space ของ `LineAdvancer` เดิมในเฟรมเดียวกัน (Space ก็นับเป็น "any key" ด้วย) ไม่กระทบการใช้งานจริงมาก แต่ถ้ารำคาญให้ปิด/ลบ Component `LineAdvancerInput.KeyCodes` บน Dialogue System ออก |
 
 ---
 
@@ -170,7 +177,27 @@ Helper method สำคัญที่ระบบอื่นเรียกเ
 
 ---
 
-## 10. ข้อจำกัด/สิ่งที่ยังไม่มีตอนนี้
+## 10. UI — HUD กลางจอ
+
+โฟลเดอร์ `Assets/[02]Code/Script/UI/`
+
+| ไฟล์ | Class | หน้าที่ |
+|---|---|---|
+| `WorldHudUI.cs` | `WorldHudUI` | โชว์/ซ่อน `hudRoot` (ไอคอนกลาง + ปุ่ม Storage/Camera/Journal/Map รอบข้าง) ตาม `SystemState` — โชว์เฉพาะ `Normal` เท่านั้น ปิดทั้งก้อนทันทีที่เปิด Photograph/Journal/Storage/Talking/Pause (Pattern เดียวกับ `PhotoGridUI.cs`) ปุ่มแต่ละปุ่มผูก `Button.onClick` ตรงไปที่ `JournalUI.ToggleJournalUI()` / `StorageUI.ToggleStorageUI()` / `PhotoShooter.ToggleEnterPhotoMode()` เอาใน Inspector ไม่ผ่าน `WorldHudUI` เลย — ปุ่ม Map ยังไม่มีระบบ Map ให้เรียก (ดูหัวข้อ 12) |
+
+---
+
+## 11. Main Menu
+
+โฟลเดอร์ `Assets/[02]Code/Script/MainMenu/` — Scene แยกต่างหาก (`MainMenu.unity`) ต้องอยู่ก่อน `Level_Prototype` ใน Build Settings เพราะ `DebugGameReset` โหลดกลับมาที่นี่ด้วยชื่อ Scene
+
+| ไฟล์ | Class | หน้าที่ |
+|---|---|---|
+| `MainMenuController.cs` | `MainMenuController` | `StartGame()` โหลด `gameSceneName` (ค่าเริ่มต้น `"Level_Prototype"`), `ExitGame()` ปิดเกม (`Application.Quit()`, หยุด Play Mode ใน Editor) — ผูกกับปุ่ม Start/Exit ผ่าน Button OnClick ใน Inspector เอง ไม่มี Logic อื่นแล้ว |
+
+---
+
+## 12. ข้อจำกัด/สิ่งที่ยังไม่มีตอนนี้
 
 รายการนี้เป็น "สแนปช็อต" ณ วันที่อัปเดตเอกสาร ไม่ใช่ Bug Tracker ถาวร — ถ้าแก้แล้วให้ลบออกจากลิสต์นี้ทันที:
 
@@ -181,10 +208,12 @@ Helper method สำคัญที่ระบบอื่นเรียกเ
 - Creature AI รองรับ Time Cycle (พฤติกรรมต่างกันตามช่วงเวลา) ไว้ในดีไซน์ แต่ยังไม่ implement ใน `Creatureai.cs`
 - มี Creature ที่ตั้งค่า AI ไว้จริงแค่ 1 สายพันธุ์ (Deer) และมี Quest/Dialogue จริงแค่ 1 เควส ผูกกับ `deer_01` เท่านั้น — พืช 4 ชนิดถ่ายได้แต่ไม่มีเควส
 - `InputManager.cs` เป็น dead code ไม่มีใครเรียกใช้
+- ไม่มีระบบ Map เลย — ปุ่ม Map บน `WorldHudUI` ยังไม่มีอะไรให้เรียก (แค่ไอคอนเปล่า)
+- `MainMenu.unity` ต้องสร้างเอง (Canvas + EventSystem + ปุ่ม Start/Exit ผูก `MainMenuController`) และเพิ่มเข้า Build Settings คู่กับ `Level_Prototype` — ยังไม่มีในโปรเจกต์จนกว่าจะสร้างใน Editor
 
 ---
 
-## 11. กติกาการอัปเดตเอกสารนี้
+## 13. กติกาการอัปเดตเอกสารนี้
 
 **เอกสารนี้ต้องอัปเดตทุกครั้งที่:**
 1. เพิ่มระบบ/สคริปต์ใหม่ที่มีผลต่อ Gameplay

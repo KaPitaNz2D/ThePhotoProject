@@ -109,7 +109,10 @@ public class JournalUI : MonoBehaviour
     }
 
     // ==================== เปิด/ปิด ====================
-    private void OnToggleJournal(InputAction.CallbackContext ctx)
+    private void OnToggleJournal(InputAction.CallbackContext ctx) => ToggleJournalUI();
+
+    /// <summary>เรียกจากปุ่ม UI (Button.onClick) หรือ Input Action ก็ได้ — สลับเปิด/ปิด Journal</summary>
+    public void ToggleJournalUI()
     {
         if (StateManager.Instance == null) return;
         StateManager.SystemState current = StateManager.Instance.CurrentSystemState;

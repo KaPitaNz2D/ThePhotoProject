@@ -173,7 +173,10 @@ public class PhotoShooter : MonoBehaviour
     }
 
     // ==================== เข้า/ออกโหมดถ่ายรูป ====================
-    private void OnToggleEnterPhotoMode(InputAction.CallbackContext ctx)
+    private void OnToggleEnterPhotoMode(InputAction.CallbackContext ctx) => ToggleEnterPhotoMode();
+
+    /// <summary>เรียกจากปุ่ม UI (Button.onClick) หรือ Input Action ก็ได้ — สลับเข้า/ออกโหมดถ่ายรูป</summary>
+    public void ToggleEnterPhotoMode()
     {
         if (StateManager.Instance == null) return;
 

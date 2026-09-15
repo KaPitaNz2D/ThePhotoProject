@@ -22,6 +22,8 @@ public class NPCInteractable : MonoBehaviour
     public float interactRange = 3f;
     [Tooltip("Transform ของผู้เล่น ถ้าไม่ใส่ไว้จะหาจาก Tag \"Player\" ให้เอง")]
     public Transform player;
+    [Tooltip("UI ที่โชว์ตอนผู้เล่นเข้าใกล้พอจะกด Interact ได้ เช่น \"กด E เพื่อคุย\" (ปล่อยว่างได้ถ้าไม่ต้องการ)")]
+    public GameObject interactPrompt;
 
     private bool isInRange;
 
@@ -59,6 +61,13 @@ public class NPCInteractable : MonoBehaviour
     {
         if (player == null) return;
         isInRange = Vector3.Distance(transform.position, player.position) <= interactRange;
+
+        if (interactPrompt != null)
+        {
+            bool canInteractNow = isInRange && StateManager.Instance != null
+                && StateManager.Instance.CurrentSystemState == StateManager.SystemState.Normal;
+            interactPrompt.SetActive(canInteractNow);
+        }
     }
 
     private void OnInteractPressed(InputAction.CallbackContext ctx)
