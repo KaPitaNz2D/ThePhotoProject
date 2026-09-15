@@ -16,8 +16,8 @@ RenderSettings:
   serializedVersion: 10
   m_Fog: 1
   m_FogColor: {r: 0, g: 0.039215688, b: 0.27450982, a: 1}
-  m_FogMode: 2
-  m_FogDensity: 0.01
+  m_FogMode: 3
+  m_FogDensity: 0.005
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
@@ -926,7 +926,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 271921602}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18813938, y: 0.099237375, z: -0.019111376, w: 0.976929}
+  m_LocalRotation: {x: 0.18814012, y: 0.09919976, z: -0.019104134, w: 0.9769328}
   m_LocalPosition: {x: 18, y: 12.387, z: 39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -979,14 +979,14 @@ MonoBehaviour:
     slopeRange: {x: 5, y: 60}
     curvatureRange: {x: 0, y: 1}
     layerMasks: []
-    instanceCount: 73
+    instanceCount: 122
     prefabs:
     - index: 0
       probability: 100
       prefab: {fileID: 3828180267505327321, guid: db736203cb963434b868c710fcc75ef0, type: 3}
     distance: 5
     scaleRange: {x: 1, y: 1.2}
-    sinkAmount: 0.1
+    sinkAmount: 1
   - enabled: 1
     name: PF_Pine_Tree_002
     seed: 5146
@@ -997,14 +997,14 @@ MonoBehaviour:
     slopeRange: {x: 5, y: 60}
     curvatureRange: {x: 0, y: 1}
     layerMasks: []
-    instanceCount: 63
+    instanceCount: 126
     prefabs:
     - index: 1
       probability: 100
       prefab: {fileID: 1260837743561623187, guid: 7f690890cd593bf49a039a1a740feb71, type: 3}
     distance: 5
     scaleRange: {x: 1, y: 1.5}
-    sinkAmount: 0.1
+    sinkAmount: 1
   - enabled: 1
     name: PF_Pine_Tree_003
     seed: 1908
@@ -1015,14 +1015,14 @@ MonoBehaviour:
     slopeRange: {x: 5, y: 60}
     curvatureRange: {x: 0, y: 1}
     layerMasks: []
-    instanceCount: 68
+    instanceCount: 130
     prefabs:
     - index: 2
       probability: 100
       prefab: {fileID: 1285000723962837598, guid: cddec13f7dcf77a40bf7dcfeeb5cf8dd, type: 3}
     distance: 5
     scaleRange: {x: 1, y: 1.5}
-    sinkAmount: 0.1
+    sinkAmount: 0.311
   - enabled: 1
     name: PF_Pine_Tree_004
     seed: 8507
@@ -1033,14 +1033,14 @@ MonoBehaviour:
     slopeRange: {x: 5, y: 60}
     curvatureRange: {x: 0, y: 1}
     layerMasks: []
-    instanceCount: 231
+    instanceCount: 410
     prefabs:
     - index: 3
       probability: 100
       prefab: {fileID: 7908528006317024925, guid: fe00130a128a4674abf533a7f5f5253d, type: 3}
     distance: 5
     scaleRange: {x: 1, y: 1.5}
-    sinkAmount: 0.1
+    sinkAmount: 0.422
   - enabled: 1
     name: PF_Tarmarack_Tree_001
     seed: 1232
@@ -1058,7 +1058,7 @@ MonoBehaviour:
       prefab: {fileID: 2116547703998838115, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
     distance: 5
     scaleRange: {x: 0.5, y: 1}
-    sinkAmount: 0
+    sinkAmount: 0.5
   - enabled: 1
     name: PF_Tarmarack_Tree_001_1
     seed: 5222
@@ -1076,7 +1076,7 @@ MonoBehaviour:
       prefab: {fileID: 4217995423051874086, guid: e19414c3f1364d76288cde5816ee121c, type: 3}
     distance: 5
     scaleRange: {x: 0.5, y: 1}
-    sinkAmount: 0
+    sinkAmount: 0.5
   - enabled: 1
     name: PF_Tarmarack_Tree_001_2
     seed: 2992
@@ -1094,7 +1094,7 @@ MonoBehaviour:
       prefab: {fileID: 5987976115730185392, guid: 67496f88c9221949faa96269074d15e4, type: 3}
     distance: 5
     scaleRange: {x: 0.5, y: 1}
-    sinkAmount: 0
+    sinkAmount: 0.5
   - enabled: 1
     name: PF_Tarmarack_Tree_002
     seed: 1900
@@ -1105,14 +1105,14 @@ MonoBehaviour:
     slopeRange: {x: 0, y: 60}
     curvatureRange: {x: 0, y: 1}
     layerMasks: []
-    instanceCount: 55
+    instanceCount: 84
     prefabs:
     - index: 7
       probability: 100
       prefab: {fileID: 8773656938399698045, guid: 3623b2a76ea4f9140bd7000cd8a60113, type: 3}
     distance: 5
     scaleRange: {x: 1, y: 1.2}
-    sinkAmount: 0
+    sinkAmount: 0.5
   - enabled: 1
     name: PF_Tarmarack_Tree_002_1
     seed: 92086
@@ -1123,14 +1123,14 @@ MonoBehaviour:
     slopeRange: {x: 0, y: 60}
     curvatureRange: {x: 0, y: 1}
     layerMasks: []
-    instanceCount: 58
+    instanceCount: 57
     prefabs:
     - index: 8
       probability: 100
       prefab: {fileID: 7938143463912807647, guid: 20ef2eda91d10187683b7700d5a523a8, type: 3}
     distance: 5
     scaleRange: {x: 1, y: 1.2}
-    sinkAmount: 0
+    sinkAmount: 0.5
   - enabled: 1
     name: PF_Tarmarack_Tree_002_2
     seed: 82412
@@ -1141,14 +1141,14 @@ MonoBehaviour:
     slopeRange: {x: 0, y: 60}
     curvatureRange: {x: 0, y: 1}
     layerMasks: []
-    instanceCount: 67
+    instanceCount: 82
     prefabs:
     - index: 9
       probability: 100
       prefab: {fileID: 6526246712444665723, guid: ddea0e31301e9009ba6d3ebc43dc2cbb, type: 3}
     distance: 5
     scaleRange: {x: 1, y: 1.2}
-    sinkAmount: 0
+    sinkAmount: 0.5
   - enabled: 1
     name: SugarMaple002_Modeling_004
     seed: 9158
@@ -1166,7 +1166,7 @@ MonoBehaviour:
       prefab: {fileID: 2340120025382474641, guid: 63dd1d8b5155046448d969f8b39fdb08, type: 3}
     distance: 10
     scaleRange: {x: 0.7, y: 1.2}
-    sinkAmount: 0
+    sinkAmount: 0.5
   - enabled: 1
     name: Pine_Log_001
     seed: 21119
@@ -1203,6 +1203,24 @@ MonoBehaviour:
     distance: 5
     scaleRange: {x: 0.8, y: 1.2}
     sinkAmount: 0
+  - enabled: 1
+    name: PF_TreeStump001WithTurkey
+    seed: 5465
+    probability: 20
+    collisionCheck: 1
+    rejectUnderwater: 1
+    heightRange: {x: 0, y: 1000}
+    slopeRange: {x: 0, y: 60}
+    curvatureRange: {x: 0, y: 1}
+    layerMasks: []
+    instanceCount: 174
+    prefabs:
+    - index: 13
+      probability: 100
+      prefab: {fileID: 1416251070007894816, guid: 875626c62ad6aa5439d86dfbaa4640f5, type: 3}
+    distance: 5
+    scaleRange: {x: 1, y: 1.5}
+    sinkAmount: 0.203
   grassPrefabs: []
   terrainSettings:
     drawTreesAndFoliage: 1
@@ -1648,7 +1666,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 310540163}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18813938, y: 0.099237375, z: -0.019111378, w: 0.976929}
+  m_LocalRotation: {x: 0.18814011, y: 0.09919975, z: -0.019104129, w: 0.9769329}
   m_LocalPosition: {x: 18, y: 12.387, z: 39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3123,6 +3141,63 @@ Transform:
   - {fileID: 543450652717033219}
   m_Father: {fileID: 1872125053}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1597428305
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4030683036848937398, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_Name
+      value: Pre-Build_Cabin_001 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 26.999998
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 10.048168
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 21.387852
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
 --- !u!1 &1622428222
 GameObject:
   m_ObjectHideFlags: 0
@@ -3227,6 +3302,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1522097533690402678, guid: ac42293f1a47ba2439da5bce031d392e, type: 3}
   m_PrefabInstance: {fileID: 1545186320}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1661644020
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4030683036848937398, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_Name
+      value: Pre-Build_Cabin_001 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 19.721956
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 10.048168
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 21.387852
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
 --- !u!1001 &1671040165
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4108,6 +4240,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f955f3a377ebe024992db096315cfaf3, type: 3}
   m_PrefabInstance: {fileID: 2028501602}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2118350503
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4030683036848937398, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_Name
+      value: Pre-Build_Cabin_001 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 10.048168
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 21.387852
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581168476901330950, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 61c23887147d4ad41aae00bd9af61de5, type: 3}
 --- !u!4 &2146574860 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1929644957652545799, guid: b6a851a8200490544888ac5842b26d99, type: 3}
@@ -9430,3 +9619,6 @@ SceneRoots:
   - {fileID: 2834529401061818748}
   - {fileID: 3627530560407893823}
   - {fileID: 1023604605}
+  - {fileID: 1661644020}
+  - {fileID: 1597428305}
+  - {fileID: 2118350503}
