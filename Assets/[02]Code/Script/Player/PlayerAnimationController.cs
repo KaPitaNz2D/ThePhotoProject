@@ -4,12 +4,10 @@ using UnityEngine;
 public class PlayerAnimationController : MonoBehaviour
 {
     [Header("References")]
-    [Tooltip("Drag PlayerMovement into, for Speed/Jump")]
     public PlayerMovement playerMovement;
 
     private Animator animator;
 
-    // Cache hash ไว้ล่วงหน้า ลด overhead จากการ hash string ทุกเฟรม
     private static readonly int SpeedHash = Animator.StringToHash("Speed");
     private static readonly int JumpHash = Animator.StringToHash("Jump");
     private static readonly int IsWalkingHash = Animator.StringToHash("IsWalking");
@@ -23,7 +21,6 @@ public class PlayerAnimationController : MonoBehaviour
 
     private void OnEnable()
     {
-        // Subscribe fromn PlayerMovement
         if (playerMovement != null)
         {
             playerMovement.OnSpeedChanged += HandleSpeedChanged;
@@ -40,6 +37,9 @@ public class PlayerAnimationController : MonoBehaviour
         if (StateManager.Instance != null)
         {
             StateManager.Instance.OnMovementStateChanged += HandleMovementStateChanged;
+            StateManager.Instance.OnCrouchChanged += HandleCrouchChanged;
+
+            animator.SetBool(IsCrouchHash, StateManager.Instance.IsCrouching);
         }
         else
         {
@@ -52,6 +52,7 @@ public class PlayerAnimationController : MonoBehaviour
         if (StateManager.Instance != null)
         {
             StateManager.Instance.OnMovementStateChanged -= HandleMovementStateChanged;
+            StateManager.Instance.OnCrouchChanged -= HandleCrouchChanged;
         }
 
         if (playerMovement != null)
@@ -63,10 +64,13 @@ public class PlayerAnimationController : MonoBehaviour
 
     private void HandleMovementStateChanged(StateManager.MovementState oldState, StateManager.MovementState newState)
     {
-        // prevent old bool state
         animator.SetBool(IsWalkingHash, newState == StateManager.MovementState.Walking);
         animator.SetBool(IsRunningHash, newState == StateManager.MovementState.Running);
-        animator.SetBool(IsCrouchHash, newState == StateManager.MovementState.Crouch);
+    }
+
+    private void HandleCrouchChanged(bool isCrouching)
+    {
+        animator.SetBool(IsCrouchHash, isCrouching);
     }
 
     private void HandleSpeedChanged(float speed)

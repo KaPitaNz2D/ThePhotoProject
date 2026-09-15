@@ -84,10 +84,8 @@ public class CreatureVision : MonoBehaviour
 
     private bool IsPlayerCrouchingNow()
     {
-        bool crouching = StateManager.Instance != null &&
-            StateManager.Instance.CurrentMovementState == StateManager.MovementState.Crouch;
+        bool crouching = StateManager.Instance != null && StateManager.Instance.IsCrouching;
 
-        // Log แค่ตอน "เปลี่ยนสถานะ" เท่านั้น ไม่ Log รัวทุกเฟรม
         if (logCrouchDetectionChange && (!crouchStateInitialized || crouching != cachedCrouchState))
         {
             crouchStateInitialized = true;

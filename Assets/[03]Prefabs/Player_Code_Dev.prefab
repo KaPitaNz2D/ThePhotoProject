@@ -48,6 +48,26 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 6fa15af84e74ff5489289d12f5fbcff0, type: 2}
+    - target: {fileID: 4019123514463409993, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
+      propertyPath: jumpForce
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019123514463409993, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
+      propertyPath: moveSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019123514463409993, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
+      propertyPath: jumpCooldown
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019123514463409993, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
+      propertyPath: playerSprint
+      value: 
+      objectReference: {fileID: 3889377443532011150}
+    - target: {fileID: 4019123514463409993, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
+      propertyPath: crouchSpeedMultiplier
+      value: 0.75
+      objectReference: {fileID: 0}
     - target: {fileID: 4178364364817946417, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -60,9 +80,13 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: b130ed923d087ae4d84f670774ce7d7b, type: 2}
+    - target: {fileID: 5160260424754451105, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
+      propertyPath: crouchHeightOffset
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 5640231951942461864, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00090391183
+      value: -0.0002631537
       objectReference: {fileID: 0}
     - target: {fileID: 5711375930024456857, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -172,7 +196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSprint
   playerMovement: {fileID: 4066735359282942352}
   sprintInput: {fileID: -7471211009204490832, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  sprintSpeed: 10
+  sprintSpeed: 4.5
   speedTransitionRate: 8
   requireGrounded: 1
   requireMovingInput: 1
