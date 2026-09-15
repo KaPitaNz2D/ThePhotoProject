@@ -100,8 +100,7 @@ public class CreatureAI : MonoBehaviour
                     if (CurrentState != CreatureState.Alert) EnterAlert();
 
                     visionTimer += Time.deltaTime;
-                    bool playerCrouching = StateManager.Instance != null &&
-                        StateManager.Instance.CurrentMovementState == StateManager.MovementState.Crouch;
+                    bool playerCrouching = StateManager.Instance != null && StateManager.Instance.IsCrouching;
                     float requiredTime = playerCrouching
                         ? profile.visionDetectionTime * profile.crouchDetectionTimeMultiplier
                         : profile.visionDetectionTime;

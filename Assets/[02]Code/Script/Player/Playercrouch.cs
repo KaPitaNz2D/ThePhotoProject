@@ -4,8 +4,8 @@ using UnityEngine.InputSystem;
 
 /// <summary>
 /// จัดการท่าย่อของผู้เล่น: Toggle ย่อ/ลุก, ปรับความสูง "ทุกกล้องที่ผูกไว้" อัตโนมัติแบบนุ่มนวล
-/// (Third Person Camera Follow + Photo Camera Pivot พร้อมกัน) และเป็นตัวสั่ง StateManager.MovementState.Crouch
-/// ให้ระบบอื่น (PlayerMovement, CreatureVision ผ่าน CreatureAI) อ่านค่าไปใช้ได้แบบรวมศูนย์
+/// (Third Person Camera Follow + Photo Camera Pivot พร้อมกัน) — ค่า IsCrouching ของตัวเองถูกอ่านไปเรียก
+/// StateManager.SetCrouch() ต่อใน PlayerMovement (และ CreatureVision ผ่าน CreatureAI อ่าน StateManager.IsCrouching ต่ออีกที)
 ///
 /// ตั้งใจให้สลับย่อ/ลุกได้ทั้งตอน SystemState.Normal และ Photograph (เล็งกล้องถ่ายรูปอยู่ก็ย่อได้)
 /// แต่ไม่ให้สลับได้ตอน Talking/Pause/Journal (เช็คผ่าน StateManager.CanCrouch())
@@ -28,7 +28,7 @@ public class PlayerCrouch : MonoBehaviour
     [Tooltip("ความนุ่มนวลตอนกล้องเลื่อนความสูง ยิ่งมากยิ่งไว")]
     public float cameraHeightSmoothing = 8f;
 
-    /// <summary>สถานะปัจจุบันว่ากำลังย่ออยู่ไหม — อ่านได้จากภายนอก แต่ตัวจริงที่ระบบอื่นควรอ่านคือ StateManager.CurrentMovementState</summary>
+    /// <summary>สถานะปัจจุบันว่ากำลังย่ออยู่ไหม — อ่านได้จากภายนอก แต่ตัวจริงที่ระบบอื่นควรอ่านคือ StateManager.IsCrouching (PlayerMovement เป็นคนซิงค์ค่านี้เข้าไปให้)</summary>
     public bool IsCrouching { get; private set; }
 
     // เก็บความสูง Local Y "ตอนยืนปกติ" ของแต่ละ Transform ไว้ตั้งแต่เริ่มเกม ใช้เป็นจุดอ้างอิงคำนวณ Offset

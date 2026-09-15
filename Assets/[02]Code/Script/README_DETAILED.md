@@ -183,6 +183,7 @@ Helper method สำคัญที่ระบบอื่นเรียกเ
 
 | ไฟล์ | Class | หน้าที่ |
 |---|---|---|
+| `Billboard.cs` | `Billboard` | หมุน Transform ให้หันตาม Rotation ของกล้องทุกเฟรม (`LateUpdate`) — ใช้กับ UI World Space เช่นป้าย "กด E" เหนือหัว NPC ไม่ใส่ `Target Camera` ไว้จะใช้ `Camera.main` ให้เอง |
 | `WorldHudUI.cs` | `WorldHudUI` | โชว์/ซ่อน `hudRoot` (ไอคอนกลาง + ปุ่ม Storage/Camera/Journal/Map รอบข้าง) ตาม `SystemState` — โชว์เฉพาะ `Normal` เท่านั้น ปิดทั้งก้อนทันทีที่เปิด Photograph/Journal/Storage/Talking/Pause (Pattern เดียวกับ `PhotoGridUI.cs`) ปุ่มแต่ละปุ่มผูก `Button.onClick` ตรงไปที่ `JournalUI.ToggleJournalUI()` / `StorageUI.ToggleStorageUI()` / `PhotoShooter.ToggleEnterPhotoMode()` เอาใน Inspector ไม่ผ่าน `WorldHudUI` เลย — ปุ่ม Map ยังไม่มีระบบ Map ให้เรียก (ดูหัวข้อ 12) |
 
 ---
