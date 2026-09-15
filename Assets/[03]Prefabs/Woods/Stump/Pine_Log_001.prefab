@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9101897822738533303}
   - component: {fileID: 3390690914699221447}
-  - component: {fileID: 3708837571479176811}
+  - component: {fileID: 4565106561657259751}
   m_Layer: 0
   m_Name: Pine_Log_001
   m_TagString: Untagged
@@ -58,8 +58,8 @@ LODGroup:
     renderers:
     - renderer: {fileID: 5019363788440712272}
   m_Enabled: 1
---- !u!136 &3708837571479176811
-CapsuleCollider:
+--- !u!65 &4565106561657259751
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -76,11 +76,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 3
+  m_Size: {x: 5, y: 0.8838903, z: 0.7222061}
+  m_Center: {x: 0, y: 0.45823604, z: 0.13889694}
 --- !u!1 &7248855351337910878
 GameObject:
   m_ObjectHideFlags: 0

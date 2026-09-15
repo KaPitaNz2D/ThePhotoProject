@@ -119,8 +119,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6095112872147574671}
   - {fileID: 9127845593163693203}
@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a73f2ea9b12f80246beab020b9f15143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhotoSubject
-  creatureId: Honey
+  profile: {fileID: 0}
 --- !u!1 &3871412297942343932
 GameObject:
   m_ObjectHideFlags: 0
