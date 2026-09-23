@@ -16,6 +16,15 @@ public class PlayerMovement : MonoBehaviour
     public float groundDrag = 5f;
     public float airMultiplier = 0.4f;
 
+    [Header("Input Smoothing")]
+    [Tooltip("ความเร็วในการเร่งตอนเริ่มเดิน (ยิ่งมากยิ่งออกตัวไว)")]
+    public float inputAcceleration = 15f;
+
+    [Tooltip("ความเร็วในการเบรกตอนปล่อยปุ่ม (ยิ่งมากยิ่งหยุดทันที ไม่ไถล)")]
+    public float stopDeceleration = 30f;
+
+    private Vector2 smoothedInputVector; // ตัวแปรเก็บค่า Input ที่ผ่านการเกลี่ยแล้ว
+
     [Header("Jump Settings")]
     public float jumpForce = 8f;
     public float jumpCooldown = 0.25f;
@@ -85,7 +94,17 @@ public class PlayerMovement : MonoBehaviour
 
         isGrounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, groundLayer);
         bool canControl = StateManager.Instance == null || StateManager.Instance.CanControlPlayer();
-        inputVector = canControl ? moveInput.action.ReadValue<Vector2>() : Vector2.zero;
+
+        // 1. อ่านค่า Input ดิบ
+        Vector2 targetInputVector = canControl ? moveInput.action.ReadValue<Vector2>() : Vector2.zero;
+
+        // 2. เช็คว่ากำลังกดเดินอยู่ หรือกำลังปล่อยปุ่ม
+        // ถ้ากำลังกด ให้ใช้ความเร็วเร่ง (inputAcceleration) แต่ถ้าปล่อยปุ่ม ให้ใช้ความเร็วเบรก (stopDeceleration)
+        float currentSmoothSpeed = (targetInputVector.sqrMagnitude > 0.01f) ? inputAcceleration : stopDeceleration;
+
+        // เกลี่ยค่า Input
+        smoothedInputVector = Vector2.Lerp(smoothedInputVector, targetInputVector, Time.deltaTime * currentSmoothSpeed);
+        inputVector = smoothedInputVector;
 
         bool crouchingNow = playerCrouch != null && playerCrouch.IsCrouching;
         bool isSprintingNow = playerSprint != null && playerSprint.IsSprinting;
