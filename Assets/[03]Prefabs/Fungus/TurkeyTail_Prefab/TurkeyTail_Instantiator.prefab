@@ -642,6 +642,7 @@ GameObject:
   - component: {fileID: 290285238136693660}
   - component: {fileID: 6672565190778131017}
   - component: {fileID: 1020532510115072819}
+  - component: {fileID: 6701771316528939557}
   m_Layer: 0
   m_Name: TurkeyTail_Instantiator
   m_TagString: Untagged
@@ -753,6 +754,19 @@ MonoBehaviour:
   - {fileID: 1667407647103309439, guid: a1564ee0a8e164f4195d18e5f95155a2, type: 3}
   - {fileID: 4997943177112365304, guid: ef7bc85f3c0901046870b14b7dc1458c, type: 3}
   - {fileID: 1623660551645988665, guid: 11249115c8604ae46ba9096f35ba947a, type: 3}
+--- !u!114 &6701771316528939557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4735855358424190777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a73f2ea9b12f80246beab020b9f15143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PhotoSubject
+  profile: {fileID: 11400000, guid: a484898e4e8fa3b4ca6a90c7e6473056, type: 2}
 --- !u!1 &5735972724175898314
 GameObject:
   m_ObjectHideFlags: 0
