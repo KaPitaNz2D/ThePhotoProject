@@ -1,0 +1,110 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Packages/com.overdrive.pbplus/Editor/Resources/USS/ProBuilderPlus_Styles.uss?fileID=7433441132597879392&amp;guid=80838bd41e4cb6047b04461cdea5c7b0&amp;type=3#ProBuilderPlus_Styles" />
+    <Style src="project://database/Packages/com.overdrive.shared/Editor/Resources/UI/Overdrive_GeneralStyles.uss?fileID=7433441132597879392&amp;guid=975ea3c222eca5749a8e2c9f7b65dcbb&amp;type=3#Overdrive_GeneralStyles" />
+    <ui:VisualElement name="ElementSelected" style="flex-grow: 1;">
+        <ui:TabView name="TabView">
+            <ui:Tab label="Geometry" name="Geo">
+                <ui:VisualElement name="VertexColorGroup" style="flex-grow: 0; flex-direction: row;">
+                    <uie:ColorField value="#00FFFFFF" name="VertexColor" tooltip="Vertex Color" label="Vertex Color" style="flex-grow: 1;" />
+                    <ui:Button text="-" name="VertexColorReset" style="flex-grow: 0;" />
+                </ui:VisualElement>
+                <uie:ObjectField name="Material" tooltip="Material" label="Material" />
+                <ui:IntegerField value="42" tooltip="Smoothing Group" name="SmoothingGroup" label="Smooth Group" />
+            </ui:Tab>
+            <ui:Tab label="UV" name="UV">
+                <ui:EnumField value="Center" type="Overdrive.ProBuilderPlus.UVMode, Overdrive.ProBuilderPlus.Editor" tooltip="UV Mode" name="UV-Mode" label="Mode" />
+                <ui:VisualElement name="FlipUVsGroup" style="flex-grow: initial; flex-direction: row;">
+                    <ui:Label text="Flip" triple-click-selects-line="false" style="flex-basis: auto; width: auto; height: auto; min-height: auto; -unity-text-align: middle-left; flex-grow: 1; min-width: 90px; text-overflow: ellipsis; max-width: 90px;" />
+                    <ui:Button text="U" name="ButtonFlipU" enable-rich-text="false" emoji-fallback-support="false" />
+                    <ui:Button text="V" name="ButtonFlipV" enable-rich-text="false" emoji-fallback-support="false" />
+                </ui:VisualElement>
+                <ui:VisualElement name="UV-Mode-ManualGroup" style="flex-direction: column; background-size: 100% 1%; -unity-background-scale-mode: stretch-to-fill; flex-grow: 0;">
+                    <ui:VisualElement name="ProjectUVsGroup" style="flex-grow: initial; flex-direction: row;">
+                        <ui:Label text="Project UVs" triple-click-selects-line="false" style="flex-basis: auto; width: auto; height: auto; min-height: auto; -unity-text-align: middle-left; flex-grow: 1; min-width: 90px; max-width: 90px;" />
+                        <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
+                            <ui:Button text="Planar" name="ButtonProjectPlanar" style="width: 33%;" />
+                            <ui:Button text="Box" name="ButtonProjectBox" style="display: flex; width: 33%;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="UV-Mode-AutoGroup" enabled="true">
+                    <ui:EnumField type="Overdrive.ProBuilderPlus.BooleanValues, Overdrive.ProBuilderPlus.Editor" tooltip="Use world position for UV position" name="UV-UseWorldSpace" label="World Space" class="vertex-hide edge-hide" style="flex-grow: 1;" />
+                    <ui:EnumField value="Center" type="UnityEngine.TextAlignment, UnityEngine.TextRenderingModule" tooltip="Fill Mode" name="UV-FillMode" label="Fill Mode" class="vertex-hide edge-hide" />
+                    <ui:EnumField value="Center" type="UnityEngine.TextAlignment, UnityEngine.TextRenderingModule" tooltip="UV Anchor" name="UV-Anchor" label="Anchor" class="vertex-hide edge-hide" />
+                    <ui:VisualElement name="UV-GroupContainer" style="flex-direction: row;">
+                        <ui:IntegerField value="42" name="UV-Group" label="Texture Group" class="vertex-hide edge-hide" style="flex-grow: 1;" />
+                        <ui:Button name="UV-TextureGroupSelected" class="icon-only-button" style="flex-grow: 0; background-image: resource(&apos;icons/add-create-set-apply-new-small&apos;); -unity-background-scale-mode: scale-to-fit; min-height: initial; max-height: initial;" />
+                        <ui:Button name="UV-TextureUngroupSelected" class="icon-only-button" style="flex-grow: 0; background-image: resource(&apos;icons/remove-x-delete-cancel-small&apos;); min-height: initial; max-height: initial; -unity-background-scale-mode: scale-to-fit;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="UVUseWorldSpaceGroup" style="flex-direction: row;" />
+                    <ui:FloatField value="42.2" label="UV Rotation" name="UV-Rotation" />
+                    <ui:VisualElement name="UV-ScaleGroup" style="flex-grow: 1; flex-direction: row;">
+                        <ui:Vector2Field tooltip="UV Scale" name="UV-Scale" label="UV Scale/Tiling" class="vertex-hide edge-hide" style="flex-shrink: 0; flex-grow: 1; flex-basis: auto;" />
+                        <ui:Button name="UV-ScaleResetButton" class="icon-only-button" style="background-image: resource(&apos;icons/remove-x-delete-cancel-small&apos;); min-height: initial; max-height: initial; -unity-background-scale-mode: scale-to-fit;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="UV-OffsetGroup" style="flex-grow: 1; flex-direction: row; display: flex;">
+                        <ui:Vector2Field tooltip="UV Offset" name="UV-Offset" value="0.12345,0.12345" label="UV Offset" class="vertex-hide edge-hide" style="flex-grow: 1;" />
+                        <ui:Button name="UV-OffsetResetButton" class="icon-only-button" style="background-image: resource(&apos;icons/remove-x-delete-cancel-small&apos;); -unity-background-scale-mode: scale-to-fit; min-height: initial; max-height: initial;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:Foldout text="Pan UV and Texels" name="PanAndTexels" value="true">
+                    <ui:VisualElement name="PanButtons" style="align-items: stretch; margin-left: -12px;">
+                        <ui:VisualElement name="UV-PanButtons_U" style="flex-direction: row;">
+                            <ui:Label text="U " enable-rich-text="false" emoji-fallback-support="false" triple-click-selects-line="false" style="flex-basis: auto; -unity-text-align: middle-left; display: flex;" />
+                            <ui:VisualElement name="PanU" style="flex-direction: row; flex-grow: 1;">
+                                <ui:Button text="1/4&#10;" name="Button1" />
+                                <ui:Button text="1/8" name="Button2" />
+                                <ui:Button text="1/16" name="Button3" />
+                                <ui:Button text="1/64" name="Button4" />
+                                <ui:Button text="1/128&#10;" name="Button5" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="UV-PanButtons_V" style="flex-direction: row;">
+                            <ui:Label text="V" enable-rich-text="false" emoji-fallback-support="false" triple-click-selects-line="false" style="flex-basis: auto; -unity-text-align: middle-left;" />
+                            <ui:VisualElement name="PanV" style="flex-direction: row; flex-grow: 1;">
+                                <ui:Button text="1/4&#10;" name="Button1" />
+                                <ui:Button text="1/8" name="Button2" />
+                                <ui:Button text="1/16" name="Button3" />
+                                <ui:Button text="1/64" name="Button4" />
+                                <ui:Button text="1/128&#10;" name="Button5" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="UV-PanButtons_UTexels" style="flex-direction: row;">
+                            <ui:Label text="U tx" enable-rich-text="false" emoji-fallback-support="false" style="-unity-text-align: middle-left;" />
+                            <ui:VisualElement name="PanUT" style="flex-direction: row; flex-grow: 1;">
+                                <ui:Button text="256" name="Button1" />
+                                <ui:Button text="128" name="Button2" />
+                                <ui:Button text="32" name="Button3" />
+                                <ui:Button text="8" name="Button4" />
+                                <ui:Button text="1" name="Button5" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="UV-PanButtons_VTexels" style="flex-direction: row;">
+                            <ui:Label text="V tx" enable-rich-text="false" emoji-fallback-support="false" triple-click-selects-line="false" style="-unity-text-align: middle-left;" />
+                            <ui:VisualElement name="PanVT" style="flex-direction: row; flex-grow: 1;">
+                                <ui:Button text="256" name="Button1" />
+                                <ui:Button text="128" name="Button2" />
+                                <ui:Button text="32" name="Button3" />
+                                <ui:Button text="8" name="Button4" />
+                                <ui:Button text="1" name="Button5" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:Label text="Hold SHIFT to pan opposite direction&#10;" name="ShiftModifierInfoLabel" class="helper-text" style="-unity-text-align: middle-center; -unity-font-style: italic;" />
+                    </ui:VisualElement>
+                </ui:Foldout>
+            </ui:Tab>
+            <ui:Tab label="Info" name="Info">
+                <ui:VisualElement name="SelectionStatistics" style="flex-grow: 0; min-height: initial; height: initial; max-height: initial; margin-bottom: 5px;">
+                    <ui:TextField label="Vertices" placeholder-text="12/15" enabled="true" name="StatisticsVerticesLabel" readonly="true" />
+                    <ui:TextField label="Faces" placeholder-text="12/15" enabled="true" name="StatisticsFacesLabel" readonly="true" />
+                    <ui:TextField label="Edges" placeholder-text="12/15" enabled="true" name="StatisticsEdgesLabel" readonly="true" />
+                    <ui:TextField label="Triangles" placeholder-text="33" enabled="true" name="StatisticsTrianglesLabel" readonly="true" />
+                    <ui:TextField label="Objects" placeholder-text="44" enabled="true" name="StatisticsObjectsLabel" readonly="true" />
+                </ui:VisualElement>
+            </ui:Tab>
+        </ui:TabView>
+    </ui:VisualElement>
+    <ui:VisualElement name="NoElementSelected">
+        <ui:Label text="Nothing selected" />
+    </ui:VisualElement>
+</ui:UXML>

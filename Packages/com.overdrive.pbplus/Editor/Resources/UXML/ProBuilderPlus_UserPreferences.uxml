@@ -1,0 +1,122 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Packages/com.overdrive.shared/Editor/Resources/UI/Overdrive_USS_ProjectSettings.uss?fileID=7433441132597879392&amp;guid=751eb7d26107a744695eb099be9bab25&amp;type=3#Overdrive_USS_ProjectSettings" />
+    <Style src="project://database/Packages/com.overdrive.shared/Editor/Resources/UI/Overdrive_GeneralStyles.uss?fileID=7433441132597879392&amp;guid=975ea3c222eca5749a8e2c9f7b65dcbb&amp;type=3#Overdrive_GeneralStyles" />
+    <ui:VisualElement class="overdrive-styling" style="min-height: 60px; max-height: 60px; height: 60px;">
+        <ui:VisualElement class="toolsetHeader panel-base" style="flex-direction: row; flex-shrink: 0;">
+            <ui:VisualElement name="Tool-Icon" style="flex-grow: 1; background-image: resource(&apos;icons/3d-cube-sphere-cylinder-shape-pb&apos;); -unity-background-image-tint-color: rgb(88, 217, 221);" />
+            <ui:VisualElement class="column" style="flex-direction: column; align-items: flex-start;">
+                <ui:Label text="ProBuilder Plus" class="h1" />
+                <ui:Button text="More Info" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Btn_Collections-Web" class="spaced-element" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:ScrollView class="overdrive-styling column column-spaced" style="padding-right: 0; padding-bottom: 0; padding-left: 0; padding-top: 0;">
+        <ui:VisualElement name="ActionsOverlaySettings" class="panel-secondary column">
+            <ui:Label tabindex="-1" text="Actions Overlay Settings" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="h3" />
+            <ui:Toggle label="Show Edit Mode Buttons" name="ShowEditModeButtons" value="false" tooltip="Show/hide the edit mode button group in the ProBuilder Plus overlay" />
+            <ui:Toggle label="Show Editor Buttons" name="ShowEditorButtons" value="true" tooltip="Show/hide the editor buttons (upper group) in the ProBuilder Plus overlay" />
+            <ui:Toggle label="Show Action Buttons" name="ShowActionButtons" value="true" tooltip="Show/hide the action buttons (lower group) in the ProBuilder Plus overlay" />
+        </ui:VisualElement>
+        <ui:VisualElement name="InfoOverlaySettings" class="panel-secondary column">
+            <ui:Label tabindex="-1" text="PBi Overlay Settings" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="h3" />
+            <ui:Toggle label="Show Selection Info" name="ShowSelectionInfo" value="true" tooltip="Show/hide the UV pan buttons in the ProBuilder Plus inspector" />
+            <ui:Toggle label="Show Pan UV Buttons" name="ShowPanButtons" value="true" tooltip="Show/hide the UV pan buttons in the ProBuilder Plus inspector" />
+            <ui:Toggle label="Show Disabled UV settings" name="ShowDisabledUvSettings" value="false" tooltip="Show/hide the UV pan buttons in the ProBuilder Plus inspector" style="justify-content: center;" />
+            <ui:Toggle label="Show Smoothness Group" name="ShowSmoothnessGroup" value="true" tooltip="Show/hide the UV pan buttons in the ProBuilder Plus inspector" />
+        </ui:VisualElement>
+        <ui:VisualElement name="SeparatorLine" style="flex-grow: 1; height: 1px; min-height: 1px; max-height: 1px; background-color: rgb(144, 144, 144); margin-top: 5px; margin-right: 5px; margin-bottom: 10px; margin-left: 5px;" />
+        <ui:Label tabindex="-1" text="Tool Settings" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ToolSettings" class="h3" style="margin-left: 8px;" />
+        <ui:VisualElement name="Collapse" class="panel-secondary column">
+            <ui:Label tabindex="-1" text="Collapse Vertices" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="h3" />
+            <ui:Toggle label="Collapse to First" name="CollapseToFirst" value="false" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Weld" class="panel-secondary column">
+            <ui:Label tabindex="-1" text="Weld Vertices" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="h3" />
+            <ui:FloatField label="Distance" value="42.2" name="WeldDistance" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Extrude" class="panel-secondary column">
+            <ui:Label tabindex="-1" text="Extrude Edges" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="h3" />
+            <ui:FloatField label="Distance" value="0.5" name="ExtrudeDistance" />
+            <ui:Toggle label="As Group" name="ExtrudeAsGroup" value="false" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Loop" class="panel-secondary column">
+            <ui:Label tabindex="-1" text="Insert Edge Loop" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="h3" />
+            <ui:FloatField label="Position" value="0.5" name="LoopPosition" />
+            <ui:EnumField label="Direction" name="LoopDirection" />
+            <ui:EnumField label="Mode" name="LoopMode" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Bridge" class="panel-secondary column">
+            <ui:Label tabindex="-1" text="Bridge Edges" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="h3" />
+            <ui:IntegerField label="Rotation Offset" value="0" name="BridgeRotationOffset" />
+            <ui:Toggle label="Reverse Order" name="BridgeReverseOrder" value="false" />
+            <ui:Toggle label="Use Full Borders" name="BridgeUseFullBorders" value="true" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Connect" class="panel-secondary column">
+            <ui:Label tabindex="-1" text="Connect Edges" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="h3" />
+            <ui:FloatField label="Position" value="0.5" name="ConnectionPosition" />
+            <ui:EnumField label="Direction" name="ConnectionDirection" />
+            <ui:EnumField label="Mode" name="ConnectionMode" />
+        </ui:VisualElement>
+        <ui:VisualElement name="ExtrudeFaces" class="panel-secondary column">
+            <ui:Label tabindex="-1" text="Extrude Faces" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="h3" />
+            <ui:FloatField label="Distance" value="0.5" name="ExtrudeFacesDistance" />
+            <ui:EnumField label="Method" name="ExtrudeFacesMethod" />
+            <ui:EnumField label="Space" name="ExtrudeFacesSpace" />
+            <ui:EnumField label="Axis" name="ExtrudeFacesAxis" />
+        </ui:VisualElement>
+        <ui:VisualElement name="InsetFaces" class="panel-secondary column">
+            <ui:Label tabindex="-1" text="Inset Faces" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="h3" />
+            <ui:FloatField label="Distance" value="0.3" name="InsetFacesDistance" />
+        </ui:VisualElement>
+        <ui:VisualElement name="ConformNormals" class="panel-secondary column">
+            <ui:Label tabindex="-1" text="Conform Normals" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="h3" />
+            <ui:Toggle label="Other Direction" name="ConformNormalsOtherDirection" value="false" />
+        </ui:VisualElement>
+        <ui:VisualElement name="SeparateFaces" class="panel-secondary column">
+            <ui:Label tabindex="-1" text="Separate Faces" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="h3" />
+            <ui:Toggle label="New Object" name="SeparateFacesCreateNewObject" value="false" />
+            <ui:Toggle label="Duplicate" name="SeparateFacesDuplicateFaces" value="false" />
+        </ui:VisualElement>
+        <ui:VisualElement name="RemoveElements" class="panel-secondary column">
+            <ui:Label tabindex="-1" text="Remove Elements" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="h3" />
+            <ui:FloatField label="Extrude Distance" value="1.0" name="RemoveExtrudeDistance" />
+        </ui:VisualElement>
+        <ui:VisualElement name="FillHole" class="panel-secondary column">
+            <ui:Label tabindex="-1" text="Fill Hole" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="h3" />
+            <ui:Toggle label="Use Entire Border" name="FillEntirePath" value="true" />
+        </ui:VisualElement>
+        <ui:VisualElement name="BevelElements" class="panel-secondary column">
+            <ui:Label tabindex="-1" text="Bevel Elements" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="h3" />
+            <ui:FloatField label="Distance" value="0.2" name="BevelDistance" />
+            <ui:Toggle label="Perimeter Only" name="BevelPerimeterOnly" value="false" />
+        </ui:VisualElement>
+        <ui:VisualElement name="OffsetElements" class="panel-secondary column">
+            <ui:Label tabindex="-1" text="Offset Elements" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="h3" />
+            <ui:EnumField label="Relative To" name="OffsetCoordinateSpace" />
+            <ui:Vector3Field label="Offset Amount" name="OffsetVector" />
+        </ui:VisualElement>
+        <ui:VisualElement name="MirrorObjects" class="panel-secondary column">
+            <ui:Label tabindex="-1" text="Mirror Objects" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="h3" />
+            <ui:Toggle label="X Axis" name="MirrorX" value="true" />
+            <ui:Toggle label="Y Axis" name="MirrorY" value="false" />
+            <ui:Toggle label="Z Axis" name="MirrorZ" value="false" />
+            <ui:Toggle label="Duplicate" name="MirrorDuplicate" value="false" />
+        </ui:VisualElement>
+        <ui:VisualElement name="ApplyTransform" class="panel-secondary column">
+            <ui:Label tabindex="-1" text="Apply Transform" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="h3" />
+            <ui:Toggle label="Apply Position" name="ApplyPosition" value="true" />
+            <ui:Toggle label="Apply Rotation" name="ApplyRotation" value="true" />
+            <ui:Toggle label="Apply Scale" name="ApplyScale" value="true" />
+        </ui:VisualElement>
+        <ui:VisualElement name="ConformObjectNormals" class="panel-secondary column">
+            <ui:Label tabindex="-1" text="Conform Object Normals" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="h3" />
+            <ui:Toggle label="Other Direction" name="ConformObjectNormalsOtherDirection" value="false" />
+        </ui:VisualElement>
+        <ui:VisualElement name="ProBuilderize" class="panel-secondary column">
+            <ui:Label tabindex="-1" text="ProBuilderize" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="h3" />
+            <ui:Toggle label="Import Quads" name="ImportQuads" value="true" />
+            <ui:Toggle label="Import Smoothing" name="ImportSmoothing" value="true" />
+            <ui:FloatField label="Smoothing Angle" value="1.0" name="SmoothingAngle" />
+        </ui:VisualElement>
+    </ui:ScrollView>
+</ui:UXML>

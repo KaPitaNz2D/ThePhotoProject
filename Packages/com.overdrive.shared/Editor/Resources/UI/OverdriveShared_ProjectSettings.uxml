@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Packages/com.overdrive.shared/Editor/Resources/UI/Overdrive_USS_ProjectSettings.uss?fileID=7433441132597879392&amp;guid=751eb7d26107a744695eb099be9bab25&amp;type=3#Overdrive_USS_ProjectSettings" />
+    <Style src="project://database/Packages/com.overdrive.shared/Editor/Resources/UI/Overdrive_GeneralStyles.uss?fileID=7433441132597879392&amp;guid=975ea3c222eca5749a8e2c9f7b65dcbb&amp;type=3#Overdrive_GeneralStyles" />
+    <ui:ScrollView class="overdrive-styling" style="padding-top: 6px; padding-right: 6px; padding-bottom: 6px; padding-left: 6px;">
+        <ui:Label text="Overdrive  - General Project Settings" class="h1" />
+        <ui:VisualElement name="ToolList" class="panel-secondary" style="flex-grow: 1;" />
+    </ui:ScrollView>
+</ui:UXML>

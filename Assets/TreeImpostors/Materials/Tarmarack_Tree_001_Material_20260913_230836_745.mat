@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Tarmarack_Tree_001_Material_20260913_230836_745
-  m_Shader: {fileID: 4800000, guid: 1d64a85fbf1eb23438776275b1e1c771, type: 3}
+  m_Shader: {fileID: 4800000, guid: 9e6575cb85b8eb34ea6a3d8364aeb10a, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -16,7 +16,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 1
-  m_CustomRenderQueue: 2450
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 

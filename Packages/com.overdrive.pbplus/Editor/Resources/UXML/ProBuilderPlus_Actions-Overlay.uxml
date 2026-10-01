@@ -1,0 +1,16 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Packages/com.overdrive.pbplus/Editor/Resources/USS/ProBuilderPlus_Styles.uss?fileID=7433441132597879392&amp;guid=80838bd41e4cb6047b04461cdea5c7b0&amp;type=3#ProBuilderPlus_Styles" />
+    <Style src="project://database/Packages/com.overdrive.shared/Editor/Resources/UI/Overdrive_GeneralStyles.uss?fileID=7433441132597879392&amp;guid=975ea3c222eca5749a8e2c9f7b65dcbb&amp;type=3#Overdrive_GeneralStyles" />
+    <ui:VisualElement name="Main" class="icon-only">
+        <ui:VisualElement name="EditorButtons" class="icon-only-button" />
+        <ui:ToggleButtonGroup allow-empty-selection="false" value="0001" name="EditModeButtons" class="icon-only-button" style="margin-top: 4px; margin-right: 0; margin-bottom: 4px; margin-left: 0;">
+            <ui:Button name="ObjectMode" icon-image="project://database/Packages/com.unity.probuilder/Content/Icons/Modes/Mode_Object@2x.png" tooltip="Object Edit Mode" />
+            <ui:Button name="VertMode" icon-image="project://database/Packages/com.unity.probuilder/Content/Icons/Modes/Mode_Vertex@2x.png" tooltip="Vertex Edit Mode" />
+            <ui:Button name="EdgeMode" enable-rich-text="false" icon-image="project://database/Packages/com.unity.probuilder/Content/Icons/Modes/Mode_Edge@2x.png" tooltip="Edge Edit Mode" />
+            <ui:Button name="FaceMode" icon-image="project://database/Packages/com.unity.probuilder/Content/Icons/Modes/Mode_Face@2x.png" tooltip="Face Edit Mode" />
+            <ui:Button name="UVMode" icon-image="project://database/Packages/com.overdrive.pbplus/Editor/Resources/Icons/Old/Panel_UVEditor.png?fileID=2800000&amp;guid=32a3b2fff2b4a5b4d8e01415f0d79eaa&amp;type=3#Panel_UVEditor" tooltip="UV Edit Mode" />
+        </ui:ToggleButtonGroup>
+        <ui:Label name="ActionsLabel" text="Object Actions" />
+        <ui:VisualElement name="ActionButtons" />
+    </ui:VisualElement>
+</ui:UXML>

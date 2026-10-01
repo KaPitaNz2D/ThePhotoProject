@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Packages/com.overdrive.shared/Editor/Resources/UI/Overdrive_GeneralStyles.uss?fileID=7433441132597879392&amp;guid=975ea3c222eca5749a8e2c9f7b65dcbb&amp;type=3#Overdrive_GeneralStyles" />
+    <ui:VisualElement name="Main" class="column" style="width: 180px;">
+        <ui:Label text="This is a very long label to ensure it wraps correctly." name="Instructions" style="white-space: normal; -unity-text-align: upper-left; background-color: rgba(255, 255, 255, 0.14); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px;" />
+        <ui:VisualElement name="Content" class="spaced-element" />
+        <ui:VisualElement name="Buttons" class="row spaced-element" style="flex-direction: row;">
+            <ui:Button text="Apply" name="Confirm" class="spaced-element" style="background-color: rgb(96, 175, 84); color: rgb(16, 16, 16); flex-grow: 1;" />
+            <ui:Button text="Cancel" name="Cancel" style="background-color: rgb(218, 93, 93); color: rgb(24, 24, 24); flex-grow: 1;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

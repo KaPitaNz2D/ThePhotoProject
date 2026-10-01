@@ -1,0 +1,62 @@
+:root {
+    /* base items */
+    --boxInField-corner-radius: 2px;
+    --boxInField-padding: 3px;
+    --stackLabelsAbove-label-spacer: 3px;
+    --base-background-color: rgba(255, 255, 255, .05);
+    --base-background-color-hover: rgba(255, 255, 255, .1);
+    --base-background-color-active: rgba(200, 200, 255, .1);
+    --value-disabled-opacity: .35;
+    --base-element-height: 18px;
+    --base-text-color-default: rgba(240, 244, 247, 1);
+    --base-text-size-default: 12px;
+    /* labels */
+    --label-text-color-default: rgba(240, 244, 247, .8);
+    --label-text-size-default: 9px;
+    /* text input fields */
+    --text-input-background-color-default: rgba(0, 0, 0, .33);
+    --text-input-background-color-hover: rgba(0, 0, 0, .5);
+    --text-input-background-color-active: rgba(0, 0, 0, .33);
+    --text-input-border-width: 0px;
+    --text-input-corner-radius: 2px;
+    --text-input-padding-vertical: 0px;
+    --text-input-padding-horizontal: 4px;
+    /* popups */
+    --popup-border-width: 0px;
+    --popup-color-default: rgba(255, 255, 255, .1);
+    --popup-size-height: 18px;
+    --popup-border-width: 0px;
+    --popup-corner-radius: 2px;
+    --popup-padding-vertical: 0px;
+    --popup-padding-horizontal: 4px;
+    /* buttons */
+    --button-size-height: 18px;
+    --button-color-default: rgba(255, 255, 255, .1);
+    --button-color-hover: rgba(255, 255, 255, .2);
+    --button-color-active: rgba(200, 200, 255, .1);
+    --button-corner-radius: 9px;
+    --button-border-width: 0px;
+    --button-text-size-default: 12px;
+    --button-text-color-default: rgba(240, 244, 247, 1);
+    /* toggles */
+    --toggle-backing-size-height: 12px;
+    --toggle-backing-color: rgba(255, 255, 255, .1);
+    --toggle-backing-color-hover: rgba(255, 255, 255, .2);
+    --toggle-backing-color-active: rgba(200, 200, 255, .1);
+    --toggle-backing-corner-radius: 2px;
+    --toggle-backing-border-width: 0px;
+    --toggle-checkmark-size-height: 16px;
+    --toggle-checkmark-color-default: rgba(0, 255, 255, 1);
+    /* bounds fields */
+    --bounds-fields-secondary-label-opacity: .5;
+    /* xyzw inputs */
+    --x-input-color: rgba(194, 68, 68, .5);
+    --y-input-color: rgba(90, 194, 68, .5);
+    --z-input-color: rgba(68, 120, 194, .5);
+    --w-input-color: rgba(255, 255, 0, .5);
+    /* grabber */
+    --grabber-size-height: 12px;
+    --grabber-color-default: rgba(255, 255, 255, .1);
+    --grabber-color-hover: rgba(255, 255, 255, .2);
+    --grabber-color-active: rgba(200, 200, 255, .1);
+}

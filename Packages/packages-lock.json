@@ -24,6 +24,21 @@
       },
       "hash": "4ce7dd3cc54e37e2ed6dc59cb5a047f3dccb3f50"
     },
+    "com.overdrive.pbplus": {
+      "version": "file:com.overdrive.pbplus",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.overdrive.shared": "1.0.4",
+        "com.unity.probuilder": "6.0.0"
+      }
+    },
+    "com.overdrive.shared": {
+      "version": "file:com.overdrive.shared",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
@@ -149,6 +164,18 @@
       "depth": 1,
       "source": "registry",
       "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.probuilder": {
+      "version": "6.1.2",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.shadergraph": "17.0.3",
+        "com.unity.modules.imgui": "1.0.0",
+        "com.unity.modules.physics": "1.0.0",
+        "com.unity.settings-manager": "1.0.3"
+      },
       "url": "https://packages.unity.com"
     },
     "com.unity.render-pipelines.core": {

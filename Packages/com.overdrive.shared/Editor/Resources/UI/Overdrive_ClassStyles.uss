@@ -1,0 +1,296 @@
+@import url("project://database/Packages/com.overdrive.shared/Editor/Resources/UI/Overdrive_StyleVariables.uss?fileID=7433441132597879392&guid=c008b175a7622a346bdd0d4f24f1f855&type=3#Overdrive_StyleVariables");
+.overdrive-styling {
+}
+
+.___Basic_UI_Elements___ {
+}
+
+.overdrive-styling Button {
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 0;
+    padding-bottom: 0;
+    -unity-font-definition: var(--font-mono);
+    color: var(--clickable-default);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-left-width: 0;
+}
+
+.overdrive-styling Label {
+    -unity-font-definition: var(--font-mono);
+    font-size: var(--font-default-size);
+    color: var(--text-default);
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 1px;
+    padding-bottom: 0;
+}
+
+.overdrive-styling Toggle {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.overdrive-styling TextField {
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+}
+
+.overdrive-styling IntegerField {
+}
+
+.overdrive-styling FloatField {
+}
+
+.overdrive-styling DoubleField {
+}
+
+.overdrive-styling Vector2Field {
+}
+
+.overdrive-styling Vector3Field {
+}
+
+.overdrive-styling Vector4Field {
+}
+
+.overdrive-styling ColorField {
+}
+
+.overdrive-styling ObjectField {
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.overdrive-styling EnumField {
+}
+
+.overdrive-styling Slider {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.overdrive-styling MinMaxSlider {
+}
+
+.overdrive-styling SliderInt {
+}
+
+.overdrive-styling ProgressBar {
+}
+
+.___Container_Elements___ {
+}
+
+.overdrive-styling VisualElement {
+}
+
+.overdrive-styling ScrollView {
+}
+
+.overdrive-styling ListView {
+}
+
+.overdrive-styling TreeView {
+    margin-bottom: -8px;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.overdrive-styling GroupBox {
+}
+
+.overdrive-styling Box {
+}
+
+.overdrive-styling Foldout {
+}
+
+.___Layout_Elements___ {
+}
+
+.overdrive-styling TwoPaneSplitView {
+}
+
+.overdrive-styling TabView {
+}
+
+.___Specialized_Elements___ {
+}
+
+.overdrive-styling Image {
+}
+
+.overdrive-styling IMGUIContainer {
+}
+
+.overdrive-styling Scroller {
+}
+
+.overdrive-styling PopupWindow {
+}
+
+.overdrive-styling DropdownField {
+}
+
+.overdrive-styling RadioButton {
+}
+
+.overdrive-styling RadioButtonGroup {
+}
+
+.___Child_Object_Changes___ {
+}
+
+.overdrive-styling ObjectField VisualElement {
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    padding-top: 2px;
+    padding-right: 2px;
+    padding-bottom: 2px;
+    padding-left: 2px;
+}
+
+.overdrive-styling ObjectField .unity-object-field__selector {
+    background-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: var(--clickable-default);
+}
+
+.overdrive-styling ObjectField Label {
+    color: var(--clickable-default);
+}
+
+.overdrive-styling ObjectField:hover Label {
+    color: var(--clickable-hover);
+}
+
+.overdrive-styling ObjectField .unity-object-field__selector:hover {
+    background-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: var(--clickable-hover);
+}
+
+.overdrive-styling ScrollView .unity-repeat-button {
+    display: none;
+}
+
+.overdrive-styling ScrollView #unity-slider #unity-dragger {
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    background-color: var(--clickable-default);
+    opacity: 0.13;
+    width: 4px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.overdrive-styling ScrollView #unity-slider #unity-tracker {
+    width: 4px;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.overdrive-styling ScrollView #unity-slider {
+    width: 4px;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.overdrive-styling ScrollView #unity-dragger-border {
+    display: none;
+}
+
+.overdrive-styling ScrollView .spaced-element {
+    margin-top: var(--panel-padding);
+}
+
+.overdrive-styling ScrollView Scroller {
+    display: none;
+    width: auto;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    margin-left: 3px;
+}
+
+.overdrive-styling Slider {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.overdrive-styling TextField #unity-text-input {
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+}
+
+.overdrive-styling Toggle > Label {
+    flex-grow: 1;
+    white-space: normal;
+    flex-shrink: 1;
+    min-width: auto;
+}
+
+.overdrive-styling Toggle > .unity-toggle__input {
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.overdrive-styling * {
+    -unity-font-definition: var(--font-mono);
+}

@@ -21,11 +21,10 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: MAT_Pine_Leaf
-  m_Shader: {fileID: -6465566751694194690, guid: b33f13b4f36eadd4f9183dc72f8c42ec, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: c709221f93c84ca4798697adc415d349, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _USE_TEXTURE
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -39,6 +38,10 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: 874065534dcebe24784b930da96c7266, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Base_Texture:
         m_Texture: {fileID: 2800000, guid: 874065534dcebe24784b930da96c7266, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -127,14 +130,19 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EmissionEnabled: 0
+    - _Emission_Strength: 10
     - _EnvironmentReflections: 1
     - _FlipbookMode: 0
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
+    - _Gradient_Lighten: 1
     - _LightingEnabled: 1
     - _Metallic: 0
     - _Mode: 1
+    - _NatureRendererInstancing: 1
+    - _Noise_Scale: 1
+    - _Noise_Scale_Color: 10
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _QueueControl: 0
@@ -151,7 +159,10 @@ Material:
     - _Surface: 0
     - _USE_TEXTURE: 1
     - _UVSec: 0
+    - _Use_Texture_Color: 1
     - _WindQuality: 0
+    - _Wind_Intensity: 0.2
+    - _Wind_Speed: 0.1
     - _WorkflowMode: 1
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1
@@ -161,8 +172,12 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Dark_Leaf: {r: 0.28145978, g: 0.40566036, b: 0.22005156, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Gradient_Color: {r: 0.27351636, g: 0.40566036, b: 0.20474365, a: 0}
+    - _Gradient_EndPoints: {r: 0, g: 5, b: 0, a: 0}
     - _HueVariation: {r: 1, g: 0.5, b: 0, a: 0.1}
+    - _Light_Leaf: {r: 0.46759772, g: 0.7264151, b: 0.31866318, a: 0}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _wind_direction: {r: 1, g: 0, b: 0, a: 0}

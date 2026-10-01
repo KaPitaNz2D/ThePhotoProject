@@ -1,0 +1,36 @@
+@import url("project://database/Packages/com.overdrive.shared/Editor/Resources/UI/Overdrive_StyleVariables.uss?fileID=7433441132597879392&guid=c008b175a7622a346bdd0d4f24f1f855&type=3#Overdrive_StyleVariables");
+#Tool-Icon {
+    margin-right: 6px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+    -unity-background-scale-mode: scale-to-fit;
+    max-width: 60px;
+    min-width: 30px;
+    min-height: 30px;
+    max-height: 60px;
+}
+
+.package-info-text {
+    white-space: normal;
+    flex-grow: 1;
+}
+
+.settings-scroll-view {
+    margin-top: var(--panel-padding);
+    margin-right: var(--panel-padding);
+    margin-bottom: var(--panel-padding);
+    margin-left: var(--panel-padding);
+}
+
+#Tool-HeaderInfo {
+}
+
+#Tool-Header {
+    flex-direction: row;
+}
+
+.share-equal {
+    flex-basis: 100%;
+}

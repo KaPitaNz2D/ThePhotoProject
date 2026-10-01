@@ -1,0 +1,7 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:ScrollView>
+        <ui:VisualElement name="EditorButtons" style="flex-grow: 1;" />
+        <ui:Label text="Actions" name="ActionsLabel" style="margin-top: 8px;" />
+        <ui:VisualElement name="ActionButtons" style="flex-grow: 1;" />
+    </ui:ScrollView>
+</ui:UXML>
