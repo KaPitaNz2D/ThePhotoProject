@@ -98,10 +98,14 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Terrain_Texture_3:
-        m_Texture: {fileID: 2800000, guid: b30ef1b99587eb844b863df6c6535bd7, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9234305f12ded3442b911c3ff978d340, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Terrain_Texture_4:
+        m_Texture: {fileID: 2800000, guid: a7b05dec520c8cf4c8e08dfef1f84db4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Terrain_Texture_5:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -134,7 +138,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Mask_Tiling: 200
+    - _Mask_Tiling: 300
     - _Metallic: 0
     - _NATURERENDERERINSTANCING: 1
     - _NatureRendererInstancing: 1
@@ -153,9 +157,10 @@ Material:
     - _Tiling_2: 10
     - _Tiling_3: 5
     - _Tiling_4: 10
+    - _Tiling_5: 10
     - _Use_Texture_Color: 0
     - _Wind_Intensity: 0.3
-    - _Wind_Speed: 0.1
+    - _Wind_Speed: 0.238
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:

@@ -920,8 +920,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 271921602}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18, y: 11.422, z: 41.84}
+  m_LocalRotation: {x: 0.18814012, y: 0.09919976, z: -0.019104134, w: 0.9769328}
+  m_LocalPosition: {x: 18, y: 12.387, z: 39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1074,7 +1074,10 @@ MonoBehaviour:
     - name: Grass1
       layerID: 1
       threshold: 0.9
-    instanceCount: 205
+    - name: Grass_darked_up
+      layerID: 2
+      threshold: 0.8
+    instanceCount: 461
     prefabs:
     - index: 0
       probability: 100
@@ -1095,7 +1098,10 @@ MonoBehaviour:
     - name: Grass1
       layerID: 1
       threshold: 0.85
-    instanceCount: 210
+    - name: Grass_darked_up
+      layerID: 2
+      threshold: 0.8
+    instanceCount: 499
     prefabs:
     - index: 1
       probability: 100
@@ -1115,8 +1121,11 @@ MonoBehaviour:
     layerMasks:
     - name: Grass1
       layerID: 1
-      threshold: 0.85
-    instanceCount: 194
+      threshold: 0.8
+    - name: Grass_darked_up
+      layerID: 2
+      threshold: 0.8
+    instanceCount: 465
     prefabs:
     - index: 2
       probability: 100
@@ -1129,85 +1138,103 @@ MonoBehaviour:
     seed: 4762
     probability: 10
     collisionCheck: 0
-    rejectUnderwater: 0
+    rejectUnderwater: 1
     heightRange: {x: 0, y: 1000}
     slopeRange: {x: 0, y: 60}
     curvatureRange: {x: 0, y: 1}
-    layerMasks: []
-    instanceCount: 100
+    layerMasks:
+    - name: Grass_darked_up
+      layerID: 2
+      threshold: 0.8
+    instanceCount: 62
     prefabs:
     - index: 3
       probability: 100
       prefab: {fileID: 3828180267505327321, guid: db736203cb963434b868c710fcc75ef0, type: 3}
     distance: 5
-    scaleRange: {x: 0.8, y: 1.2}
-    sinkAmount: 0
+    scaleRange: {x: 1, y: 1.5}
+    sinkAmount: 0.3
   - enabled: 1
     name: PF_Pine_Tree_002
     seed: 4260
     probability: 10
-    collisionCheck: 0
-    rejectUnderwater: 0
+    collisionCheck: 1
+    rejectUnderwater: 1
     heightRange: {x: 0, y: 1000}
     slopeRange: {x: 0, y: 60}
     curvatureRange: {x: 0, y: 1}
-    layerMasks: []
-    instanceCount: 86
+    layerMasks:
+    - name: Grass_darked_up
+      layerID: 2
+      threshold: 0.8
+    instanceCount: 98
     prefabs:
     - index: 4
       probability: 100
       prefab: {fileID: 1260837743561623187, guid: 7f690890cd593bf49a039a1a740feb71, type: 3}
-    distance: 5
-    scaleRange: {x: 0.8, y: 1.2}
-    sinkAmount: 0
+    distance: 4.3
+    scaleRange: {x: 1, y: 1.5}
+    sinkAmount: 0.3
   - enabled: 1
     name: PF_Pine_Tree_003
     seed: 9819
     probability: 10
-    collisionCheck: 0
-    rejectUnderwater: 0
+    collisionCheck: 1
+    rejectUnderwater: 1
     heightRange: {x: 0, y: 1000}
     slopeRange: {x: 0, y: 60}
     curvatureRange: {x: 0, y: 1}
-    layerMasks: []
-    instanceCount: 86
+    layerMasks:
+    - name: Grass_darked_up
+      layerID: 2
+      threshold: 0.8
+    instanceCount: 63
     prefabs:
     - index: 5
       probability: 100
       prefab: {fileID: 1285000723962837598, guid: cddec13f7dcf77a40bf7dcfeeb5cf8dd, type: 3}
     distance: 5
-    scaleRange: {x: 0.8, y: 1.2}
-    sinkAmount: 0
+    scaleRange: {x: 1, y: 1.5}
+    sinkAmount: 0.3
   - enabled: 1
     name: PF_Pine_Tree_004
     seed: 4008
-    probability: 10
-    collisionCheck: 0
-    rejectUnderwater: 0
+    probability: 50
+    collisionCheck: 1
+    rejectUnderwater: 1
     heightRange: {x: 0, y: 1000}
     slopeRange: {x: 0, y: 60}
     curvatureRange: {x: 0, y: 1}
-    layerMasks: []
-    instanceCount: 96
+    layerMasks:
+    - name: Grass_darked_up
+      layerID: 2
+      threshold: 0.8
+    instanceCount: 355
     prefabs:
     - index: 6
       probability: 100
       prefab: {fileID: 7908528006317024925, guid: fe00130a128a4674abf533a7f5f5253d, type: 3}
     distance: 5
-    scaleRange: {x: 0.8, y: 1.2}
-    sinkAmount: 0
+    scaleRange: {x: 1, y: 1.5}
+    sinkAmount: 0.3
   grassPrefabs:
   - enabled: 1
     name: F1_HighGrass
-    seed: 0
+    seed: 25843
     probability: 25
     collisionCheck: 0
     rejectUnderwater: 0
     heightRange: {x: 0, y: 1000}
     slopeRange: {x: 0, y: 60}
     curvatureRange: {x: 0, y: 1}
-    layerMasks: []
-    instanceCount: 0
+    layerMasks:
+    - name: Grass1
+      layerID: 1
+      threshold: 0.8
+    - name: Grass_darked_up
+      layerID: 2
+      threshold: 0.8
+    instanceCount: 190480
     index: 0
     type: 0
     renderAsBillboard: 0
@@ -1217,26 +1244,32 @@ MonoBehaviour:
     alignToGround: 0
     positionJitter: 0
     useDensityScaling: 0
-    density: 2
+    density: 3
     billboard: {fileID: 0}
     mainColor: {r: 0.2627451, g: 0.9764706, b: 0.16470589, a: 1}
     secondaryColor: {r: 0.8039216, g: 0.7372549, b: 0.101960786, a: 1}
     linkColors: 1
-    minMaxHeight: {x: 1, y: 2}
-    minMaxWidth: {x: 1, y: 2}
+    minMaxHeight: {x: 1.5, y: 2}
+    minMaxWidth: {x: 1.5, y: 2}
     noiseSize: 0.1
   - enabled: 1
     name: F1_MidGrass
-    seed: 0
+    seed: 84133
     probability: 25
     collisionCheck: 0
     rejectUnderwater: 0
     heightRange: {x: 0, y: 1000}
     slopeRange: {x: 0, y: 60}
     curvatureRange: {x: 0, y: 1}
-    layerMasks: []
-    instanceCount: 0
-    index: 0
+    layerMasks:
+    - name: Grass_darked_up
+      layerID: 2
+      threshold: 0.8
+    - name: Grass1
+      layerID: 1
+      threshold: 0.8
+    instanceCount: 191195
+    index: 1
     type: 0
     renderAsBillboard: 0
     prefab: {fileID: 8726706993329431406, guid: 6d489acf24fc69641bbd45242006d346, type: 3}
@@ -1245,7 +1278,7 @@ MonoBehaviour:
     alignToGround: 0
     positionJitter: 0
     useDensityScaling: 1
-    density: 2
+    density: 3
     billboard: {fileID: 0}
     mainColor: {r: 0.2627451, g: 0.9764706, b: 0.16470589, a: 1}
     secondaryColor: {r: 0.8039216, g: 0.7372549, b: 0.101960786, a: 1}
@@ -1255,16 +1288,22 @@ MonoBehaviour:
     noiseSize: 0.1
   - enabled: 1
     name: F1_LowGrass
-    seed: 1288196788
+    seed: 10138
     probability: 25
     collisionCheck: 0
     rejectUnderwater: 0
     heightRange: {x: 0, y: 1000}
     slopeRange: {x: 0, y: 60}
     curvatureRange: {x: 0, y: 1}
-    layerMasks: []
-    instanceCount: 0
-    index: 0
+    layerMasks:
+    - name: Grass_darked_up
+      layerID: 2
+      threshold: 0.8
+    - name: Grass1
+      layerID: 1
+      threshold: 0.8
+    instanceCount: 191019
+    index: 2
     type: 0
     renderAsBillboard: 0
     prefab: {fileID: 3421409297708356302, guid: c3a3efbac94ae0f4198bc067e944f76d, type: 3}
@@ -1273,69 +1312,13 @@ MonoBehaviour:
     alignToGround: 0
     positionJitter: 0
     useDensityScaling: 1
-    density: 2
+    density: 3
     billboard: {fileID: 0}
     mainColor: {r: 0.2627451, g: 0.9764706, b: 0.16470589, a: 1}
     secondaryColor: {r: 0.8039216, g: 0.7372549, b: 0.101960786, a: 1}
     linkColors: 1
     minMaxHeight: {x: 1, y: 2}
     minMaxWidth: {x: 1, y: 2}
-    noiseSize: 0.1
-  - enabled: 1
-    name: F1_BushLow
-    seed: 233321878
-    probability: 25
-    collisionCheck: 0
-    rejectUnderwater: 0
-    heightRange: {x: 0, y: 1000}
-    slopeRange: {x: 0, y: 60}
-    curvatureRange: {x: 0, y: 1}
-    layerMasks: []
-    instanceCount: 0
-    index: 0
-    type: 0
-    renderAsBillboard: 0
-    prefab: {fileID: 2346952567057285613, guid: db65366ea9e0c834e8a97e67f6316b5a, type: 3}
-    gpuInstancing: 1
-    holeEdgePadding: 0
-    alignToGround: 0
-    positionJitter: 0
-    useDensityScaling: 1
-    density: 1
-    billboard: {fileID: 0}
-    mainColor: {r: 0.2627451, g: 0.9764706, b: 0.16470589, a: 1}
-    secondaryColor: {r: 0.8039216, g: 0.7372549, b: 0.101960786, a: 1}
-    linkColors: 1
-    minMaxHeight: {x: 0.5, y: 1}
-    minMaxWidth: {x: 0.5, y: 1}
-    noiseSize: 0.1
-  - enabled: 1
-    name: F1_BushMid
-    seed: 281801789
-    probability: 25
-    collisionCheck: 0
-    rejectUnderwater: 0
-    heightRange: {x: 0, y: 1000}
-    slopeRange: {x: 0, y: 60}
-    curvatureRange: {x: 0, y: 1}
-    layerMasks: []
-    instanceCount: 0
-    index: 0
-    type: 0
-    renderAsBillboard: 0
-    prefab: {fileID: 3585083210177882980, guid: ea5697d072a105a4f984d51d893dee07, type: 3}
-    gpuInstancing: 1
-    holeEdgePadding: 0
-    alignToGround: 0
-    positionJitter: 0
-    useDensityScaling: 1
-    density: 1
-    billboard: {fileID: 0}
-    mainColor: {r: 0.2627451, g: 0.9764706, b: 0.16470589, a: 1}
-    secondaryColor: {r: 0.8039216, g: 0.7372549, b: 0.101960786, a: 1}
-    linkColors: 1
-    minMaxHeight: {x: 1, y: 1}
-    minMaxWidth: {x: 1, y: 1}
     noiseSize: 0.1
   terrainSettings:
     drawTreesAndFoliage: 1
@@ -1888,7 +1871,7 @@ Transform:
   m_GameObject: {fileID: 434599862}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 121.2, y: 7.7, z: 90.1}
+  m_LocalPosition: {x: 169.8, y: 7.7, z: 146.6}
   m_LocalScale: {x: 16.2, y: 16.2, z: 16.2}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -5255,11 +5238,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8752491416358594240, guid: 67496f88c9221949faa96269074d15e4, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.073864795
+      value: 0.07511491
       objectReference: {fileID: 0}
     - target: {fileID: 8752491416358594240, guid: 67496f88c9221949faa96269074d15e4, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.99726826
+      value: 0.9971749
       objectReference: {fileID: 0}
     - target: {fileID: 8993336222158292069, guid: 67496f88c9221949faa96269074d15e4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5959,11 +5942,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3977229270478991123, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.068617046
+      value: 0.06970231
       objectReference: {fileID: 0}
     - target: {fileID: 3977229270478991123, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.9976431
+      value: 0.99756783
       objectReference: {fileID: 0}
     - target: {fileID: 5435033434331284460, guid: b7194b0ff26f19d4aa9d2599ccd44f67, type: 3}
       propertyPath: targetCamera
@@ -6515,11 +6498,11 @@ PrefabInstance:
       objectReference: {fileID: 271921603}
     - target: {fileID: 5358148250229796375, guid: 3623b2a76ea4f9140bd7000cd8a60113, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.0845497
+      value: 0.0858763
       objectReference: {fileID: 0}
     - target: {fileID: 5358148250229796375, guid: 3623b2a76ea4f9140bd7000cd8a60113, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.9964193
+      value: 0.9963058
       objectReference: {fileID: 0}
     - target: {fileID: 8773656938399698045, guid: 3623b2a76ea4f9140bd7000cd8a60113, type: 3}
       propertyPath: m_Name
@@ -6603,11 +6586,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7568403900088474897, guid: ddea0e31301e9009ba6d3ebc43dc2cbb, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.087401606
+      value: 0.08881886
       objectReference: {fileID: 0}
     - target: {fileID: 7568403900088474897, guid: ddea0e31301e9009ba6d3ebc43dc2cbb, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.9961732
+      value: 0.9960478
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6888,11 +6871,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1218184539723113814, guid: e19414c3f1364d76288cde5816ee121c, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.07095063
+      value: 0.07211101
       objectReference: {fileID: 0}
     - target: {fileID: 1218184539723113814, guid: e19414c3f1364d76288cde5816ee121c, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.99747986
+      value: 0.99739665
       objectReference: {fileID: 0}
     - target: {fileID: 1539803728712959987, guid: e19414c3f1364d76288cde5816ee121c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7663,11 +7646,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6750982281138798261, guid: 20ef2eda91d10187683b7700d5a523a8, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.09045017
+      value: 0.09196759
       objectReference: {fileID: 0}
     - target: {fileID: 6750982281138798261, guid: 20ef2eda91d10187683b7700d5a523a8, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.995901
+      value: 0.99576205
       objectReference: {fileID: 0}
     - target: {fileID: 7938143463912807647, guid: 20ef2eda91d10187683b7700d5a523a8, type: 3}
       propertyPath: m_Name
@@ -8043,11 +8026,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1606445229157402258, guid: f6190c44ac488d244b6e2b561d9f38b1, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.05425766
+      value: 0.05502502
       objectReference: {fileID: 0}
     - target: {fileID: 1606445229157402258, guid: f6190c44ac488d244b6e2b561d9f38b1, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.998527
+      value: 0.99848497
       objectReference: {fileID: 0}
     - target: {fileID: 5021831580741875764, guid: f6190c44ac488d244b6e2b561d9f38b1, type: 3}
       propertyPath: m_Name
@@ -8530,11 +8513,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3399678859447728581, guid: e6c16e73d83f8b342824a2cadda06b93, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.042001054
+      value: 0.042597223
       objectReference: {fileID: 0}
     - target: {fileID: 3399678859447728581, guid: e6c16e73d83f8b342824a2cadda06b93, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.9991176
+      value: 0.99909234
       objectReference: {fileID: 0}
     - target: {fileID: 4605308012630749455, guid: e6c16e73d83f8b342824a2cadda06b93, type: 3}
       propertyPath: m_Name
