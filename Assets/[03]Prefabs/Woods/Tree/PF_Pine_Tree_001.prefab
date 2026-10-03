@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 4658220823937370704}
   - component: {fileID: 1073587124627850908}
   - component: {fileID: 6068159024739381607}
+  - component: {fileID: 544661962608207951}
   m_Layer: 0
   m_Name: PF_Pine_Tree_001
   m_TagString: Untagged
@@ -180,6 +181,30 @@ CapsuleCollider:
   m_Height: 13.000943
   m_Direction: 1
   m_Center: {x: 0, y: 6.0004716, z: 0}
+--- !u!114 &544661962608207951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3828180267505327321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1674016628, guid: b04c77e0938d27643b3f69f2dd39ce77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: VisualDesignCafe.Rendering.Nature.dll::VisualDesignCafe.Rendering.Nature.NatureRendererObjectSettings
+  _render: 1
+  _overrideRendering: 1
+  _renderDistance: 0
+  _overrideRenderDistance: 0
+  _renderShadows: 1
+  _overrideRenderShadows: 0
+  _shadowDistance: 0
+  _overrideShadowDistance: 0
+  _densityInDistance: 0.125
+  _overrideDensityInDistance: 0
+  _densityInDistanceFalloff: {x: 0.07999998, y: 0.007499993}
+  _overrideDensityInDistanceFalloff: 0
 --- !u!1 &4169317454464680227
 GameObject:
   m_ObjectHideFlags: 0

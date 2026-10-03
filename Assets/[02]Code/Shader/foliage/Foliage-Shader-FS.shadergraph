@@ -4930,17 +4930,17 @@
     "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
     "m_ObjectId": "5681c672006e4c15a2900bb02344f39f",
     "m_Group": {
-        "m_Id": ""
+        "m_Id": "8a670ba08a13435496334da8e33dac94"
     },
     "m_Name": "Property",
     "m_DrawState": {
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1807.183349609375,
-            "y": -335.7278137207031,
-            "width": 0.0,
-            "height": 0.0
+            "x": -1807.9998779296875,
+            "y": -305.9999694824219,
+            "width": 137.0,
+            "height": 34.0
         }
     },
     "m_Slots": [
@@ -5051,10 +5051,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1799.19970703125,
-            "y": -476.00006103515627,
-            "width": 146.400146484375,
-            "height": 117.60000610351563
+            "x": -1797.9998779296875,
+            "y": -475.9999694824219,
+            "width": 147.0,
+            "height": 151.99996948242188
         }
     },
     "m_Slots": [
@@ -6625,8 +6625,8 @@
     "m_ObjectId": "8a670ba08a13435496334da8e33dac94",
     "m_Title": "Vertex Animation",
     "m_Position": {
-        "x": -1824.0,
-        "y": -631.0
+        "x": -1832.9998779296875,
+        "y": -630.9999389648438
     }
 }
 

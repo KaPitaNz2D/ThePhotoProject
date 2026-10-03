@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: MAT_Tarmarack_Leaf_002
-  m_Shader: {fileID: -6465566751694194690, guid: aee4ef18a3e04154ebbdec88a9bc169c, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: c709221f93c84ca4798697adc415d349, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -24,6 +24,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _Base_Texture:
+        m_Texture: {fileID: 2800000, guid: 20bf6b57aa5739e48bcea0b36c2384e3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _leaf:
         m_Texture: {fileID: 2800000, guid: 20bf6b57aa5739e48bcea0b36c2384e3, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -42,13 +46,21 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Emission_Strength: 1
     - _GradientDivide: 2
+    - _Gradient_Lighten: 1
     - _GrdientOffset: 1
     - _Multi: -10.07
+    - _NatureRendererInstancing: 1
+    - _Noise_Scale: 1
+    - _Noise_Scale_Color: 10
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SeedControl: 0
     - _USE_TEXTURE: 0
+    - _Use_Texture_Color: 0
+    - _Wind_Intensity: 0.3
+    - _Wind_Speed: 0.5
     - _wind_speed: 1.2
     - _wind_strength: 0.2
     m_Colors:
@@ -56,6 +68,10 @@ Material:
     - _Color: {r: 1, g: 0.46666667, b: 0.19215682, a: 1}
     - _Color_1: {r: 1, g: 0.5489638, b: 0.1745283, a: 1}
     - _Color_2: {r: 1, g: 0.76555127, b: 0, a: 1}
+    - _Dark_Leaf: {r: 0.90588236, g: 0.4125583, b: 0.14117646, a: 0}
+    - _Gradient_Color: {r: 0.99607843, g: 0.7607843, b: 0.33333334, a: 0}
+    - _Gradient_EndPoints: {r: -1, g: 0.11, b: 0, a: 0}
+    - _Light_Leaf: {r: 1, g: 0.72101027, b: 0.21226418, a: 0}
     - _TopColor: {r: 0.99607843, g: 0.7607843, b: 0.33333334, a: 1}
     - _wind_direction: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
