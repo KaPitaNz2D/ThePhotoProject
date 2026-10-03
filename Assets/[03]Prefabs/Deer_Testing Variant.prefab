@@ -130,15 +130,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5672296455345238967, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.6
+      value: 172.8447
       objectReference: {fileID: 0}
     - target: {fileID: 5672296455345238967, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.3
+      value: 11.97
       objectReference: {fileID: 0}
     - target: {fileID: 5672296455345238967, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -128.41
+      value: 111.364876
       objectReference: {fileID: 0}
     - target: {fileID: 5672296455345238967, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -193,6 +193,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3293762268181601916, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2561939199514307650}
+    - targetCorrespondingSourceObject: {fileID: 3293762268181601916, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 551944763631609317}
+    - targetCorrespondingSourceObject: {fileID: 3293762268181601916, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5075506725789358433}
   m_SourcePrefab: {fileID: 100100000, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
 --- !u!1 &2175008808677069665 stripped
 GameObject:
@@ -212,6 +218,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreatureAnimatorController
   animator: {fileID: 6156510830314441538}
+--- !u!136 &551944763631609317
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2175008808677069665}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1.27
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.33, z: 0}
+--- !u!114 &5075506725789358433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2175008808677069665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21c17d7df6633684a8fd59a5414badd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CreatureGroundAlign
+  visualRoot: {fileID: 690470221958246677}
+  rayDistance: 3
+  rayOriginHeight: 1
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 64
+  alignSpeed: 8
 --- !u!4 &9017031339518017194 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5672296455345238967, guid: aab911b766f72ff4db8c06da1365379b, type: 3}

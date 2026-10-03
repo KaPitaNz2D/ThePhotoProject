@@ -26,12 +26,17 @@ public class CameraController : MonoBehaviour
     public PhotoTransitionUI transitionUI;
 
     private CinemachinePanTilt photoCamPanTilt;
+    private CinemachineInputAxisController thirdPersonInputAxis;
 
     private void Awake()
     {
         if (photoCam != null)
         {
             photoCamPanTilt = photoCam.GetComponent<CinemachinePanTilt>();
+        }
+        if (thirdPersonCam != null)
+        {
+            thirdPersonInputAxis = thirdPersonCam.GetComponent<CinemachineInputAxisController>();
         }
     }
 
@@ -46,6 +51,7 @@ public class CameraController : MonoBehaviour
 
             // ตั้งค่ากล้องเริ่มต้นให้ตรงกับ SystemState ปัจจุบันตอนเริ่มเกม (ปกติคือ Normal -> Third Person)
             SetPhotoMode(StateManager.Instance.CurrentSystemState == StateManager.SystemState.Photograph);
+            SetThirdPersonLookLocked(!StateManager.Instance.CanControlPlayer());
         }
         else
         {
@@ -65,6 +71,11 @@ public class CameraController : MonoBehaviour
     private void HandleSystemStateChanged(StateManager.SystemState oldState, StateManager.SystemState newState)
     {
         bool isPhotoMode = newState == StateManager.SystemState.Photograph;
+
+        // ล็อค Look input ของ Third Person Cam ทันทีที่ออกจาก Normal (เช่น เข้าโหมดถ่ายรูป/เปิดสมุดบันทึก/คุยกับ NPC)
+        // ไม่ต้องรอ Fade เพราะ Vcam ตัวนี้ยังรับ Input หมุนกล้องอยู่แม้ Priority จะถูกลดจนไม่เห็นภาพแล้วก็ตาม
+        // ถ้าไม่ล็อค พอกลับมา Normal กล้องจะหมุนไปมุมที่ไม่ได้ตั้งใจจากการขยับเมาส์ระหว่างอยู่ State อื่น
+        SetThirdPersonLookLocked(!StateManager.Instance.CanControlPlayer());
 
         if (transitionUI != null)
         {
@@ -96,6 +107,14 @@ public class CameraController : MonoBehaviour
         if (photoCam != null)
         {
             photoCam.Priority = isPhotoMode ? activePriority : inactivePriority;
+        }
+    }
+
+    private void SetThirdPersonLookLocked(bool locked)
+    {
+        if (thirdPersonInputAxis != null)
+        {
+            thirdPersonInputAxis.enabled = !locked;
         }
     }
 }
