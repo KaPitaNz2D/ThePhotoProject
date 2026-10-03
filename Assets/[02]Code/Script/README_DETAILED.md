@@ -2,7 +2,7 @@
 
 > เวอร์ชันย่ออ่านเร็วอยู่ที่ [README.md](README.md) — ไฟล์นี้คือรายละเอียดทางเทคนิคของทุกสคริปต์ใน `Assets/[02]Code/Script/`
 >
-> **อัปเดตล่าสุด:** 2026-09-16 (Unity 6000.3.19f1, Input System ใหม่, Yarn Spinner, Cinemachine 3)
+> **อัปเดตล่าสุด:** 2026-10-03 (Unity 6000.3.19f1, Input System ใหม่, Yarn Spinner, Cinemachine 3)
 
 ---
 
@@ -70,7 +70,7 @@ Helper method สำคัญที่ระบบอื่นเรียกเ
 |---|---|---|
 | `ThirdPersonCam.cs` | `ThirdPersonCam` | หมุนโมเดลผู้เล่น (`playerObj`) ให้หันตามทิศ WASD เทียบกับทิศกล้อง เช็ค `StateManager.CanControlPlayer()` ก่อนอ่าน Input เหมือน `PlayerMovement` ตัวละครจึงหยุดหันตาม WASD ตอนอยู่ในโหมดถ่ายรูป/คุย NPC/เปิดเมนูเช่นกัน |
 | `CameraShoulderSwitch.cs` | `CameraShoulderSwitch` (ต้องมี `CinemachineRotationComposer`) | สลับกล้องไหล่ซ้าย/ขวา (Over-the-shoulder) ด้วยปุ่มเดียว |
-| `Cameracontroller.cs` | `CameraController` | สลับ Priority ระหว่าง Vcam เดิน (Third Person) กับ Vcam ถ่ายรูป (Photo Cam) ตาม `StateManager.SystemState` — ไม่มี Logic เดิน/ถ่ายรูปเอง แค่ "ฟัง" state แล้วสลับกล้อง รีเซ็ต Pan/Tilt ของกล้องถ่ายรูปเป็น 0 ทุกครั้งก่อนเข้าโหมดถ่ายรูป |
+| `Cameracontroller.cs` | `CameraController` | สลับ Priority ระหว่าง Vcam เดิน (Third Person) กับ Vcam ถ่ายรูป (Photo Cam) ตาม `StateManager.SystemState` — ไม่มี Logic เดิน/ถ่ายรูปเอง แค่ "ฟัง" state แล้วสลับกล้อง รีเซ็ต Pan/Tilt ของกล้องถ่ายรูปเป็น 0 ทุกครั้งก่อนเข้าโหมดถ่ายรูป และปิด `CinemachineInputAxisController` ของ Third Person Cam ทุกครั้งที่ `!CanControlPlayer()` (Photograph/Talking/Pause/Journal/Storage) กันกล้องหมุนค้างจาก Input เมาส์ที่ยังไหลเข้า Vcam แม้ Priority จะลดจนไม่เห็นภาพแล้ว |
 | `PhotoTransitionUI.cs` | `PhotoTransitionUI` | คุม Overlay จอดำ 2 แบบ: `PlayTransition()` (เฟดดำคู่ขนานตอนตัดกล้อง ไม่รอเฟดเสร็จก่อนตัด) และ `PlayShutterFlash()` (แฟลชสั้นๆ ตอนกดชัตเตอร์) |
 
 ### `Camera/Photograph/` — ระบบถ่ายรูปโดยเฉพาะ
@@ -97,6 +97,9 @@ Helper method สำคัญที่ระบบอื่นเรียกเ
 | `Creatureprofile.cs` | `CreatureProfile : JournalSubjectProfile` | เพิ่มข้อมูลเฉพาะสัตว์: Vision Cone (`viewAngle`, `viewRadius`), Awareness Radius, Obstacle Layer, ความสูงตา, ตัวคูณ Stealth ตอนย่อ, ความเร็วเดิน/วิ่ง, ระยะหนี, เวลาที่ต้องเห็นก่อนตกใจ ฯลฯ — สร้างผ่าน `Create > Creature > Creature Profile` |
 | `Plantprofile.cs` | `PlantProfile : JournalSubjectProfile` | **ไม่มี field เพิ่มเลย** เพราะพืชไม่ขยับ/ไม่มองเห็นผู้เล่น — ใช้แค่ Identity จาก Base Class |
 | `Photosubject.cs` | `PhotoSubject` | แปะที่ Root Object ของสิ่งที่ถ่ายรูปได้ ลาก `JournalSubjectProfile` (จะเป็น Creature หรือ Plant ก็ได้) มาใส่ `profile` แล้ว `CreatureId` จะดึงจาก Asset นั้นอัตโนมัติ (กันพิมพ์ผิด) |
+| `CreatureGroundAlign.cs` | `CreatureGroundAlign` | เอียงโมเดลสัตว์ให้ตรงกับความชันพื้น — `NavMeshAgent` หมุนแค่แกน Yaw ไม่เอียงตาม Slope ให้เอง ทำให้ขึ้น/ลงเนินแล้วขาลอยหรือจมพื้น สคริปต์นี้ยิง Raycast ลงพื้นทุก `LateUpdate` (ยิงเฉพาะ Layer `Ground` ผ่าน `groundMask` ไม่ใช่ Everything — ไม่งั้นจะยิงชน `CapsuleCollider` ของตัวสัตว์เองแล้วได้ normal ชี้ขึ้นตรงๆ เสมอ) แล้วหมุน **เฉพาะ Transform โมเดลลูก** (`visualRoot`, ถ้าไม่ใส่จะหาจาก `Animator` ลูกให้เอง) ด้วย Slerp (`alignSpeed`) ไม่แตะ Root ที่ `NavMeshAgent` คุมอยู่ กัน path เพี้ยน — ติดอยู่บน `Deer_Testing Variant.prefab` แล้ว |
+
+> **หมายเหตุ Deer prefab:** `NavMeshAgent.baseOffset` ของ `Deer.prefab` ตั้งเป็น `1.257` (วัดจากระยะ pivot → ปลายเท้าของโมเดลจริง ค่าเดิม 1.11 ทำให้ตัวจมพื้นเล็กน้อย) ถ้าเปลี่ยนโมเดล/ริกของกวางต้องวัดค่านี้ใหม่
 
 **ข้อมูล Asset จริงตอนนี้** (`Assets/[02]Code/Data/Profile/`): CreatureProfile 1 ตัว (Deer) และ PlantProfile 5 ตัว (Chan/FlyAgaric/Honey/Turkey/Puffball) — ⚠️ Puffball ยังไม่ถูกใส่เข้าไปใน `JournalManager.allEntries` ของ Scene เลย ถ่ายรูปติดแล้วจะไม่ขึ้นใน Journal จนกว่าจะลาก `Journalentry/Puffball.asset` เข้าไปใส่ List ด้วยตัวเอง
 
@@ -107,6 +110,8 @@ Helper method สำคัญที่ระบบอื่นเรียกเ
 | `Behaviortree.cs` | `BTNode` (abstract), `BTSelector`, `BTSequence`, `BTCondition`, `BTAction`, enum `BTStatus` | Framework Behavior Tree แบบเบาที่สุด เขียนเป็นโค้ดตรงๆ ไม่มี Visual Editor — `BTSelector` = OR ตามลำดับความสำคัญ, `BTSequence` = AND |
 | `Creatureai.cs` | `CreatureAI` (ต้องมี `NavMeshAgent` + `CreatureVision`) | สมองของสัตว์ ใช้ `CreatureProfile` เป็นค่าปรับแต่งทั้งหมด (ไม่มี Field ของตัวเอง) โครงสร้าง: Root Selector → **Engage branch** (ผู้เล่นเข้า Awareness Radius → วิ่งหนีทันที / เห็นในโคนสายตาต่อเนื่องครบเวลา → Alert แล้วค่อย Run) → **Normal branch** (Idle ↔ Walking สุ่มไปมาในรัศมี `wanderRadius`) State: `Idle, Walking, Alert, Run` ยิง `OnStateChanged` ให้ Animator ฟัง — ตอนวิ่งหนี (`UpdateFleeDestination`) สุ่มเบี่ยงมุมจากทิศตรงข้ามผู้เล่น ±`fleeAngleVariance` องศา (ค่าอยู่ใน `CreatureProfile`) กันวิ่งเป็นเส้นตรงเป๊ะทุกครั้ง — ตอนเดินเล่น (`UpdateWalking`) มี timeout `maxWalkDuration` กันเดินติดค้างถาวร (เช่นชนสิ่งกีดขวางที่ NavMesh ไม่ได้กันไว้) ถ้าเดินไม่ถึงจุดหมายภายในเวลานี้จะยกเลิกแล้วกลับ Idle เอง — ระยะเวลาเดินปกติต่อรอบคุมผ่าน `wanderRadius` (ยิ่งกว้างยิ่งเดินนาน) ไม่ใช่ตัวจับเวลาตรงๆ |
 | `Creaturevision.cs` | `CreatureVision` | ตรวจจับผู้เล่น 2 แบบ: **Vision Cone** (ต้องอยู่ในมุม/ระยะ + ไม่มีอะไรบัง (`Physics.Linecast`), หดแคบลงอัตโนมัติเมื่อผู้เล่นย่อ) และ **Awareness Radius** (รอบตัว ตรวจจับได้ทุกทิศทาง ไม่ลดตาม Crouch) |
+| `AINodeNetwork.cs` | `AINodeNetwork` | เครือข่าย "โหนด" จุดเดินของ AI สร้างอัตโนมัติจาก NavMesh ที่ Bake ไว้แล้ว: กวาดกริดทั่ว Terrain ทุก `nodeSpacing` หน่วย แล้วเช็คแต่ละจุดด้วย `NavMesh.SamplePosition` (รัศมี `sampleRadius`) จุดไหนไม่ตก NavMesh (ชันเกิน/ใต้น้ำที่กันไว้/โดนสิ่งกีดขวางบัง) ถูกข้ามอัตโนมัติ เก็บเป็น `List<Vector3>` ไม่ใช่ GameObject (เบา ไม่มี Transform ต่อจุด) วาด Gizmo วงกลมฟ้าใน Scene view เท่านั้น — ฟังก์ชันให้ AI เรียก: `GetRandomNode()`, `GetRandomNodeNear(origin, radius)` ⚠️ **`CreatureAI` ยังไม่ได้ใช้โหนดพวกนี้** (ยังสุ่มจุดเดินแบบ `GetRandomPointInRadius` เดิม) — ระบบนี้เตรียมไว้สำหรับเปลี่ยนให้เดินตามโหนดแบบ Lethal Company |
+| `Editor/AINodeNetworkEditor.cs` | `AINodeNetworkEditor` (Editor-only) | Custom Inspector ของ `AINodeNetwork` เพิ่มปุ่ม **Generate Nodes** + แสดงจำนวนโหนดปัจจุบัน (กดสร้างใหม่ได้ทุกครั้งที่ Bake NavMesh ใหม่ หรืออยากเปลี่ยนระยะห่าง) |
 
 **ที่ยังไม่ได้ทำ (ระบุไว้ในคอมเมนต์โค้ดเอง):** Time Cycle (แยกพฤติกรรม Normal/Engage ตามช่วงเวลาในเกม) — ตกลงกันไว้แล้วแต่ Root ยังไม่มี Gate นี้
 
@@ -175,6 +180,9 @@ Helper method สำคัญที่ระบบอื่นเรียกเ
 |---|---|---|
 | `InstantiateEnviromentObject.cs` | `InstantiateEnviromentObject` | สุ่มเลือก 1 จาก List Prefab แล้ว Instantiate ที่ตำแหน่งตัวเอง จากนั้น Destroy ตัวเองทิ้ง (ใช้เป็น "ตัวแทน" วางในฉากแล้วสุ่มเป็นของจริงตอนเริ่มเกม) |
 | `TerrainTreeEnviromentSpawner.cs` | `TerrainTreeEnviromentSpawner` (ต้องมี `Terrain`) | ต้นไม้ที่ปลูกด้วยเครื่องมือ Paint Trees ของ Unity (หรือ VegetationSpawner) ไม่ได้เป็น GameObject จริง — Unity วาดจาก `TerrainData` เฉยๆ สคริปต์นี้วน `TreeInstance` ทั้งหมด แปลงตัวที่ Prototype มี `InstantiateEnviromentObject` ให้กลายเป็น GameObject จริงในตำแหน่ง/ขนาด/หมุนเดิม แล้วลบ Instance นั้นออกจาก TerrainData (กันวาดซ้อน) — ต้องทำแบบนี้เพื่อให้ต้นไม้ที่ถ่ายรูปได้ (มี Collider + PhotoSubject) ยังโชว์บน Terrain ได้ |
+| `Editor/NavMeshTestEnvironmentGenerator.cs` | `NavMeshTestEnvironmentGenerator` (Editor-only) | เมนู `Tools > Photo Project > Generate NavMesh Test Environment` — สร้างสนามทดสอบ NavMesh แบบกดปุ่มเดียวโดยลบของเก่าก่อนสร้างใหม่ทุกครั้ง: **Terrain จริง 90x90 หน่วย** (ลานกลางเรียบ รัศมี ~16 + เนิน/ภูเขา 4 ลูกล้อมรอบ ความชันไล่ระดับ ~17°/~24°/~35°/~50° อ้างอิง `agentSlope` 48.3° ของ Deer — ลูกสุดท้ายตั้งใจให้ชันเกินลิมิตเพื่อทดสอบยอดที่เดินไม่ถึง) + **ต้นไม้ 55 ต้น** สุ่มกระจาย (ใช้ tree impostor ใน `Assets/TreeImpostors` เติม `CapsuleCollider` ที่โคนต้นให้กีดขวาง NavMesh เพราะ prefab ต้นไม้ไม่มี collider มาเอง) + วาง `Deer_Testing Variant` กับ `Player` ไว้บนลานกลาง แล้ว Bake NavMesh (legacy `NavMeshBuilder`) ให้อัตโนมัติ — TerrainData เซฟเป็น asset ที่ `Assets/[04]Level/TestingLab/AI_Walking_Test_Navmesh/` ใช้ในซีน `AI_Walking_Test_Navmesh` ไม่รวมอยู่ใน Build จริง |
+
+> **การตั้งค่า NavMesh ของซีนจริง (`TestNavmesh.unity` / `PlaytestLevel_1.unity`):** ใช้ `NavMeshSurface` ที่ GameObject `Playtest_Terrain_Vegetation` (agent type ของ Deer) โหมดเก็บ geometry เป็น **Render Meshes** ทั้งซีน — เคยทำให้กวางเดินติดๆขัดๆ เพราะพืชที่ `VegetationSpawner` ปลูก (~1,100 ชิ้น ไม่มี Collider) ถูกเก็บเป็นสิ่งกีดขวาง NavMesh ทั้งที่ Player เดินทะลุได้ แก้โดยเพิ่ม `NavMeshModifier` (`ignoreFromBuild = true`) ที่ container พืชทั้ง 10 กลุ่ม (NavMesh triangle ลด ~90%) และกันพื้นใต้น้ำด้วย `NavMeshModifierVolume` (Area = Not Walkable) — ⚠️ ขนาดของ `NavMeshModifierVolume` เป็นคนละ field กับ `BoxCollider` ปรับ Collider แล้ว Volume ไม่ตามเอง ต้องตั้ง `size/center` ของ Volume แยกด้วย
 | `TimeManager.cs` | `TimeManager` | วงจรกลางวัน-กลางคืน — ไล่ `Hours`/`Minutes` ตาม `Time Scale` ทุกเฟรม แล้วเปลี่ยน Skybox/สี Light/Fog ตาม `Time Periods` (array เรียงจากชั่วโมงน้อยไปมาก) พร้อมหมุนดวงอาทิตย์ (`UpdateSunRotation`) และ Lerp สีตอนเปลี่ยนช่วงเวลา เริ่มต้นที่ `Start Hour` (ตั้งค่าได้ใน Inspector) **ล็อคเวลาไว้ช่วงใดช่วงหนึ่งตลอด (เช่นกลางวัน):** ตั้ง `Start Hour` เป็นชั่วโมงที่ต้องการ แล้วตั้ง `Time Scale = 0` กันไม่ให้เวลาเดินต่อ |
 
 ---
@@ -209,6 +217,8 @@ Helper method สำคัญที่ระบบอื่นเรียกเ
 - ไม่มี Tutorial/คำแนะนำผู้เล่นครั้งแรกใดๆ ในเกม
 - `JournalEntry.referenceImage` มี field แต่ไม่มีสคริปต์ไหนอ่านค่านี้เลย
 - Creature AI รองรับ Time Cycle (พฤติกรรมต่างกันตามช่วงเวลา) ไว้ในดีไซน์ แต่ยังไม่ implement ใน `Creatureai.cs`
+- `AINodeNetwork` สร้างโหนดได้แล้วแต่ `CreatureAI` ยังไม่ดึงไปใช้ — ตอน Idle/Walking ยังสุ่มจุดเดินแบบเดิม (`GetRandomPointInRadius`) ไม่ใช่เดินตามโหนด
+- ต้นไม้/เห็ด/ตอไม้/กระท่อมในซีนจริงยังไม่มี Collider (กระท่อม `Pre-Build_Cabin_001` มี MeshRenderer 47 ชิ้น Collider 0) — ตอนนี้กวางเดินทะลุพืชได้ตรงกับ Player ตั้งใจไว้แล้ว แต่ถ้าจะสลับ NavMeshSurface ไปเก็บ geometry แบบ Physics Colliders ต้องเติม Collider ให้กระท่อมก่อน ไม่งั้นกวางจะเดินทะลุกระท่อม
 - มี Creature ที่ตั้งค่า AI ไว้จริงแค่ 1 สายพันธุ์ (Deer) และมี Quest/Dialogue จริงแค่ 1 เควส ผูกกับ `deer_01` เท่านั้น — พืช 5 ชนิด (Chan/FlyAgaric/Honey/Turkey/Puffball) ถ่ายได้ NPC มีบทพูดให้ความรู้ตอนถ่ายติดครบ แต่ไม่มีเควสผูก
 - `Puffball` มี Profile/JournalEntry/PhotoSubject wiring ครบแล้ว แต่ยังไม่ได้ใส่เข้า `JournalManager.allEntries` ในซีน
 - `InputManager.cs` เป็น dead code ไม่มีใครเรียกใช้
