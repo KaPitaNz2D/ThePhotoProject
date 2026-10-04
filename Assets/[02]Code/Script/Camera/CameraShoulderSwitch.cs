@@ -44,6 +44,10 @@ public class CameraShoulderSwitch : MonoBehaviour
     // Toggle target shoulder offset on input trigger
     private void OnSwitchShoulder(InputAction.CallbackContext ctx)
     {
+        // ไม่ให้สลับไหล่ตอนอยู่นอกโหมดเดินปกติ (ถ่ายรูป/สมุดบันทึก/คุยกับ NPC ฯลฯ) — Q ถูกใช้เอียงกล้องตอนถ่ายรูปด้วย
+        // ไม่งั้นกดเอียงกล้องแล้วกล้องหลักที่ซ่อนอยู่จะสลับไหล่เงียบๆ
+        if (StateManager.Instance != null && !StateManager.Instance.CanControlPlayer()) return;
+
         isRightShoulder = !isRightShoulder;
         targetX = isRightShoulder ? ShoulderOffset : -ShoulderOffset;
     }

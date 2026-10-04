@@ -353,6 +353,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Roll"",
+                    ""type"": ""Value"",
+                    ""id"": ""f45e59e2-69f1-429e-85b2-c34023014b05"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -399,6 +408,39 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""BackToGame"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1DAxis"",
+                    ""id"": ""8f2a13d1-c045-40a7-a3ad-2c63c9898131"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Roll"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Negative"",
+                    ""id"": ""7990fe6e-3154-46f4-8ab2-f738dfe010af"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Roll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Positive"",
+                    ""id"": ""60d5be0d-09be-40df-a171-83c85098015b"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Roll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -544,6 +586,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Photograph_Shutter = m_Photograph.FindAction("Shutter", throwIfNotFound: true);
         m_Photograph_Zoom = m_Photograph.FindAction("Zoom", throwIfNotFound: true);
         m_Photograph_BackToGame = m_Photograph.FindAction("BackToGame", throwIfNotFound: true);
+        m_Photograph_Roll = m_Photograph.FindAction("Roll", throwIfNotFound: true);
         // Storage UI
         m_StorageUI = asset.FindActionMap("Storage UI", throwIfNotFound: true);
         m_StorageUI_Getinout = m_StorageUI.FindAction("Get in/out", throwIfNotFound: true);
@@ -869,6 +912,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Photograph_Shutter;
     private readonly InputAction m_Photograph_Zoom;
     private readonly InputAction m_Photograph_BackToGame;
+    private readonly InputAction m_Photograph_Roll;
     /// <summary>
     /// Provides access to input actions defined in input action map "Photograph".
     /// </summary>
@@ -896,6 +940,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Photograph/BackToGame".
         /// </summary>
         public InputAction @BackToGame => m_Wrapper.m_Photograph_BackToGame;
+        /// <summary>
+        /// Provides access to the underlying input action "Photograph/Roll".
+        /// </summary>
+        public InputAction @Roll => m_Wrapper.m_Photograph_Roll;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -934,6 +982,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @BackToGame.started += instance.OnBackToGame;
             @BackToGame.performed += instance.OnBackToGame;
             @BackToGame.canceled += instance.OnBackToGame;
+            @Roll.started += instance.OnRoll;
+            @Roll.performed += instance.OnRoll;
+            @Roll.canceled += instance.OnRoll;
         }
 
         /// <summary>
@@ -957,6 +1008,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @BackToGame.started -= instance.OnBackToGame;
             @BackToGame.performed -= instance.OnBackToGame;
             @BackToGame.canceled -= instance.OnBackToGame;
+            @Roll.started -= instance.OnRoll;
+            @Roll.performed -= instance.OnRoll;
+            @Roll.canceled -= instance.OnRoll;
         }
 
         /// <summary>
@@ -1386,6 +1440,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnBackToGame(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Roll" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRoll(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Storage UI" which allows adding and removing callbacks.

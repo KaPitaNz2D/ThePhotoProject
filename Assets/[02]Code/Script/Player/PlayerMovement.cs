@@ -103,14 +103,10 @@ public class PlayerMovement : MonoBehaviour
         float effectiveSpeedNormalized = inputVector.magnitude * speedRatio;
         OnSpeedChanged?.Invoke(effectiveSpeedNormalized);
 
-        if (isGrounded && !OnSlope())
-        {
-            rb.linearDamping = groundDrag;
-        }
-        else
-        {
-            rb.linearDamping = 0f;
-        }
+        // Collider ผู้เล่นไม่มีแรงเสียดทาน (ใช้ Physic Material แรงเสียดทาน 0) — drag เป็นตัวหยุดตัวเองทั้งบนพื้นราบและพื้นเอียง
+        // เดิมบนพื้นเอียงไม่มี drag แต่พึ่งแรงเสียดทานกับ slopeStickForce ที่กดตัวลงพื้น ซึ่งแรงเสียดทาน (0.6 x 30N) มากกว่าแรงเดินตอนย่อ
+        // ทำให้ย่อแล้วเดินขึ้นทางเอียงไม่ได้ และเดินปกติก็ขึ้นทางชัน ~35° ขึ้นไปไม่ได้ ทั้งที่ maxSlopeAngle ตั้งไว้ 45°
+        rb.linearDamping = isGrounded ? groundDrag : 0f;
 
         UpdateMovementState();
     }

@@ -714,6 +714,7 @@ GameObject:
   - component: {fileID: 973298709178120797}
   - component: {fileID: 6005440561505915028}
   - component: {fileID: 6853054644781798351}
+  - component: {fileID: -5934993561810412996}
   m_Layer: 0
   m_Name: PhotoCam
   m_TagString: Untagged
@@ -890,6 +891,23 @@ MonoBehaviour:
   blurFadeSpeed: 6
   stationaryThreshold: 0.05
   zoomLimitSound: {fileID: 0}
+--- !u!114 &-5934993561810412996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1109353720125701854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63e9e56c971e6a240bf7dd2200007a77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PhotoRoll
+  photoVcam: {fileID: 3393143129346812352}
+  rollInput: {fileID: -4799869247620783521, guid: c32589b3e95ba5044800c48f983ef7c5, type: 3}
+  maxRoll: 60
+  rollSpeed: 60
+  smoothing: 12
 --- !u!1 &1239745539208810361
 GameObject:
   m_ObjectHideFlags: 0
@@ -3559,7 +3577,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6004124515146294788}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 89f8f5f6ae6632d408412d04289ab0e7, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

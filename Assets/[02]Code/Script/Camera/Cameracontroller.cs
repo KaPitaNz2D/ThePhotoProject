@@ -27,7 +27,7 @@ public class CameraController : MonoBehaviour
     public PhotoTransitionUI transitionUI;
 
     [Header("Photo Mode - Hide Character")]
-    [Tooltip("Root ของโมเดลตัวละคร — Renderer ทั้งหมดใต้นี้จะถูกซ่อนตอนอยู่ในโหมดถ่ายรูป เพื่อให้หมุนกล้องรอบตัวได้ 360° โดยไม่เห็นตัวละคร แล้วคืนค่าตอนออกจากโหมด")]
+    [Tooltip("Root ของโมเดลตัวละคร (ตัวเดียวกับ PlayerObj ที่ ThirdPersonCam หมุนตามทิศเดิน) — forward ของมันคือทิศหน้าตัวละคร ใช้คำนวณมุมเริ่มต้นของกล้องถ่ายรูป และ Renderer ทั้งหมดใต้นี้จะถูกซ่อนตอนอยู่ในโหมดถ่ายรูป (กล้องอยู่ติดหัว หมุนได้ 360°) แล้วคืนค่าตอนออกจากโหมด")]
     public Transform characterModel;
 
     private CinemachinePanTilt photoCamPanTilt;
@@ -96,15 +96,8 @@ public class CameraController : MonoBehaviour
 
     private void SetPhotoMode(bool isPhotoMode)
     {
-        if (isPhotoMode && photoCamPanTilt != null)
-        {
-            // รีเซ็ต Pan/Tilt กลับเป็น 0 ก่อนสลับเข้ากล้องถ่ายรูปทุกครั้ง
-            // ป้องกันค่าที่ค้างจากการใช้งานครั้งก่อน (เช่นก้มกล้องลงไว้ก่อนออกจากโหมด)
-            // ทำให้กล้องกระชาก/ล็อคมุมเดิมก่อนแล้วค่อย Blend เข้ามาจริง
-            // พอรีเซ็ตเป็น 0 กล้องจะเริ่มจากทิศทางที่ PhotoCameraPivot หันอยู่จริงเสมอ (ตรงกับทิศตัวละคร)
-            photoCamPanTilt.PanAxis.Value = 0f;
-            photoCamPanTilt.TiltAxis.Value = 0f;
-        }
+        // ต้องทำก่อนสลับ Priority — ตอนนี้ Main Camera ยังเป็นภาพของ Third Person Cam อยู่ ทิศที่อ่านได้คือทิศที่ผู้เล่นกำลังมองจริงๆ
+        if (isPhotoMode) AlignPhotoCamToThirdPersonView();
 
         SetCharacterHidden(isPhotoMode);
 
@@ -116,6 +109,27 @@ public class CameraController : MonoBehaviour
         {
             photoCam.Priority = isPhotoMode ? activePriority : inactivePriority;
         }
+    }
+
+    // กล้องถ่ายรูปเริ่มจากทิศที่ Third Person Cam มองอยู่ (แนวนอน) ไม่ใช่ทิศหน้าตัวละคร — ตัวละครไม่ต้องหันตาม
+    // Pan อ้างอิง PhotoCameraPivot ซึ่งเป็นลูกของ characterModel (วัดจากทิศหน้าตัวละคร) เลยต้องแปลงทิศกล้องเป็นมุมเทียบกับหน้าตัวละคร
+    // ส่วน Tilt เริ่มที่ 0 (มองระดับสายตา) เพราะ Third Person Cam มักก้มมองลงมาที่ตัวละคร
+    private void AlignPhotoCamToThirdPersonView()
+    {
+        if (photoCamPanTilt == null) return;
+
+        photoCamPanTilt.TiltAxis.Value = 0f;
+        photoCamPanTilt.PanAxis.Value = 0f;
+
+        Camera mainCam = Camera.main;
+        if (characterModel == null || mainCam == null) return;
+
+        Vector3 cameraDirection = Vector3.ProjectOnPlane(mainCam.transform.forward, Vector3.up);
+        Vector3 facing = Vector3.ProjectOnPlane(characterModel.forward, Vector3.up);
+        if (cameraDirection.sqrMagnitude < 0.0001f || facing.sqrMagnitude < 0.0001f) return;
+
+        float angleToCamera = Vector3.SignedAngle(facing, cameraDirection, Vector3.up);
+        photoCamPanTilt.PanAxis.Value = photoCamPanTilt.PanAxis.ClampValue(angleToCamera);
     }
 
     // ซ่อนเฉพาะ Renderer ที่เปิดอยู่ตอนนั้น แล้วคืนเฉพาะตัวที่เราปิดเอง — ไม่ไปเปิด Renderer ที่ตั้งใจปิดไว้ (เช่น PlayerObj ที่ปิดไว้ใน Prefab)
