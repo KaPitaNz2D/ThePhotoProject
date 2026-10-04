@@ -1077,7 +1077,7 @@ MonoBehaviour:
     - name: Grass_darked_up
       layerID: 2
       threshold: 0.8
-    instanceCount: 424
+    instanceCount: 425
     prefabs:
     - index: 0
       probability: 100
@@ -1101,7 +1101,7 @@ MonoBehaviour:
     - name: Grass_darked_up
       layerID: 2
       threshold: 0.8
-    instanceCount: 291
+    instanceCount: 290
     prefabs:
     - index: 1
       probability: 100
@@ -1333,7 +1333,10 @@ MonoBehaviour:
     - name: Grass_darked_up
       layerID: 2
       threshold: 0.9
-    instanceCount: 172541
+    - name: Grass_normal_down
+      layerID: 4
+      threshold: 0
+    instanceCount: 172792
     index: 0
     type: 0
     renderAsBillboard: 0
@@ -1367,7 +1370,10 @@ MonoBehaviour:
     - name: Grass1
       layerID: 1
       threshold: 0.8
-    instanceCount: 173380
+    - name: Grass_normal_down
+      layerID: 4
+      threshold: 0
+    instanceCount: 173464
     index: 1
     type: 0
     renderAsBillboard: 0
@@ -1401,7 +1407,10 @@ MonoBehaviour:
     - name: Grass1
       layerID: 1
       threshold: 0.8
-    instanceCount: 173241
+    - name: Grass_normal_down
+      layerID: 4
+      threshold: 0
+    instanceCount: 173334
     index: 2
     type: 0
     renderAsBillboard: 0
@@ -1429,10 +1438,10 @@ MonoBehaviour:
     slopeRange: {x: 0, y: 60}
     curvatureRange: {x: 0, y: 1}
     layerMasks:
-    - name: dirt_claydarked_right
+    - name: Grass_normal_down
       layerID: 4
       threshold: 0
-    instanceCount: 486
+    instanceCount: 641
     index: 3
     type: 0
     renderAsBillboard: 0

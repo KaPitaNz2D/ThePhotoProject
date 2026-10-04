@@ -73,6 +73,10 @@ Material:
         m_Texture: {fileID: -3753770277257097244, guid: 24e9aea2a18bdce3193bfb2811e4f6fa, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Mask2:
+        m_Texture: {fileID: -3998106402230676211, guid: 24e9aea2a18bdce3193bfb2811e4f6fa, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -106,6 +110,18 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Terrain_Texture_5:
+        m_Texture: {fileID: 2800000, guid: bf2b3b343fdc3044fa9aae22230ac40b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Terrain_Texture_6:
+        m_Texture: {fileID: 2800000, guid: 3d7e23f397bd4e347bc2a33df00d0897, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Terrain_Texture_7:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Terrain_Texture_8:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -158,6 +174,9 @@ Material:
     - _Tiling_3: 5
     - _Tiling_4: 10
     - _Tiling_5: 10
+    - _Tiling_6: 10
+    - _Tiling_7: 10
+    - _Tiling_8: 10
     - _Use_Texture_Color: 0
     - _Wind_Intensity: 0.3
     - _Wind_Speed: 0.238
