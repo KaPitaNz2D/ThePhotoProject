@@ -199,6 +199,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3293762268181601916, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5075506725789358433}
+    - targetCorrespondingSourceObject: {fileID: 3293762268181601916, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5993828150387052310}
+    - targetCorrespondingSourceObject: {fileID: 3293762268181601916, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1491553243657137951}
   m_SourcePrefab: {fileID: 100100000, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
 --- !u!1 &2175008808677069665 stripped
 GameObject:
@@ -260,6 +266,40 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   alignSpeed: 8
+--- !u!114 &5993828150387052310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2175008808677069665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12a4bcfc38eca8b4092e7ed457a9d8b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CreatureHead
+  headBone: {fileID: 0}
+  neckBone: {fileID: 0}
+  neckShare: 0.3
+  modelRoot: {fileID: 0}
+  turnSpeed: 200
+--- !u!114 &1491553243657137951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2175008808677069665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 707eb17ef9ec2314aaad18eeac547d63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CreatureDebug
+  showLabel: 1
+  labelMaxDistance: 80
+  labelHeight: 2.4
+  showRanges: 1
+  logStateChanges: 1
 --- !u!4 &9017031339518017194 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5672296455345238967, guid: aab911b766f72ff4db8c06da1365379b, type: 3}

@@ -219,6 +219,8 @@ public class PhotoShooter : MonoBehaviour
 
         if (transitionUI != null) transitionUI.PlayShutterFlash();
         AudioManager.Instance?.PlaySFX(shutterSound);
+        // ประกาศเสียงชัตเตอร์ให้สัตว์ในระยะได้ยิน (สัตว์เช็คระยะเองตามหูของสายพันธุ์)
+        CreatureNoise.EmitShutter(castOrigin != null ? castOrigin.position : transform.position);
 
         lastDetectedCount = subjects.Count;
         OnPhotoCaptured?.Invoke(photo, subjects);
