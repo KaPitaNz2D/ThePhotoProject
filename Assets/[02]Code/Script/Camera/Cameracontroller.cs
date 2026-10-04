@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using Unity.Cinemachine;
 
 /// <summary>
@@ -25,8 +26,13 @@ public class CameraController : MonoBehaviour
     [Tooltip("ถ้าใส่ไว้ จะ Fade จอดำก่อนสลับกล้องทุกครั้ง (ไม่ใส่ก็ได้ จะสลับทันทีแบบเดิม)")]
     public PhotoTransitionUI transitionUI;
 
+    [Header("Photo Mode - Hide Character")]
+    [Tooltip("Root ของโมเดลตัวละคร — Renderer ทั้งหมดใต้นี้จะถูกซ่อนตอนอยู่ในโหมดถ่ายรูป เพื่อให้หมุนกล้องรอบตัวได้ 360° โดยไม่เห็นตัวละคร แล้วคืนค่าตอนออกจากโหมด")]
+    public Transform characterModel;
+
     private CinemachinePanTilt photoCamPanTilt;
     private CinemachineInputAxisController thirdPersonInputAxis;
+    private readonly List<Renderer> hiddenRenderers = new List<Renderer>();
 
     private void Awake()
     {
@@ -100,6 +106,8 @@ public class CameraController : MonoBehaviour
             photoCamPanTilt.TiltAxis.Value = 0f;
         }
 
+        SetCharacterHidden(isPhotoMode);
+
         if (thirdPersonCam != null)
         {
             thirdPersonCam.Priority = isPhotoMode ? inactivePriority : activePriority;
@@ -107,6 +115,32 @@ public class CameraController : MonoBehaviour
         if (photoCam != null)
         {
             photoCam.Priority = isPhotoMode ? activePriority : inactivePriority;
+        }
+    }
+
+    // ซ่อนเฉพาะ Renderer ที่เปิดอยู่ตอนนั้น แล้วคืนเฉพาะตัวที่เราปิดเอง — ไม่ไปเปิด Renderer ที่ตั้งใจปิดไว้ (เช่น PlayerObj ที่ปิดไว้ใน Prefab)
+    private void SetCharacterHidden(bool hidden)
+    {
+        if (characterModel == null) return;
+
+        if (hidden)
+        {
+            if (hiddenRenderers.Count > 0) return;
+
+            foreach (Renderer r in characterModel.GetComponentsInChildren<Renderer>(true))
+            {
+                if (!r.enabled) continue;
+                r.enabled = false;
+                hiddenRenderers.Add(r);
+            }
+        }
+        else
+        {
+            foreach (Renderer r in hiddenRenderers)
+            {
+                if (r != null) r.enabled = true;
+            }
+            hiddenRenderers.Clear();
         }
     }
 

@@ -289,12 +289,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -809,8 +809,8 @@ MonoBehaviour:
   PanAxis:
     Value: 0
     Center: 0
-    Range: {x: -60, y: 60}
-    Wrap: 0
+    Range: {x: -180, y: 180}
+    Wrap: 1
     Recentering:
       Enabled: 0
       Wait: 1
@@ -819,7 +819,7 @@ MonoBehaviour:
   TiltAxis:
     Value: 0
     Center: 0
-    Range: {x: -70, y: 70}
+    Range: {x: -60, y: 60}
     Wrap: 0
     Recentering:
       Enabled: 0
@@ -848,7 +848,7 @@ MonoBehaviour:
       Enabled: 1
       Input:
         InputAction: {fileID: -22152819878740444, guid: c32589b3e95ba5044800c48f983ef7c5, type: 3}
-        Gain: 1
+        Gain: 2
         CancelDeltaTime: 0
       InputValue: 0
       Driver:
@@ -859,7 +859,7 @@ MonoBehaviour:
       Enabled: 1
       Input:
         InputAction: {fileID: -22152819878740444, guid: c32589b3e95ba5044800c48f983ef7c5, type: 3}
-        Gain: -1
+        Gain: -2
         CancelDeltaTime: 0
       InputValue: 0
       Driver:
@@ -884,8 +884,8 @@ MonoBehaviour:
   zoomInput: {fileID: 8544418576020390015, guid: c32589b3e95ba5044800c48f983ef7c5, type: 3}
   maxFOV: 60
   minFOV: 15
-  zoomSpeed: 20
-  fovSmoothing: 10
+  zoomSpeed: 40
+  fovSmoothing: 15
   zoomBlurVolume: {fileID: 0}
   blurFadeSpeed: 6
   stationaryThreshold: 0.05
@@ -968,12 +968,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -1522,12 +1522,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -1599,6 +1599,7 @@ MonoBehaviour:
   activePriority: 20
   inactivePriority: 0
   transitionUI: {fileID: 0}
+  characterModel: {fileID: 3646939267130165674}
 --- !u!1 &2651107807934052260
 GameObject:
   m_ObjectHideFlags: 0
@@ -2047,6 +2048,7 @@ MonoBehaviour:
   slopeStickForce: 30
   moveInput: {fileID: -263566852394675967, guid: c32589b3e95ba5044800c48f983ef7c5, type: 3}
   jumpInput: {fileID: 8583494107974789064, guid: c32589b3e95ba5044800c48f983ef7c5, type: 3}
+  playerSprint: {fileID: 0}
   playerCrouch: {fileID: 5160260424754451105}
   crouchSpeedMultiplier: 0.5
 --- !u!114 &2913956134073656389
@@ -2074,6 +2076,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   photographableTag: Photographable
+  photoZoom: {fileID: 0}
+  maxZoomCastDistanceMultiplier: 5
   photoRenderTexture: {fileID: 0}
   photoWidth: 1920
   photoHeight: 1080
@@ -2859,7 +2863,9 @@ MonoBehaviour:
   detailPhotoImage: {fileID: 7832437850519953082}
   detailSilhouetteImage: {fileID: 4678808845253589753}
   detailNameText: {fileID: 5175532754231099309}
+  detailHabitatText: {fileID: 0}
   detailDescriptionText: {fileID: 2776458701965173236}
+  photoRevealFadeDuration: 0.6
 --- !u!1 &4608480349856305433
 GameObject:
   m_ObjectHideFlags: 0
@@ -3644,12 +3650,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -4126,12 +4132,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -5096,6 +5102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StateManager
   currentMovementState: 0
   currentSystemState: 0
+  isCrouching: 0
 --- !u!1 &7859620194298644386
 GameObject:
   m_ObjectHideFlags: 0
@@ -5942,6 +5949,7 @@ MonoBehaviour:
   maxFootLift: 0.15
   enableHipAdjustment: 1
   hipAdjustSpeed: 5
+  playerCrouch: {fileID: 0}
   positionSmoothSpeed: 10
   weightSmoothSpeed: 8
   releaseWeightMultiplier: 2.5

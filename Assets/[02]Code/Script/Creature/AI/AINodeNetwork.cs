@@ -76,17 +76,22 @@ public class AINodeNetwork : MonoBehaviour
         return nodes[Random.Range(0, nodes.Count)];
     }
 
-    /// <summary>สุ่มโหนดที่อยู่ในรัศมีที่กำหนดจากจุด origin ถ้าไม่มีเลยจะ fallback ไปสุ่มทั้งเครือข่ายแทน</summary>
-    public Vector3 GetRandomNodeNear(Vector3 origin, float radius)
+    /// <summary>สุ่มโหนดที่อยู่ในรัศมีที่กำหนดจากจุด origin คืน false ถ้าไม่มีโหนดในรัศมีนั้นเลย (ไม่ fallback ไปทั้งแมพ กันสัตว์เดินข้ามไปไกลจากพื้นที่ที่คุมไว้)</summary>
+    public bool TryGetRandomNodeNear(Vector3 origin, float radius, out Vector3 node)
     {
-        List<Vector3> candidates = new List<Vector3>();
+        node = default;
+        int candidateCount = 0;
         float radiusSqr = radius * radius;
+
+        // reservoir sampling: สุ่มจากผู้สมัครในรอบเดียว ไม่ต้องสร้าง List ใหม่ทุกครั้งที่เรียก
         foreach (Vector3 n in nodes)
         {
-            if ((n - origin).sqrMagnitude <= radiusSqr) candidates.Add(n);
+            if ((n - origin).sqrMagnitude > radiusSqr) continue;
+            candidateCount++;
+            if (Random.Range(0, candidateCount) == 0) node = n;
         }
-        if (candidates.Count == 0) return GetRandomNode();
-        return candidates[Random.Range(0, candidates.Count)];
+
+        return candidateCount > 0;
     }
 
     private void OnDrawGizmos()

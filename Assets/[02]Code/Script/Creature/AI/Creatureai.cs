@@ -33,6 +33,9 @@ public class CreatureAI : MonoBehaviour
     [Tooltip("Transform ของผู้เล่น ถ้าไม่ใส่ไว้จะหาจาก GameObject ที่ติด Tag \"Player\" ให้เอง")]
     public Transform player;
 
+    [Tooltip("เครือข่ายโหนดจุดเดิน ถ้าไม่ใส่ไว้จะหา AINodeNetwork ในซีนให้เอง ถ้าซีนไม่มีเลยจะกลับไปสุ่มจุดเดินแบบเดิม")]
+    public AINodeNetwork nodeNetwork;
+
     public CreatureState CurrentState { get; private set; } = CreatureState.Idle;
 
     /// <summary>ยิงทุกครั้งที่ State เปลี่ยน (old, new) — สคริปต์ Animator มา Subscribe ตรงนี้ได้เลย</summary>
@@ -46,17 +49,28 @@ public class CreatureAI : MonoBehaviour
     private float visionTimer;
     private float walkTimer;
     private BTNode root;
+    private NavMeshPath nodePath;
+
+    // โหนดที่ใกล้ตัวกว่านี้ไม่นับ กันสุ่มได้โหนดที่ยืนอยู่แล้วจนเดินถึงทันที (Idle ↔ Walking สลับถี่เกิน)
+    private const float MinNodeTravelDistance = 3f;
+    private const int NodePickAttempts = 8;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         vision = GetComponent<CreatureVision>();
+        nodePath = new NavMeshPath();
         spawnOrigin = transform.position;
 
         if (player == null)
         {
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
             if (playerObj != null) player = playerObj.transform;
+        }
+
+        if (nodeNetwork == null)
+        {
+            nodeNetwork = FindFirstObjectByType<AINodeNetwork>();
         }
 
         if (profile == null)
@@ -155,8 +169,33 @@ public class CreatureAI : MonoBehaviour
         ChangeState(CreatureState.Walking);
         agent.isStopped = false;
         agent.speed = profile.walkSpeed;
-        agent.SetDestination(GetRandomPointInRadius(spawnOrigin, profile.wanderRadius));
+
+        if (!TrySetNodeDestination())
+        {
+            agent.SetDestination(GetRandomPointInRadius(spawnOrigin, profile.wanderRadius));
+        }
         walkTimer = 0f;
+    }
+
+    // เลือกโหนดในรัศมี wanderRadius รอบจุดเกิด แล้วเช็คว่ามี path ถึงจริง (PathComplete) ก่อนเดิน
+    // โหนดบางจุดอาจอยู่บนเกาะ NavMesh ที่เดินไปไม่ถึง (เช่นยอดเขาชัน/ล้อมด้วยน้ำ) ข้ามไปสุ่มใหม่ — การหลบสิ่งกีดขวางระหว่างทางยังเป็นหน้าที่ของ NavMeshAgent เหมือนเดิม
+    private bool TrySetNodeDestination()
+    {
+        if (nodeNetwork == null || nodeNetwork.NodeCount == 0) return false;
+
+        for (int i = 0; i < NodePickAttempts; i++)
+        {
+            if (!nodeNetwork.TryGetRandomNodeNear(spawnOrigin, profile.wanderRadius, out Vector3 node)) return false;
+            if ((node - transform.position).sqrMagnitude < MinNodeTravelDistance * MinNodeTravelDistance) continue;
+
+            if (agent.CalculatePath(node, nodePath) && nodePath.status == NavMeshPathStatus.PathComplete)
+            {
+                agent.SetDestination(node);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void UpdateWalking()
