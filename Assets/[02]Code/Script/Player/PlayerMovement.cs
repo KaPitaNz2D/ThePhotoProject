@@ -45,6 +45,30 @@ public class PlayerMovement : MonoBehaviour
     [Range(0.1f, 1f)]
     public float crouchSpeedMultiplier = 0.5f;
 
+    [Header("Photograph")]
+    [Tooltip("ตัวคูณความเร็วเดินตอนอยู่โหมดถ่ายรูป (เทียบกับ Move Speed) ยิ่งน้อยยิ่งช้า — แก้ความเร็วเดินตอนถ่ายรูปที่ช่องนี้")]
+    [Range(0.05f, 1f)]
+    public float photoSpeedMultiplier = 0.3f;
+
+    /// <summary>เดินช้าอยู่ไหม — ตอนย่อ หรืออยู่ในโหมดถ่ายรูป</summary>
+    public bool IsSlowWalking => SpeedMultiplier < 1f;
+
+    /// <summary>
+    /// ตัวคูณความเร็วเดินจากท่าทาง: ย่อ = crouchSpeedMultiplier, โหมดถ่ายรูป = photoSpeedMultiplier
+    /// ทั้งสองอย่างพร้อมกันใช้ค่าที่ช้ากว่า (ไม่คูณซ้อน)
+    /// </summary>
+    public float SpeedMultiplier
+    {
+        get
+        {
+            float multiplier = 1f;
+            if (playerCrouch != null && playerCrouch.IsCrouching) multiplier = Mathf.Min(multiplier, crouchSpeedMultiplier);
+            if (StateManager.Instance != null && StateManager.Instance.IsSystemState(StateManager.SystemState.Photograph))
+                multiplier = Mathf.Min(multiplier, photoSpeedMultiplier);
+            return multiplier;
+        }
+    }
+
     private Vector2 inputVector;
     public Vector2 CurrentInput => inputVector;
     private Vector3 moveDirection;
@@ -84,16 +108,16 @@ public class PlayerMovement : MonoBehaviour
         if (orientation == null || rb == null || moveInput == null) return;
 
         isGrounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, groundLayer);
-        bool canControl = StateManager.Instance == null || StateManager.Instance.CanControlPlayer();
-        inputVector = canControl ? moveInput.action.ReadValue<Vector2>() : Vector2.zero;
+        // เดินได้ทั้งโหมดปกติและโหมดถ่ายรูป (โหมดถ่ายรูปเดินได้แต่ช้า) ส่วนวิ่ง/กระโดดยังใช้ CanControlPlayer เหมือนเดิม
+        bool canWalk = StateManager.Instance == null || StateManager.Instance.CanWalk();
+        inputVector = canWalk ? moveInput.action.ReadValue<Vector2>() : Vector2.zero;
 
-        bool crouchingNow = playerCrouch != null && playerCrouch.IsCrouching;
         bool isSprintingNow = playerSprint != null && playerSprint.IsSprinting;
 
         float speedRatio = 1f;
-        if (crouchingNow)
+        if (IsSlowWalking)
         {
-            speedRatio = crouchSpeedMultiplier;
+            speedRatio = SpeedMultiplier;
         }
         else if (isSprintingNow && playerSprint != null && playerSprint.WalkSpeed > 0f)
         {
@@ -142,9 +166,9 @@ public class PlayerMovement : MonoBehaviour
         moveDirection = orientation.forward * inputVector.y + orientation.right * inputVector.x;
 
         float effectiveSpeed = moveSpeed;
-        if (playerCrouch != null && playerCrouch.IsCrouching)
+        if (IsSlowWalking)
         {
-            effectiveSpeed *= crouchSpeedMultiplier;
+            effectiveSpeed *= SpeedMultiplier;
         }
         currentEffectiveSpeed = effectiveSpeed;
 

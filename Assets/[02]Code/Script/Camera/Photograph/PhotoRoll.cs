@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// เอียงกล้องถ่ายรูป (Roll / Dutch angle) ด้วยปุ่ม Q (เอียงซ้าย) / E (เอียงขวา) กดค้างเพื่อเอียงต่อเนื่อง ปล่อยแล้วค้างมุมไว้
+/// เอียงกล้องถ่ายรูป (Roll / Dutch angle) ด้วย Input Action TiltLeft (Q) / TiltRight (E) กดค้างเพื่อเอียงต่อเนื่อง ปล่อยแล้วค้างมุมไว้
 /// จำกัดไม่เกิน ±maxRoll องศาในแต่ละด้าน ทำงานเฉพาะตอน SystemState.Photograph
 ///
 /// เอียงผ่านค่า Dutch ใน Lens ของ photoVcam — กล้องที่ PhotoShooter ใช้ Capture ภาพคือ Main Camera ตัวเดียวกับที่ผู้เล่นเห็น
@@ -15,15 +15,19 @@ public class PhotoRoll : MonoBehaviour
     [Tooltip("Cinemachine Camera ของ PhotoCam (ตัวเดียวกับที่ PhotoZoom ใช้)")]
     public CinemachineCamera photoVcam;
 
-    [Header("Input")]
-    [Tooltip("Action แบบ Axis (Q = -1 เอียงซ้าย, E = +1 เอียงขวา)")]
+    [Header("Input (Action แบบ Button)")]
+    [Tooltip("เอียงซ้าย (Photograph/TiltLeft) เว้นว่างไว้ = หาจากชื่อใน PlayerControls ให้เอง")]
+    public InputActionReference tiltLeftInput;
+    [Tooltip("เอียงขวา (Photograph/TiltRight) เว้นว่างไว้ = หาจากชื่อใน PlayerControls ให้เอง")]
+    public InputActionReference tiltRightInput;
+    [Tooltip("Action แกนเดิม (Photograph/Roll Q=-1, E=+1) ใช้เป็นตัวสำรองถ้าหา TiltLeft/TiltRight ไม่เจอ และเป็นทางไปหา InputActionAsset")]
     public InputActionReference rollInput;
 
     [Header("Roll Settings")]
     [Tooltip("มุมเอียงสูงสุดในแต่ละด้าน (องศา)")]
     public float maxRoll = 60f;
     [Tooltip("ความเร็วเอียงตอนกดค้าง (องศา/วินาที)")]
-    public float rollSpeed = 60f;
+    public float rollSpeed = 30f;
     [Tooltip("ความนุ่มนวลตอนกล้องไล่ตามมุมเป้าหมาย ยิ่งมากยิ่งไว")]
     public float smoothing = 12f;
 
@@ -34,9 +38,28 @@ public class PhotoRoll : MonoBehaviour
     private float currentRoll;
     private bool wasPhotoMode;
 
+    private InputAction tiltLeft;
+    private InputAction tiltRight;
+
     private void Start()
     {
-        if (rollInput != null) rollInput.action.Enable();
+        tiltLeft = PhotoInputLookup.Resolve(tiltLeftInput, rollInput, "Photograph/TiltLeft");
+        tiltRight = PhotoInputLookup.Resolve(tiltRightInput, rollInput, "Photograph/TiltRight");
+
+        if (tiltLeft != null && tiltRight != null)
+        {
+            tiltLeft.Enable();
+            tiltRight.Enable();
+        }
+        else if (rollInput != null)
+        {
+            tiltLeft = tiltRight = null; // ใช้แกน Roll เดิมแทน
+            rollInput.action.Enable();
+        }
+        else
+        {
+            Debug.LogError("[PhotoRoll] หา Input Action TiltLeft / TiltRight ไม่เจอ — ลาก Action มาใส่ช่อง Tilt Left Input / Tilt Right Input ใน Inspector");
+        }
     }
 
     private void Update()
@@ -60,11 +83,17 @@ public class PhotoRoll : MonoBehaviour
             ApplyRoll(0f);
         }
 
-        if (rollInput != null)
+        // E (TiltRight) = +1 เอียงขวา, Q (TiltLeft) = -1 เอียงซ้าย กดทั้งสองพร้อมกันหักล้างกัน
+        float input = 0f;
+        if (tiltLeft != null && tiltRight != null)
         {
-            float input = rollInput.action.ReadValue<float>();
-            targetRoll = Mathf.Clamp(targetRoll + input * rollSpeed * Time.deltaTime, -maxRoll, maxRoll);
+            input = (tiltRight.IsPressed() ? 1f : 0f) - (tiltLeft.IsPressed() ? 1f : 0f);
         }
+        else if (rollInput != null)
+        {
+            input = rollInput.action.ReadValue<float>();
+        }
+        targetRoll = Mathf.Clamp(targetRoll + input * rollSpeed * Time.deltaTime, -maxRoll, maxRoll);
 
         currentRoll = Mathf.Lerp(currentRoll, targetRoll, Time.deltaTime * smoothing);
         ApplyRoll(currentRoll);

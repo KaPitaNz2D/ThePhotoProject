@@ -328,6 +328,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""PushUpCamera"",
+                    ""type"": ""Button"",
+                    ""id"": ""23e37b34-9cc9-4876-be1e-d52e6c586e70"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PullDownCamera"",
+                    ""type"": ""Button"",
+                    ""id"": ""2deba872-0ebf-4cb2-bea7-5ae0d9ed0b3e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Shutter"",
                     ""type"": ""Button"",
                     ""id"": ""5cb5991d-c420-4de2-9f44-654cb84731b9"",
@@ -362,6 +380,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""TiltLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""84e252a6-28de-4a8a-b6e9-8cb3f668047f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TiltRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""370408bd-8dd9-4ccb-9332-6b5e49f8f262"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -373,6 +409,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""EnterPhotoMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5d2d1e01-6a9a-4c49-826c-d05bcf9cedea"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PushUpCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d4863632-1d07-404b-9659-09d4f10793e6"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PullDownCamera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -441,6 +499,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Roll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a0cdb75a-5ffd-4b99-9454-31d1a7903be5"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TiltLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ca159002-d8b2-40ea-8fae-bbb1f25748ef"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TiltRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -583,10 +663,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         // Photograph
         m_Photograph = asset.FindActionMap("Photograph", throwIfNotFound: true);
         m_Photograph_EnterPhotoMode = m_Photograph.FindAction("EnterPhotoMode", throwIfNotFound: true);
+        m_Photograph_PushUpCamera = m_Photograph.FindAction("PushUpCamera", throwIfNotFound: true);
+        m_Photograph_PullDownCamera = m_Photograph.FindAction("PullDownCamera", throwIfNotFound: true);
         m_Photograph_Shutter = m_Photograph.FindAction("Shutter", throwIfNotFound: true);
         m_Photograph_Zoom = m_Photograph.FindAction("Zoom", throwIfNotFound: true);
         m_Photograph_BackToGame = m_Photograph.FindAction("BackToGame", throwIfNotFound: true);
         m_Photograph_Roll = m_Photograph.FindAction("Roll", throwIfNotFound: true);
+        m_Photograph_TiltLeft = m_Photograph.FindAction("TiltLeft", throwIfNotFound: true);
+        m_Photograph_TiltRight = m_Photograph.FindAction("TiltRight", throwIfNotFound: true);
         // Storage UI
         m_StorageUI = asset.FindActionMap("Storage UI", throwIfNotFound: true);
         m_StorageUI_Getinout = m_StorageUI.FindAction("Get in/out", throwIfNotFound: true);
@@ -909,10 +993,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Photograph;
     private List<IPhotographActions> m_PhotographActionsCallbackInterfaces = new List<IPhotographActions>();
     private readonly InputAction m_Photograph_EnterPhotoMode;
+    private readonly InputAction m_Photograph_PushUpCamera;
+    private readonly InputAction m_Photograph_PullDownCamera;
     private readonly InputAction m_Photograph_Shutter;
     private readonly InputAction m_Photograph_Zoom;
     private readonly InputAction m_Photograph_BackToGame;
     private readonly InputAction m_Photograph_Roll;
+    private readonly InputAction m_Photograph_TiltLeft;
+    private readonly InputAction m_Photograph_TiltRight;
     /// <summary>
     /// Provides access to input actions defined in input action map "Photograph".
     /// </summary>
@@ -929,6 +1017,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @EnterPhotoMode => m_Wrapper.m_Photograph_EnterPhotoMode;
         /// <summary>
+        /// Provides access to the underlying input action "Photograph/PushUpCamera".
+        /// </summary>
+        public InputAction @PushUpCamera => m_Wrapper.m_Photograph_PushUpCamera;
+        /// <summary>
+        /// Provides access to the underlying input action "Photograph/PullDownCamera".
+        /// </summary>
+        public InputAction @PullDownCamera => m_Wrapper.m_Photograph_PullDownCamera;
+        /// <summary>
         /// Provides access to the underlying input action "Photograph/Shutter".
         /// </summary>
         public InputAction @Shutter => m_Wrapper.m_Photograph_Shutter;
@@ -944,6 +1040,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Photograph/Roll".
         /// </summary>
         public InputAction @Roll => m_Wrapper.m_Photograph_Roll;
+        /// <summary>
+        /// Provides access to the underlying input action "Photograph/TiltLeft".
+        /// </summary>
+        public InputAction @TiltLeft => m_Wrapper.m_Photograph_TiltLeft;
+        /// <summary>
+        /// Provides access to the underlying input action "Photograph/TiltRight".
+        /// </summary>
+        public InputAction @TiltRight => m_Wrapper.m_Photograph_TiltRight;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -973,6 +1077,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @EnterPhotoMode.started += instance.OnEnterPhotoMode;
             @EnterPhotoMode.performed += instance.OnEnterPhotoMode;
             @EnterPhotoMode.canceled += instance.OnEnterPhotoMode;
+            @PushUpCamera.started += instance.OnPushUpCamera;
+            @PushUpCamera.performed += instance.OnPushUpCamera;
+            @PushUpCamera.canceled += instance.OnPushUpCamera;
+            @PullDownCamera.started += instance.OnPullDownCamera;
+            @PullDownCamera.performed += instance.OnPullDownCamera;
+            @PullDownCamera.canceled += instance.OnPullDownCamera;
             @Shutter.started += instance.OnShutter;
             @Shutter.performed += instance.OnShutter;
             @Shutter.canceled += instance.OnShutter;
@@ -985,6 +1095,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Roll.started += instance.OnRoll;
             @Roll.performed += instance.OnRoll;
             @Roll.canceled += instance.OnRoll;
+            @TiltLeft.started += instance.OnTiltLeft;
+            @TiltLeft.performed += instance.OnTiltLeft;
+            @TiltLeft.canceled += instance.OnTiltLeft;
+            @TiltRight.started += instance.OnTiltRight;
+            @TiltRight.performed += instance.OnTiltRight;
+            @TiltRight.canceled += instance.OnTiltRight;
         }
 
         /// <summary>
@@ -999,6 +1115,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @EnterPhotoMode.started -= instance.OnEnterPhotoMode;
             @EnterPhotoMode.performed -= instance.OnEnterPhotoMode;
             @EnterPhotoMode.canceled -= instance.OnEnterPhotoMode;
+            @PushUpCamera.started -= instance.OnPushUpCamera;
+            @PushUpCamera.performed -= instance.OnPushUpCamera;
+            @PushUpCamera.canceled -= instance.OnPushUpCamera;
+            @PullDownCamera.started -= instance.OnPullDownCamera;
+            @PullDownCamera.performed -= instance.OnPullDownCamera;
+            @PullDownCamera.canceled -= instance.OnPullDownCamera;
             @Shutter.started -= instance.OnShutter;
             @Shutter.performed -= instance.OnShutter;
             @Shutter.canceled -= instance.OnShutter;
@@ -1011,6 +1133,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Roll.started -= instance.OnRoll;
             @Roll.performed -= instance.OnRoll;
             @Roll.canceled -= instance.OnRoll;
+            @TiltLeft.started -= instance.OnTiltLeft;
+            @TiltLeft.performed -= instance.OnTiltLeft;
+            @TiltLeft.canceled -= instance.OnTiltLeft;
+            @TiltRight.started -= instance.OnTiltRight;
+            @TiltRight.performed -= instance.OnTiltRight;
+            @TiltRight.canceled -= instance.OnTiltRight;
         }
 
         /// <summary>
@@ -1420,6 +1548,20 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnEnterPhotoMode(InputAction.CallbackContext context);
         /// <summary>
+        /// Method invoked when associated input action "PushUpCamera" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPushUpCamera(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "PullDownCamera" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPullDownCamera(InputAction.CallbackContext context);
+        /// <summary>
         /// Method invoked when associated input action "Shutter" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -1447,6 +1589,20 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnRoll(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "TiltLeft" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTiltLeft(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "TiltRight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTiltRight(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Storage UI" which allows adding and removing callbacks.

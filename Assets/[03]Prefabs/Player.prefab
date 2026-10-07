@@ -715,6 +715,7 @@ GameObject:
   - component: {fileID: 6005440561505915028}
   - component: {fileID: 6853054644781798351}
   - component: {fileID: -5934993561810412996}
+  - component: {fileID: 7312000000000000001}
   m_Layer: 0
   m_Name: PhotoCam
   m_TagString: Untagged
@@ -906,8 +907,33 @@ MonoBehaviour:
   photoVcam: {fileID: 3393143129346812352}
   rollInput: {fileID: -4799869247620783521, guid: c32589b3e95ba5044800c48f983ef7c5, type: 3}
   maxRoll: 60
-  rollSpeed: 60
+  rollSpeed: 30
   smoothing: 12
+--- !u!114 &7312000000000000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1109353720125701854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7c3e1f09b2d4f6a8e5d1c3b7f9a2e40, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::PhotoHeight
+  cameraPivot: {fileID: 3333948505505798317}
+  playerCrouch: {fileID: 0}
+  pushUpInput: {fileID: 0}
+  pullDownInput: {fileID: 0}
+  maxRaise: 0.6
+  maxLower: 0.6
+  moveSpeed: 1
+  smoothing: 12
+  blockByObstacles: 1
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  clearance: 0.25
 --- !u!1 &1239745539208810361
 GameObject:
   m_ObjectHideFlags: 0

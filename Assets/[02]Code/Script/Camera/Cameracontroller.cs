@@ -7,8 +7,8 @@ using Unity.Cinemachine;
 /// โดยอิงจาก StateManager.SystemState — ไม่ต้องมี Logic การเดิน/ถ่ายรูปในนี้เลย
 /// แค่ทำหน้าที่ "ฟัง" การเปลี่ยน State แล้วสลับกล้องให้ตรงกัน
 ///
-/// การเดินไม่ได้ตอนอยู่ในโหมดถ่ายรูปนั้น PlayerMovement จัดการอยู่แล้วผ่าน
-/// StateManager.Instance.CanControlPlayer() ไม่เกี่ยวกับสคริปต์นี้โดยตรง
+/// การเดินตอนอยู่ในโหมดถ่ายรูป (เดินช้าเท่าตอนย่อ ไม่วิ่ง/กระโดด) PlayerMovement จัดการเองผ่าน
+/// StateManager.Instance.CanWalk() / CanControlPlayer() ไม่เกี่ยวกับสคริปต์นี้โดยตรง
 /// </summary>
 public class CameraController : MonoBehaviour
 {
@@ -32,7 +32,9 @@ public class CameraController : MonoBehaviour
 
     private CinemachinePanTilt photoCamPanTilt;
     private CinemachineInputAxisController thirdPersonInputAxis;
+    private CinemachineOrbitalFollow thirdPersonOrbit;
     private readonly List<Renderer> hiddenRenderers = new List<Renderer>();
+    private bool photoCamLive; // true ตั้งแต่สลับไปกล้องถ่ายรูปแล้วจนถึงตอนสลับกลับ
 
     private void Awake()
     {
@@ -43,7 +45,22 @@ public class CameraController : MonoBehaviour
         if (thirdPersonCam != null)
         {
             thirdPersonInputAxis = thirdPersonCam.GetComponent<CinemachineInputAxisController>();
+            thirdPersonOrbit = thirdPersonCam.GetComponent<CinemachineOrbitalFollow>();
         }
+    }
+
+    // ตอนอยู่ในโหมดถ่ายรูป ทุกครั้งที่ผู้เล่นหมุนกล้อง (Pan) ให้ตัวละครหมุนตามไปด้วย
+    // Pan ของ Photo Cam วัดเทียบกับ Pivot ซึ่งเป็นลูกของ characterModel — เลยโอนมุม Pan ทั้งหมดไปหมุนโมเดลแล้วตั้ง Pan กลับเป็น 0
+    // ทิศที่กล้องมองในโลกจริงไม่เปลี่ยนเลย (โมเดล + Pan = ทิศเดิม) แต่ตัวละครหันไปทางที่กล้องมองแล้ว
+    private void Update()
+    {
+        if (!photoCamLive || photoCamPanTilt == null || characterModel == null) return;
+
+        float pan = photoCamPanTilt.PanAxis.Value;
+        if (Mathf.Approximately(pan, 0f)) return;
+
+        characterModel.Rotate(Vector3.up, pan, Space.World);
+        photoCamPanTilt.PanAxis.Value = 0f;
     }
 
     private void Start()
@@ -98,6 +115,9 @@ public class CameraController : MonoBehaviour
     {
         // ต้องทำก่อนสลับ Priority — ตอนนี้ Main Camera ยังเป็นภาพของ Third Person Cam อยู่ ทิศที่อ่านได้คือทิศที่ผู้เล่นกำลังมองจริงๆ
         if (isPhotoMode) AlignPhotoCamToThirdPersonView();
+        else if (photoCamLive) SyncThirdPersonToPhotoView();
+
+        photoCamLive = isPhotoMode;
 
         SetCharacterHidden(isPhotoMode);
 
@@ -111,8 +131,22 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    // กล้องถ่ายรูปเริ่มจากทิศที่ Third Person Cam มองอยู่ (แนวนอน) ไม่ใช่ทิศหน้าตัวละคร — ตัวละครไม่ต้องหันตาม
+    // ตอนออกจากโหมดถ่ายรูป ย้าย Third Person Cam ไปอยู่ด้านหลังตัวละครตามทิศที่ Photo Cam มองอยู่ (ตัวละครหันตามกล้องนั้นแล้ว)
+    // กล้องจะได้ไม่เด้งกลับไปทิศเดิมก่อนเข้าโหมด — OrbitalFollow แบบ World Space: ค่า HorizontalAxis = ทิศ (yaw) ที่กล้องมอง
+    // ตั้ง PreviousStateIsValid = false เพื่อไม่ให้ Damping ของกล้องไล่ตำแหน่งเก่าด้วยการแกว่งอ้อมตัวละคร (ทำตอนจอยังดำอยู่)
+    private void SyncThirdPersonToPhotoView()
+    {
+        if (thirdPersonOrbit == null || characterModel == null) return;
+
+        float pan = photoCamPanTilt != null ? photoCamPanTilt.PanAxis.Value : 0f;
+        float yaw = Mathf.DeltaAngle(0f, characterModel.eulerAngles.y + pan);
+        thirdPersonOrbit.HorizontalAxis.Value = thirdPersonOrbit.HorizontalAxis.ClampValue(yaw);
+        thirdPersonCam.PreviousStateIsValid = false;
+    }
+
+    // กล้องถ่ายรูปเริ่มจากทิศที่ Third Person Cam มองอยู่ (แนวนอน) ไม่ใช่ทิศหน้าตัวละคร
     // Pan อ้างอิง PhotoCameraPivot ซึ่งเป็นลูกของ characterModel (วัดจากทิศหน้าตัวละคร) เลยต้องแปลงทิศกล้องเป็นมุมเทียบกับหน้าตัวละคร
+    // แล้ว Update() จะโอนมุมนี้ไปหมุนตัวละครให้หันไปทางเดียวกับกล้องทันที (Pan กลับเป็น 0)
     // ส่วน Tilt เริ่มที่ 0 (มองระดับสายตา) เพราะ Third Person Cam มักก้มมองลงมาที่ตัวละคร
     private void AlignPhotoCamToThirdPersonView()
     {

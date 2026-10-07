@@ -242,6 +242,24 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "PushUpCamera",
+                    "type": "Button",
+                    "id": "23e37b34-9cc9-4876-be1e-d52e6c586e70",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PullDownCamera",
+                    "type": "Button",
+                    "id": "2deba872-0ebf-4cb2-bea7-5ae0d9ed0b3e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Shutter",
                     "type": "Button",
                     "id": "5cb5991d-c420-4de2-9f44-654cb84731b9",
@@ -276,6 +294,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "TiltLeft",
+                    "type": "Button",
+                    "id": "84e252a6-28de-4a8a-b6e9-8cb3f668047f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "TiltRight",
+                    "type": "Button",
+                    "id": "370408bd-8dd9-4ccb-9332-6b5e49f8f262",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -287,6 +323,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "EnterPhotoMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5d2d1e01-6a9a-4c49-826c-d05bcf9cedea",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PushUpCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d4863632-1d07-404b-9659-09d4f10793e6",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PullDownCamera",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -355,6 +413,28 @@
                     "action": "Roll",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "a0cdb75a-5ffd-4b99-9454-31d1a7903be5",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TiltLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ca159002-d8b2-40ea-8fae-bbb1f25748ef",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TiltRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
