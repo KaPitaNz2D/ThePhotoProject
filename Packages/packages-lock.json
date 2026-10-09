@@ -22,7 +22,7 @@
         "com.unity.nuget.newtonsoft-json": "3.0.2",
         "com.unity.test-framework": "1.1.31"
       },
-      "hash": "4ce7dd3cc54e37e2ed6dc59cb5a047f3dccb3f50"
+      "hash": "aa5fc638d623f56178d50329d9ad8c541a57fe66"
     },
     "com.overdrive.pbplus": {
       "version": "file:com.overdrive.pbplus",

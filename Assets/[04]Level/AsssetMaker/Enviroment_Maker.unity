@@ -338,6 +338,8 @@ Transform:
   - {fileID: 7335216505626918639}
   - {fileID: 7912038618818098851}
   - {fileID: 3054236268790496674}
+  - {fileID: 1316171992}
+  - {fileID: 1992901753}
   m_Father: {fileID: 283911106}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &171786771 stripped
@@ -889,7 +891,7 @@ Camera:
   m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
+  m_OcclusionCulling: 0
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
 --- !u!114 &271921604
@@ -1141,7 +1143,7 @@ MonoBehaviour:
     - name: Grass_darked_up
       layerID: 2
       threshold: 0.8
-    instanceCount: 440
+    instanceCount: 384
     prefabs:
     - index: 0
       probability: 100
@@ -1165,7 +1167,7 @@ MonoBehaviour:
     - name: Grass_darked_up
       layerID: 2
       threshold: 0.8
-    instanceCount: 304
+    instanceCount: 273
     prefabs:
     - index: 1
       probability: 100
@@ -1189,7 +1191,7 @@ MonoBehaviour:
     - name: Grass_darked_up
       layerID: 2
       threshold: 0.8
-    instanceCount: 440
+    instanceCount: 385
     prefabs:
     - index: 2
       probability: 100
@@ -1297,7 +1299,7 @@ MonoBehaviour:
     - name: Grass1
       layerID: 1
       threshold: 0.95
-    instanceCount: 57
+    instanceCount: 56
     prefabs:
     - index: 7
       probability: 100
@@ -1321,7 +1323,7 @@ MonoBehaviour:
     - name: Grass_darked_up
       layerID: 2
       threshold: 0.95
-    instanceCount: 52
+    instanceCount: 53
     prefabs:
     - index: 8
       probability: 100
@@ -1345,7 +1347,10 @@ MonoBehaviour:
     - name: Grass_darked_up
       layerID: 2
       threshold: 0.9
-    instanceCount: 96
+    - name: Grass_normal_left
+      layerID: 4
+      threshold: 0.9
+    instanceCount: 99
     prefabs:
     - index: 9
       probability: 100
@@ -1369,7 +1374,10 @@ MonoBehaviour:
     - name: Grass_darked_up
       layerID: 2
       threshold: 0.9
-    instanceCount: 112
+    - name: Grass_normal_left
+      layerID: 4
+      threshold: 0.9
+    instanceCount: 110
     prefabs:
     - index: 10
       probability: 100
@@ -1445,7 +1453,7 @@ MonoBehaviour:
     sinkAmount: 0
   - enabled: 1
     name: PF_HoneyMushroom_001
-    seed: 2732
+    seed: 49977
     probability: 10
     collisionCheck: 0
     rejectUnderwater: 1
@@ -1456,18 +1464,18 @@ MonoBehaviour:
     - name: Grass_normal_down
       layerID: 6
       threshold: 0.9
-    instanceCount: 33
+    instanceCount: 21
     prefabs:
     - index: 15
       probability: 100
       prefab: {fileID: 2773523403028584945, guid: f8af2cc69fe66ae468a4c4bdfa3e5bca, type: 3}
     distance: 5
-    scaleRange: {x: 0.8, y: 1.2}
+    scaleRange: {x: 1, y: 1.2}
     sinkAmount: 0
   - enabled: 1
     name: PF_TreeStump001WithHoney002
     seed: 4463
-    probability: 5
+    probability: 1
     collisionCheck: 0
     rejectUnderwater: 1
     heightRange: {x: 0, y: 1000}
@@ -1477,18 +1485,18 @@ MonoBehaviour:
     - name: Grass_normal_down
       layerID: 6
       threshold: 0.9
-    instanceCount: 12
+    instanceCount: 1
     prefabs:
     - index: 16
-      probability: 100
+      probability: 20
       prefab: {fileID: 6639604774872378101, guid: aa8ea47e35adaf540b8fc9001fd1fbf3, type: 3}
     distance: 5
-    scaleRange: {x: 0.8, y: 1.2}
+    scaleRange: {x: 1, y: 1.2}
     sinkAmount: 0
   - enabled: 1
     name: PF_TreeStump002WIthHoney001
     seed: 3273
-    probability: 5
+    probability: 1
     collisionCheck: 0
     rejectUnderwater: 1
     heightRange: {x: 0, y: 1000}
@@ -1498,13 +1506,13 @@ MonoBehaviour:
     - name: Grass_normal_down
       layerID: 6
       threshold: 0.9
-    instanceCount: 11
+    instanceCount: 3
     prefabs:
     - index: 17
-      probability: 100
+      probability: 20
       prefab: {fileID: 2207884976495016999, guid: 41a8f229121473c48bee6366f00b5a39, type: 3}
     distance: 5
-    scaleRange: {x: 0.8, y: 1.2}
+    scaleRange: {x: 1, y: 1.2}
     sinkAmount: 0
   - enabled: 1
     name: PF_TreeStumpAlone_001
@@ -1525,13 +1533,10 @@ MonoBehaviour:
     - name: Grass_normal_down
       layerID: 6
       threshold: 0.9
-    - name: Grass_bluetint_down
-      layerID: 4
-      threshold: 0.9
-    instanceCount: 144
+    instanceCount: 129
     prefabs:
     - index: 18
-      probability: 100
+      probability: 61.1
       prefab: {fileID: 6941052214315967161, guid: fb6a15c36440ae541ba45110310f15d0, type: 3}
     distance: 5
     scaleRange: {x: 1, y: 1.2}
@@ -1555,16 +1560,61 @@ MonoBehaviour:
     - name: Grass_normal_down
       layerID: 6
       threshold: 0.9
-    - name: Grass_bluetint_down
-      layerID: 4
-      threshold: 0.9
-    instanceCount: 162
+    instanceCount: 87
     prefabs:
     - index: 19
-      probability: 100
+      probability: 20
       prefab: {fileID: 1275608396492112830, guid: 2fd771e2c6a04f24f84c5d245e0e96b3, type: 3}
     distance: 5
     scaleRange: {x: 1, y: 1.2}
+    sinkAmount: 0
+  - enabled: 1
+    name: PF_Chanterrella_001
+    seed: 5286
+    probability: 2
+    collisionCheck: 0
+    rejectUnderwater: 0
+    heightRange: {x: 0, y: 1000}
+    slopeRange: {x: 0, y: 60}
+    curvatureRange: {x: 0, y: 1}
+    layerMasks:
+    - name: Grass_normal_left
+      layerID: 4
+      threshold: 0.9
+    - name: Grass_normal_down
+      layerID: 6
+      threshold: 0.9
+    instanceCount: 3
+    prefabs:
+    - index: 20
+      probability: 10
+      prefab: {fileID: 2599370766304405289, guid: 245289035115ec842ac2c628b16df5f7, type: 3}
+    distance: 5
+    scaleRange: {x: 0.8, y: 1.2}
+    sinkAmount: 0
+  - enabled: 1
+    name: PF_Chanterrella_002
+    seed: 5289
+    probability: 10
+    collisionCheck: 0
+    rejectUnderwater: 0
+    heightRange: {x: 0, y: 1000}
+    slopeRange: {x: 0, y: 60}
+    curvatureRange: {x: 0, y: 1}
+    layerMasks:
+    - name: Grass_normal_down
+      layerID: 6
+      threshold: 0.9
+    - name: Grass_normal_left
+      layerID: 4
+      threshold: 0.9
+    instanceCount: 22
+    prefabs:
+    - index: 21
+      probability: 10
+      prefab: {fileID: 5828205862740493216, guid: 81c6ba41e370a784a8d27685b3959b18, type: 3}
+    distance: 5
+    scaleRange: {x: 0.8, y: 1.2}
     sinkAmount: 0
   grassPrefabs:
   - enabled: 1
@@ -1586,7 +1636,10 @@ MonoBehaviour:
     - name: Grass_normal_down
       layerID: 6
       threshold: 0.9
-    instanceCount: 205149
+    - name: Grass_normal_left
+      layerID: 4
+      threshold: 0.9
+    instanceCount: 202425
     index: 0
     type: 0
     renderAsBillboard: 0
@@ -1623,7 +1676,10 @@ MonoBehaviour:
     - name: Grass_normal_down
       layerID: 6
       threshold: 0.9
-    instanceCount: 206276
+    - name: Grass_normal_left
+      layerID: 4
+      threshold: 0.9
+    instanceCount: 203567
     index: 1
     type: 0
     renderAsBillboard: 0
@@ -1660,7 +1716,10 @@ MonoBehaviour:
     - name: Grass_normal_down
       layerID: 6
       threshold: 0.9
-    instanceCount: 206051
+    - name: Grass_normal_left
+      layerID: 4
+      threshold: 0.9
+    instanceCount: 203350
     index: 2
     type: 0
     renderAsBillboard: 0
@@ -2257,7 +2316,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
@@ -3388,6 +3447,11 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: 3602544318689296485, guid: a1734b0db0819f440948b69f1b3347c8, type: 3}
   m_PrefabInstance: {fileID: 636757310320961857}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1316171992 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6423957110336169465, guid: d8d1abe65984f7c43be954317793b1e1, type: 3}
+  m_PrefabInstance: {fileID: 427218652541914832}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1318610074
 GameObject:
@@ -4598,6 +4662,11 @@ Transform:
   - {fileID: 1898107617}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1992901753 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1754553911682192451, guid: 4576e0d625ec07b449552d20cc25854d, type: 3}
+  m_PrefabInstance: {fileID: 6654765580326226562}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2004248151
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5286,6 +5355,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8e3321e638f599469fc5433d23a034a, type: 3}
+--- !u!1001 &427218652541914832
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 141797456}
+    m_Modifications:
+    - target: {fileID: 6114481190168528811, guid: d8d1abe65984f7c43be954317793b1e1, type: 3}
+      propertyPath: m_Name
+      value: PF_TreeStumpAlone_002
+      objectReference: {fileID: 0}
+    - target: {fileID: 6423957110336169465, guid: d8d1abe65984f7c43be954317793b1e1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.1519582
+      objectReference: {fileID: 0}
+    - target: {fileID: 6423957110336169465, guid: d8d1abe65984f7c43be954317793b1e1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6423957110336169465, guid: d8d1abe65984f7c43be954317793b1e1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -10.557106
+      objectReference: {fileID: 0}
+    - target: {fileID: 6423957110336169465, guid: d8d1abe65984f7c43be954317793b1e1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6423957110336169465, guid: d8d1abe65984f7c43be954317793b1e1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6423957110336169465, guid: d8d1abe65984f7c43be954317793b1e1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6423957110336169465, guid: d8d1abe65984f7c43be954317793b1e1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6423957110336169465, guid: d8d1abe65984f7c43be954317793b1e1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6423957110336169465, guid: d8d1abe65984f7c43be954317793b1e1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6423957110336169465, guid: d8d1abe65984f7c43be954317793b1e1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d8d1abe65984f7c43be954317793b1e1, type: 3}
 --- !u!4 &437163415210093469
 Transform:
   m_ObjectHideFlags: 0
@@ -5295,7 +5421,7 @@ Transform:
   m_GameObject: {fileID: 1890789188176210070}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5310,7 +5436,7 @@ Transform:
   m_GameObject: {fileID: 1663473153999121719}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5764,14 +5890,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 141797456}
     m_Modifications:
-    - target: {fileID: 584555052750385433, guid: 81c6ba41e370a784a8d27685b3959b18, type: 3}
-      propertyPath: m_LODs.Array.data[0].renderers.Array.data[3].renderer
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 584555052750385433, guid: 81c6ba41e370a784a8d27685b3959b18, type: 3}
-      propertyPath: m_LODs.Array.data[1].renderers.Array.data[3].renderer
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 5828205862740493216, guid: 81c6ba41e370a784a8d27685b3959b18, type: 3}
       propertyPath: m_Name
       value: PF_Chanterrella_002
@@ -6346,7 +6464,7 @@ Transform:
   m_GameObject: {fileID: 6704345752715205928}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7123,7 +7241,7 @@ Transform:
   m_GameObject: {fileID: 3223714882196800350}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: -2}
+  m_LocalPosition: {x: 1, y: 0, z: -21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7381,7 +7499,7 @@ Transform:
   m_GameObject: {fileID: 8077383412174345066}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 0, z: -19}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7414,7 +7532,7 @@ Transform:
   m_GameObject: {fileID: 2389444482399430424}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 1}
+  m_LocalPosition: {x: 1, y: 0, z: -18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8221,7 +8339,7 @@ Transform:
   m_GameObject: {fileID: 8897307476966508966}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 0, z: -19}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8960,7 +9078,7 @@ Transform:
   m_GameObject: {fileID: 8658573641819934699}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9930,6 +10048,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 619404019575901584, guid: f8af2cc69fe66ae468a4c4bdfa3e5bca, type: 3}
   m_PrefabInstance: {fileID: 392402378460749369}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6654765580326226562
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 141797456}
+    m_Modifications:
+    - target: {fileID: 1754553911682192451, guid: 4576e0d625ec07b449552d20cc25854d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.0553614
+      objectReference: {fileID: 0}
+    - target: {fileID: 1754553911682192451, guid: 4576e0d625ec07b449552d20cc25854d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1754553911682192451, guid: 4576e0d625ec07b449552d20cc25854d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1754553911682192451, guid: 4576e0d625ec07b449552d20cc25854d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1754553911682192451, guid: 4576e0d625ec07b449552d20cc25854d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1754553911682192451, guid: 4576e0d625ec07b449552d20cc25854d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1754553911682192451, guid: 4576e0d625ec07b449552d20cc25854d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1754553911682192451, guid: 4576e0d625ec07b449552d20cc25854d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1754553911682192451, guid: 4576e0d625ec07b449552d20cc25854d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1754553911682192451, guid: 4576e0d625ec07b449552d20cc25854d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5899919884411420662, guid: 4576e0d625ec07b449552d20cc25854d, type: 3}
+      propertyPath: m_Name
+      value: PF_TreeStumpAlone_001
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4576e0d625ec07b449552d20cc25854d, type: 3}
 --- !u!4 &6698528967366223755 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1156863745274940199, guid: 7c4b805adba4e5c4e9e2a7954b84961d, type: 3}
@@ -10162,7 +10337,7 @@ Transform:
   m_GameObject: {fileID: 5950236918458938116}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10329,7 +10504,7 @@ Transform:
   m_GameObject: {fileID: 7962430252595618901}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: -1}
+  m_LocalPosition: {x: 1, y: 0, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10346,7 +10521,7 @@ Transform:
   m_GameObject: {fileID: 7877590432711269485}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: -3}
+  m_LocalPosition: {x: 1, y: 0, z: -22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10429,7 +10604,7 @@ Transform:
   m_GameObject: {fileID: 2096530699966288522}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 0, z: -19}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10501,7 +10676,7 @@ Transform:
   m_GameObject: {fileID: 4308563253666572464}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 0, z: -19}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10644,7 +10819,7 @@ Transform:
   m_GameObject: {fileID: 7387844682453314585}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalPosition: {x: 1, y: 0, z: -19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10867,7 +11042,7 @@ Transform:
   m_GameObject: {fileID: 2997634575906495376}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 0, z: -19}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
