@@ -53,6 +53,7 @@ public class CreatureAI : MonoBehaviour
 
     // เหตุการณ์/ตัวนับของกิ่ง Confuse + Alert
     private bool heardShutter;
+    private bool wasPhotographingInAlert; // ใช้จับจังหวะ "เพิ่งยกกล้อง" ระหว่าง Alert
     private float stopEntryDistance;
     private float spotTimer;
     private float alertEntryDistance;
@@ -445,6 +446,7 @@ public class CreatureAI : MonoBehaviour
         visionTimer = 0f;
         alertStillTimer = 0f;
         alertEntryDistance = DistanceToPlayer();
+        wasPhotographingInAlert = IsPlayerPhotographing(); // อยู่ในกล้องอยู่แล้วตอนเข้า Alert = ไม่นับว่า "เพิ่งยกกล้อง"
     }
 
     private void UpdateAlert()
@@ -453,8 +455,13 @@ public class CreatureAI : MonoBehaviour
 
         float distance = DistanceToPlayer();
 
-        // ผู้เล่นทำอะไรดังๆ (เข้าโหมดกล้อง/ถ่ายรูป/วิ่ง) หรือเดินเข้าใกล้เกินกำหนด -> วิ่งหนีทันที
-        if (IsPlayerPhotographing() || IsPlayerSprinting() || heardShutter ||
+        // ยกกล้องตอนอยู่ใน Alert อยู่แล้ว (เปลี่ยนจากไม่ใช่เป็นใช่ระหว่าง Alert) ถึงจะตกใจ — ถ้าถือกล้องอยู่ก่อนเข้า Alert จะรอจนกดชัตเตอร์
+        bool photographing = IsPlayerPhotographing();
+        bool justRaisedCamera = photographing && !wasPhotographingInAlert;
+        wasPhotographingInAlert = photographing;
+
+        // ผู้เล่นทำอะไรดังๆ (เพิ่งยกกล้อง/ถ่ายรูป/วิ่ง) หรือเดินเข้าใกล้เกินกำหนด -> วิ่งหนีทันที
+        if (justRaisedCamera || IsPlayerSprinting() || heardShutter ||
             alertEntryDistance - distance > profile.alertApproachDistance)
         {
             EnterRun();

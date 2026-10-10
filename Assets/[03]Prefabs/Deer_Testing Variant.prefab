@@ -104,6 +104,18 @@ PrefabInstance:
       propertyPath: profile
       value: 
       objectReference: {fileID: 11400000, guid: 386ae2bcf6e760a459bc2d5b0bab3446, type: 2}
+    - target: {fileID: 2798016929109129203, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
+      propertyPath: snortClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 2e4c1808c1bca2a49b9eedb02172c9a9, type: 3}
+    - target: {fileID: 2798016929109129203, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
+      propertyPath: snortVolume
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2798016929109129203, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
+      propertyPath: normalVolume
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 3293762268181601916, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
       propertyPath: m_Name
       value: Deer_Testing Variant
@@ -130,15 +142,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5672296455345238967, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 172.8447
+      value: 159.17
       objectReference: {fileID: 0}
     - target: {fileID: 5672296455345238967, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11.97
+      value: 11.77
       objectReference: {fileID: 0}
     - target: {fileID: 5672296455345238967, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 111.364876
+      value: 65.77917
       objectReference: {fileID: 0}
     - target: {fileID: 5672296455345238967, guid: aab911b766f72ff4db8c06da1365379b, type: 3}
       propertyPath: m_LocalRotation.w
