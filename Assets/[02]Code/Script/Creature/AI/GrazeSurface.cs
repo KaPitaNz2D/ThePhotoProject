@@ -6,6 +6,13 @@ public static class GrazeSurface
     public static bool IsGrass(Vector3 position, string layerKeyword, float minCoverage)
     {
         if (string.IsNullOrEmpty(layerKeyword)) return true;
+        return GetCoverage(position, layerKeyword) >= minCoverage;
+    }
+
+    /// <summary>สัดส่วน 0-1 ของ Terrain Layer ที่ชื่อมีคำที่กำหนด ณ จุดนั้น (0 ถ้าจุดอยู่นอก Terrain) — ใช้ผสมเสียงฝีเท้าตามพื้นผิว</summary>
+    public static float GetCoverage(Vector3 position, string layerKeyword)
+    {
+        if (string.IsNullOrEmpty(layerKeyword)) return 0f;
 
         foreach (Terrain terrain in Terrain.activeTerrains)
         {
@@ -30,9 +37,9 @@ public static class GrazeSurface
                     coverage += weights[0, 0, i];
                 }
             }
-            return coverage >= minCoverage;
+            return Mathf.Clamp01(coverage);
         }
 
-        return false;
+        return 0f;
     }
 }

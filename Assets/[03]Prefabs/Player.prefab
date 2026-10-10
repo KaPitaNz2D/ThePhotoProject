@@ -905,6 +905,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhotoRoll
   photoVcam: {fileID: 3393143129346812352}
+  tiltLeftInput: {fileID: 0}
+  tiltRightInput: {fileID: 0}
   rollInput: {fileID: -4799869247620783521, guid: c32589b3e95ba5044800c48f983ef7c5, type: 3}
   maxRoll: 60
   rollSpeed: 30
@@ -919,7 +921,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a7c3e1f09b2d4f6a8e5d1c3b7f9a2e40, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhotoHeight
   cameraPivot: {fileID: 3333948505505798317}
   playerCrouch: {fileID: 0}
@@ -1996,6 +1998,7 @@ GameObject:
   - component: {fileID: 5160260424754451105}
   - component: {fileID: 3942936210642854089}
   - component: {fileID: 8262122318018214598}
+  - component: {fileID: 7242607532255175903}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2095,6 +2098,7 @@ MonoBehaviour:
   playerSprint: {fileID: 0}
   playerCrouch: {fileID: 5160260424754451105}
   crouchSpeedMultiplier: 0.5
+  photoSpeedMultiplier: 0.3
 --- !u!114 &2913956134073656389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2192,6 +2196,36 @@ MonoBehaviour:
     frameRate: 12
   blinkMinInterval: 2
   blinkMaxInterval: 5
+--- !u!114 &7242607532255175903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3193203250615546887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98ced98c630c7f64eb63e1e2eac6022d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerFootsteps
+  grassClips:
+  - {fileID: 8300000, guid: 636b0aca746d74d4eba81353f26f5895, type: 3}
+  - {fileID: 8300000, guid: 818c4d7a8ef15df468494cc82d0ac733, type: 3}
+  - {fileID: 8300000, guid: bf2ff7b4890aa0e4ab9bad088b8dd7cf, type: 3}
+  dirtClips:
+  - {fileID: 8300000, guid: 83d0d4e6754c64e4ab07a93f6dcc19d4, type: 3}
+  - {fileID: 8300000, guid: 032757f9ff1dc184b99378926995b7b5, type: 3}
+  - {fileID: 8300000, guid: 1aaa4558ff7efe6478dcb0ef59b2a9a6, type: 3}
+  grassLayerKeyword: Grass
+  strideLength: 0.85
+  sprintStrideLength: 1.4
+  slowStrideLength: 0.5
+  minMoveSpeed: 0.3
+  pitchRange: {x: 0.92, y: 1.08}
+  volume: 0.7
+  slowWalkVolumeMultiplier: 0.45
+  sprintVolumeMultiplier: 1.2
+  minAudibleVolume: 0.05
 --- !u!1 &3563213955300687131
 GameObject:
   m_ObjectHideFlags: 0
@@ -3046,6 +3080,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PhotoStorage
   maxCapacity: 30
   saveFolderName: Photos
+  thumbnailMaxSize: 384
 --- !u!1 &5073758599074170382
 GameObject:
   m_ObjectHideFlags: 0
