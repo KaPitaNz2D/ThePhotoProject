@@ -103,7 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 1674016628, guid: b04c77e0938d27643b3f69f2dd39ce77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: VisualDesignCafe.Rendering.Nature.dll::VisualDesignCafe.Rendering.Nature.NatureRendererObjectSettings
-  _render: 0
+  _render: 1
   _overrideRendering: 1
   _renderDistance: 0
   _overrideRenderDistance: 0
@@ -113,5 +113,5 @@ MonoBehaviour:
   _overrideShadowDistance: 0
   _densityInDistance: 0.01
   _overrideDensityInDistance: 1
-  _densityInDistanceFalloff: {x: 0.07999998, y: 0.007499993}
+  _densityInDistanceFalloff: {x: 0.25, y: 0.007499993}
   _overrideDensityInDistanceFalloff: 0

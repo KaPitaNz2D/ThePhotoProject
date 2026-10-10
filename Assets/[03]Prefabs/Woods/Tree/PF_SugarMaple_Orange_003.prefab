@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: f5b42d1e3418fcb418f877d46efbc236, type: 2}
     - target: {fileID: 919132149155446097, guid: 6bb3f191685651c48b68adef5a355916, type: 3}
       propertyPath: m_Name
-      value: SugarMaple_Orange_003
+      value: PF_SugarMaple_Orange_003
       objectReference: {fileID: 0}
     - target: {fileID: 5543978332515985216, guid: 6bb3f191685651c48b68adef5a355916, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -71,6 +71,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6bb3f191685651c48b68adef5a355916, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8328284474676795553}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6bb3f191685651c48b68adef5a355916, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3483696524211177234}
   m_SourcePrefab: {fileID: 100100000, guid: 6bb3f191685651c48b68adef5a355916, type: 3}
 --- !u!1 &7880046236420749593 stripped
 GameObject:
@@ -100,3 +103,27 @@ CapsuleCollider:
   m_Height: 2.97
   m_Direction: 1
   m_Center: {x: 0, y: 1.32, z: 0}
+--- !u!114 &3483696524211177234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7880046236420749593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1674016628, guid: b04c77e0938d27643b3f69f2dd39ce77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: VisualDesignCafe.Rendering.Nature.dll::VisualDesignCafe.Rendering.Nature.NatureRendererObjectSettings
+  _render: 1
+  _overrideRendering: 0
+  _renderDistance: 0
+  _overrideRenderDistance: 0
+  _renderShadows: 1
+  _overrideRenderShadows: 0
+  _shadowDistance: 0
+  _overrideShadowDistance: 0
+  _densityInDistance: 0.125
+  _overrideDensityInDistance: 0
+  _densityInDistanceFalloff: {x: 0.08, y: 0.0075}
+  _overrideDensityInDistanceFalloff: 0

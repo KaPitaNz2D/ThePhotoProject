@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2284948835499225727
+--- !u!1 &1389954832399401006
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,46 +8,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8922190820536354718}
-  - component: {fileID: 4463245267140128871}
-  - component: {fileID: 2385575534746261765}
+  - component: {fileID: 3785630806680352130}
+  - component: {fileID: 1808472595056004931}
+  - component: {fileID: 2934410355672311579}
+  - component: {fileID: 7265654774540819920}
   m_Layer: 0
-  m_Name: JoePyeWeed_03
+  m_Name: PF_JoePyeWeed_Patch_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8922190820536354718
+--- !u!4 &3785630806680352130
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2284948835499225727}
+  m_GameObject: {fileID: 1389954832399401006}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.04065, y: 0.00000028015307, z: -127.90063}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &4463245267140128871
+--- !u!33 &1808472595056004931
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2284948835499225727}
-  m_Mesh: {fileID: 1924128652491027321, guid: 9d9605faa4e2fa64bb38a5c201b3329b, type: 3}
---- !u!23 &2385575534746261765
+  m_GameObject: {fileID: 1389954832399401006}
+  m_Mesh: {fileID: 4877366222351349938, guid: dfaa2f27b7c0eab45b12bbbdb695e9b0, type: 3}
+--- !u!23 &2934410355672311579
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2284948835499225727}
+  m_GameObject: {fileID: 1389954832399401006}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -67,7 +68,6 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 305a6960603132244a9c094166338abb, type: 2}
-  - {fileID: 2100000, guid: d5af5016238580248b4caad1f6be9e72, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -91,3 +91,27 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7265654774540819920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1389954832399401006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1674016628, guid: b04c77e0938d27643b3f69f2dd39ce77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: VisualDesignCafe.Rendering.Nature.dll::VisualDesignCafe.Rendering.Nature.NatureRendererObjectSettings
+  _render: 1
+  _overrideRendering: 1
+  _renderDistance: 0
+  _overrideRenderDistance: 0
+  _renderShadows: 0
+  _overrideRenderShadows: 1
+  _shadowDistance: 0
+  _overrideShadowDistance: 0
+  _densityInDistance: 0.01
+  _overrideDensityInDistance: 1
+  _densityInDistanceFalloff: {x: 0.07999998, y: 0.007499993}
+  _overrideDensityInDistanceFalloff: 0

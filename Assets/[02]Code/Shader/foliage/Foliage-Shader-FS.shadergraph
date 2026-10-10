@@ -7975,7 +7975,7 @@
     "m_Title": "Terrain Color",
     "m_Position": {
         "x": -5569.0,
-        "y": 180.99998474121095
+        "y": 181.0
     }
 }
 
@@ -8201,7 +8201,7 @@
     "m_Title": "UV Offset",
     "m_Position": {
         "x": -2682.0,
-        "y": -639.9998779296875
+        "y": -640.0
     }
 }
 
@@ -8996,8 +8996,8 @@
     "m_ObjectId": "8a670ba08a13435496334da8e33dac94",
     "m_Title": "Vertex Animation",
     "m_Position": {
-        "x": -1832.9998779296875,
-        "y": -630.9998779296875
+        "x": -1833.0,
+        "y": -631.0
     }
 }
 
@@ -12506,7 +12506,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "AlphaClipThreshold",
     "m_StageCapability": 2,
-    "m_Value": 0.5,
+    "m_Value": 0.75,
     "m_DefaultValue": 0.5,
     "m_Labels": [],
     "m_LiteralMode": false

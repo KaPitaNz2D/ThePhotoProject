@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7340483459518612403}
   - component: {fileID: 9119165061882391608}
   - component: {fileID: 1457989768911360557}
+  - component: {fileID: 3654618334676067335}
   m_Layer: 0
   m_Name: PF_Goldenrod_Patch_01
   m_TagString: Untagged
@@ -90,3 +91,27 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3654618334676067335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5920495927012761637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1674016628, guid: b04c77e0938d27643b3f69f2dd39ce77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: VisualDesignCafe.Rendering.Nature.dll::VisualDesignCafe.Rendering.Nature.NatureRendererObjectSettings
+  _render: 1
+  _overrideRendering: 1
+  _renderDistance: 300
+  _overrideRenderDistance: 1
+  _renderShadows: 0
+  _overrideRenderShadows: 1
+  _shadowDistance: 0
+  _overrideShadowDistance: 0
+  _densityInDistance: 1
+  _overrideDensityInDistance: 1
+  _densityInDistanceFalloff: {x: 0.07999998, y: 0.007499993}
+  _overrideDensityInDistanceFalloff: 0

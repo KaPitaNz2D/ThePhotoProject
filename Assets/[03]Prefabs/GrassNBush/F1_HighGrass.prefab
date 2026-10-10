@@ -105,7 +105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: VisualDesignCafe.Rendering.Nature.dll::VisualDesignCafe.Rendering.Nature.NatureRendererObjectSettings
   _render: 1
   _overrideRendering: 1
-  _renderDistance: 0
+  _renderDistance: 50
   _overrideRenderDistance: 1
   _renderShadows: 0
   _overrideRenderShadows: 1
@@ -113,5 +113,5 @@ MonoBehaviour:
   _overrideShadowDistance: 0
   _densityInDistance: 0.01
   _overrideDensityInDistance: 1
-  _densityInDistanceFalloff: {x: 0.038823485, y: 0.0074999332}
+  _densityInDistanceFalloff: {x: 0.25, y: 0}
   _overrideDensityInDistanceFalloff: 0
