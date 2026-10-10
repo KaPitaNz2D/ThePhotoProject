@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ec11910910c8e947b96bb2f21f476d3, type: 3}
+  m_Name: CricketsNight
+  m_EditorClassIdentifier: Assembly-CSharp::AmbientSoundSet
+  clips:
+  - {fileID: 8300000, guid: 264d16ac0d5a80745806530c2dbe91c9, type: 3}
+  intervalRange: {x: 3, y: 8}
+  playChance: 1
+  distanceRange: {x: 5, y: 20}
+  heightAboveGround: {x: 0, y: 1}
+  volumeRange: {x: 0.2, y: 0.5}
+  pitchRange: {x: 0.92, y: 1.08}
+  minDistance: 3
+  maxDistance: 25
+  lowPassAtMaxDistance: 9000
+  limitByHour: 1
+  fromHour: 19
+  toHour: 5
+  requiredTerrainLayerKeyword: 
+  terrainLayerMinCoverage: 0.4

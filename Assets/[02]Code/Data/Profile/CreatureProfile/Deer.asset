@@ -16,7 +16,7 @@ MonoBehaviour:
   journalEntry: {fileID: 11400000, guid: 6f10f5fdfa7a84f4c8c9bf8a31befa0d, type: 2}
   viewAngle: 150
   viewRadius: 50
-  awarenessRadius: 10
+  awarenessRadius: 20
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 1
@@ -27,10 +27,39 @@ MonoBehaviour:
   idleMinDuration: 2
   idleMaxDuration: 8
   walkSpeed: 1.5
+  maxWalkDuration: 20
   runSpeed: 6
   fleeDistance: 30
-  safeDistance: 30
+  safeDistance: 60
   fleeRecalculateInterval: 0.5
   fleeAngleVariance: 45
   visionDetectionTime: 1
   crouchDetectionTimeMultiplier: 2
+  shutterHearingRadius: 25
+  startleRadius: 10
+  sprintPanicRadius: 8
+  eatChance: 0.35
+  eatMinDuration: 8
+  eatMaxDuration: 15
+  eatPerceptionMultiplier: 0.5
+  grazeSurfaceKeyword: Grass
+  grazeMinCoverage: 0.5
+  headTurnSpeed: 200
+  idleLookChance: 0.3
+  idleLookAngle: 55
+  lookHoldTime: 0.6
+  stopDuration: 2
+  stopApproachDistance: 1
+  lookAroundDuration: 5
+  lookAroundAngle: 65
+  lookAroundSpotTime: 1.5
+  lookAroundTurnChance: 0.5
+  lookAroundTurnInterval: 2
+  lookAroundTurnMinAngle: 60
+  lookAroundTurnMaxAngle: 150
+  lookAroundTurnSpeed: 100
+  alertStillTime: 5
+  alertApproachDistance: 5
+  alertRetreatDistance: 10
+  alertTurnSpeed: 180
+  playerStillSpeed: 0.3

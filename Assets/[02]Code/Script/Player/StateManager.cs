@@ -103,6 +103,12 @@ public class StateManager : MonoBehaviour
         }
     }
 
+    /// <summary>เดินได้ไหม (ไม่รวมวิ่ง/กระโดด ซึ่งยังใช้ CanControlPlayer) — โหมดถ่ายรูปเดินได้แบบช้า</summary>
+    public bool CanWalk()
+    {
+        return currentSystemState == SystemState.Normal || currentSystemState == SystemState.Photograph;
+    }
+
     public bool CanCrouch()
     {
         switch (currentSystemState)

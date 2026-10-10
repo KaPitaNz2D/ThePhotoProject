@@ -34,6 +34,21 @@ public class PlayerCrouch : MonoBehaviour
     // เก็บความสูง Local Y "ตอนยืนปกติ" ของแต่ละ Transform ไว้ตั้งแต่เริ่มเกม ใช้เป็นจุดอ้างอิงคำนวณ Offset
     private List<float> standingLocalY = new List<float>();
 
+    // ค่าชดเชยความสูงเพิ่มที่สคริปต์อื่นฝากไว้บน Transform ที่เราคุมอยู่ (เช่น PhotoHeight ยก/ลดกล้องถ่ายรูป)
+    // ต้องผ่านที่นี่ ห้ามสคริปต์อื่นเขียน localPosition.y ของ Transform ใน List นี้ตรงๆ ไม่งั้นแย่งกันเขียนทุกเฟรมจนภาพกระตุก
+    private readonly Dictionary<Transform, float> extraOffsets = new Dictionary<Transform, float>();
+
+    /// <summary>
+    /// ตั้งค่าชดเชยความสูงเพิ่ม (เมตร บวก = สูงขึ้น) ให้ Transform ที่อยู่ใน cameraHeightTargets — บวกซ้อนกับการย่อ/ลุกได้ และถูกไล่ปรับแบบนุ่มนวลเหมือนกัน
+    /// คืน false ถ้า Transform นี้ไม่ได้อยู่ใน List (ผู้เรียกต้องจัดการความสูงเอง)
+    /// </summary>
+    public bool SetExtraHeightOffset(Transform target, float offset)
+    {
+        if (target == null || !cameraHeightTargets.Contains(target)) return false;
+        extraOffsets[target] = offset;
+        return true;
+    }
+
     private void Start()
     {
         standingLocalY.Clear();
@@ -76,6 +91,7 @@ public class PlayerCrouch : MonoBehaviour
             if (t == null) continue;
 
             float targetY = standingLocalY[i] - (IsCrouching ? crouchHeightOffset : 0f);
+            if (extraOffsets.TryGetValue(t, out float extra)) targetY += extra;
 
             Vector3 localPos = t.localPosition;
             localPos.y = Mathf.Lerp(localPos.y, targetY, Time.deltaTime * cameraHeightSmoothing);

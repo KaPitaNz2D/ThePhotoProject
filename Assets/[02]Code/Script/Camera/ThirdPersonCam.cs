@@ -26,12 +26,16 @@ public class ThirdPersonCam : MonoBehaviour
 
         // Use the camera's actual look direction instead of camera->player position vector,
         // since shoulder cam offsets the camera sideways and breaks the position-based vector
-        Vector3 camForward = transform.forward;
+        // ตอนอยู่โหมดถ่ายรูปกล้องที่ผู้เล่นมองคือ Photo Cam (หมุนได้ 360° แยกจากกล้องนี้) เลยใช้ทิศของ Main Camera แทน WASD จะเดินตามทิศที่มองอยู่
+        // ตอนเข้าโหมดทิศเริ่มต้นของ Photo Cam ตรงกับกล้องนี้อยู่แล้ว ทิศเดินเลยต่อเนื่องไม่กระโดด
+        bool photoMode = StateManager.Instance != null && StateManager.Instance.IsSystemState(StateManager.SystemState.Photograph);
+        Vector3 camForward = photoMode && Camera.main != null ? Camera.main.transform.forward : transform.forward;
         camForward.y = 0;
         orientation.forward = camForward.normalized;
 
         // Don't turn the visual mesh from movement input while the player isn't allowed to move
         // (e.g. Photograph/Talking/Journal/Storage/Pause) - matches the gate PlayerMovement uses
+        // โหมดถ่ายรูปก็ไม่หมุนโมเดลตามทิศเดินเช่นกัน เพราะ Photo Cam เป็นลูกของโมเดล ถ้าโมเดลหมุนกล้องจะหมุนตามเอง
         bool canControl = StateManager.Instance == null || StateManager.Instance.CanControlPlayer();
         if (!canControl) return;
 

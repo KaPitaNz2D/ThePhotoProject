@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ec11910910c8e947b96bb2f21f476d3, type: 3}
+  m_Name: BirdsDay
+  m_EditorClassIdentifier: Assembly-CSharp::AmbientSoundSet
+  clips:
+  - {fileID: 8300000, guid: 98baf9b59a03ad748b648eb8644d62af, type: 3}
+  - {fileID: 8300000, guid: de2181901c5b40e40bc2f529c08db7b9, type: 3}
+  - {fileID: 8300000, guid: ddb0729e7dae679498d0ce99a6b484bb, type: 3}
+  intervalRange: {x: 3, y: 9}
+  playChance: 1
+  distanceRange: {x: 10, y: 40}
+  heightAboveGround: {x: 5, y: 18}
+  volumeRange: {x: 0.5, y: 0.95}
+  pitchRange: {x: 0.92, y: 1.08}
+  minDistance: 5
+  maxDistance: 55
+  lowPassAtMaxDistance: 7000
+  limitByHour: 1
+  fromHour: 6
+  toHour: 18
+  requiredTerrainLayerKeyword: 
+  terrainLayerMinCoverage: 0.4
