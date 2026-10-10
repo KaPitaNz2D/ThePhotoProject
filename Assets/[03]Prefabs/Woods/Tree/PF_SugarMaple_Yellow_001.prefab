@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &6799741336287912562
+--- !u!1001 &3198443815510976913
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: b8879401c0859c54588f5d4bc274b6dc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 45
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b8879401c0859c54588f5d4bc274b6dc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1155869
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b8879401c0859c54588f5d4bc274b6dc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -130
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b8879401c0859c54588f5d4bc274b6dc, type: 3}
       propertyPath: m_LocalRotation.w
@@ -48,42 +48,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -6775787559879864565, guid: b8879401c0859c54588f5d4bc274b6dc, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 72e945dbfb3634a479aabb620b596da1, type: 2}
     - target: {fileID: 919132149155446097, guid: b8879401c0859c54588f5d4bc274b6dc, type: 3}
       propertyPath: m_Name
-      value: SugarMaple_Red_001
+      value: SugarMaple_Yellow_001
       objectReference: {fileID: 0}
-    - target: {fileID: 4477871946654804797, guid: b8879401c0859c54588f5d4bc274b6dc, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 72e945dbfb3634a479aabb620b596da1, type: 2}
-    - target: {fileID: 6208496580752628066, guid: b8879401c0859c54588f5d4bc274b6dc, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 72e945dbfb3634a479aabb620b596da1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b8879401c0859c54588f5d4bc274b6dc, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8908562282423534725}
+      addedObject: {fileID: 2336322943035834192}
   m_SourcePrefab: {fileID: 100100000, guid: b8879401c0859c54588f5d4bc274b6dc, type: 3}
---- !u!1 &5952880652422881059 stripped
+--- !u!1 &2351528153918117056 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b8879401c0859c54588f5d4bc274b6dc, type: 3}
-  m_PrefabInstance: {fileID: 6799741336287912562}
+  m_PrefabInstance: {fileID: 3198443815510976913}
   m_PrefabAsset: {fileID: 0}
---- !u!136 &8908562282423534725
+--- !u!136 &2336322943035834192
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5952880652422881059}
+  m_GameObject: {fileID: 2351528153918117056}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
