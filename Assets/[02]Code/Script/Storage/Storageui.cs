@@ -12,7 +12,8 @@ using UnityEngine.EventSystems;
 ///   2) สร้าง Thumbnail Grid จาก PhotoStorage.Photos ทุกครั้งที่เปิด Panel หรือ Storage เปลี่ยน
 ///   3) จัดการคลิกซ้าย (ขยายเต็มจอ/ย่อกลับ) และคลิกขวา (เปิด Popup ยืนยันลบ)
 ///
-/// โหลด Texture2D จาก Disk แค่ตอน Panel เปิดอยู่เท่านั้น และ Destroy ทิ้งทันทีตอนปิด Panel
+/// Grid โชว์ "รูปย่อ" จาก PhotoStorage (สร้างไว้แล้วตอนถ่าย ไม่ต้องอ่านไฟล์) เปิดหน้านี้เลยไม่กระตุก
+/// ส่วนภาพเต็มโหลดจากไฟล์บนดิสก์เฉพาะตอนกดขยายดูทีละภาพ และ Destroy ทิ้งทันทีที่ปิดภาพขยาย
 /// เพื่อไม่ให้ค้าง RAM สอดคล้องกับหลักการออกแบบของ PhotoStorage
 /// </summary>
 public class StorageUI : MonoBehaviour
@@ -41,8 +42,9 @@ public class StorageUI : MonoBehaviour
     public Button deleteConfirmYesButton;
     public Button deleteConfirmNoButton;
 
-    // เก็บ Texture2D ที่โหลดมาทั้งหมดตอน Panel เปิดอยู่ ไว้ Destroy ทีเดียวตอนปิด
-    private List<Texture2D> loadedTextures = new List<Texture2D>();
+    // ภาพเต็มที่โหลดมาตอนกดขยาย (ทีละภาพ) — เป็นของ UI นี้ ต้อง Destroy เองตอนปิดภาพขยาย
+    private Texture2D fullscreenTexture;
+    private Sprite fullscreenSprite;
     private bool isFullscreenOpen;
     private int pendingDeleteIndex = -1;
 
@@ -138,9 +140,8 @@ public class StorageUI : MonoBehaviour
     private void CloseStorage()
     {
         // ปิด Fullscreen/Popup ที่อาจค้างอยู่ไปด้วย กันเปิด Storage รอบหน้าแล้วเจอ UI ค้าง
-        if (fullscreenPanel != null) fullscreenPanel.SetActive(false);
+        CloseFullscreen();
         if (deleteConfirmPanel != null) deleteConfirmPanel.SetActive(false);
-        isFullscreenOpen = false;
         pendingDeleteIndex = -1;
 
         ClearGrid();
@@ -164,11 +165,9 @@ public class StorageUI : MonoBehaviour
         IReadOnlyList<PhotoStorage.StoredPhoto> photos = PhotoStorage.Instance.Photos;
         for (int i = 0; i < photos.Count; i++)
         {
-            Texture2D texture = PhotoStorage.Instance.LoadPhotoTexture(photos[i]);
-            if (texture == null) continue;
-
-            loadedTextures.Add(texture);
-            Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            // รูปย่อที่ PhotoStorage เป็นเจ้าของ (ห้าม Destroy ที่นี่) — ปกติสร้างไว้แล้วตอนถ่าย ไม่มีการอ่านไฟล์
+            Sprite sprite = PhotoStorage.Instance.GetThumbnailSprite(photos[i]);
+            if (sprite == null) continue;
 
             GameObject thumbObj = Instantiate(thumbnailPrefab, gridContent);
 
@@ -199,12 +198,16 @@ public class StorageUI : MonoBehaviour
             }
         }
 
-        // Destroy Texture2D ที่โหลดไว้ทั้งหมด ป้องกัน RAM ค้าง (ตามหลักการเดียวกับ PhotoStorage)
-        foreach (Texture2D texture in loadedTextures)
-        {
-            if (texture != null) Destroy(texture);
-        }
-        loadedTextures.Clear();
+    }
+
+    // Destroy ภาพเต็มที่โหลดไว้ตอนขยายดู ป้องกัน RAM ค้าง (ตามหลักการเดียวกับ PhotoStorage)
+    private void ReleaseFullscreenImage()
+    {
+        if (fullscreenImage != null) fullscreenImage.sprite = null;
+        if (fullscreenSprite != null) Destroy(fullscreenSprite);
+        if (fullscreenTexture != null) Destroy(fullscreenTexture);
+        fullscreenSprite = null;
+        fullscreenTexture = null;
     }
 
     // ==================== คลิกซ้าย: ขยายเต็มจอ ====================
@@ -221,13 +224,15 @@ public class StorageUI : MonoBehaviour
         var photos = PhotoStorage.Instance.Photos;
         if (index < 0 || index >= photos.Count) return;
 
+        // ภาพเต็มจริง โหลดจากไฟล์ทีละภาพเฉพาะตอนกดดู
         Texture2D texture = PhotoStorage.Instance.LoadPhotoTexture(photos[index]);
         if (texture == null) return;
 
-        loadedTextures.Add(texture); // เก็บไว้ Destroy รวมตอนปิด Storage ทีเดียว
-        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+        ReleaseFullscreenImage();
+        fullscreenTexture = texture;
+        fullscreenSprite = PhotoThumbnail.ToSprite(texture);
 
-        if (fullscreenImage != null) fullscreenImage.sprite = sprite;
+        if (fullscreenImage != null) fullscreenImage.sprite = fullscreenSprite;
         if (fullscreenPanel != null) fullscreenPanel.SetActive(true);
         isFullscreenOpen = true;
     }
@@ -236,6 +241,7 @@ public class StorageUI : MonoBehaviour
     {
         if (fullscreenPanel != null) fullscreenPanel.SetActive(false);
         isFullscreenOpen = false;
+        ReleaseFullscreenImage();
     }
 
     // ==================== คลิกขวา: เปิด Popup ยืนยันลบ ====================

@@ -62,7 +62,13 @@ public class PhotoShooter : MonoBehaviour
     private float lastShotTime = -999f;
     private int lastDetectedCount = -1;
 
-    public event Action<Texture2D, List<GameObject>> OnPhotoCaptured;
+    /// <summary>
+    /// ยิงตอนกดชัตเตอร์ พร้อม RenderTexture ที่เพิ่งเรนเดอร์ภาพเสร็จ (ยังไม่ได้อ่านพิกเซลออกมา — ผู้ฟังอ่านเองแบบ async เช่น AsyncGPUReadback
+    /// เพื่อไม่ให้เฟรมค้าง) กับรายชื่อวัตถุที่ถ่ายติด RenderTexture นี้ใช้ซ้ำทุกช็อต ผู้ฟังห้ามเก็บอ้างอิงไว้ใช้ต่อหลัง Request อ่านพิกเซลไปแล้ว
+    /// </summary>
+    public event Action<RenderTexture, List<GameObject>> OnPhotoCaptured;
+
+    private RenderTexture ownedCaptureTexture; // สร้างเองครั้งเดียวเมื่อไม่ได้ลาก photoRenderTexture ใส่ (เดิมสร้างใหม่ทุกช็อตแล้วไม่เคยปล่อย)
 
     /// <summary>
     /// ระยะยิง SphereCast จริง ณ ตอนนี้ — คำนวณจากอัตราส่วน FOV ปัจจุบันเทียบกับ FOV ตอนไม่ซูม
@@ -215,7 +221,7 @@ public class PhotoShooter : MonoBehaviour
     private void TakePhoto()
     {
         List<GameObject> subjects = DetectSubjects();
-        Texture2D photo = CaptureRenderTexture();
+        RenderTexture photo = RenderPhoto();
 
         if (transitionUI != null) transitionUI.PlayShutterFlash();
         AudioManager.Instance?.PlaySFX(shutterSound);
@@ -257,29 +263,31 @@ public class PhotoShooter : MonoBehaviour
     }
 
     // ==================== Capture ภาพ ====================
-    private Texture2D CaptureRenderTexture()
+    // เรนเดอร์ภาพลง RenderTexture แล้วคืนตัว RenderTexture เลย — ไม่ ReadPixels ที่นี่ เพราะ ReadPixels บังคับให้ CPU รอ GPU เรนเดอร์จบ
+    // (เฟรมค้าง) และ Apply() ที่เคยตามมายังอัปโหลดภาพ 6 MB กลับขึ้น GPU โดยไม่จำเป็น การอ่านพิกเซลไปทำแบบ async ใน PhotoSaveHandler แทน
+    private RenderTexture RenderPhoto()
     {
         if (photoCamera == null) return null;
 
-        RenderTexture rt = photoRenderTexture != null
-            ? photoRenderTexture
-            : new RenderTexture(photoWidth, photoHeight, 24);
+        RenderTexture rt = photoRenderTexture;
+        if (rt == null)
+        {
+            if (ownedCaptureTexture == null) ownedCaptureTexture = new RenderTexture(photoWidth, photoHeight, 24);
+            rt = ownedCaptureTexture;
+        }
 
         RenderTexture previousTarget = photoCamera.targetTexture;
-        RenderTexture previousActive = RenderTexture.active;
 
         photoCamera.targetTexture = rt;
         photoCamera.Render();
-
-        RenderTexture.active = rt;
-        Texture2D result = new Texture2D(rt.width, rt.height, TextureFormat.RGB24, false);
-        result.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
-        result.Apply();
-
         photoCamera.targetTexture = previousTarget;
-        RenderTexture.active = previousActive;
 
-        return result;
+        return rt;
+    }
+
+    private void OnDestroy()
+    {
+        if (ownedCaptureTexture != null) ownedCaptureTexture.Release();
     }
 
     // ==================== Debug Gizmos ====================
