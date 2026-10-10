@@ -44,5 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7c4c257ed6c96d4d8dd7a79a97654f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+  mixer: {fileID: 24100000, guid: 416738132d0944d498cc594b7cfb57fe, type: 2}
+  sfxGroup: {fileID: -188294630188917653, guid: 416738132d0944d498cc594b7cfb57fe, type: 2}
   poolSize: 8
   masterSFXVolume: 1
