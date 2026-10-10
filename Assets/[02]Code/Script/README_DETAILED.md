@@ -154,7 +154,7 @@ Helper method สำคัญที่ระบบอื่นเรียกเ
 
 | ไฟล์ | Class | หน้าที่ |
 |---|---|---|
-| `NPC_Placeholder.yarn` | — | เนื้อหา Dialogue จริง มีไฟล์เดียว 1 Node (`NPC_Start`) ผูกกับเควสเดียว (`deer_01`) เท่านั้น พืชอีก 4 ชนิดถ่ายได้แต่ไม่มีเควสผูกไว้ |
+| `NPC_Placeholder.yarn` | — | เนื้อหา Dialogue จริง แบ่งเป็นส่วนๆ: `NPC_Start` เป็น router (ไม่มีบทพูดเอง) เลือก detour ไป `Intro` (ครั้งแรก, ตั้ง `$intro_done`) / `Deer_Offer(_Again)` / `Deer_Waiting` / `Deer_Turnin` ตามสถานะเควส `deer_01` แล้วต่อด้วย `Discoveries` (เห็ด/พืช ไม่ต้องรับเควส เล่าครั้งเดียวผ่าน `is_informed`) และ `Chat` (คุยเล่น `<<once>>`) เมื่อรอบนั้นยังไม่มีอะไรพูด (`$talked`). ตัวแปร Yarn รีเซ็ตเองเมื่อโหลดซีนใหม่ (ไม่มี DontDestroyOnLoad). เพิ่มสัตว์ใหม่ = เพิ่ม Offer/Turnin/Waiting ของตัวนั้นใน router |
 | `DialogueAnyKeyAdvance.cs` | `DialogueAnyKeyAdvance` (ต้องมี `Yarn.Unity.LineAdvancer` บน Object เดียวกัน) | **เครื่องมือ Playtest** — กดปุ่มไหนก็ได้บนคีย์บอร์ด (`Keyboard.anyKey`) หรือคลิกซ้ายก็เดินบทสนทนาต่อได้ (เรียก `LineAdvancer.OnInputHurryUpLines()` เหมือนกด Space) ⚠️ ยิงซ้ำกับปุ่ม Space ของ `LineAdvancer` เดิมในเฟรมเดียวกัน (Space ก็นับเป็น "any key" ด้วย) ไม่กระทบการใช้งานจริงมาก แต่ถ้ารำคาญให้ปิด/ลบ Component `LineAdvancerInput.KeyCodes` บน Dialogue System ออก |
 
 ---
