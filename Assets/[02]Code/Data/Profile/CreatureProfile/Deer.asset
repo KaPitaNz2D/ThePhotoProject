@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CreatureProfile
   creatureId: deer_01
   journalEntry: {fileID: 11400000, guid: 6f10f5fdfa7a84f4c8c9bf8a31befa0d, type: 2}
-  viewAngle: 150
-  viewRadius: 50
+  viewAngle: 120
+  viewRadius: 40
   awarenessRadius: 20
   obstacleLayer:
     serializedVersion: 2
@@ -28,9 +28,9 @@ MonoBehaviour:
   idleMaxDuration: 8
   walkSpeed: 1.5
   maxWalkDuration: 20
-  runSpeed: 6
+  runSpeed: 12
   fleeDistance: 30
-  safeDistance: 60
+  safeDistance: 50
   fleeRecalculateInterval: 0.5
   fleeAngleVariance: 45
   visionDetectionTime: 1

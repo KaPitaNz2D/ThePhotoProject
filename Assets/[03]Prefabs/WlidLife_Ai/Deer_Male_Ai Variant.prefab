@@ -112,6 +112,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1907670985553546322, guid: 823460e9a6d93d54cb13a43ab6b37b63, type: 3}
+      propertyPath: m_BaseOffset
+      value: 0.96
+      objectReference: {fileID: 0}
     - target: {fileID: 2175008808677069665, guid: 823460e9a6d93d54cb13a43ab6b37b63, type: 3}
       propertyPath: m_Name
       value: Deer_Male_Ai Variant
@@ -126,15 +130,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9017031339518017194, guid: 823460e9a6d93d54cb13a43ab6b37b63, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 23.223862
+      value: 47.742714
       objectReference: {fileID: 0}
     - target: {fileID: 9017031339518017194, guid: 823460e9a6d93d54cb13a43ab6b37b63, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 11.109
       objectReference: {fileID: 0}
     - target: {fileID: 9017031339518017194, guid: 823460e9a6d93d54cb13a43ab6b37b63, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -130
+      value: 95.812416
       objectReference: {fileID: 0}
     - target: {fileID: 9017031339518017194, guid: 823460e9a6d93d54cb13a43ab6b37b63, type: 3}
       propertyPath: m_LocalRotation.w
