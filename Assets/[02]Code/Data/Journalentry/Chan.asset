@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Chan
   m_EditorClassIdentifier: Assembly-CSharp::JournalEntry
   creatureId: Chan
-  category: 0
+  category: 2
   displayName: Chan
   description: A funnel-shaped, golden-orange edible mushroom with a fruity, apricot-like
     scent and wavy ridged gills.

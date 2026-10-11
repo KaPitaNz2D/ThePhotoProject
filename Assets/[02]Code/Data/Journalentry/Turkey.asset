@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Turkey
   m_EditorClassIdentifier: Assembly-CSharp::JournalEntry
   creatureId: Turkey
-  category: 0
+  category: 2
   displayName: Turkey
   description: A thin, leathery bracket fungus with colorful ringed bands resembling
     a turkey's tail feathers. Too tough to eat, but used in herbal teas.

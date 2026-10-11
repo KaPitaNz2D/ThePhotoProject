@@ -10,8 +10,11 @@
 [CreateAssetMenu(fileName = "New Journal Entry", menuName = "Field Guide/Journal Entry")]
 public class JournalEntry : ScriptableObject
 {
-    /// <summary>หมวดหมู่ของ Entry — กำหนดว่าจะโผล่ในหน้า Plant หรือ Animal ตอนเลือกหมวดใน Journal</summary>
-    public enum JournalCategory { Plant, Animal }
+    /// <summary>
+    /// หมวดหมู่ของ Entry — กำหนดว่าจะโผล่ในหน้า Flora / Animal / Fungus ตอนเลือกหมวดใน Journal
+    /// ค่าตัวเลขถูกบันทึกลง Asset ห้ามสลับลำดับ: Flora = 0 (เดิมคือ Plant), Animal = 1, Fungus = 2 (เพิ่มใหม่)
+    /// </summary>
+    public enum JournalCategory { Flora = 0, Animal = 1, Fungus = 2 }
 
     [Tooltip("ต้องตรงกับ PhotoSubject.creatureId ของโมเดลตัวนั้นเป๊ะ ใช้จับคู่ภาพจาก PhotoStorage")]
     public string creatureId;
