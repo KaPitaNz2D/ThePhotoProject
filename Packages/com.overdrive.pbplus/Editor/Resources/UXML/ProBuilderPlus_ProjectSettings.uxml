@@ -1,0 +1,18 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Packages/com.overdrive.shared/Editor/Resources/UI/Overdrive_USS_ProjectSettings.uss?fileID=7433441132597879392&amp;guid=751eb7d26107a744695eb099be9bab25&amp;type=3#Overdrive_USS_ProjectSettings" />
+    <Style src="project://database/Packages/com.overdrive.shared/Editor/Resources/UI/Overdrive_GeneralStyles.uss?fileID=7433441132597879392&amp;guid=975ea3c222eca5749a8e2c9f7b65dcbb&amp;type=3#Overdrive_GeneralStyles" />
+    <ui:VisualElement name="StyleRoot" class="overdrive-styling">
+        <ui:VisualElement class="toolsetHeader panel-base" style="flex-direction: row; flex-shrink: 0;">
+            <ui:VisualElement name="Tool-Icon" style="flex-grow: 1; background-image: resource(&apos;icons/3d-cube-sphere-cylinder-shape-pb&apos;); -unity-background-image-tint-color: rgb(88, 217, 221);" />
+            <ui:VisualElement class="column" style="flex-direction: column; align-items: flex-start;">
+                <ui:Label text="ProBuilder Plus" class="h1" />
+                <ui:Button text="More Info" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Btn_ProBuilderPlus-Web" class="spaced-element" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:ScrollView class="settings-scroll-view">
+            <ui:VisualElement class="panel-secondary column">
+                <ui:Label tabindex="-1" text="Settings will be added here as they are implemented." parse-escape-sequences="true" display-tooltip-when-elided="true" name="PlaceholderText" class="helper-text" />
+            </ui:VisualElement>
+        </ui:ScrollView>
+    </ui:VisualElement>
+</ui:UXML>

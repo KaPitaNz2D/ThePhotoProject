@@ -26,7 +26,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2775817994091826200, guid: 3623b2a76ea4f9140bd7000cd8a60113, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2775817994091826200, guid: 3623b2a76ea4f9140bd7000cd8a60113, type: 3}
       propertyPath: m_LocalRotation.w
@@ -60,6 +60,18 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: bf7ff049e3736174d93ca4b739c0226b, type: 2}
+    - target: {fileID: 5358148250229796375, guid: 3623b2a76ea4f9140bd7000cd8a60113, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.09196759
+      objectReference: {fileID: 0}
+    - target: {fileID: 5358148250229796375, guid: 3623b2a76ea4f9140bd7000cd8a60113, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.99576205
+      objectReference: {fileID: 0}
+    - target: {fileID: 5838590971274571444, guid: 3623b2a76ea4f9140bd7000cd8a60113, type: 3}
+      propertyPath: m_LODs.Array.data[0].screenRelativeHeight
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 5838590971274571444, guid: 3623b2a76ea4f9140bd7000cd8a60113, type: 3}
       propertyPath: m_LODs.Array.data[1].renderers.Array.size
       value: 2
@@ -78,7 +90,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 3ad196446e58210e3a9532a914c78535, type: 2}
     - target: {fileID: 8773656938399698045, guid: 3623b2a76ea4f9140bd7000cd8a60113, type: 3}
       propertyPath: m_Name
-      value: Tarmarack_Tree_002 Variant 2
+      value: PF_Tarmarack_Tree_002_1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

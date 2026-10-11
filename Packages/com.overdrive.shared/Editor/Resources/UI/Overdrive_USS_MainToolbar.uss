@@ -1,0 +1,37 @@
+.fake-button {
+    background-color: rgb(39, 55, 64);
+    align-self: stretch;
+    -unity-text-align: middle-left;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+    color: rgb(170, 228, 222);
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.toolbar-container {
+    align-items: center;
+    flex-direction: row;
+    flex-grow: 1;
+    margin-left: 4px;
+}
+
+.header {
+    -unity-font-style: bold;
+}
+
+.fake-button:hover {
+    background-color: rgb(56, 76, 87);
+}
+
+.activeToggle {
+    background-color: rgb(39, 120, 120);
+}
