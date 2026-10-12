@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 721291714757624714}
   - component: {fileID: 3290681003800137049}
   - component: {fileID: 3668506568023040333}
+  - component: {fileID: 7698893361811273574}
   m_Layer: 0
   m_Name: SemiDrawerTable
   m_TagString: Untagged
@@ -91,3 +92,24 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &7698893361811273574
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6482993971739488709}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.21, y: 0.9742858, z: 0.66550004}
+  m_Center: {x: -0.000000059604645, y: 0.42428574, z: -0.06655002}
