@@ -7,7 +7,7 @@ using TMPro;
 
 /// <summary>
 /// ตัวควบคุม UI สมุดบันทึกทั้งหมด แบ่งเป็น 3 ชั้น:
-///   Category (เลือกพืช/สัตว์) -> Grid (กริด 9 ช่อง โชว์เงาดำเสมอ) -> Detail (ข้อมูล+รูปจริงถ้าปลดล็อกแล้ว)
+///   Category (เลือก Flora/Fungus/Animal) -> Grid (กริด 9 ช่อง โชว์เงาดำเสมอ) -> Detail (ข้อมูล+รูปจริงถ้าปลดล็อกแล้ว)
 ///
 /// ปุ่ม Toggle เปิด/ปิดทั้งชุด, ปุ่ม Cancel (Esc) ถอยกลับทีละชั้น — Pattern เดียวกับ StorageUI
 /// </summary>
@@ -31,7 +31,9 @@ public class JournalUI : MonoBehaviour
     public GameObject detailPanel;
 
     [Header("Category Panel")]
-    public Button plantCategoryButton;
+    [UnityEngine.Serialization.FormerlySerializedAs("plantCategoryButton")]
+    public Button floraCategoryButton;
+    public Button fungusCategoryButton;
     public Button animalCategoryButton;
 
     [Header("Grid Panel")]
@@ -78,8 +80,10 @@ public class JournalUI : MonoBehaviour
             cancelInput.action.performed += OnCancelPressed;
         }
 
-        if (plantCategoryButton != null)
-            plantCategoryButton.onClick.AddListener(() => SelectCategory(JournalEntry.JournalCategory.Plant));
+        if (floraCategoryButton != null)
+            floraCategoryButton.onClick.AddListener(() => SelectCategory(JournalEntry.JournalCategory.Flora));
+        if (fungusCategoryButton != null)
+            fungusCategoryButton.onClick.AddListener(() => SelectCategory(JournalEntry.JournalCategory.Fungus));
         if (animalCategoryButton != null)
             animalCategoryButton.onClick.AddListener(() => SelectCategory(JournalEntry.JournalCategory.Animal));
         if (nextPageButton != null) nextPageButton.onClick.AddListener(NextPage);

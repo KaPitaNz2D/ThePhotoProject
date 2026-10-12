@@ -260,8 +260,9 @@ public class CreatureAI : MonoBehaviour
         stateTimer -= Time.deltaTime;
         if (stateTimer > 0f) return;
 
-        // หมดเวลายืน -> ลองไปกินหญ้า (ต้องยืนบนพื้นหญ้า) ไม่งั้นเดินต่อ
+        // หมดเวลายืน -> ลองไปกินหญ้า (ต้องยืนบนพื้นหญ้าและไม่ได้ยืนอยู่ในน้ำ) ไม่งั้นเดินต่อ
         if (UnityEngine.Random.value < profile.eatChance &&
+            !WaterSurface.IsInWater(transform.position) &&
             GrazeSurface.IsGrass(transform.position, profile.grazeSurfaceKeyword, profile.grazeMinCoverage))
         {
             EnterEating();

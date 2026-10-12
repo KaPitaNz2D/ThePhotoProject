@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65f386bcd54ee194b96608af997094bc, type: 3}
+  m_Name: Goldenrod
+  m_EditorClassIdentifier: Assembly-CSharp::JournalEntry
+  creatureId: Goldenrod
+  category: 0
+  displayName: Goldenrod
+  description: A tall wildflower topped with feathery plumes of tiny golden-yellow
+    blooms. It flowers late in the season, when many other flowers have faded, and
+    bees and butterflies rely on it.
+  referenceImage: {fileID: 0}
+  habitatInfo: Grows in open, sunny patches in clusters.
+  silhouette: {fileID: 0}

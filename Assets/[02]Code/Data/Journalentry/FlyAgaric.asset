@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FlyAgaric
   m_EditorClassIdentifier: Assembly-CSharp::JournalEntry
   creatureId: FlyAgaric
-  category: 0
+  category: 2
   displayName: FlyAgaric
   description: The iconic red-capped mushroom covered in white warts. Toxic if eaten
     raw - admire, don't taste.
