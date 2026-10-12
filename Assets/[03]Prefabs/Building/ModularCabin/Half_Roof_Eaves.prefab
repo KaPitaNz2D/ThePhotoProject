@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6997408689329298650}
   - component: {fileID: 1704282446306864521}
   - component: {fileID: 5690433695111163074}
+  - component: {fileID: 1880614118642887499}
   m_Layer: 0
   m_Name: Half_Roof_Eaves
   m_TagString: Untagged
@@ -90,3 +91,24 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &1880614118642887499
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6163511402318512598}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.008875208, y: 0.0100000035, z: 0.006379054}
+  m_Center: {x: 0.0044376045, y: -9.313226e-10, z: -0.002357475}

@@ -39,9 +39,6 @@ Transform:
   - {fileID: 703422445443131694}
   - {fileID: 6505400983546151176}
   - {fileID: 7802260954022898540}
-  - {fileID: 1203791497829075986}
-  - {fileID: 9133057398180240341}
-  - {fileID: 7535907666941256552}
   m_Father: {fileID: 7244254661755219712}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &980087320376913422
@@ -300,7 +297,10 @@ MonoBehaviour:
     - name: Grass_darked_up
       layerID: 2
       threshold: 0.8
-    instanceCount: 384
+    - name: Grass_normal_left
+      layerID: 4
+      threshold: 0.9
+    instanceCount: 425
     prefabs:
     - index: 0
       probability: 100
@@ -324,7 +324,10 @@ MonoBehaviour:
     - name: Grass_darked_up
       layerID: 2
       threshold: 0.8
-    instanceCount: 273
+    - name: Grass_normal_left
+      layerID: 4
+      threshold: 0.9
+    instanceCount: 296
     prefabs:
     - index: 1
       probability: 100
@@ -348,7 +351,10 @@ MonoBehaviour:
     - name: Grass_darked_up
       layerID: 2
       threshold: 0.8
-    instanceCount: 385
+    - name: Grass_normal_left
+      layerID: 4
+      threshold: 0.9
+    instanceCount: 427
     prefabs:
     - index: 2
       probability: 100
@@ -435,7 +441,7 @@ MonoBehaviour:
     - name: Grass1
       layerID: 1
       threshold: 0.95
-    instanceCount: 56
+    instanceCount: 55
     prefabs:
     - index: 6
       probability: 100
@@ -459,7 +465,7 @@ MonoBehaviour:
     - name: Grass_darked_up
       layerID: 2
       threshold: 0.95
-    instanceCount: 53
+    instanceCount: 51
     prefabs:
     - index: 7
       probability: 100
@@ -486,7 +492,7 @@ MonoBehaviour:
     - name: Grass_normal_left
       layerID: 4
       threshold: 0.9
-    instanceCount: 99
+    instanceCount: 98
     prefabs:
     - index: 8
       probability: 100
@@ -513,7 +519,7 @@ MonoBehaviour:
     - name: Grass_normal_left
       layerID: 4
       threshold: 0.9
-    instanceCount: 110
+    instanceCount: 107
     prefabs:
     - index: 9
       probability: 100
@@ -537,7 +543,7 @@ MonoBehaviour:
     - name: Grass_darked_up
       layerID: 2
       threshold: 0
-    instanceCount: 40
+    instanceCount: 39
     prefabs:
     - index: 11
       probability: 100
@@ -669,7 +675,7 @@ MonoBehaviour:
     - name: Grass_normal_down
       layerID: 6
       threshold: 0.9
-    instanceCount: 129
+    instanceCount: 127
     prefabs:
     - index: 17
       probability: 61.1
@@ -735,7 +741,7 @@ MonoBehaviour:
     - name: Grass_normal_left
       layerID: 4
       threshold: 0.9
-    instanceCount: 11
+    instanceCount: 10
     prefabs:
     - index: 20
       probability: 10
@@ -890,6 +896,69 @@ MonoBehaviour:
     - index: 27
       probability: 100
       prefab: {fileID: 6943576769138749308, guid: 875626c62ad6aa5439d86dfbaa4640f5, type: 3}
+    distance: 5
+    scaleRange: {x: 1, y: 1.5}
+    sinkAmount: 0
+  - enabled: 1
+    name: PF_KingBoleteGroup
+    seed: 3893
+    probability: 7
+    collisionCheck: 0
+    rejectUnderwater: 1
+    heightRange: {x: 0, y: 1000}
+    slopeRange: {x: 0, y: 60}
+    curvatureRange: {x: 0, y: 1}
+    layerMasks:
+    - name: Grass_normal_left
+      layerID: 4
+      threshold: 0.9
+    instanceCount: 12
+    prefabs:
+    - index: 28
+      probability: 100
+      prefab: {fileID: 1003302337900582352, guid: 7ba2eecb3867442448af0d511b746054, type: 3}
+    distance: 5
+    scaleRange: {x: 1, y: 1.5}
+    sinkAmount: 0
+  - enabled: 1
+    name: PF_KingBoleteGroup_002
+    seed: 527
+    probability: 7
+    collisionCheck: 0
+    rejectUnderwater: 1
+    heightRange: {x: 0, y: 1000}
+    slopeRange: {x: 0, y: 60}
+    curvatureRange: {x: 0, y: 1}
+    layerMasks:
+    - name: Grass_normal_left
+      layerID: 4
+      threshold: 0.9
+    instanceCount: 16
+    prefabs:
+    - index: 29
+      probability: 100
+      prefab: {fileID: 6681025772182852825, guid: 78419cd951da23540a8969cbf1cb2a4e, type: 3}
+    distance: 5
+    scaleRange: {x: 1, y: 1.2}
+    sinkAmount: 0
+  - enabled: 1
+    name: PF_KingBolete_001
+    seed: 6001
+    probability: 20
+    collisionCheck: 0
+    rejectUnderwater: 1
+    heightRange: {x: 0, y: 1000}
+    slopeRange: {x: 0, y: 60}
+    curvatureRange: {x: 0, y: 1}
+    layerMasks:
+    - name: Grass1
+      layerID: 1
+      threshold: 0.9
+    instanceCount: 118
+    prefabs:
+    - index: 30
+      probability: 100
+      prefab: {fileID: 5550079761184720689, guid: 3792db328f76add439855ae5597d372c, type: 3}
     distance: 5
     scaleRange: {x: 1, y: 1.5}
     sinkAmount: 0
@@ -1217,6 +1286,12 @@ MonoBehaviour:
     replacementPrefab: {fileID: 6114481190168528811, guid: d8d1abe65984f7c43be954317793b1e1, type: 3}
   - treeName: PF_TreeStump001WithTurkey
     replacementPrefab: {fileID: 6943576769138749308, guid: 875626c62ad6aa5439d86dfbaa4640f5, type: 3}
+  - treeName: PF_KingBoleteGroup
+    replacementPrefab: {fileID: 1003302337900582352, guid: 7ba2eecb3867442448af0d511b746054, type: 3}
+  - treeName: PF_KingBoleteGroup_002
+    replacementPrefab: {fileID: 6681025772182852825, guid: 78419cd951da23540a8969cbf1cb2a4e, type: 3}
+  - treeName: PF_KingBolete_001
+    replacementPrefab: {fileID: 5550079761184720689, guid: 3792db328f76add439855ae5597d372c, type: 3}
   - treeName: 
     replacementPrefab: {fileID: 0}
   - treeName: 
@@ -1271,6 +1346,9 @@ Transform:
   - {fileID: 2496102841025024349}
   - {fileID: 4194855011405400886}
   - {fileID: 7039451608459126909}
+  - {fileID: 1203791497829075986}
+  - {fileID: 9133057398180240341}
+  - {fileID: 7535907666941256552}
   m_Father: {fileID: 7244254661755219712}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &50532024303333953
@@ -1287,7 +1365,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 314009350096740586, guid: e43b317dddfa6df44819d426ea5cdb8f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.998168
+      value: 10.91
       objectReference: {fileID: 0}
     - target: {fileID: 314009350096740586, guid: e43b317dddfa6df44819d426ea5cdb8f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1913,7 +1991,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 4095359892797544374}
+    m_TransformParent: {fileID: 7574903453104726487}
     m_Modifications:
     - target: {fileID: 940793602573430269, guid: fef014206afd2b94f94c6c85e13338e3, type: 3}
       propertyPath: m_Name
@@ -2571,7 +2649,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 4095359892797544374}
+    m_TransformParent: {fileID: 7574903453104726487}
     m_Modifications:
     - target: {fileID: 940793602573430269, guid: fef014206afd2b94f94c6c85e13338e3, type: 3}
       propertyPath: m_Name
@@ -3295,7 +3373,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 314009350096740586, guid: e43b317dddfa6df44819d426ea5cdb8f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.998168
+      value: 10.67
       objectReference: {fileID: 0}
     - target: {fileID: 314009350096740586, guid: e43b317dddfa6df44819d426ea5cdb8f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3373,7 +3451,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 4095359892797544374}
+    m_TransformParent: {fileID: 7574903453104726487}
     m_Modifications:
     - target: {fileID: 940793602573430269, guid: fef014206afd2b94f94c6c85e13338e3, type: 3}
       propertyPath: m_Name
@@ -4125,7 +4203,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 314009350096740586, guid: e43b317dddfa6df44819d426ea5cdb8f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.998168
+      value: 10.91
       objectReference: {fileID: 0}
     - target: {fileID: 314009350096740586, guid: e43b317dddfa6df44819d426ea5cdb8f, type: 3}
       propertyPath: m_LocalPosition.z
