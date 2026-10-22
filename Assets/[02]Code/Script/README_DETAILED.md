@@ -2,7 +2,7 @@
 
 > เวอร์ชันย่ออ่านเร็วอยู่ที่ [README.md](README.md) — ไฟล์นี้คือรายละเอียดทางเทคนิคของทุกสคริปต์ใน `Assets/[02]Code/Script/`
 >
-> **อัปเดตล่าสุด:** 2026-10-03 (Unity 6000.3.19f1, Input System ใหม่, Yarn Spinner, Cinemachine 3)
+> **อัปเดตล่าสุด:** 2026-10-22 (Unity 6000.3.19f1, Input System ใหม่, Yarn Spinner, Cinemachine 3)
 
 ---
 
@@ -19,8 +19,9 @@
 9. [Environment — สร้างสิ่งแวดล้อมจาก Terrain](#9-environment--สร้างสิ่งแวดล้อมจาก-terrain)
 10. [UI — HUD กลางจอ](#10-ui--hud-กลางจอ)
 11. [Main Menu](#11-main-menu)
-12. [ข้อจำกัด/สิ่งที่ยังไม่มีตอนนี้](#12-ข้อจำกัดสิ่งที่ยังไม่มีตอนนี้)
-13. [กติกาการอัปเดตเอกสารนี้](#13-กติกาการอัปเดตเอกสารนี้)
+12. [Photo Board — บอร์ดแขวนรูป](#12-photo-board--บอร์ดแขวนรูป)
+13. [ข้อจำกัด/สิ่งที่ยังไม่มีตอนนี้](#13-ข้อจำกัดสิ่งที่ยังไม่มีตอนนี้)
+14. [กติกาการอัปเดตเอกสารนี้](#14-กติกาการอัปเดตเอกสารนี้)
 
 ---
 
@@ -31,7 +32,7 @@
 Singleton (`StateManager.Instance`) คุมสถานะกลางของเกม 2 กลุ่ม ไม่ persist ข้าม Scene (ไม่ใช้ `DontDestroyOnLoad`):
 
 - **`MovementState`**: `Idle, Walking, Running, Crouch` — ใช้ขับ Animator เป็นหลัก (หมายเหตุ: `Running` มีประกาศไว้ใน enum แต่ยังไม่มีใครสั่งใช้จริง ดูหัวข้อ 10)
-- **`SystemState`**: `Normal, Photograph, Talking, Pause, Journal, Storage` — คุมว่าระบบ Input/UI ไหนควรทำงานได้ตอนนี้
+- **`SystemState`**: `Normal, Photograph, Talking, Pause, Journal, Storage, Board` — คุมว่าระบบ Input/UI ไหนควรทำงานได้ตอนนี้ (`Board` = กำลังเปิดหน้า Photo Board อยู่ ดูหัวข้อ 12)
 
 Event หลัก: `OnMovementStateChanged`, `OnSystemStateChanged` (ส่ง old/new state) — ระบบอื่นทั้งหมด Subscribe แทนที่จะ Reference กันตรงๆ
 
@@ -84,7 +85,7 @@ Helper method สำคัญที่ระบบอื่นเรียกเ
 | `PhotoHeight.cs` | `PhotoHeight` (ติดที่ `PhotoCam` คู่กับ `PhotoRoll`/`PhotoZoom`) | ยก/ลดกล้องถ่ายรูปเหมือนยกแขนขึ้น-ย่อแขนลงเพื่อถ่ายมุมใหม่: **Space = ยกขึ้น, Left Ctrl = ลดลง** กดค้างเลื่อนต่อเนื่อง (`moveSpeed` 1 ม./วินาที) ปล่อยแล้วค้างระดับไว้ ทำงานเฉพาะ `SystemState.Photograph` และรีเซ็ตเป็นระดับเดิมตอนเข้าโหมดทุกครั้ง — **ระยะสูงสุดปรับได้:** `maxRaise` (ยกขึ้นสูงสุด 0.6 ม.) / `maxLower` (ลดลงต่ำสุด 0.6 ม.) — ทำงานโดยขยับความสูงของ `PhotoCameraPivot` (จุดที่ PhotoCam ล็อคตาม) ไม่กระทบแกน Pan/Tilt — **ฝากค่าไว้ที่ `PlayerCrouch.SetExtraHeightOffset`** ไม่เขียน `localPosition` ตรงๆ เพราะ `PlayerCrouch` คุม Pivot นี้อยู่แล้ว (ย่อ/ลุก) ถ้าเขียนแย่งกันทุกเฟรมภาพจะกระตุกและท่าย่อตอนถ่ายรูปจะไม่ทำงาน ย่อกับยก/ลดกล้องจึงบวกซ้อนกัน — มี SphereCast กันกล้องทะลุเพดาน/จมพื้นที่มี Collider (`blockByObstacles`, `clearance` 0.25 ม., SphereCast จากตำแหน่งกล้องจริงไปทางที่กำลังขยับ หยุดเมื่อใกล้ชน) — ปุ่มมาจาก Input Action แบบ Button ใน `PlayerControls.inputactions`: `Photograph/PushUpCamera` (Space = ยกขึ้น) / `Photograph/PullDownCamera` (Left Ctrl = ลดลง) เปลี่ยนปุ่มที่ Input Actions ได้เลย — ช่อง `pushUpInput`/`pullDownInput` เว้นว่างได้ หาจากชื่อให้เองผ่าน `PhotoInputLookup` (อาศัย `PhotoZoom.zoomInput` เป็นทางไปหา Asset เดียวกัน) ถ้าหาไม่เจอจะ Log Error — ไม่ชนกับ Jump (Space) เพราะกระโดดไม่ได้ตอนถ่ายรูป และ Crouch ใช้ปุ่ม C |
 | `PhotoInputLookup.cs` | `PhotoInputLookup` (static) | `Resolve(explicitRef, anchor, "Map/Action")` — คืน Input Action จากช่อง Inspector ถ้ามี ไม่งั้นหาจากชื่อใน InputActionAsset เดียวกับ anchor (Reference ตัวอื่นที่ผูกไว้ใน Prefab แล้ว) ทำให้ Action ใหม่ใน `PlayerControls.inputactions` ใช้ได้ทันทีโดยไม่ต้องลากใส่ Prefab (ใช้ใน `PhotoRoll`, `PhotoHeight`) |
 | `PhotoSaveHandler.cs` | `PhotoSaveHandler` | Subscribe `PhotoShooter.OnPhotoCaptured` → ดึง `creatureIds` จาก `PhotoSubject.CreatureId` ของวัตถุที่ถ่ายติด **ทันที** (ก่อนข้อมูลภาพมาถึง กันวัตถุถูก Despawn) → อ่านพิกเซลด้วย `AsyncGPUReadback` (RGBA32, มาถึงใน 1-3 เฟรม ไม่ให้ CPU รอ GPU; แพลตฟอร์มที่ไม่รองรับ fallback เป็น `ReadPixels` ครั้งเดียว) → ส่งต่อให้ `PhotoStorage.TryStorePhotoAsync()` เข้ารหัส PNG/เขียนไฟล์/ย่อรูปย่อบน Thread เบื้องหลัง ไม่สร้าง `Texture2D` ตัวเต็มเลย — ทดสอบ: งานบน Main Thread ตอนกดชัตเตอร์ ~16 ms (เดิมเรนเดอร์+อ่านพิกเซล+เข้ารหัส PNG อย่างเดียวก็ ~214 ms) |
-| `Photogridui.cs` | `PhotoGridUI` | เปิด/ปิด Overlay เส้นกริด (เช่น Rule of Thirds) ตาม `SystemState.Photograph` เท่านั้น |
+| `Photogridui.cs` | `PhotoGridUI` | เปิด/ปิด Overlay ของโหมดถ่ายรูป (`GridOverlay`) ตาม `SystemState.Photograph` เท่านั้น — **หน้าตา UI กล้องตอนนี้ (อยู่ใน `Player.prefab` → `GameUIManager/CameraTransition`):** `GridOverlay/ViewfinderCorners` = มุมกรอบช่องมองภาพ 4 มุม ชิดขอบจอ (Anchor ห่างขอบซ้าย-ขวา 2% / บน-ล่าง 5.5% เส้นขาวเทา หนา 6 px แขนแนวนอน 412 / แนวตั้ง 406 ที่ 1920×1080 แขนแนวตั้งบน-ล่างเว้นช่องตรงกลางขอบ ตามดีไซน์) + `GridOverlay/ControlsHelp` = แผงสอนปุ่มฝั่งขวา (`PhotoControlsHelpUI.cs`: เข้าโหมดถ่ายรูปครั้งแรกเปิดอยู่ กด **Tab** = Action `Photograph/ToggleHelp` เลื่อนทั้งแผงออกพ้นขอบขวา/เลื่อนกลับ 0.25 วิ จำสถานะไว้ทั้ง Session ไม่บันทึกข้ามการเปิดเกม — Action หาเองผ่าน `PhotoInputLookup` ไม่ต้องลากใส่ Inspector, ตำแหน่งตอนเปิด `shownX` = -83 อยู่ในเส้นกรอบขวาพอดี) รายการปุ่มเป็นข้อความตายตัวใน Text `Controls` ถ้าเปลี่ยนปุ่มใน Input Actions ต้องแก้ข้อความตามเอง — ไม่มีปุ่ม Esc ออกจากโหมดถ่ายรูป (Action `BackToGame` มีแต่ไม่มีสคริปต์ไหนอ่าน) ออกด้วย F อย่างเดียว + `ZoomMeter` เดิม (บนกลางจอ) ส่วนเส้นกริด Rule of Thirds เดิม 4 เส้น (`Image`..`Image (3)`) **ปิดไว้ ไม่ได้ลบ** เปิดคืนได้ — จุดเล็งกลางจอเปลี่ยนจากสี่เหลี่ยม `Dot` (ปิดไว้ ไม่ได้ลบ) เป็น `CameraTransition/FocusBracket` มุมเล็ก 4 มุม (กรอบ 190×164 แขน 55) — `PhotoShooter.crosshairParts` (แทน `centerDotImage` เดิม) ซ่อน/โชว์ทุกชิ้นตามโหมดถ่ายรูปและเปลี่ยนสีพร้อมกัน: ปกติ `normalColor` ขาว 85% → เล็งโดนสิ่งที่ถ่ายได้ `detectedColor` เขียว — ⚠️ `Player_Code_Dev.prefab` (Variant) เคย Override การเปิด/ปิด `Dot` และ alpha ของ `detectedColor` (0.388) แก้แล้ว แต่ถ้าแก้ UI กล้องใน `Player.prefab` แล้วไม่เห็นผลในซีน ให้เช็ค Override ใน Variant ก่อน |
 
 ---
 
@@ -167,7 +168,7 @@ Helper method สำคัญที่ระบบอื่นเรียกเ
 |---|---|---|
 | `Photostorage.cs` | `PhotoStorage` (Singleton, `DontDestroyOnLoad`) | ภาพเต็มเก็บเป็น **ไฟล์ PNG บนดิสก์ (เก็บ Path + Metadata `creatureIds`, เวลาถ่าย)** ไม่ค้างภาพขนาดจริงใน RAM โหลดเป็น Texture2D เฉพาะตอนต้องการดูจริงผ่าน `LoadPhotoTexture()` — **รูปย่อ:** สร้างตอนถ่ายด้วย GPU (`PhotoThumbnail.Create`, ด้านยาวสุด `thumbnailMaxSize` = 384 พิกเซล RGB24 ≈ 250KB/ภาพ) เก็บค้างใน RAM ที่ `StoredPhoto.thumbnail`/`thumbnailSprite` ขอได้ผ่าน `GetThumbnail()`/`GetThumbnailSprite()` (PhotoStorage เป็นเจ้าของ ห้าม Destroy ลบภาพ/ClearAll แล้วจะ Destroy ให้) **บันทึกแบบไม่ทำให้เฟรมค้าง:** `TryStorePhotoAsync(pixels RGBA32, w, h, creatureIds)` เข้ารหัส PNG (`ImageConversion.EncodeArrayToPNG` ใช้บน Thread เบื้องหลังได้) + เขียนไฟล์ + ย่อรูปย่อด้วย CPU (`PhotoThumbnail.DownscaleRgbaToRgb24`) ทั้งหมดบน `Task.Run` แล้วกลับ Main Thread มาเพิ่มเข้า List และยิง `OnStorageChanged`/`OnPhotoAdded` (ภาพโผล่ในคลังช้ากว่าตอนกดชัตเตอร์ราว 0.3-0.5 วินาที) ทำอัลฟาให้ทึบเสมอ, `IsFull` นับภาพที่กำลังบันทึกอยู่ด้วย, `ClearAllPhotos()` เพิ่มรอบ (`clearGeneration`) งานที่เริ่มก่อนล้างจะถูกทิ้งและลบไฟล์ — `TryStorePhoto(pngBytes, ...)` แบบ sync เดิมยังอยู่ — ถ้าภาพไม่มีรูปย่อ (เช่นสร้างด้วยทาง sync โดยไม่ส่ง `sourceTexture`) จะสร้างจากไฟล์ให้ครั้งเดียวตอนมีคนขอ — รูปย่อไม่ถูกเขียนลงดิสก์ เพราะภาพทั้งหมดถูกลบทิ้งตอนปิดเกมอยู่แล้ว ถ้าอนาคตมีระบบ Save/Load ข้าม Session ต้องเก็บ/สร้างรูปย่อใหม่ตอนโหลด จำกัดจำนวนสูงสุด (`maxCapacity`, ปกติ 30) ลบไฟล์ทั้งหมดอัตโนมัติตอนปิดเกม (`OnApplicationQuit`) มี `ClearAllPhotos()` สำหรับ Debug Reset |
 | `PhotoThumbnail.cs` | `PhotoThumbnail` (static) | `Create(source, maxSize)` ย่อภาพด้วย GPU (Blit ย่อทีละครึ่งแล้วย่อรอบสุดท้าย → `ReadPixels`) คืน Texture2D RGB24 ไม่มี Mipmap คงสัดส่วนไม่ขยายถ้าเล็กกว่าอยู่แล้ว (ย่อ 1920x1080 → 384x216 ใช้ ~13 ms) ผู้เรียก Destroy เอง และ `ToSprite(texture)` ห่อเป็น Sprite เต็มภาพ — ใช้ใน `PhotoStorage`, `JournalUI`, `StorageUI` |
-| `Storageui.cs` | `StorageUI` | UI คลังภาพ แยกจาก Journal เต็มรูปแบบ — เปิด/ปิดด้วยปุ่ม Toggle (ผูก `SystemState.Storage`), สร้าง Thumbnail Grid จาก **รูปย่อ** ของ `PhotoStorage.Photos` (เปิดหน้านี้ไม่ต้องอ่าน/ถอดรหัส PNG เลย — ทดสอบ 30 ภาพ: สร้าง Grid ~7 ms เทียบวิธีเดิมโหลดภาพเต็มทั้งหมด ~1.5 วินาที), คลิกซ้ายขยายเต็มจอ (โหลดภาพเต็มจากไฟล์ทีละภาพตอนกดดู แล้ว Destroy ทิ้งตอนปิดภาพขยาย)/คลิกขวาเปิด Popup ยืนยันลบ, Smart Scroll เลื่อนจอตามช่องที่เลือกอัตโนมัติ (รองรับทั้งเมาส์และจอย/คีย์บอร์ด) |
+| `Storageui.cs` | `StorageUI` | UI คลังภาพ แยกจาก Journal เต็มรูปแบบ — เปิด/ปิดด้วยปุ่ม Toggle (ผูก `SystemState.Storage`), สร้าง Thumbnail Grid จาก **รูปย่อ** ของ `PhotoStorage.Photos` (เปิดหน้านี้ไม่ต้องอ่าน/ถอดรหัส PNG เลย — ทดสอบ 30 ภาพ: สร้าง Grid ~7 ms เทียบวิธีเดิมโหลดภาพเต็มทั้งหมด ~1.5 วินาที), คลิกซ้ายขยายเต็มจอ (โหลดภาพเต็มจากไฟล์ทีละภาพตอนกดดู แล้ว Destroy ทิ้งตอนปิดภาพขยาย)/คลิกขวาเปิด Popup ยืนยันลบ, Smart Scroll เลื่อนจอตามช่องที่เลือกอัตโนมัติ (รองรับทั้งเมาส์และจอย/คีย์บอร์ด) — **โหมดเลือกภาพ:** `OpenForPicking(onPicked, returnToState)` ให้ระบบอื่นเรียกเปิด Storage แทนปุ่ม Toggle ปกติได้ (เปิดได้แม้ `SystemState` ปัจจุบันไม่ใช่ `Normal`) คลิกซ้ายตอนอยู่โหมดนี้ = เลือกภาพนั้นส่งกลับทันที (ไม่เปิดเต็มจอ) ปิด Storage แล้วกลับไป `returnToState` แทน `Normal` เสมอ (เรียก `onPicked(null)` ถ้ายกเลิก/ESC โดยไม่ได้เลือก) — ใช้โดย `PhotoBoardUI` (ดูหัวข้อ 12) |
 | `Storagethumbnailui.cs` | `StorageThumbnailUI` | ช่อง 1 ช่องในกริด Storage รองรับทั้งเมาส์ (`OnPointerClick`) และจอย/คีย์บอร์ด (`OnSubmit`, `OnSelect`) ตัดสินใจอะไรไม่ได้เอง ส่งต่อให้ `StorageUI` ทั้งหมด |
 
 ---
@@ -237,7 +238,30 @@ Helper method สำคัญที่ระบบอื่นเรียกเ
 
 ---
 
-## 12. ข้อจำกัด/สิ่งที่ยังไม่มีตอนนี้
+## 12. Photo Board — บอร์ดแขวนรูป
+
+โฟลเดอร์ `Assets/[02]Code/Script/PhotoBoard/` — Prefab วางได้หลายจุดในโลก (`Assets/[03]Prefabs/PhotoBoard.prefab`) แขวนรูปได้ 5 ช่องต่อบอร์ด 1 ตัว แยกข้อมูลกันคนละบอร์ด
+
+| ไฟล์ | Class | หน้าที่ |
+|---|---|---|
+| `PhotoBoard.cs` | `PhotoBoard` | เจ้าของข้อมูล 5 ช่องของบอร์ดนี้ (`slots[i].hungPhoto` อ้างอิงไปยัง `PhotoStorage.StoredPhoto` ตัวจริง **ไม่ย้าย/ไม่ copy** รูปเดียวกันแขวนได้หลายบอร์ด) — `PlacePhoto()`/`RemovePhoto()`/`GetSlotPhoto()` โหลดภาพเต็มจากดิสก์มาแปะ `Renderer.material.mainTexture` ของแต่ละช่อง (`slots[i].displayRenderer` ต้องลาก Renderer ของกรอบรูปช่องนั้นมาใส่ — Prefab ปัจจุบันใช้ Quad ธรรมดาเป็นตัวแทน ยังไม่มีโมเดลกรอบรูปจริง) ช่องว่างปิด Renderer ไว้เฉย ๆ (ไม่มีอะไรขึ้น) Subscribe `PhotoStorage.OnStorageChanged` เอง ถ้ารูปที่แขวนอยู่ถูกลบจาก Storage จากที่อื่น ช่องนั้นจะว่างอัตโนมัติ เป็นเจ้าของ Texture ที่โหลดมาเอง ต้อง Destroy ตอนเปลี่ยน/ว่าง/ทำลายบอร์ด (เหมือนหลักการเดียวกับ `StorageUI`/`JournalManager`) |
+| `PhotoBoardInteractable.cs` | `PhotoBoardInteractable` (ต้องมี `PhotoBoard` บน Object เดียวกัน) | ผู้เล่นเดินเข้าใกล้ (`interactRange`) แล้วกด Interact เพื่อเปิด `PhotoBoardUI.Open(board)` — Pattern เดียวกับ `NPCInteractable` ทุกอย่าง (โชว์/ซ่อน `interactPrompt` ตาม `isInRange` + `SystemState == Normal`) เข้าได้เฉพาะตอน `Normal` เท่านั้น |
+| `PhotoBoardUI.cs` | `PhotoBoardUI` | หน้า UI เต็มจอ **ตัวเดียวในฉาก ใช้ร่วมกันทุกบอร์ด** (`PhotoBoardInteractable` เป็นคนส่ง `PhotoBoard` ที่จะเปิดเข้ามาทาง `Open()`) แบ่ง 2 ชั้นเหมือน `StorageUI`: **boardPanel** (กริด 5 ช่อง `PhotoBoardSlotUI` คลิกช่องว่าง = `storageUI.OpenForPicking()` ไปหยิบรูป, คลิกช่องมีรูป = เปิด **enlargedPanel** ดูขยาย) — enlargedPanel มีปุ่มลบรูป/เปลี่ยนรูป + `backgroundCloseButton` โปร่งใสเต็มจอซ้อนอยู่หลังรูป/ปุ่ม (คลิกที่ไหนก็ตามที่ไม่ใช่ปุ่มทั้งสอง = ปิดกลับไป boardPanel ตาม Figma spec) ESC ที่ enlargedPanel ถอยกลับ boardPanel, ESC ที่ boardPanel ปิดทั้งบอร์ดกลับ `SystemState.Normal` — `Open()`/`Close()` เป็นคนเซ็ต `SystemState.Board` เอง (ไม่ใช่ `PhotoBoardInteractable`) — **กริด 5 ช่อง (`boardPanel` = `PhotoBoardGridCanvas`) เป็น World Space Canvas** (1600×1000 หน่วย × scale 0.001 = 1 หน่วยต่อ 1 มม.) `Open()` ย้ายไปเป็นลูกของบอร์ดที่เปิด วางที่ `boardPanelLocalOffset` (0,0,-0.035) ทับ Quad 3D พอดี และตั้ง `worldCamera = Camera.main` ให้ GraphicRaycaster — ใช้ร่วมกันทุกบอร์ดได้เพราะทุกบอร์ดมาจาก Prefab เดียวกัน (ช่องในกริดคัดลอกตำแหน่ง/ขนาด/การหมุนจาก Quad `Slot_0..4` ของบอร์ดเองทุกครั้งที่เปิด — `SyncSlotLayoutToBoard()` — ปรับแค่ Quad ใน Prefab พอ ไม่ต้องแตะกริด) ขนาดตอนนี้: ทุกช่อง 46 × 25.9 ซม. (16:9 เท่ากันหมด) เรียง 3 บน / 2 ล่าง ส่วน **Enlarged** ยังอยู่บน `PhotoBoardCanvas` แบบ Screen Space Overlay (sortingOrder 10) — ⚠️ เคยพังเพราะ Canvas ที่สร้างผ่าน MCP ได้ renderMode เป็น World Space โดยไม่ตั้งใจ UI เลยไปลอยอยู่กลางแมพ ไม่ขึ้นจอ |
+| `PhotoBoard.cs` (เพิ่มเติม) | — | field `boardCam` (`CinemachineCamera`) — กล้องลูกของบอร์ดแต่ละตัว (ปรับมุม/ระยะเองต่อบอร์ดได้อิสระ) `PhotoBoardUI.Open()` เรียก `CameraController.Instance.FocusCamera(board.boardCam)` ตัด Priority ให้กล้องนี้สูงสุดชั่วคราว (แทน Third Person/Photo Cam) `Close()` เรียก `UnfocusCamera()` คืน Priority — Third Person Cam กลับมาเองผ่าน Logic เดิมของ `CameraController` ตอน SystemState กลับเป็น Normal ไม่ต้องทำเอง |
+| `Cameracontroller.cs` (เพิ่มเติม) | `CameraController` | เพิ่ม `Instance` (static singleton) + `FocusCamera(CinemachineCamera)`/`UnfocusCamera(CinemachineCamera)` ให้ระบบอื่น (ตอนนี้คือ Photo Board) ขอตัดกล้องชั่วคราวได้โดยไม่ต้องรู้จัก `thirdPersonCam`/`photoCam` ภายใน — Priority ของกล้องที่ขอ Focus จะสูงกว่า `activePriority` เสมอ (+10) |
+| `PhotoBoardSlotUI.cs` | `PhotoBoardSlotUI` | ช่อง 1 ช่องในกริดของ `PhotoBoardUI` — Pattern เดียวกับ `StorageThumbnailUI` ทุกอย่าง (เมาส์ `OnPointerEnter/Exit/Click` + จอย/คีย์บอร์ด `OnSelect/Deselect/Submit`) โชว์ Sprite รูปย่อถ้าช่องนั้นมีรูป (null = ช่องว่าง) ตัดสินใจอะไรไม่ได้เอง ส่งต่อให้ `PhotoBoardUI.OnSlotClicked()` ทั้งหมด |
+
+**สถานะตอนนี้ (สร้างผ่าน Unity MCP โดยตรงในซีน `PlayTest_Final` ยังไม่ผ่านมือ Designer):**
+- Prefab `Assets/[03]Prefabs/PhotoBoard.prefab` มีโครงจริงแล้ว: Backing (Cube แบน) + 5 ช่อง (Quad ธรรมดา จัดตำแหน่ง/ขนาดตามเลย์เอาต์ร่าง Figma) ผูก `PhotoBoard.slots[i].displayRenderer` ครบ 5 ช่องแล้ว — **ยังเป็น Placeholder ล้วน** ไม่มีโมเดล/Material กรอบรูปจริง รูปที่แปะเต็มช่องแบบยืดเต็ม (ไม่รักษาสัดส่วนภาพ)
+- **Canvas UI ของ `PhotoBoardUI` สร้างแล้ว** ที่ `PlayerRig/Player_Code_Dev/GameUIManager/PhotoBoardCanvas` (Canvas+CanvasScaler 1920×1080 Match 0.5 แบบเดียวกับ Storage/Journal) — `BoardGrid` (กริด 5 ช่อง ตำแหน่ง/ขนาดแปลงจากพิกัด Figma ช่องละมี `Photo` + `Highlight` สีเหลือง) และ `Enlarged` (ภาพขยาย + ปุ่มลบ "สีแดง"/เปลี่ยนรูป "สีน้ำเงิน" มุมขวาบน + ตัวมันเองเป็น `backgroundCloseButton` ด้วย) ผูก Reference ใน `PhotoBoardUI` ครบทุกช่องแล้ว (ยืนยันผ่าน resource read ไม่ใช่แค่เดา) — เป็นแค่สี่เหลี่ยมสีเรียบ ไม่มี Sprite/ขอบมน ยังไม่ผ่าน Designer
+- `PhotoBoardInteractable.interactInput` ผูกแล้ว (ลากเองโดยผู้ใช้) ส่วน `PhotoBoardUI.cancelInput` **ยังไม่ได้ผูก** (ปุ่ม Esc ยังไม่ทำงาน ต้องลาก Action เดียวกับ `StorageUI.cancelInput`/`JournalUI` ใส่เอง)
+- **ระยะ Interact เป็น `BoxCollider` (Is Trigger) ไม่ใช่ระยะวงกลมแล้ว** (ตัด `player`/`interactRange` ทิ้ง หันมาใช้ `OnTriggerEnter`/`OnTriggerExit` แทน กันกดทะลุกำแพงได้ตั้งแต่ในโค้ด) ค่าเริ่มต้น center `(0,0,-0.5)` size `(1.4,1.8,1.0)` — เลข `-0.5` สำคัญ: ต้องอยู่ฝั่งเดียวกับที่ Quad มองเห็นได้ (`Quad` ของ Unity หน้าที่เห็นหันไปทาง local **-Z** เสมอ ยืนยันผ่าน `mesh.normals` จริงแล้ว) ถ้าบอร์ดถูกหมุนจากค่าเริ่มต้นต้องปรับกล่องตามเอง (Edit Collider ใน Inspector)
+- `InteractPrompt` (ป้าย "Press E") สร้างแล้วเป็น World Space Canvas + `Billboard` ลอยหน้าบอร์ดฝั่ง -Z เช่นกัน — **ตัวอักษรไทยที่ลองใส่ไว้ก่อนหน้านี้ขึ้นเป็นกล่อง □ ว่างๆ** เพราะฟอนต์ `LiberationSans SDF` (ค่าเริ่มต้นของโปรเจกต์) ไม่มีชุดตัวอักษรไทย เลยเปลี่ยนข้อความ `InteractPrompt`/ปุ่มลบรูป/ปุ่มเปลี่ยนรูปเป็นภาษาอังกฤษไปก่อน (`Press E`/`Delete`/`Change`) ลองสร้างฟอนต์ไทยอัตโนมัติผ่าน `TMP_FontAsset.CreateFontAsset()` (จาก Windows font "Leelawadee UI" ที่เครื่องมีอยู่) แต่ API คืน null ทุกทาง (ยังไม่รู้สาเหตุ) — ต้องสร้างเองผ่าน `Window > TextMeshPro > Font Asset Creator` ในนี้ครั้งเดียวถึงจะสลับกลับเป็นไทยได้
+- **เพิ่มกล้องตัดเข้าบอร์ด:** `PhotoBoard.boardCam` (`CinemachineCamera` ลูกของบอร์ด ค่าเริ่มต้นอยู่ local `(0,0,-2)` มองเข้าบอร์ด FOV 40) `PhotoBoardUI.Open()`/`Close()` สั่งผ่าน `CameraController.Instance.FocusCamera()`/`UnfocusCamera()` ที่เพิ่มใหม่ — ยังไม่ได้ปรับมุม/ระยะให้สวยเป็นพิเศษ (ค่ากะคร่าวๆ ให้เห็นบอร์ดเต็มเฟรม) ปรับตำแหน่ง `BoardCam` ใต้ `PhotoBoard` ใน Inspector ได้ตามใจ ไม่กระทบโค้ด
+
+---
+
+## 13. ข้อจำกัด/สิ่งที่ยังไม่มีตอนนี้
 
 รายการนี้เป็น "สแนปช็อต" ณ วันที่อัปเดตเอกสาร ไม่ใช่ Bug Tracker ถาวร — ถ้าแก้แล้วให้ลบออกจากลิสต์นี้ทันที:
 
@@ -262,7 +286,7 @@ Helper method สำคัญที่ระบบอื่นเรียกเ
 
 ---
 
-## 13. กติกาการอัปเดตเอกสารนี้
+## 14. กติกาการอัปเดตเอกสารนี้
 
 **เอกสารนี้ต้องอัปเดตทุกครั้งที่:**
 1. เพิ่มระบบ/สคริปต์ใหม่ที่มีผลต่อ Gameplay

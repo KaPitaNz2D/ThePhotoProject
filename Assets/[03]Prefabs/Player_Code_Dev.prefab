@@ -608,7 +608,7 @@ PrefabInstance:
       objectReference: {fileID: 6294786959984651964}
     - target: {fileID: 2913956134073656389, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
       propertyPath: detectedColor.a
-      value: 0.3882353
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2913956134073656389, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
       propertyPath: photoRenderTexture
@@ -696,7 +696,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: f3086a476deb5634fbdb42dd4af11a66, type: 2}
     - target: {fileID: 7859620194298644386, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7863540174650646764, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
       propertyPath: allEntries.Array.size

@@ -21,7 +21,8 @@ public class StateManager : MonoBehaviour
         Talking,
         Pause,
         Journal,
-        Storage
+        Storage,
+        Board
     }
 
     [Header("Current States (Read-only ดูใน Inspector)")]
@@ -97,6 +98,7 @@ public class StateManager : MonoBehaviour
             case SystemState.Pause:
             case SystemState.Journal:
             case SystemState.Storage:
+            case SystemState.Board:
                 return false;
             default:
                 return false;
@@ -120,6 +122,7 @@ public class StateManager : MonoBehaviour
             case SystemState.Pause:
             case SystemState.Journal:
             case SystemState.Storage:
+            case SystemState.Board:
                 return false;
             default:
                 return false;

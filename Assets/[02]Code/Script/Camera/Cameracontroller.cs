@@ -12,6 +12,8 @@ using Unity.Cinemachine;
 /// </summary>
 public class CameraController : MonoBehaviour
 {
+    public static CameraController Instance { get; private set; }
+
     [Header("Virtual Cameras")]
     public CinemachineCamera thirdPersonCam;
     public CinemachineCamera photoCam;
@@ -35,9 +37,12 @@ public class CameraController : MonoBehaviour
     private CinemachineOrbitalFollow thirdPersonOrbit;
     private readonly List<Renderer> hiddenRenderers = new List<Renderer>();
     private bool photoCamLive; // true ตั้งแต่สลับไปกล้องถ่ายรูปแล้วจนถึงตอนสลับกลับ
+    private CinemachineCamera focusedCam; // กล้องที่ FocusCamera() เปิดค้างไว้ (เช่นบอร์ด) — ระหว่างนี้ State เปลี่ยน (เช่นเปิด Storage) ต้องไม่คืนกล้อง/ตัวละคร
 
     private void Awake()
     {
+        Instance = this;
+
         if (photoCam != null)
         {
             photoCamPanTilt = photoCam.GetComponent<CinemachinePanTilt>();
@@ -99,6 +104,9 @@ public class CameraController : MonoBehaviour
         // ไม่ต้องรอ Fade เพราะ Vcam ตัวนี้ยังรับ Input หมุนกล้องอยู่แม้ Priority จะถูกลดจนไม่เห็นภาพแล้วก็ตาม
         // ถ้าไม่ล็อค พอกลับมา Normal กล้องจะหมุนไปมุมที่ไม่ได้ตั้งใจจากการขยับเมาส์ระหว่างอยู่ State อื่น
         SetThirdPersonLookLocked(!StateManager.Instance.CanControlPlayer());
+
+        // มีกล้องที่ Focus ค้างอยู่ (เช่นอยู่หน้าบอร์ดแล้วเปิด Storage มาเลือกรูป) กล้องไม่ได้เปลี่ยน ไม่ต้องเฟดดำ/คืนกล้อง
+        if (focusedCam != null) return;
 
         if (transitionUI != null)
         {
@@ -198,5 +206,43 @@ public class CameraController : MonoBehaviour
         {
             thirdPersonInputAxis.enabled = !locked;
         }
+    }
+
+    /// <summary>
+    /// ตัดกล้องไปเล็งกล้องตัวที่ส่งมา (เช่นกล้องของ Photo Board ตอนกด Interact) Priority สูงกว่า Third Person/Photo Cam เสมอ
+    /// ไม่ต้องยุ่งกับ StateManager — เรียกคู่กับ SetSystemState(Board) ของผู้เรียกเอง (ดู PhotoBoardUI)
+    /// ใช้ transitionUI เฟดดำกลบรอยต่อเหมือนตอนเข้าโหมดถ่ายรูปทุกประการ ถ้าไม่ได้ผูก transitionUI ไว้จะตัดทันทีแบบเดิม
+    /// </summary>
+    public void FocusCamera(CinemachineCamera cam)
+    {
+        if (cam == null) return;
+        focusedCam = cam;
+
+        void Apply()
+        {
+            cam.Priority = activePriority + 10;
+            if (thirdPersonCam != null) thirdPersonCam.Priority = inactivePriority;
+            if (photoCam != null) photoCam.Priority = inactivePriority;
+            SetCharacterHidden(true); // ตัวละครยืนบังระหว่างกล้องกับบอร์ด
+        }
+
+        if (transitionUI != null) transitionUI.PlayTransition(Apply);
+        else Apply();
+    }
+
+    /// <summary>ปิดกล้องที่ FocusCamera() เปิดไว้ — Third Person Cam จะกลับมาเองผ่าน SetPhotoMode() ตอน SystemState กลับเป็น Normal</summary>
+    public void UnfocusCamera(CinemachineCamera cam)
+    {
+        if (cam == null) return;
+        if (focusedCam == cam) focusedCam = null;
+
+        void Apply()
+        {
+            cam.Priority = inactivePriority;
+            SetCharacterHidden(false);
+        }
+
+        if (transitionUI != null) transitionUI.PlayTransition(Apply);
+        else Apply();
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -47,6 +48,11 @@ public class StorageUI : MonoBehaviour
     private Sprite fullscreenSprite;
     private bool isFullscreenOpen;
     private int pendingDeleteIndex = -1;
+
+    // โหมด "เลือกภาพ" — เปิดจากระบบอื่น (เช่น PhotoBoard) ที่ต้องการให้ผู้เล่นเลือกภาพ 1 รูปแล้วส่งกลับไปใช้
+    // คลิกซ้ายตอนอยู่โหมดนี้ = เลือกภาพนั้นทันที (ไม่เปิดเต็มจอ) แทนที่พฤติกรรมปกติ
+    private Action<PhotoStorage.StoredPhoto> pickCallback;
+    private StateManager.SystemState returnState = StateManager.SystemState.Normal;
 
     private void Start()
     {
@@ -137,7 +143,26 @@ public class StorageUI : MonoBehaviour
         RefreshGrid();
     }
 
-    private void CloseStorage()
+    /// <summary>
+    /// เปิด Storage ในโหมด "เลือกภาพ" ให้ระบบอื่นเรียกใช้ (เช่น PhotoBoard ตอนกดช่องว่าง/ปุ่มเปลี่ยนรูป)
+    /// เปิดได้แม้ SystemState ปัจจุบันไม่ใช่ Normal (เช่นกำลังอยู่ใน SystemState.Board) — ปิดแล้วจะกลับไปที่ returnToState แทน Normal
+    /// onPicked ถูกเรียกครั้งเดียวตอนปิด Storage เสมอ: ได้ภาพที่เลือกถ้าผู้เล่นคลิกเลือก หรือ null ถ้ากดยกเลิก/ESC/ปิดเฉยๆ
+    /// </summary>
+    public void OpenForPicking(Action<PhotoStorage.StoredPhoto> onPicked, StateManager.SystemState returnToState)
+    {
+        pickCallback = onPicked;
+        returnState = returnToState;
+
+        StateManager.Instance.SetSystemState(StateManager.SystemState.Storage);
+        if (storagePanel != null) storagePanel.SetActive(true);
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        RefreshGrid();
+    }
+
+    private void CloseStorage(PhotoStorage.StoredPhoto pickedPhoto = null)
     {
         // ปิด Fullscreen/Popup ที่อาจค้างอยู่ไปด้วย กันเปิด Storage รอบหน้าแล้วเจอ UI ค้าง
         CloseFullscreen();
@@ -146,11 +171,18 @@ public class StorageUI : MonoBehaviour
 
         ClearGrid();
         if (storagePanel != null) storagePanel.SetActive(false);
-        StateManager.Instance.SetSystemState(StateManager.SystemState.Normal);
 
-        // ล็อกและซ่อนเมาส์กลับไปเหมือนเดิมเมื่อเข้าเกม
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        Action<PhotoStorage.StoredPhoto> cb = pickCallback;
+        pickCallback = null;
+        StateManager.SystemState target = cb != null ? returnState : StateManager.SystemState.Normal;
+        StateManager.Instance.SetSystemState(target);
+
+        // กลับไปสถานะอื่นที่ไม่ใช่ Normal (เช่น Board) ก็ยังต้องปล่อยเมาส์ไว้ให้ UI นั้นใช้ต่อ
+        bool backToNormal = target == StateManager.SystemState.Normal;
+        Cursor.lockState = backToNormal ? CursorLockMode.Locked : CursorLockMode.None;
+        Cursor.visible = !backToNormal;
+
+        cb?.Invoke(pickedPhoto);
     }
 
     // ==================== สร้าง/ล้าง Grid ====================
@@ -213,16 +245,23 @@ public class StorageUI : MonoBehaviour
     // ==================== คลิกซ้าย: ขยายเต็มจอ ====================
     public void OnThumbnailClicked(int index)
     {
+        if (PhotoStorage.Instance == null) return;
+        var photos = PhotoStorage.Instance.Photos;
+        if (index < 0 || index >= photos.Count) return;
+
+        if (pickCallback != null)
+        {
+            // โหมดเลือกภาพ: คลิก = เลือกทันที ไม่เปิดเต็มจอ
+            CloseStorage(photos[index]);
+            return;
+        }
+
         if (isFullscreenOpen)
         {
             // กดซ้ำตอนเปิดเต็มจอค้างอยู่ -> ปิดกลับ
             CloseFullscreen();
             return;
         }
-
-        if (PhotoStorage.Instance == null) return;
-        var photos = PhotoStorage.Instance.Photos;
-        if (index < 0 || index >= photos.Count) return;
 
         // ภาพเต็มจริง โหลดจากไฟล์ทีละภาพเฉพาะตอนกดดู
         Texture2D texture = PhotoStorage.Instance.LoadPhotoTexture(photos[index]);

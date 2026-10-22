@@ -19,10 +19,10 @@ public class PhotoShooter : MonoBehaviour
     public Transform castOrigin;
 
     [Header("UI Crosshair")]
-    [Tooltip("UI Image จุดเล็งกลางจอ")]
-    public Image centerDotImage;
-    public Color normalColor = new Color(1f, 1f, 1f, 0.3f);
-    public Color detectedColor = new Color(0.6f, 1f, 0.6f, 0.8f);
+    [Tooltip("ชิ้นส่วนของกรอบโฟกัสกลางจอ (เช่นมุม 4 มุม) — ซ่อน/โชว์ตามโหมดถ่ายรูป และเปลี่ยนสีพร้อมกันทุกชิ้นเมื่อเล็งโดนสิ่งที่ถ่ายได้")]
+    public Graphic[] crosshairParts;
+    public Color normalColor = new Color(1f, 1f, 1f, 0.85f);
+    public Color detectedColor = new Color(0.55f, 1f, 0.55f, 1f);
 
     [Header("Input")]
     public InputActionReference enterPhotoModeInput;
@@ -109,7 +109,19 @@ public class PhotoShooter : MonoBehaviour
         // บังคับปิดจุดเล็งไว้ก่อนตั้งแต่ตอนเริ่มเกม ไม่รอให้ Update() เป็นคนสั่งซ่อนทีหลัง
         // (กันเคส StateManager.Instance ยังไม่พร้อมในเฟรมแรกๆ ทำให้ Update() ข้ามไปเงียบๆ
         // แล้วจุดเล็งค้างโชว์ตามค่า Enabled เดิมที่ตั้งไว้ใน Editor)
-        if (centerDotImage != null) centerDotImage.enabled = false;
+        SetCrosshairVisible(false);
+    }
+
+    private void SetCrosshairVisible(bool visible)
+    {
+        if (crosshairParts == null) return;
+        foreach (Graphic g in crosshairParts) if (g != null) g.enabled = visible;
+    }
+
+    private void SetCrosshairColor(Color color)
+    {
+        if (crosshairParts == null) return;
+        foreach (Graphic g in crosshairParts) if (g != null) g.color = color;
     }
 
     private void OnEnable()
@@ -139,15 +151,12 @@ public class PhotoShooter : MonoBehaviour
 
         if (StateManager.Instance.CurrentSystemState != StateManager.SystemState.Photograph)
         {
-            if (centerDotImage != null) centerDotImage.enabled = false;
+            SetCrosshairVisible(false);
             return;
         }
 
-        if (centerDotImage != null)
-        {
-            centerDotImage.enabled = true;
-            UpdateCrosshairColor();
-        }
+        SetCrosshairVisible(true);
+        UpdateCrosshairColor();
     }
 
     private void UpdateCrosshairColor()
@@ -169,13 +178,13 @@ public class PhotoShooter : MonoBehaviour
                 PhotoSubject subject = hit.collider.GetComponentInParent<PhotoSubject>();
                 if (subject != null)
                 {
-                    centerDotImage.color = detectedColor;
+                    SetCrosshairColor(detectedColor);
                     return;
                 }
             }
         }
 
-        centerDotImage.color = normalColor;
+        SetCrosshairColor(normalColor);
     }
 
     // ==================== เข้า/ออกโหมดถ่ายรูป ====================

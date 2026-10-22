@@ -398,6 +398,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleHelp"",
+                    ""type"": ""Button"",
+                    ""id"": ""02e65c59-66b4-4e21-bef6-a3f8410bdab4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -519,6 +528,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""TiltRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9eeb624b-44af-4698-af56-22fd0ca6bc38"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleHelp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -671,6 +691,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Photograph_Roll = m_Photograph.FindAction("Roll", throwIfNotFound: true);
         m_Photograph_TiltLeft = m_Photograph.FindAction("TiltLeft", throwIfNotFound: true);
         m_Photograph_TiltRight = m_Photograph.FindAction("TiltRight", throwIfNotFound: true);
+        m_Photograph_ToggleHelp = m_Photograph.FindAction("ToggleHelp", throwIfNotFound: true);
         // Storage UI
         m_StorageUI = asset.FindActionMap("Storage UI", throwIfNotFound: true);
         m_StorageUI_Getinout = m_StorageUI.FindAction("Get in/out", throwIfNotFound: true);
@@ -1001,6 +1022,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Photograph_Roll;
     private readonly InputAction m_Photograph_TiltLeft;
     private readonly InputAction m_Photograph_TiltRight;
+    private readonly InputAction m_Photograph_ToggleHelp;
     /// <summary>
     /// Provides access to input actions defined in input action map "Photograph".
     /// </summary>
@@ -1048,6 +1070,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Photograph/TiltRight".
         /// </summary>
         public InputAction @TiltRight => m_Wrapper.m_Photograph_TiltRight;
+        /// <summary>
+        /// Provides access to the underlying input action "Photograph/ToggleHelp".
+        /// </summary>
+        public InputAction @ToggleHelp => m_Wrapper.m_Photograph_ToggleHelp;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1101,6 +1127,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @TiltRight.started += instance.OnTiltRight;
             @TiltRight.performed += instance.OnTiltRight;
             @TiltRight.canceled += instance.OnTiltRight;
+            @ToggleHelp.started += instance.OnToggleHelp;
+            @ToggleHelp.performed += instance.OnToggleHelp;
+            @ToggleHelp.canceled += instance.OnToggleHelp;
         }
 
         /// <summary>
@@ -1139,6 +1168,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @TiltRight.started -= instance.OnTiltRight;
             @TiltRight.performed -= instance.OnTiltRight;
             @TiltRight.canceled -= instance.OnTiltRight;
+            @ToggleHelp.started -= instance.OnToggleHelp;
+            @ToggleHelp.performed -= instance.OnToggleHelp;
+            @ToggleHelp.canceled -= instance.OnToggleHelp;
         }
 
         /// <summary>
@@ -1603,6 +1635,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTiltRight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ToggleHelp" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnToggleHelp(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Storage UI" which allows adding and removing callbacks.
