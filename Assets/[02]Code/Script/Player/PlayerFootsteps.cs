@@ -26,6 +26,14 @@ public class PlayerFootsteps : MonoBehaviour
     [Header("Clips — สุ่มเล่นไม่ซ้ำตัวเดิมติดกัน")]
     public AudioClip[] grassClips;
     public AudioClip[] dirtClips;
+    [Tooltip("เสียงเดินลุยน้ำ (Walk_River) ใช้แทนหญ้า/ดินทั้งหมดตอนเท้าอยู่ในน้ำ — ว่างไว้ = เสียงน้ำไม่ทำงาน")]
+    public AudioClip[] waterClips;
+
+    [Header("Water")]
+    [Tooltip("ความลึกน้ำ (เมตร) ที่เท้าขั้นต่ำถึงนับว่าเดินในน้ำ (WaterSurface) น้อยกว่านี้ใช้เสียงพื้นปกติ")]
+    public float waterMinDepth = 0.05f;
+    [Tooltip("ตัวคูณความดังตอนลุยน้ำ")]
+    public float waterVolumeMultiplier = 1f;
 
     [Header("Surface")]
     [Tooltip("ชื่อ Terrain Layer ที่ถือว่าเป็นหญ้า (ที่เหลือถือเป็นดิน)")]
@@ -75,6 +83,7 @@ public class PlayerFootsteps : MonoBehaviour
     private float lastPhase;
     private int lastGrass = -1;
     private int lastDirt = -1;
+    private int lastWater = -1;
     private float lastStepTime = -10f;
     private bool walking;
     private float walkStartTime;
@@ -192,11 +201,19 @@ public class PlayerFootsteps : MonoBehaviour
     {
         if (logSteps) Debug.Log($"[PlayerFootsteps] {source} t={Time.time:0.00} (+{Time.time - lastStepTime:0.00})");
         lastStepTime = Time.time;
-        float grass = SampleGrassAmount();
-
         float multiplier = movement.IsSlowWalking ? slowWalkVolumeMultiplier
             : (sprint != null && sprint.IsSprinting ? sprintVolumeMultiplier : 1f);
         float baseVolume = volume * multiplier * volumeMultiplier;
+
+        // เท้าอยู่ในน้ำ = เสียงลุยน้ำอย่างเดียว ไม่ผสมหญ้า/ดิน
+        if (waterClips != null && waterClips.Length > 0 && IsFeetInWater())
+        {
+            float waterVolume = baseVolume * waterVolumeMultiplier;
+            if (waterVolume >= minAudibleVolume) Play(PickClip(waterClips, ref lastWater), waterVolume);
+            return;
+        }
+
+        float grass = SampleGrassAmount();
 
         // equal-power: ผสมแล้วความดังรวมไม่ตกตอนอยู่กลางๆ ระหว่างสองพื้น
         float grassVolume = baseVolume * Mathf.Sqrt(grass);
@@ -204,6 +221,13 @@ public class PlayerFootsteps : MonoBehaviour
 
         if (grassVolume >= minAudibleVolume) Play(PickClip(grassClips, ref lastGrass), grassVolume);
         if (dirtVolume >= minAudibleVolume) Play(PickClip(dirtClips, ref lastDirt), dirtVolume);
+    }
+
+    // ตำแหน่งผู้เล่นอยู่กลางตัว (สูง playerHeight) — เอาจุดใต้เท้ามาถามความลึกน้ำ
+    private bool IsFeetInWater()
+    {
+        Vector3 feet = transform.position - Vector3.up * (movement.playerHeight * 0.5f);
+        return WaterSurface.GetDepth(feet) >= waterMinDepth;
     }
 
     /// <summary>0 = ดินล้วน, 1 = หญ้าล้วน</summary>

@@ -690,6 +690,22 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7242607532255175903, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
+      propertyPath: waterClips.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7242607532255175903, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
+      propertyPath: 'waterClips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: dd13ae7a695eaa944bba6ed8b36e5eea, type: 3}
+    - target: {fileID: 7242607532255175903, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
+      propertyPath: 'waterClips.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8300000, guid: b38720e19191f954c8228e1b754a9b3a, type: 3}
+    - target: {fileID: 7242607532255175903, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
+      propertyPath: 'waterClips.Array.data[2]'
+      value: 
+      objectReference: {fileID: 8300000, guid: dd117a7281c712f41909b20a57a357f4, type: 3}
     - target: {fileID: 7419448964564580099, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
