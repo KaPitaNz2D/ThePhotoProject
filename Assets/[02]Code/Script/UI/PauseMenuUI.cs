@@ -7,8 +7,8 @@ using UnityEngine.Rendering;
 /// <summary>
 /// เมนู Pause (Esc) + หน้า Setting
 ///
-/// กด Esc ตอนเดินปกติ / โหมดถ่ายรูป / คุย NPC = เปิด Pause — ถ้าเปิด Journal/Storage/บอร์ดอยู่ Esc จะไปปิดหน้านั้นทีละชั้นก่อนตามเดิม
-/// (หน้าพวกนั้นฟัง Esc ของตัวเอง) กลับมาเดินปกติแล้วค่อย Esc เข้า Pause ได้
+/// กด Esc ได้เฉพาะตอนเดินปกติ (SystemState.Normal) เท่านั้น = เปิด Pause — โหมดถ่ายรูป/คุย NPC/Journal/Storage/บอร์ด/นอน กด Esc ไม่เปิด Pause
+/// (กันเผลอกดตอนถ่ายรูป) หน้าที่มี Esc ของตัวเอง (Journal/Storage/บอร์ด) จะปิดหน้านั้นทีละชั้นตามเดิม กลับมาเดินปกติแล้วค่อย Esc เข้า Pause ได้
 ///
 /// ระหว่าง Pause: Time.timeScale = 0 (สัตว์/เวลาในเกมหยุด), ปิดทุก Action Map ใน inputActions ยกเว้นของปุ่ม Pause เอง
 /// (คลิก Resume ตอนอยู่โหมดถ่ายรูปจะไม่ไปถ่ายรูปซ้อน, E/F/J/I ไม่ทำงานข้างหลังเมนู) และเปิด Volume เบลอฉากหลัง (blurVolume.weight = 1)
@@ -113,11 +113,9 @@ public class PauseMenuUI : MonoBehaviour
         switch (StateManager.Instance.CurrentSystemState)
         {
             case StateManager.SystemState.Normal:
-            case StateManager.SystemState.Photograph:
-            case StateManager.SystemState.Talking:
                 return true;
             default:
-                return false; // Journal/Storage/Board = Esc ใช้ย้อนกลับของหน้านั้น, Pause = กำลังนอน
+                return false; // Photograph/Talking = กันเผลอกด Esc, Journal/Storage/Board = Esc ใช้ย้อนกลับของหน้านั้น, Pause = กำลังนอน
         }
     }
 
