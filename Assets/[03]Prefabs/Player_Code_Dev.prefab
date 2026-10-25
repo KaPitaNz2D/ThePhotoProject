@@ -287,6 +287,55 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &5156027462080357573
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4054689872406909984}
+  - component: {fileID: 7460281837185744309}
+  m_Layer: 0
+  m_Name: ZoomBlurVolume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4054689872406909984
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5156027462080357573}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7071422385240003205}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7460281837185744309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5156027462080357573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume
+  m_IsGlobal: 1
+  priority: 90
+  blendDistance: 0
+  weight: 0
+  sharedProfile: {fileID: 11400000, guid: f89c0fa5715e7fc46add90b7c23f60e0, type: 2}
 --- !u!1 &5818887341810224829
 GameObject:
   m_ObjectHideFlags: 0
@@ -690,6 +739,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6853054644781798351, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
+      propertyPath: zoomBlurVolume
+      value: 
+      objectReference: {fileID: 7460281837185744309}
     - target: {fileID: 7242607532255175903, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
       propertyPath: waterClips.Array.size
       value: 3
@@ -790,6 +843,9 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 3563213955300687131, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7893548972741989468, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4054689872406909984}
     - targetCorrespondingSourceObject: {fileID: 717927042258050556, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7605998344635739472}
@@ -872,3 +928,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!4 &7071422385240003205 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7893548972741989468, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
+  m_PrefabInstance: {fileID: 1128496719392556761}
+  m_PrefabAsset: {fileID: 0}

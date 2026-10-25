@@ -67,6 +67,8 @@ public class PhotoZoom : MonoBehaviour
         // ซูมได้เฉพาะตอนอยู่ในโหมดถ่ายรูปเท่านั้น
         if (StateManager.Instance != null && !StateManager.Instance.IsSystemState(StateManager.SystemState.Photograph))
         {
+            // ออกจากโหมดถ่ายรูประหว่างเบลออยู่ ต้องเอาเบลอออกด้วย ไม่งั้น Weight ค้างจนกลับมาซูมใหม่ (ฉากปกติเบลอถาวร)
+            UpdateBlur(false);
             return;
         }
         if (zoomInput == null) return;
@@ -122,6 +124,14 @@ public class PhotoZoom : MonoBehaviour
     {
         if (zoomBlurVolume == null) return;
         float targetWeight = isMoving ? 1f : 0f;
-        zoomBlurVolume.weight = Mathf.Lerp(zoomBlurVolume.weight, targetWeight, Time.deltaTime * blurFadeSpeed);
+        // unscaled: เมนู Pause (timeScale 0) เปิดค้างระหว่างเบลอ ก็ยังเฟดออกได้
+        zoomBlurVolume.weight = Mathf.Lerp(zoomBlurVolume.weight, targetWeight, Time.unscaledDeltaTime * blurFadeSpeed);
+        // Lerp เข้าหา 0 ไม่ถึง 0 จริง ตัดทิ้งให้ Volume ปิดสนิท
+        if (!isMoving && zoomBlurVolume.weight < 0.01f) zoomBlurVolume.weight = 0f;
+    }
+
+    private void OnDisable()
+    {
+        if (zoomBlurVolume != null) zoomBlurVolume.weight = 0f;
     }
 }
