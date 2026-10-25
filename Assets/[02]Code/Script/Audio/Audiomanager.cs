@@ -29,8 +29,51 @@ public class AudioManager : MonoBehaviour
     [Range(0f, 1f)]
     public float masterSFXVolume = 1f;
 
+    /// <summary>ช่องปรับเสียงในหน้า Setting (หนึ่งช่องอาจคุมหลายกลุ่มใน Mixer — SFX คุมทั้ง SFX และ UI)</summary>
+    public enum VolumeChannel { Master, Ambient, Music, SFX }
+
+    private static readonly Dictionary<VolumeChannel, string[]> ChannelParameters = new Dictionary<VolumeChannel, string[]>
+    {
+        { VolumeChannel.Master,  new[] { "MasterVolume" } },
+        { VolumeChannel.Ambient, new[] { "AmbientVolume" } },
+        { VolumeChannel.Music,   new[] { "MusicVolume" } },
+        { VolumeChannel.SFX,     new[] { "SFXVolume", "UIVolume" } },
+    };
+
     private List<AudioSource> sourcePool = new List<AudioSource>();
     private int nextSourceIndex = 0;
+    private AudioMixerGroup ambientGroup;
+
+    /// <summary>กลุ่ม Ambient ใน Mixer (เสียงเท้า/นก/หญ้า) หาจากชื่อในตัว Mixer เอง ไม่ต้องลากใส่ — null ถ้าไม่มี Mixer</summary>
+    public AudioMixerGroup AmbientGroup
+    {
+        get
+        {
+            if (ambientGroup == null && mixer != null)
+            {
+                AudioMixerGroup[] found = mixer.FindMatchingGroups("Ambient");
+                if (found.Length > 0) ambientGroup = found[0];
+            }
+            return ambientGroup;
+        }
+    }
+
+    private void Start()
+    {
+        // AudioMixer.SetFloat ใน Awake ไม่มีผล (ข้อจำกัดของ Unity) ต้องตั้งค่าที่เซฟไว้ตอน Start
+        foreach (VolumeChannel channel in ChannelParameters.Keys) SetVolume(channel, GetSavedVolume(channel), false);
+    }
+
+    /// <summary>ความดังที่ผู้เล่นตั้งไว้ (0..1) — เซฟข้ามการเปิดเกมด้วย PlayerPrefs ค่าเริ่มต้น 1</summary>
+    public static float GetSavedVolume(VolumeChannel channel) => PlayerPrefs.GetFloat("Volume." + channel, 1f);
+
+    /// <summary>ตั้งความดังของช่อง (0..1) แล้วเซฟไว้ — ใช้จากหน้า Setting</summary>
+    public void SetVolume(VolumeChannel channel, float linear01, bool save = true)
+    {
+        linear01 = Mathf.Clamp01(linear01);
+        foreach (string parameter in ChannelParameters[channel]) SetGroupVolume(parameter, linear01);
+        if (save) PlayerPrefs.SetFloat("Volume." + channel, linear01);
+    }
 
     private void Awake()
     {

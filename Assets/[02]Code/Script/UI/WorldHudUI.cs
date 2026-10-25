@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// โชว์เฉพาะตอนเดินสำรวจโลกอยู่ (SystemState.Normal) ซ่อนทั้งหมดทันทีที่เปิด Photograph/Journal/Storage/Talking/Pause
+// โชว์เฉพาะตอนเดินสำรวจโลกอยู่ (SystemState.Normal) ซ่อนทั้งหมดทันทีที่เปิด Photograph/Journal/Storage/Talking/Pause และตอนเปิดเมนู Pause (Esc)
 // Pattern เดียวกับ PhotoGridUI.cs
 public class WorldHudUI : MonoBehaviour
 {
@@ -14,6 +14,7 @@ public class WorldHudUI : MonoBehaviour
             StateManager.Instance.OnSystemStateChanged += HandleSystemStateChanged;
             SetHudVisible(StateManager.Instance.CurrentSystemState == StateManager.SystemState.Normal);
         }
+        PauseMenuUI.OnPauseChanged += HandlePauseChanged;
     }
 
     private void OnDestroy()
@@ -22,11 +23,19 @@ public class WorldHudUI : MonoBehaviour
         {
             StateManager.Instance.OnSystemStateChanged -= HandleSystemStateChanged;
         }
+        PauseMenuUI.OnPauseChanged -= HandlePauseChanged;
     }
 
     private void HandleSystemStateChanged(StateManager.SystemState oldState, StateManager.SystemState newState)
     {
         SetHudVisible(newState == StateManager.SystemState.Normal);
+    }
+
+    // Pause ไม่เปลี่ยน SystemState (ค้าง Normal) เลยต้องฟังแยก ไม่งั้น HUD ทับกล่อง Setting
+    private void HandlePauseChanged(bool paused)
+    {
+        bool normal = StateManager.Instance == null || StateManager.Instance.CurrentSystemState == StateManager.SystemState.Normal;
+        SetHudVisible(!paused && normal);
     }
 
     private void SetHudVisible(bool visible)

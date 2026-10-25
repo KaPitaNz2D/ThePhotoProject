@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 /// <summary>
 /// เสียงฝีเท้าผู้เล่น — ผูกกับ Animation: อ่านเฟส (normalizedTime) ของ State ที่ Animator กำลังเล่นอยู่
@@ -84,7 +85,9 @@ public class PlayerFootsteps : MonoBehaviour
     {
         if (AudioManager.Instance != null)
         {
-            foreach (AudioSource s in sources) s.outputAudioMixerGroup = AudioManager.Instance.sfxGroup;
+            // เสียงเท้านับเป็นเสียงบรรยากาศ (ปรับที่ช่อง Ambient ในหน้า Setting) ไม่ใช่ SFX
+            AudioMixerGroup group = AudioManager.Instance.AmbientGroup != null ? AudioManager.Instance.AmbientGroup : AudioManager.Instance.sfxGroup;
+            foreach (AudioSource s in sources) s.outputAudioMixerGroup = group;
         }
         lastPosition = transform.position;
     }

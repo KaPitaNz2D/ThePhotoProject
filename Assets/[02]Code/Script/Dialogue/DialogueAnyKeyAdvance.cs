@@ -17,7 +17,11 @@ public class DialogueAnyKeyAdvance : MonoBehaviour
 
     private void Update()
     {
-        bool pressed = (Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame)
+        // เมนู Pause เปิดอยู่ / เพิ่งปิดเฟรมนี้ (คลิก Resume) -> ไม่เดินบทสนทนา, Esc ไว้เปิด Pause ไม่นับเป็น "ปุ่มไหนก็ได้"
+        if (PauseMenuUI.IsPaused || PauseMenuUI.ClosedThisFrame) return;
+
+        bool escape = Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame;
+        bool pressed = (Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame && !escape)
             || (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame);
 
         if (pressed)
