@@ -108,7 +108,9 @@ public class CameraController : MonoBehaviour
         // มีกล้องที่ Focus ค้างอยู่ (เช่นอยู่หน้าบอร์ดแล้วเปิด Storage มาเลือกรูป) กล้องไม่ได้เปลี่ยน ไม่ต้องเฟดดำ/คืนกล้อง
         if (focusedCam != null) return;
 
-        if (transitionUI != null)
+        // เฟดดำเฉพาะตอนสลับกล้องจริง (เข้า/ออกโหมดถ่ายรูป) — เปิด Journal/Storage/คุย NPC/นอน กล้องไม่เปลี่ยน ไม่ต้องกระพริบจอ
+        bool cameraChanges = isPhotoMode != photoCamLive;
+        if (transitionUI != null && cameraChanges)
         {
             // Fade จอดำก่อน -> สลับกล้องตอนดำสนิท (มองไม่เห็นจังหวะกระโดดตำแหน่ง) -> Fade กลับ
             transitionUI.PlayTransition(() => SetPhotoMode(isPhotoMode));
