@@ -46,6 +46,26 @@ public class WaterSurface : MonoBehaviour
 
     public static bool IsInWater(Vector3 position) => GetDepth(position) > 0f;
 
+    /// <summary>มีน้ำ ณ จุด (x, z) นี้ไหม — ได้ความสูงผิวน้ำ (พิกัดโลก) กลับมาด้วย ใช้วางจุดเสียงน้ำ</summary>
+    public static bool TryGetSurface(Vector3 position, out float surfaceY)
+    {
+        surfaceY = 0f;
+        float best = 0f;
+        foreach (WaterSurface w in all)
+        {
+            if (position.x < w.bounds.min.x || position.x > w.bounds.max.x ||
+                position.z < w.bounds.min.z || position.z > w.bounds.max.z) continue;
+
+            float depth = w.bounds.max.y - GroundHeight(position);
+            if (depth >= w.minDepth && depth > best)
+            {
+                best = depth;
+                surfaceY = w.bounds.max.y;
+            }
+        }
+        return best > 0f;
+    }
+
     // พื้นใต้น้ำคือ Terrain (ถ้าไม่มี Terrain ตรงจุดนั้น ถือว่าไม่มีน้ำ)
     private static float GroundHeight(Vector3 position)
     {

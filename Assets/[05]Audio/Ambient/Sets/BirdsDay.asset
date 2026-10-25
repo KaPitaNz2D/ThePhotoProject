@@ -22,7 +22,7 @@ MonoBehaviour:
   heightAboveGround: {x: 5, y: 18}
   volumeRange: {x: 0.5, y: 0.95}
   pitchRange: {x: 0.92, y: 1.08}
-  minDistance: 5
+  minDistance: 20
   maxDistance: 55
   lowPassAtMaxDistance: 7000
   limitByHour: 1

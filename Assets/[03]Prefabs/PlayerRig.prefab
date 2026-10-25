@@ -782,6 +782,22 @@ PrefabInstance:
       propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6700975362825655885, guid: b2c8e39c1446ba746a902c536e93f61d, type: 3}
+      propertyPath: m_ControllerManager.Controllers.Array.data[0].Input.Gain
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 6700975362825655885, guid: b2c8e39c1446ba746a902c536e93f61d, type: 3}
+      propertyPath: m_ControllerManager.Controllers.Array.data[1].Input.Gain
+      value: -0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 6700975362825655885, guid: b2c8e39c1446ba746a902c536e93f61d, type: 3}
+      propertyPath: m_ControllerManager.Controllers.Array.data[0].Input.CancelDeltaTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6700975362825655885, guid: b2c8e39c1446ba746a902c536e93f61d, type: 3}
+      propertyPath: m_ControllerManager.Controllers.Array.data[1].Input.CancelDeltaTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6962028256781487959, guid: b2c8e39c1446ba746a902c536e93f61d, type: 3}
       propertyPath: m_Name
       value: FloraCategoryButton
