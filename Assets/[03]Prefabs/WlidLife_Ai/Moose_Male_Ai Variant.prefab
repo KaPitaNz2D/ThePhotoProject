@@ -104,13 +104,37 @@ PrefabInstance:
       propertyPath: profile
       value: 
       objectReference: {fileID: 11400000, guid: a3d2971cd8c81824aaeff01bcd6de9ea, type: 2}
+    - target: {fileID: 1535279123949320942, guid: 823460e9a6d93d54cb13a43ab6b37b63, type: 3}
+      propertyPath: snortClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 929ac5bd335553b41bed34e7f7be17ba, type: 3}
+    - target: {fileID: 1535279123949320942, guid: 823460e9a6d93d54cb13a43ab6b37b63, type: 3}
+      propertyPath: runAlertClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 23b1e35b588703d4bbbb21f2f3f74a09, type: 3}
+    - target: {fileID: 1535279123949320942, guid: 823460e9a6d93d54cb13a43ab6b37b63, type: 3}
+      propertyPath: normalClips.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: e5572dedec35a6f44be14c4b77ca3ad0, type: 3}
+    - target: {fileID: 1535279123949320942, guid: 823460e9a6d93d54cb13a43ab6b37b63, type: 3}
+      propertyPath: normalClips.Array.data[1].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 16a10c6ade1b53c4497219d7cbd65a4b, type: 3}
+    - target: {fileID: 1535279123949320942, guid: 823460e9a6d93d54cb13a43ab6b37b63, type: 3}
+      propertyPath: normalClips.Array.data[0].weight
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1535279123949320942, guid: 823460e9a6d93d54cb13a43ab6b37b63, type: 3}
+      propertyPath: normalClips.Array.data[1].weight
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1907670985553546322, guid: 823460e9a6d93d54cb13a43ab6b37b63, type: 3}
       propertyPath: m_BaseOffset
       value: 0.99
       objectReference: {fileID: 0}
     - target: {fileID: 2175008808677069665, guid: 823460e9a6d93d54cb13a43ab6b37b63, type: 3}
       propertyPath: m_Name
-      value: Moose_Female_Ai Variant
+      value: Moose_Male_Ai Variant
       objectReference: {fileID: 0}
     - target: {fileID: 2308917629116370664, guid: 823460e9a6d93d54cb13a43ab6b37b63, type: 3}
       propertyPath: profile
