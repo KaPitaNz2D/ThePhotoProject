@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -30,6 +30,9 @@ public class JournalManager : MonoBehaviour
 
     // creatureId -> ภาพของ Journal
     private Dictionary<string, JournalPhoto> unlockedPhotos = new Dictionary<string, JournalPhoto>();
+
+    // เลขรันชื่อไฟล์สำเนา — ไม่ใช้ unlockedPhotos.Count เพราะตอนเปลี่ยนรูป (SetPhotoForEntry) Count ไม่ขยับ ชื่อไฟล์จะชนของเดิม
+    private int photoFileCounter;
 
     private string FolderPath => Path.Combine(Application.persistentDataPath, PhotoFolderName);
 
@@ -107,7 +110,7 @@ public class JournalManager : MonoBehaviour
         try
         {
             string safeId = string.Concat(creatureId.Select(c => Path.GetInvalidFileNameChars().Contains(c) ? '_' : c));
-            string destination = Path.Combine(FolderPath, $"journal_{unlockedPhotos.Count}_{safeId}.png");
+            string destination = Path.Combine(FolderPath, $"journal_{photoFileCounter++}_{safeId}.png");
             File.Copy(photo.filePath, destination, true);
             journalPhoto.fullFilePath = destination;
         }
@@ -130,6 +133,41 @@ public class JournalManager : MonoBehaviour
         {
             // ลบไม่ได้ก็ปล่อย โฟลเดอร์จะถูกล้างตอน Awake ครั้งหน้า
         }
+    }
+
+    /// <summary>
+    /// เปลี่ยนรูปประจำ Entry เป็นภาพที่ผู้เล่นเลือกจาก Storage (หน้า Change Photos ใน Journal)
+    /// ทำสำเนาใหม่ของ Journal เองเหมือนตอนปลดล็อก แล้วทิ้งสำเนาเก่า — คืน true ถ้าเปลี่ยนสำเร็จ
+    /// </summary>
+    public bool SetPhotoForEntry(JournalEntry entry, PhotoStorage.StoredPhoto photo)
+    {
+        if (entry == null || photo == null || PhotoStorage.Instance == null) return false;
+
+        JournalPhoto newPhoto = CreateJournalPhoto(photo, entry.creatureId);
+        if (newPhoto == null) return false;
+
+        if (unlockedPhotos.TryGetValue(entry.creatureId, out JournalPhoto oldPhoto))
+        {
+            if (oldPhoto.thumbnail != null) Destroy(oldPhoto.thumbnail);
+            DeleteFileQuietly(oldPhoto.fullFilePath);
+        }
+        unlockedPhotos[entry.creatureId] = newPhoto;
+        return true;
+    }
+
+    /// <summary>ภาพใน Storage ที่ถ่ายติด Entry นี้ เรียงตามลำดับใน Storage — ใช้เป็นตัวเลือกในหน้า Change Photos</summary>
+    public List<PhotoStorage.StoredPhoto> GetStoragePhotosFor(JournalEntry entry)
+    {
+        if (entry == null || PhotoStorage.Instance == null) return new List<PhotoStorage.StoredPhoto>();
+        return PhotoStorage.Instance.Photos
+            .Where(p => p.creatureIds != null && p.creatureIds.Contains(entry.creatureId))
+            .ToList();
+    }
+
+    /// <summary>คืน Entry ทั้งหมดในหน้า Plants (Flora + Fungus) หรือ Animals เรียงตามลำดับใน allEntries</summary>
+    public List<JournalEntry> GetEntriesForSection(bool animals)
+    {
+        return allEntries.Where(e => e != null && e.IsPlant != animals).ToList();
     }
 
     /// <summary>คืน Entry ทั้งหมดในหมวดที่ระบุ เรียงตามลำดับใน allEntries</summary>

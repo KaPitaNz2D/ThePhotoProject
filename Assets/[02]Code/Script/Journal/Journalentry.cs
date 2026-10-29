@@ -37,4 +37,17 @@ public class JournalEntry : ScriptableObject
     [Header("รูปเงา/ภาพมืด")]
     [Tooltip("โชว์เสมอในกริด 9 ช่อง (ไม่ว่าจะปลดล็อกหรือยัง) และโชว์ในหน้า Detail ถ้ายังไม่ปลดล็อก")]
     public Sprite silhouette;
+
+    [Header("Quest — โชว์ในหน้า Tasks ของ Journal หลังคุยกับ NPC แล้วรับ Quest (start_quest)")]
+    [Tooltip("ชื่อ Quest — ว่างไว้จะใช้ \"Photograph the <displayName>\"")]
+    public string questTitle;
+    [Tooltip("รายละเอียด Quest (โชว์ตอนกางแถว) — ว่างไว้จะใช้ habitatInfo แทน")]
+    [TextArea(2, 4)]
+    public string questDetails;
+
+    public string QuestTitleOrDefault => !string.IsNullOrEmpty(questTitle) ? questTitle : $"Photograph the {displayName}";
+    public string QuestDetailsOrDefault => !string.IsNullOrEmpty(questDetails) ? questDetails : habitatInfo;
+
+    /// <summary>หน้า Plants ของ Journal รวม Flora + Fungus ไว้ด้วยกัน (ตอนนี้ยังไม่แยกหน้า)</summary>
+    public bool IsPlant => category != JournalCategory.Animal;
 }

@@ -6,14 +6,21 @@ using UnityEngine.UI;
 using TMPro;
 
 /// <summary>
-/// ตัวควบคุม UI สมุดบันทึกทั้งหมด แบ่งเป็น 3 ชั้น:
-///   Category (เลือก Flora/Fungus/Animal) -> Grid (กริด 9 ช่อง โชว์เงาดำเสมอ) -> Detail (ข้อมูล+รูปจริงถ้าปลดล็อกแล้ว)
+/// ตัวควบคุม UI สมุดบันทึก (สมุดสันห่วง + แท็บสีด้านขวา) มี 5 หน้า:
+///   Tasks (รายการ Quest) / Contents (ปุ่ม Plants, Animals) / Grid (กริด 3x3 ของ Plants หรือ Animals)
+///   / Detail (รูป + ข้อมูลของ 1 Entry) / Change Photos (เลือกรูปจาก Storage มาเป็นรูปประจำ Entry)
 ///
-/// ปุ่ม Toggle เปิด/ปิดทั้งชุด, ปุ่ม Cancel (Esc) ถอยกลับทีละชั้น — Pattern เดียวกับ StorageUI
+/// ◀ (และ Esc) ย้อนขึ้นไปหน้า "แม่" ตามลำดับชั้นเสมอ ไม่ใช่ History ที่เคยเปิด — Tasks เป็นหน้าบนสุด:
+///   Change Photos -> Detail -> Plants/Animals -> Contents -> Tasks -> ปิดสมุด
+///   (หน้าที่มีหลายหน้าย่อย ◀ ย้อนหน้าย่อยก่อนจนถึงหน้าย่อยแรก แล้วค่อยขึ้นไปหน้าแม่)
+/// ▶ ใช้พลิกไปหน้าย่อยถัดไปของ Grid / Change Photos เท่านั้น — หน้าอื่นซ่อนไว้ / แท็บ = กระโดดไปหน้านั้นเลย
+/// เปิดครั้งแรกเจอหน้า Tasks หลังจากนั้นเปิดมาเจอหน้าล่าสุดที่เปิดค้างไว้
+///
+/// โครงสร้าง UI ทั้งหมดสร้างจากเมนู Tools > Photo Project > Rebuild Journal UI (JournalUIBuilder)
 /// </summary>
 public class JournalUI : MonoBehaviour
 {
-    private const int ITEMS_PER_PAGE = 9;
+    private const int GRID_SLOTS_PER_PAGE = 9;
 
     [Header("Data")]
     public JournalManager journalManager;
@@ -21,51 +28,96 @@ public class JournalUI : MonoBehaviour
     [Header("Input")]
     [Tooltip("Action แบบ Button สำหรับเปิด/ปิด Journal")]
     public InputActionReference toggleJournalInput;
-    [Tooltip("Action สำหรับถอยกลับทีละชั้น (เช่น ปุ่ม Esc) — ใช้ Action เดียวกับ StorageUI ได้เลย")]
+    [Tooltip("Action สำหรับย้อนกลับ (เช่น ปุ่ม Esc) — ทำงานเหมือนปุ่ม ◀ ย้อนขึ้นจนถึง Tasks แล้วปิดสมุด")]
     public InputActionReference cancelInput;
 
-    [Header("Panels")]
+    [Header("Book")]
     public GameObject journalRootPanel;
-    public GameObject categoryPanel;
-    public GameObject gridPanel;
-    public GameObject detailPanel;
+    public TMP_Text pageTitleText;
+    public Button closeButton;
+    [Tooltip("◀ มุมล่างซ้าย — ย้อนขึ้นหน้าแม่ (หน้า Tasks = ปิดสมุด)")]
+    public Button backButton;
+    [Tooltip("▶ มุมล่างขวา — หน้าย่อยถัดไปของ Grid / Change Photos (หน้าอื่นซ่อน)")]
+    public Button forwardButton;
 
-    [Header("Category Panel")]
-    [UnityEngine.Serialization.FormerlySerializedAs("plantCategoryButton")]
-    public Button floraCategoryButton;
-    public Button fungusCategoryButton;
-    public Button animalCategoryButton;
+    [Header("Tabs")]
+    public Button tasksTab;
+    public Button contentsTab;
+    public Button plantsTab;
+    public Button animalsTab;
 
-    [Header("Grid Panel")]
-    public Transform gridContent;
-    [Tooltip("Prefab ช่อง 1 ช่อง ต้องมี JournalGridSlotUI ติดอยู่")]
-    public GameObject gridSlotPrefab;
-    public Button nextPageButton;
-    public Button prevPageButton;
-    public TMP_Text pageLabelText;
+    [Header("Pages")]
+    public GameObject tasksPage;
+    public GameObject contentsPage;
+    public GameObject gridPage;
+    public GameObject detailPage;
+    public GameObject changePhotoPage;
 
-    [Header("Detail Panel")]
+    [Header("Tasks Page")]
+    public Transform taskListContent;
+    [Tooltip("แถว Quest ต้นแบบ (ซ่อนไว้) — Clone ใหม่ทุกครั้งที่รีเฟรชหน้า")]
+    public JournalTaskRowUI taskRowTemplate;
+    [Tooltip("ข้อความตอนยังไม่มี Quest เลย")]
+    public GameObject tasksEmptyText;
+
+    [Header("Contents Page")]
+    public Button contentsPlantsButton;
+    public Button contentsAnimalsButton;
+
+    [Header("Grid Page (3x3)")]
+    public JournalGridSlotUI[] gridSlots = new JournalGridSlotUI[0];
+
+    [Header("Detail Page")]
     public Image detailPhotoImage;
     public Image detailSilhouetteImage;
+    [Tooltip("เครื่องหมาย ? โชว์ตอนยังไม่มีทั้งรูปถ่ายและรูปเงา")]
+    public GameObject detailUnknownMark;
+    [Tooltip("ปุ่มกลมข้างรูป — ไปหน้า Change Photos (กดได้เมื่อมีรูปของ Entry นี้ใน Storage)")]
+    public Button changePhotoButton;
+    [Tooltip("แถบชื่อ กดเพื่อกาง/หุบรายละเอียด")]
+    public Button detailNameBarButton;
     public TMP_Text detailNameText;
-    [Tooltip("ช่องสถานที่ — โชว์ตลอดตั้งแต่ยังไม่ปลดล็อกจนถึงหลังปลดล็อก ไม่มีอะไรมาทับ แยกจาก Description")]
+    public RectTransform detailChevron;
+    public GameObject detailBody;
+    [Tooltip("ย่อหน้าแรก: สถานที่ — โชว์ตลอดตั้งแต่ยังไม่ถ่ายรูป")]
     public TMP_Text detailHabitatText;
-    [Tooltip("ช่องคำอธิบาย + Quest Reward — โชว์เฉพาะตอนปลดล็อกแล้วเท่านั้น")]
+    [Tooltip("ย่อหน้าที่สอง: ความรู้จาก NPC — โชว์เมื่อถ่ายรูปแล้วและ NPC เล่าเรื่องนี้ให้ฟังแล้ว")]
     public TMP_Text detailDescriptionText;
     [Tooltip("ระยะเวลาเฟดจากรูปเงาไปเป็นรูปที่ถ่ายจริง เล่นแค่ครั้งแรกที่เปิดดู Entry นั้นหลังปลดล็อก")]
     public float photoRevealFadeDuration = 0.6f;
 
-    private enum JournalView { Category, Grid, Detail }
-    private JournalView currentView;
+    [Header("Change Photos Page (2x3)")]
+    public Button[] changePhotoSlots = new Button[0];
+    [Tooltip("รูปในแต่ละช่อง เรียงตรงกับ changePhotoSlots")]
+    public Image[] changePhotoImages = new Image[0];
 
-    private JournalEntry.JournalCategory currentCategory;
-    private List<JournalEntry> currentCategoryEntries = new List<JournalEntry>();
-    private int currentPage;
+    private enum PageType { Tasks, Contents, Grid, Detail, ChangePhoto }
+
+    /// <summary>หน้าที่เปิดอยู่ — Grid ใช้ animals + subPage, Detail ใช้ entry, ChangePhoto ใช้ entry + subPage</summary>
+    private struct PageState
+    {
+        public PageType type;
+        public bool animals;
+        public JournalEntry entry;
+        public int subPage;
+    }
+
+    private PageState currentPage = new PageState { type = PageType.Tasks };
+
+    private readonly List<JournalTaskRowUI> spawnedTaskRows = new List<JournalTaskRowUI>();
+    private readonly HashSet<string> expandedTaskIds = new HashSet<string>();
+    private bool detailExpanded = true;
+
+    private List<JournalEntry> gridEntries = new List<JournalEntry>();
+    private List<PhotoStorage.StoredPhoto> changePhotoCandidates = new List<PhotoStorage.StoredPhoto>();
+
     private Coroutine photoRevealRoutine;
-    private Sprite detailPhotoSprite; // Sprite ที่ห่อรูปย่อใน Detail Panel (เป็นของ JournalUI เอง)
+    private Sprite detailPhotoSprite; // Sprite ที่ห่อรูปย่อใน Detail (เป็นของ JournalUI เอง)
 
     // เก็บ creatureId ที่เคยเล่นเฟดเผยรูปไปแล้ว — เปิดดูซ้ำครั้งต่อไปโชว์รูปจริงทันทีไม่ต้องเฟดอีก
     private HashSet<string> revealedCreatureIds = new HashSet<string>();
+
+    private bool IsOpen => journalRootPanel != null && journalRootPanel.activeSelf;
 
     private void Start()
     {
@@ -80,30 +132,43 @@ public class JournalUI : MonoBehaviour
             cancelInput.action.performed += OnCancelPressed;
         }
 
-        if (floraCategoryButton != null)
-            floraCategoryButton.onClick.AddListener(() => SelectCategory(JournalEntry.JournalCategory.Flora));
-        if (fungusCategoryButton != null)
-            fungusCategoryButton.onClick.AddListener(() => SelectCategory(JournalEntry.JournalCategory.Fungus));
-        if (animalCategoryButton != null)
-            animalCategoryButton.onClick.AddListener(() => SelectCategory(JournalEntry.JournalCategory.Animal));
-        if (nextPageButton != null) nextPageButton.onClick.AddListener(NextPage);
-        if (prevPageButton != null) prevPageButton.onClick.AddListener(PrevPage);
+        if (closeButton != null) closeButton.onClick.AddListener(CloseJournal);
+        if (backButton != null) backButton.onClick.AddListener(GoBack);
+        if (forwardButton != null) forwardButton.onClick.AddListener(GoForward);
+
+        if (tasksTab != null) tasksTab.onClick.AddListener(() => NavigateTo(new PageState { type = PageType.Tasks }));
+        if (contentsTab != null) contentsTab.onClick.AddListener(() => NavigateTo(new PageState { type = PageType.Contents }));
+        if (plantsTab != null) plantsTab.onClick.AddListener(() => NavigateTo(new PageState { type = PageType.Grid, animals = false }));
+        if (animalsTab != null) animalsTab.onClick.AddListener(() => NavigateTo(new PageState { type = PageType.Grid, animals = true }));
+        if (contentsPlantsButton != null) contentsPlantsButton.onClick.AddListener(() => NavigateTo(new PageState { type = PageType.Grid, animals = false }));
+        if (contentsAnimalsButton != null) contentsAnimalsButton.onClick.AddListener(() => NavigateTo(new PageState { type = PageType.Grid, animals = true }));
+
+        if (changePhotoButton != null) changePhotoButton.onClick.AddListener(() =>
+            NavigateTo(new PageState { type = PageType.ChangePhoto, animals = currentPage.animals, entry = currentPage.entry }));
+        if (detailNameBarButton != null) detailNameBarButton.onClick.AddListener(() =>
+        {
+            detailExpanded = !detailExpanded;
+            RefreshDetailExpanded();
+        });
+
+        for (int i = 0; i < changePhotoSlots.Length; i++)
+        {
+            int slotIndex = i;
+            if (changePhotoSlots[i] != null) changePhotoSlots[i].onClick.AddListener(() => OnChangePhotoSlotClicked(slotIndex));
+        }
+
+        if (taskRowTemplate != null) taskRowTemplate.gameObject.SetActive(false);
 
         if (QuestManager.Instance != null)
         {
             QuestManager.Instance.OnQuestStatusChanged += HandleQuestStatusChanged;
         }
+        if (PhotoStorage.Instance != null)
+        {
+            PhotoStorage.Instance.OnStorageChanged += HandleStorageChanged;
+        }
 
         if (journalRootPanel != null) journalRootPanel.SetActive(false);
-    }
-
-    private void HandleQuestStatusChanged(string creatureId, QuestManager.QuestStatus status)
-    {
-        // รีเฟรชหน้ากริดที่เปิดค้างอยู่ทันที เผื่อ Complete Quest ระหว่างเปิด Journal ค้างไว้พอดี
-        if (currentView == JournalView.Grid)
-        {
-            PopulateGridPage();
-        }
     }
 
     private void OnDestroy()
@@ -111,7 +176,19 @@ public class JournalUI : MonoBehaviour
         if (toggleJournalInput != null) toggleJournalInput.action.performed -= OnToggleJournal;
         if (cancelInput != null) cancelInput.action.performed -= OnCancelPressed;
         if (QuestManager.Instance != null) QuestManager.Instance.OnQuestStatusChanged -= HandleQuestStatusChanged;
+        if (PhotoStorage.Instance != null) PhotoStorage.Instance.OnStorageChanged -= HandleStorageChanged;
         if (detailPhotoSprite != null) Destroy(detailPhotoSprite);
+    }
+
+    // รีเฟรชหน้าที่เปิดค้างอยู่ทันที เผื่อ Quest เปลี่ยนสถานะ / Storage เปลี่ยนระหว่างเปิด Journal ค้างไว้
+    private void HandleQuestStatusChanged(string creatureId, QuestManager.QuestStatus status)
+    {
+        if (IsOpen) RenderCurrentPage();
+    }
+
+    private void HandleStorageChanged()
+    {
+        if (IsOpen && currentPage.type == PageType.ChangePhoto) RenderCurrentPage();
     }
 
     // ==================== เปิด/ปิด ====================
@@ -141,12 +218,14 @@ public class JournalUI : MonoBehaviour
         Cursor.visible = true;
 
         if (journalRootPanel != null) journalRootPanel.SetActive(true);
-        ShowCategoryView();
+        // ไม่รีเซ็ตหน้า — เปิดมาเจอหน้าล่าสุดที่เปิดค้างไว้ (ครั้งแรกสุด currentPage เริ่มที่ Tasks)
+        RenderCurrentPage();
     }
 
     private void CloseJournal()
     {
-        ClearGrid();
+        if (StateManager.Instance == null || !StateManager.Instance.IsSystemState(StateManager.SystemState.Journal)) return;
+
         StopPhotoRevealFade();
 
         if (journalRootPanel != null) journalRootPanel.SetActive(false);
@@ -156,140 +235,219 @@ public class JournalUI : MonoBehaviour
         Cursor.visible = false;
     }
 
-    // ==================== Escape ถอยกลับทีละชั้น ====================
     private void OnCancelPressed(InputAction.CallbackContext ctx)
     {
         if (StateManager.Instance == null || !StateManager.Instance.IsSystemState(StateManager.SystemState.Journal)) return;
 
-        switch (currentView)
+        GoBack();
+    }
+
+    // ==================== นำทาง (◀ / ▶ / แท็บ) ====================
+    private void NavigateTo(PageState page)
+    {
+        if (SamePage(page, currentPage)) return;
+
+        currentPage = page;
+        RenderCurrentPage();
+    }
+
+    /// <summary>◀ / Esc — ย้อนหน้าย่อยก่อน แล้วขึ้นไปหน้าแม่ตามลำดับชั้น อยู่หน้า Tasks แล้วกดอีก = ปิดสมุด</summary>
+    private void GoBack()
+    {
+        if (currentPage.subPage > 0)
         {
-            case JournalView.Detail:
-                ShowGridView();
+            PageState previous = currentPage;
+            previous.subPage--;
+            NavigateTo(previous);
+            return;
+        }
+
+        switch (currentPage.type)
+        {
+            case PageType.ChangePhoto:
+                NavigateTo(new PageState { type = PageType.Detail, animals = currentPage.animals, entry = currentPage.entry });
                 break;
-            case JournalView.Grid:
-                ShowCategoryView();
+            case PageType.Detail:
+                NavigateTo(GridPageContaining(currentPage.entry, currentPage.animals));
                 break;
-            case JournalView.Category:
+            case PageType.Grid:
+                NavigateTo(new PageState { type = PageType.Contents });
+                break;
+            case PageType.Contents:
+                NavigateTo(new PageState { type = PageType.Tasks });
+                break;
+            default:
                 CloseJournal();
                 break;
         }
     }
 
-    // ==================== ชั้นที่ 1: Category ====================
-    private void ShowCategoryView()
+    // ย้อนจาก Detail กลับไปหน้าย่อยของกริดที่มี Entry นั้นอยู่ (ไม่เด้งกลับหน้าแรกทุกครั้ง)
+    private PageState GridPageContaining(JournalEntry entry, bool animals)
     {
-        currentView = JournalView.Category;
-        ClearGrid();
-        StopPhotoRevealFade();
-
-        if (categoryPanel != null) categoryPanel.SetActive(true);
-        if (gridPanel != null) gridPanel.SetActive(false);
-        if (detailPanel != null) detailPanel.SetActive(false);
+        int index = journalManager != null ? journalManager.GetEntriesForSection(animals).IndexOf(entry) : -1;
+        return new PageState { type = PageType.Grid, animals = animals, subPage = Mathf.Max(0, index) / GRID_SLOTS_PER_PAGE };
     }
 
-    private void SelectCategory(JournalEntry.JournalCategory category)
+    /// <summary>▶ — พลิกไปหน้าย่อยถัดไปของ Grid / Change Photos (หน้าอื่นไม่มีอะไรให้ไปต่อ)</summary>
+    private void GoForward()
     {
-        currentCategory = category;
-        currentPage = 0;
-        ShowGridView();
+        if (!HasNextSubPage()) return;
+
+        PageState next = currentPage;
+        next.subPage++;
+        NavigateTo(next);
     }
 
-    // ==================== ชั้นที่ 2: Grid (9 ช่องต่อหน้า) ====================
-    private void ShowGridView()
+    private bool HasNextSubPage()
     {
-        currentView = JournalView.Grid;
-        StopPhotoRevealFade();
-
-        if (categoryPanel != null) categoryPanel.SetActive(false);
-        if (gridPanel != null) gridPanel.SetActive(true);
-        if (detailPanel != null) detailPanel.SetActive(false);
-
-        if (journalManager != null)
+        switch (currentPage.type)
         {
-            currentCategoryEntries = journalManager.GetEntriesByCategory(currentCategory);
+            case PageType.Grid:
+                return (currentPage.subPage + 1) * GRID_SLOTS_PER_PAGE < gridEntries.Count;
+            case PageType.ChangePhoto:
+                return (currentPage.subPage + 1) * changePhotoSlots.Length < changePhotoCandidates.Count;
+            default:
+                return false;
+        }
+    }
+
+    private static bool SamePage(PageState a, PageState b)
+    {
+        return a.type == b.type && a.animals == b.animals && a.entry == b.entry && a.subPage == b.subPage;
+    }
+
+    // ==================== วาดหน้าปัจจุบัน ====================
+    private void RenderCurrentPage()
+    {
+        StopPhotoRevealFade();
+
+        // Entry ที่เคยเปิดดูอาจหายไปจาก allEntries ระหว่างทาง (เช่นแก้ Inspector ตอน Play) -> กลับไปหน้า Grid
+        if ((currentPage.type == PageType.Detail || currentPage.type == PageType.ChangePhoto) && currentPage.entry == null)
+        {
+            currentPage = new PageState { type = PageType.Grid, animals = currentPage.animals };
         }
 
-        PopulateGridPage();
+        if (tasksPage != null) tasksPage.SetActive(currentPage.type == PageType.Tasks);
+        if (contentsPage != null) contentsPage.SetActive(currentPage.type == PageType.Contents);
+        if (gridPage != null) gridPage.SetActive(currentPage.type == PageType.Grid);
+        if (detailPage != null) detailPage.SetActive(currentPage.type == PageType.Detail);
+        if (changePhotoPage != null) changePhotoPage.SetActive(currentPage.type == PageType.ChangePhoto);
+
+        switch (currentPage.type)
+        {
+            case PageType.Tasks: RenderTasksPage(); break;
+            case PageType.Contents: break;
+            case PageType.Grid: RenderGridPage(); break;
+            case PageType.Detail: RenderDetailPage(); break;
+            case PageType.ChangePhoto: RenderChangePhotoPage(); break;
+        }
+
+        if (pageTitleText != null) pageTitleText.text = GetPageTitle();
+        // ◀ โชว์ทุกหน้า (หน้า Tasks = ปิดสมุด) ส่วน ▶ โชว์เฉพาะตอนมีหน้าย่อยถัดไป
+        if (backButton != null) backButton.gameObject.SetActive(true);
+        if (forwardButton != null) forwardButton.gameObject.SetActive(HasNextSubPage());
     }
 
-    private void PopulateGridPage()
+    private string GetPageTitle()
     {
-        ClearGrid();
-        if (gridContent == null || gridSlotPrefab == null) return;
-
-        int startIndex = currentPage * ITEMS_PER_PAGE;
-        int endIndex = Mathf.Min(startIndex + ITEMS_PER_PAGE, currentCategoryEntries.Count);
-
-        for (int i = startIndex; i < endIndex; i++)
+        switch (currentPage.type)
         {
-            JournalEntry entry = currentCategoryEntries[i];
-            GameObject slotObj = Instantiate(gridSlotPrefab, gridContent);
-            JournalGridSlotUI slot = slotObj.GetComponent<JournalGridSlotUI>();
-            if (slot != null)
-            {
-                slot.Setup(i, entry.silhouette, entry.displayName, this);
+            case PageType.Tasks: return "Tasks";
+            case PageType.Contents: return "Contents";
+            case PageType.ChangePhoto: return "Change Photos";
+            default: return currentPage.animals ? "Animals" : "Plants";
+        }
+    }
 
-                bool questActive = QuestManager.Instance != null &&
-                    QuestManager.Instance.GetStatus(entry.creatureId) == QuestManager.QuestStatus.Active;
-                slot.SetQuestActive(questActive);
+    // ==================== หน้า Tasks ====================
+    private void RenderTasksPage()
+    {
+        foreach (JournalTaskRowUI row in spawnedTaskRows)
+        {
+            if (row == null) continue;
+            row.gameObject.SetActive(false); // Destroy() รอถึงท้ายเฟรม — ซ่อนก่อนกัน Layout นับแถวเก่าซ้อนกับแถวใหม่
+            Destroy(row.gameObject);
+        }
+        spawnedTaskRows.Clear();
+
+        int questCount = 0;
+        if (journalManager != null && QuestManager.Instance != null && taskRowTemplate != null && taskListContent != null)
+        {
+            // Quest โผล่ก็ต่อเมื่อคุยกับ NPC แล้วรับ Quest (start_quest) — Complete แล้วยังอยู่แต่มีติ๊กในช่อง
+            foreach (JournalEntry entry in journalManager.allEntries)
+            {
+                if (entry == null) continue;
+                QuestManager.QuestStatus status = QuestManager.Instance.GetStatus(entry.creatureId);
+                if (status == QuestManager.QuestStatus.NotStarted) continue;
+
+                JournalTaskRowUI row = Instantiate(taskRowTemplate, taskListContent);
+                row.gameObject.SetActive(true);
+                string creatureId = entry.creatureId;
+                row.Setup(entry.QuestTitleOrDefault, entry.QuestDetailsOrDefault,
+                    status == QuestManager.QuestStatus.Completed,
+                    expandedTaskIds.Contains(creatureId),
+                    () => ToggleTaskExpanded(creatureId));
+                spawnedTaskRows.Add(row);
+                questCount++;
             }
         }
 
-        int totalPages = Mathf.Max(1, Mathf.CeilToInt(currentCategoryEntries.Count / (float)ITEMS_PER_PAGE));
-        if (pageLabelText != null)
-        {
-            pageLabelText.text = $"{currentPage + 1} / {totalPages}";
-        }
-        if (prevPageButton != null) prevPageButton.interactable = currentPage > 0;
-        if (nextPageButton != null) nextPageButton.interactable = currentPage < totalPages - 1;
+        if (tasksEmptyText != null) tasksEmptyText.SetActive(questCount == 0);
     }
 
-    private void ClearGrid()
+    private void ToggleTaskExpanded(string creatureId)
     {
-        if (gridContent == null) return;
-        foreach (Transform child in gridContent)
-        {
-            Destroy(child.gameObject);
-        }
+        if (!expandedTaskIds.Remove(creatureId)) expandedTaskIds.Add(creatureId);
+        RenderTasksPage();
     }
 
-    private void NextPage()
+    // ==================== หน้า Grid (Plants / Animals 3x3) ====================
+    private void RenderGridPage()
     {
-        int totalPages = Mathf.Max(1, Mathf.CeilToInt(currentCategoryEntries.Count / (float)ITEMS_PER_PAGE));
-        if (currentPage < totalPages - 1)
+        gridEntries = journalManager != null
+            ? journalManager.GetEntriesForSection(currentPage.animals)
+            : new List<JournalEntry>();
+
+        int maxSubPage = Mathf.Max(0, Mathf.CeilToInt(gridEntries.Count / (float)GRID_SLOTS_PER_PAGE) - 1);
+        currentPage.subPage = Mathf.Clamp(currentPage.subPage, 0, maxSubPage);
+
+        int startIndex = currentPage.subPage * GRID_SLOTS_PER_PAGE;
+        for (int i = 0; i < gridSlots.Length; i++)
         {
-            currentPage++;
-            PopulateGridPage();
+            JournalGridSlotUI slot = gridSlots[i];
+            if (slot == null) continue;
+
+            int entryIndex = startIndex + i;
+            if (entryIndex >= gridEntries.Count)
+            {
+                slot.SetEmpty();
+                continue;
+            }
+
+            JournalEntry entry = gridEntries[entryIndex];
+            slot.Setup(entryIndex, entry.silhouette, entry.displayName, this);
+            bool questActive = QuestManager.Instance != null &&
+                QuestManager.Instance.GetStatus(entry.creatureId) == QuestManager.QuestStatus.Active;
+            slot.SetQuestActive(questActive);
         }
     }
 
-    private void PrevPage()
-    {
-        if (currentPage > 0)
-        {
-            currentPage--;
-            PopulateGridPage();
-        }
-    }
-
-    // ==================== ชั้นที่ 3: Detail ====================
     public void OnGridSlotClicked(int entryIndex)
     {
-        if (entryIndex < 0 || entryIndex >= currentCategoryEntries.Count) return;
-        ShowDetailView(currentCategoryEntries[entryIndex]);
+        if (entryIndex < 0 || entryIndex >= gridEntries.Count) return;
+        NavigateTo(new PageState { type = PageType.Detail, animals = currentPage.animals, entry = gridEntries[entryIndex] });
     }
 
-    private void ShowDetailView(JournalEntry entry)
+    // ==================== หน้า Detail ====================
+    private void RenderDetailPage()
     {
-        currentView = JournalView.Detail;
-
-        if (categoryPanel != null) categoryPanel.SetActive(false);
-        if (gridPanel != null) gridPanel.SetActive(false);
-        if (detailPanel != null) detailPanel.SetActive(true);
-
+        JournalEntry entry = currentPage.entry;
         bool unlocked = journalManager != null && journalManager.IsUnlocked(entry);
 
-        // สถานที่ — โชว์ตลอด ไม่ว่าจะปลดล็อกหรือยัง เพราะผู้เล่นต้องรู้ก่อนถึงจะไปถ่ายได้ ไม่มีอะไรมาทับช่องนี้
+        if (detailNameText != null) detailNameText.text = entry.displayName;
+
+        // ย่อหน้าแรก: สถานที่ — โชว์ตลอด ไม่ว่าจะปลดล็อกหรือยัง เพราะผู้เล่นต้องรู้ก่อนถึงจะไปถ่ายได้
         if (detailHabitatText != null)
         {
             detailHabitatText.text = !string.IsNullOrEmpty(entry.habitatInfo)
@@ -297,73 +455,118 @@ public class JournalUI : MonoBehaviour
                 : "No location data yet";
         }
 
-        if (detailNameText != null) detailNameText.text = entry.displayName;
-
-        StopPhotoRevealFade();
-
-        if (unlocked)
+        // ย่อหน้าที่สอง: โชว์ต่อเมื่อ "ถ่ายรูปแล้ว + คุยกับ NPC จนได้ฟังเรื่องนี้แล้ว" เท่านั้น
+        // เหมือนได้ความรู้จาก NPC มาจดลงสมุดบันทึกเอง (ดู QuestManager.MarkInformed / mark_informed ใน Yarn)
+        bool informed = unlocked && QuestManager.Instance != null && QuestManager.Instance.IsInformed(entry.creatureId);
+        if (detailDescriptionText != null)
         {
-            // ยืม Texture2D มาจาก JournalManager (สำเนาถาวรของมันเอง) — ห้าม Destroy() ตัวนี้เด็ดขาด
-            // เพราะเป็น Object เดียวกับที่ JournalManager ถืออยู่ตลอด Session ไม่ใช่ของชั่วคราวที่นี่แล้ว
-            Texture2D photoTexture = journalManager.LoadPhotoForEntry(entry);
+            detailDescriptionText.text = informed ? entry.description : "";
+            detailDescriptionText.gameObject.SetActive(informed && !string.IsNullOrEmpty(entry.description));
+        }
+        RefreshDetailExpanded();
 
-            // คำอธิบายโชว์ต่อเมื่อ "คุยกับ NPC จนได้ฟังเรื่องนี้แล้ว" ด้วยเท่านั้น ไม่ใช่แค่ถ่ายรูปติด
-            // เหมือนได้ความรู้จาก NPC มาจดลงสมุดบันทึกเอง (ดู QuestManager.MarkInformed / mark_informed ใน Yarn)
-            bool informed = QuestManager.Instance != null && QuestManager.Instance.IsInformed(entry.creatureId);
-            if (detailDescriptionText != null) detailDescriptionText.text = informed ? entry.description : "";
+        // ปุ่มเปลี่ยนรูปกดได้ก็ต่อเมื่อมีรูปของ Entry นี้ค้างอยู่ใน Storage ให้เลือก
+        if (changePhotoButton != null)
+        {
+            changePhotoButton.interactable = journalManager != null && journalManager.GetStoragePhotosFor(entry).Count > 0;
+        }
 
-            if (detailPhotoImage != null && photoTexture != null)
-            {
-                // ห่อรูปย่อเป็น Sprite ใหม่ทุกครั้งที่เปิด Detail เลยต้อง Destroy Sprite ตัวเก่า (Texture ยังเป็นของ JournalManager ห้ามแตะ)
-                if (detailPhotoSprite != null) Destroy(detailPhotoSprite);
-                detailPhotoSprite = PhotoThumbnail.ToSprite(photoTexture);
-                detailPhotoImage.sprite = detailPhotoSprite;
-            }
+        Texture2D photoTexture = unlocked ? journalManager.LoadPhotoForEntry(entry) : null;
+        if (photoTexture == null)
+        {
+            // ยังไม่มีรูปถ่าย -> โชว์รูปเงา (ภาพ Sketch ในอนาคต) ถ้าไม่มีก็โชว์กรอบมืด + "?"
+            ShowDetailImages(photo: false, silhouette: entry.silhouette != null);
+            if (detailSilhouetteImage != null) detailSilhouetteImage.sprite = entry.silhouette;
+            if (detailUnknownMark != null) detailUnknownMark.SetActive(entry.silhouette == null);
+            return;
+        }
 
-            if (revealedCreatureIds.Contains(entry.creatureId))
-            {
-                // เคยเฟดให้ดูไปแล้วรอบก่อน -> โชว์รูปจริงทันที ไม่ต้องเฟดซ้ำ
-                if (detailSilhouetteImage != null)
-                {
-                    SetImageAlpha(detailSilhouetteImage, 0f);
-                    detailSilhouetteImage.gameObject.SetActive(false);
-                }
-                if (detailPhotoImage != null)
-                {
-                    SetImageAlpha(detailPhotoImage, 1f);
-                    detailPhotoImage.gameObject.SetActive(true);
-                }
-            }
-            else
-            {
-                // เปิดดู Entry นี้เป็นครั้งแรกหลังปลดล็อก -> เฟดจากรูปเงาไปเป็นรูปที่ถ่ายจริง
-                revealedCreatureIds.Add(entry.creatureId);
-                if (detailSilhouetteImage != null) detailSilhouetteImage.sprite = entry.silhouette;
-                photoRevealRoutine = StartCoroutine(RevealPhotoFade());
-            }
+        if (detailUnknownMark != null) detailUnknownMark.SetActive(false);
+
+        // ยืม Texture2D มาจาก JournalManager (สำเนาของมันเอง) — ห้าม Destroy() Texture ตัวนี้
+        // แต่ Sprite ที่ห่อเป็นของเรา สร้างใหม่ทุกครั้งเลยต้อง Destroy ตัวเก่า
+        if (detailPhotoSprite != null) Destroy(detailPhotoSprite);
+        detailPhotoSprite = PhotoThumbnail.ToSprite(photoTexture);
+        if (detailPhotoImage != null) detailPhotoImage.sprite = detailPhotoSprite;
+
+        if (revealedCreatureIds.Contains(entry.creatureId) || entry.silhouette == null)
+        {
+            // เคยเฟดให้ดูไปแล้ว (หรือไม่มีรูปเงาให้เฟดจาก) -> โชว์รูปจริงทันที
+            revealedCreatureIds.Add(entry.creatureId);
+            ShowDetailImages(photo: true, silhouette: false);
         }
         else
         {
-            // ยังไม่เคยถ่ายติด -> ชื่อกับสถานที่เผยไว้ก่อนแล้วด้านบน (นอกเงื่อนไขนี้)
-            // ส่วนคำอธิบายยังไม่เผย เพราะเป็นข้อมูลที่ควรได้จากการถ่ายรูปจริง
-            if (detailDescriptionText != null) detailDescriptionText.text = "";
-
-            if (detailPhotoImage != null)
-            {
-                SetImageAlpha(detailPhotoImage, 1f);
-                detailPhotoImage.gameObject.SetActive(false);
-            }
-
-            if (detailSilhouetteImage != null)
-            {
-                SetImageAlpha(detailSilhouetteImage, 1f);
-                detailSilhouetteImage.gameObject.SetActive(true);
-                detailSilhouetteImage.sprite = entry.silhouette;
-            }
+            // เปิดดู Entry นี้เป็นครั้งแรกหลังปลดล็อก -> เฟดจากรูปเงาไปเป็นรูปที่ถ่ายจริง
+            revealedCreatureIds.Add(entry.creatureId);
+            if (detailSilhouetteImage != null) detailSilhouetteImage.sprite = entry.silhouette;
+            photoRevealRoutine = StartCoroutine(RevealPhotoFade());
         }
     }
 
-    // ==================== เฟดรูปเงา -> รูปจริง (Detail Panel) ====================
+    private void ShowDetailImages(bool photo, bool silhouette)
+    {
+        if (detailPhotoImage != null)
+        {
+            SetImageAlpha(detailPhotoImage, 1f);
+            detailPhotoImage.gameObject.SetActive(photo);
+        }
+        if (detailSilhouetteImage != null)
+        {
+            SetImageAlpha(detailSilhouetteImage, 1f);
+            detailSilhouetteImage.gameObject.SetActive(silhouette);
+        }
+    }
+
+    private void RefreshDetailExpanded()
+    {
+        if (detailBody != null) detailBody.SetActive(detailExpanded);
+        if (detailChevron != null) detailChevron.localEulerAngles = new Vector3(0f, 0f, detailExpanded ? 0f : 90f);
+    }
+
+    // ==================== หน้า Change Photos (2x3) ====================
+    private void RenderChangePhotoPage()
+    {
+        // เฉพาะรูปใน Storage ที่ถ่ายติด Entry นี้ (เช่นหน้า Deer โชว์แค่รูปที่มีกวาง)
+        changePhotoCandidates = journalManager != null
+            ? journalManager.GetStoragePhotosFor(currentPage.entry)
+            : new List<PhotoStorage.StoredPhoto>();
+
+        int perPage = changePhotoSlots.Length;
+        int maxSubPage = perPage == 0 ? 0 : Mathf.Max(0, Mathf.CeilToInt(changePhotoCandidates.Count / (float)perPage) - 1);
+        currentPage.subPage = Mathf.Clamp(currentPage.subPage, 0, maxSubPage);
+
+        int startIndex = currentPage.subPage * perPage;
+        for (int i = 0; i < perPage; i++)
+        {
+            int photoIndex = startIndex + i;
+            bool hasPhoto = photoIndex < changePhotoCandidates.Count;
+
+            // Sprite เป็นของ PhotoStorage (ห้าม Destroy) — ช่องว่างโชว์แค่กรอบมืด กดไม่ได้
+            Image image = i < changePhotoImages.Length ? changePhotoImages[i] : null;
+            if (image != null)
+            {
+                image.sprite = hasPhoto ? PhotoStorage.Instance.GetThumbnailSprite(changePhotoCandidates[photoIndex]) : null;
+                image.enabled = hasPhoto && image.sprite != null;
+            }
+            if (changePhotoSlots[i] != null) changePhotoSlots[i].interactable = hasPhoto;
+        }
+    }
+
+    private void OnChangePhotoSlotClicked(int slotIndex)
+    {
+        int photoIndex = currentPage.subPage * changePhotoSlots.Length + slotIndex;
+        if (journalManager == null || photoIndex < 0 || photoIndex >= changePhotoCandidates.Count) return;
+
+        if (journalManager.SetPhotoForEntry(currentPage.entry, changePhotoCandidates[photoIndex]))
+        {
+            // เลือกเสร็จกลับไปหน้า Detail ของ Entry นี้ (ไม่ต้องเล่นเฟดเผยรูปซ้ำ)
+            revealedCreatureIds.Add(currentPage.entry.creatureId);
+            NavigateTo(new PageState { type = PageType.Detail, animals = currentPage.animals, entry = currentPage.entry });
+        }
+    }
+
+    // ==================== เฟดรูปเงา -> รูปจริง (Detail) ====================
     private IEnumerator RevealPhotoFade()
     {
         if (detailSilhouetteImage == null || detailPhotoImage == null) yield break;
