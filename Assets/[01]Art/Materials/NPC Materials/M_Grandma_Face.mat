@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_Grandma_Face
-  m_Shader: {fileID: -6465566751694194690, guid: ecea92297803f704fb1ea86909c1b134, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: b3fc975bf9ba01a428a328c60d0324e4, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -46,6 +46,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FaceArray:
+        m_Texture: {fileID: 18700000, guid: 68013c5aca4442e41834e89d6fa761c0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -102,6 +106,7 @@ Material:
     - _DstBlend: 10
     - _DstBlendAlpha: 10
     - _EnvironmentReflections: 1
+    - _FaceIndex: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
