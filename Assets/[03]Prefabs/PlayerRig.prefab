@@ -759,6 +759,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5785175014366427156}
     - target: {fileID: 4585019008964512878, guid: b2c8e39c1446ba746a902c536e93f61d, type: 3}
+      propertyPath: transitionUI
+      value: 
+      objectReference: {fileID: 6171776084178237575}
+    - target: {fileID: 4585019008964512878, guid: b2c8e39c1446ba746a902c536e93f61d, type: 3}
       propertyPath: thirdPersonCam
       value: 
       objectReference: {fileID: 677454725810230397}
@@ -766,6 +770,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -0.00024637824
       objectReference: {fileID: 0}
+    - target: {fileID: 5815212728122938646, guid: b2c8e39c1446ba746a902c536e93f61d, type: 3}
+      propertyPath: captureCamera
+      value: 
+      objectReference: {fileID: 5848623492211712499}
     - target: {fileID: 5827704298127118770, guid: b2c8e39c1446ba746a902c536e93f61d, type: 3}
       propertyPath: m_text
       value: Flora
@@ -834,6 +842,10 @@ PrefabInstance:
       propertyPath: 'allEntries.Array.data[8]'
       value: 
       objectReference: {fileID: 11400000, guid: 22da5d86ffb8eaf46bac2491277f6157, type: 2}
+    - target: {fileID: 7696731528977336024, guid: b2c8e39c1446ba746a902c536e93f61d, type: 3}
+      propertyPath: playerCrouch
+      value: 
+      objectReference: {fileID: 2311248246749183484}
     - target: {fileID: 9163539030322604019, guid: b2c8e39c1446ba746a902c536e93f61d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -892,6 +904,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9163539030322604019, guid: b2c8e39c1446ba746a902c536e93f61d, type: 3}
   m_PrefabInstance: {fileID: 7504932418085857668}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2311248246749183484 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5203298374163928184, guid: b2c8e39c1446ba746a902c536e93f61d, type: 3}
+  m_PrefabInstance: {fileID: 7504932418085857668}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9534517e0b9789949a3d623d7284ffe8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCrouch
 --- !u!224 &2622434710730029785 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5494992140077732701, guid: b2c8e39c1446ba746a902c536e93f61d, type: 3}
@@ -918,3 +941,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4410640563831951219, guid: b2c8e39c1446ba746a902c536e93f61d, type: 3}
   m_PrefabInstance: {fileID: 7504932418085857668}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6171776084178237575 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4431662856431456515, guid: b2c8e39c1446ba746a902c536e93f61d, type: 3}
+  m_PrefabInstance: {fileID: 7504932418085857668}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6ec55b6b807c7b47bd7023b95f26a08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PhotoTransitionUI
