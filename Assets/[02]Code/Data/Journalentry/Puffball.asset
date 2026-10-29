@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Puffball
   m_EditorClassIdentifier: Assembly-CSharp::JournalEntry
   creatureId: puffball
-  category: 0
+  category: 2
   displayName: Puffball
   description: A round, pale puffball mushroom. When mature, it releases a cloud
     of spores if brushed or stepped on. Edible only while young, when the inside

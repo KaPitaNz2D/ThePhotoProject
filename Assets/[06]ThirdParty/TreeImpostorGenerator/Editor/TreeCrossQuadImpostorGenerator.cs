@@ -382,7 +382,6 @@ public class TreeCrossQuadImpostorGenerator : EditorWindow
         textureSize = textureSizeOptions[selectedTextureSizeIndex];
 
         StoreOriginalLayers(sourceTree);
-        SetLayerRecursively(sourceTree, BakingLayer);
 
         try
         {
@@ -558,7 +557,6 @@ public class TreeCrossQuadImpostorGenerator : EditorWindow
     {
         // Store original layers before anything else
         StoreOriginalLayers(sourceTree);
-        SetLayerRecursively(sourceTree, BakingLayer);
 
         try
         {
@@ -604,21 +602,26 @@ public class TreeCrossQuadImpostorGenerator : EditorWindow
 
     private static readonly Color NeutralNormal = new Color(0.5f, 0.5f, 1f, 1f);
 
-    // Wraps BakeTreeAtlas, temporarily teleporting sourceTree far away (see IsolatedBakePositionOffset)
-    // so the bake camera sees only the tree with a plain, reliable cullingMask - working around a case
-    // where some renderers stop rendering after a script-side layer change alone. The tree's position is
-    // always restored before returning, including on exception.
+    // Wraps BakeTreeAtlas, baking from a temporary clone of sourceTree placed far away (see
+    // IsolatedBakePositionOffset) on the baking layer. With URP's GPU Resident Drawer, an existing
+    // renderer whose layer/position is changed by script and rendered in the same frame draws nothing,
+    // while a freshly instantiated one renders reliably - so the source itself is never touched. The
+    // clone is always destroyed before returning, including on exception.
     private Texture2D BakeTreeAtlasIsolated(out Texture2D normalAtlas)
     {
-        Vector3 originalPosition = sourceTree.transform.position;
-        sourceTree.transform.position = originalPosition + IsolatedBakePositionOffset;
+        GameObject original = sourceTree;
+        GameObject clone = Instantiate(original, original.transform.position + IsolatedBakePositionOffset,
+            original.transform.rotation, original.transform.parent);
+        SetLayerRecursively(clone, BakingLayer);
+        sourceTree = clone;
         try
         {
             return BakeTreeAtlas(out normalAtlas);
         }
         finally
         {
-            sourceTree.transform.position = originalPosition;
+            sourceTree = original;
+            DestroyImmediate(clone);
         }
     }
 

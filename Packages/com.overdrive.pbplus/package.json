@@ -1,0 +1,25 @@
+{
+  "name": "com.overdrive.pbplus",
+  "displayName": "Overdrive ProBuilder Plus",
+  "version": "1.0.10",
+  "description": "Advanced ProBuilder extension with live preview tools for mesh modeling, featuring enhanced face/edge/vertex operations and intuitive workflows",
+  "unity": "6000.0",
+  "keywords": [
+    "probuilder",
+    "modeling",
+    "3d",
+    "mesh",
+    "editor",
+    "tools",
+    "level design",
+    "level editor"
+  ],
+  "author": {
+    "name": "Overdrive Toolset",
+    "url": "https://www.overdrivetoolset.com"
+  },
+  "dependencies": {
+    "com.overdrive.shared": "1.0.4",
+    "com.unity.probuilder": "6.0.0"
+  }
+}

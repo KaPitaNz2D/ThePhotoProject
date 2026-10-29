@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/[04]Level/MainMenu.unity
     guid: 443e5bc89dd122143a6eb86666a676c5
   - enabled: 1
-    path: Assets/[04]Level/PlaytestLevel/PlaytestLevel_1.unity
+    path: Assets/[04]Level/PlaytestLevel_Midterm/PlaytestLevel_1.unity
     guid: 9a1eb1425edaac74a91be9353e4ad5b6
   - enabled: 0
     path: Assets/[04]Level/SampleScene.unity

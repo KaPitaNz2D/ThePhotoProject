@@ -49,6 +49,27 @@ public class PhotoTransitionUI : MonoBehaviour
         yield return Fade(1f, 0f, duration);
     }
 
+    /// <summary>
+    /// เฟดดำ -> ค้างดำ hold วินาที -> เฟดกลับ (เช่นนอนข้ามเวลา) — onBlack ถูกเรียกตอนจอดำสนิท (เปลี่ยนเวลา/ย้ายของตรงนี้จะไม่มีใครเห็น)
+    /// onDone ถูกเรียกตอนจอใสแล้ว ⚠️ ถ้ามี PlayTransition/PlayShutterFlash มาแทรกระหว่างทาง ลำดับนี้จะถูกตัด onDone จะไม่ถูกเรียก
+    /// </summary>
+    public void PlayBlackout(float fadeOut, float hold, float fadeIn, Action onBlack, Action onDone = null)
+    {
+        if (currentRoutine != null) StopCoroutine(currentRoutine);
+        currentRoutine = StartCoroutine(BlackoutRoutine(fadeOut, hold, fadeIn, onBlack, onDone));
+    }
+
+    private IEnumerator BlackoutRoutine(float fadeOut, float hold, float fadeIn, Action onBlack, Action onDone)
+    {
+        float from = fadeCanvasGroup != null ? fadeCanvasGroup.alpha : 0f;
+        yield return Fade(from, 1f, fadeOut);
+        onBlack?.Invoke();
+        yield return new WaitForSeconds(hold);
+        yield return Fade(1f, 0f, fadeIn);
+        currentRoutine = null;
+        onDone?.Invoke();
+    }
+
     /// <summary>Flash ดำสั้นๆ ตอนกดชัตเตอร์ ไม่มี Callback เพราะไม่ต้องสลับอะไร</summary>
     public void PlayShutterFlash()
     {

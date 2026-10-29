@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Male_Deer_Anim
+  m_Controller: {fileID: 9100000, guid: dfa29cc65f9cabc489e3d08045a9ce34, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: -6785075424511807198, guid: b657e1e1f33629848afe5e32b29a3181, type: 3}
+    m_OverrideClip: {fileID: -6785075424511807198, guid: 8a992e3b040ee6b41beb083a6aca970a, type: 3}
+  - m_OriginalClip: {fileID: 4089974510175954258, guid: b657e1e1f33629848afe5e32b29a3181, type: 3}
+    m_OverrideClip: {fileID: -4950472482643192501, guid: 8a992e3b040ee6b41beb083a6aca970a, type: 3}
+  - m_OriginalClip: {fileID: -5787173063319607090, guid: b657e1e1f33629848afe5e32b29a3181, type: 3}
+    m_OverrideClip: {fileID: 5751215547700926496, guid: 8a992e3b040ee6b41beb083a6aca970a, type: 3}
+  - m_OriginalClip: {fileID: 2009759779314566696, guid: b657e1e1f33629848afe5e32b29a3181, type: 3}
+    m_OverrideClip: {fileID: 2009759779314566696, guid: 8a992e3b040ee6b41beb083a6aca970a, type: 3}
+  - m_OriginalClip: {fileID: 4959734933631863671, guid: b657e1e1f33629848afe5e32b29a3181, type: 3}
+    m_OverrideClip: {fileID: 2009759779314566696, guid: 8a992e3b040ee6b41beb083a6aca970a, type: 3}

@@ -14,7 +14,10 @@ public class DebugGameReset : MonoBehaviour
         }
     }
 
-    private void ResetGame()
+    private void ResetGame() => ResetToMainMenu(mainMenuSceneName);
+
+    /// <summary>ล้างเควส/รูปทั้งหมดแล้วกลับเมนูหลัก — ใช้ทั้งปุ่ม R (Debug) และปุ่ม Back to Menu ในหน้า Pause</summary>
+    public static void ResetToMainMenu(string mainMenuSceneName)
     {
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.None;

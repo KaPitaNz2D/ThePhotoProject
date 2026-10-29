@@ -48,8 +48,14 @@ public class CreatureAnimatorController : MonoBehaviour
         {
             case CreatureAI.CreatureState.Idle: return 0;
             case CreatureAI.CreatureState.Walking: return 1;
-            case CreatureAI.CreatureState.Alert: return 2;
+            // Alert ใช้ท่ายืน (Idle) ไม่ใช่ State 2 ใน Animator เพราะ State 2 ผูกกับ Clip เดินไว้ชั่วคราว ทำให้กวางเดินอยู่กับที่ตอนจ้องผู้เล่น
+            // พอมี Clip Alert จริงแล้วให้เปลี่ยนกลับเป็น return 2
+            case CreatureAI.CreatureState.Alert: return 0;
             case CreatureAI.CreatureState.Run: return 3;
+            case CreatureAI.CreatureState.Eating: return 4;
+            // Stop / LookAround ยังไม่มี Clip เฉพาะ ใช้ท่ายืน (Idle) ส่วนการหันมองเป็นการบิดกระดูกหัวด้วยโค้ดใน CreatureHead
+            case CreatureAI.CreatureState.Stop: return 0;
+            case CreatureAI.CreatureState.LookAround: return 0;
             default: return 0;
         }
     }

@@ -298,9 +298,9 @@ Transform:
   m_GameObject: {fileID: 2599370766304405289}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6223209672657275310}
   - {fileID: 7222348436806050200}
@@ -320,20 +320,20 @@ LODGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2599370766304405289}
   serializedVersion: 2
-  m_LocalReferencePoint: {x: 0.030204326, y: 0.1281553, z: 0.022932053}
-  m_Size: 1
+  m_LocalReferencePoint: {x: 0.030204281, y: 0.12815456, z: 0.022931904}
+  m_Size: 0.60823774
   m_FadeMode: 0
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.3
+  - screenRelativeHeight: 0.18247133
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 6732124488891560951}
     - renderer: {fileID: 5028238446690892335}
     - renderer: {fileID: 3922536404072961845}
     - renderer: {fileID: 3589213060595040086}
-  - screenRelativeHeight: 0.025
+  - screenRelativeHeight: 0.015205944
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 6283799389946155487}

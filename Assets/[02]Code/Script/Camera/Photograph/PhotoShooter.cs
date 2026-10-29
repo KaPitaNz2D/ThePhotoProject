@@ -19,10 +19,10 @@ public class PhotoShooter : MonoBehaviour
     public Transform castOrigin;
 
     [Header("UI Crosshair")]
-    [Tooltip("UI Image จุดเล็งกลางจอ")]
-    public Image centerDotImage;
-    public Color normalColor = new Color(1f, 1f, 1f, 0.3f);
-    public Color detectedColor = new Color(0.6f, 1f, 0.6f, 0.8f);
+    [Tooltip("ชิ้นส่วนของกรอบโฟกัสกลางจอ (เช่นมุม 4 มุม) — ซ่อน/โชว์ตามโหมดถ่ายรูป และเปลี่ยนสีพร้อมกันทุกชิ้นเมื่อเล็งโดนสิ่งที่ถ่ายได้")]
+    public Graphic[] crosshairParts;
+    public Color normalColor = new Color(1f, 1f, 1f, 0.85f);
+    public Color detectedColor = new Color(0.55f, 1f, 0.55f, 1f);
 
     [Header("Input")]
     public InputActionReference enterPhotoModeInput;
@@ -62,7 +62,13 @@ public class PhotoShooter : MonoBehaviour
     private float lastShotTime = -999f;
     private int lastDetectedCount = -1;
 
-    public event Action<Texture2D, List<GameObject>> OnPhotoCaptured;
+    /// <summary>
+    /// ยิงตอนกดชัตเตอร์ พร้อม RenderTexture ที่เพิ่งเรนเดอร์ภาพเสร็จ (ยังไม่ได้อ่านพิกเซลออกมา — ผู้ฟังอ่านเองแบบ async เช่น AsyncGPUReadback
+    /// เพื่อไม่ให้เฟรมค้าง) กับรายชื่อวัตถุที่ถ่ายติด RenderTexture นี้ใช้ซ้ำทุกช็อต ผู้ฟังห้ามเก็บอ้างอิงไว้ใช้ต่อหลัง Request อ่านพิกเซลไปแล้ว
+    /// </summary>
+    public event Action<RenderTexture, List<GameObject>> OnPhotoCaptured;
+
+    private RenderTexture ownedCaptureTexture; // สร้างเองครั้งเดียวเมื่อไม่ได้ลาก photoRenderTexture ใส่ (เดิมสร้างใหม่ทุกช็อตแล้วไม่เคยปล่อย)
 
     /// <summary>
     /// ระยะยิง SphereCast จริง ณ ตอนนี้ — คำนวณจากอัตราส่วน FOV ปัจจุบันเทียบกับ FOV ตอนไม่ซูม
@@ -103,7 +109,19 @@ public class PhotoShooter : MonoBehaviour
         // บังคับปิดจุดเล็งไว้ก่อนตั้งแต่ตอนเริ่มเกม ไม่รอให้ Update() เป็นคนสั่งซ่อนทีหลัง
         // (กันเคส StateManager.Instance ยังไม่พร้อมในเฟรมแรกๆ ทำให้ Update() ข้ามไปเงียบๆ
         // แล้วจุดเล็งค้างโชว์ตามค่า Enabled เดิมที่ตั้งไว้ใน Editor)
-        if (centerDotImage != null) centerDotImage.enabled = false;
+        SetCrosshairVisible(false);
+    }
+
+    private void SetCrosshairVisible(bool visible)
+    {
+        if (crosshairParts == null) return;
+        foreach (Graphic g in crosshairParts) if (g != null) g.enabled = visible;
+    }
+
+    private void SetCrosshairColor(Color color)
+    {
+        if (crosshairParts == null) return;
+        foreach (Graphic g in crosshairParts) if (g != null) g.color = color;
     }
 
     private void OnEnable()
@@ -133,15 +151,12 @@ public class PhotoShooter : MonoBehaviour
 
         if (StateManager.Instance.CurrentSystemState != StateManager.SystemState.Photograph)
         {
-            if (centerDotImage != null) centerDotImage.enabled = false;
+            SetCrosshairVisible(false);
             return;
         }
 
-        if (centerDotImage != null)
-        {
-            centerDotImage.enabled = true;
-            UpdateCrosshairColor();
-        }
+        SetCrosshairVisible(true);
+        UpdateCrosshairColor();
     }
 
     private void UpdateCrosshairColor()
@@ -163,13 +178,13 @@ public class PhotoShooter : MonoBehaviour
                 PhotoSubject subject = hit.collider.GetComponentInParent<PhotoSubject>();
                 if (subject != null)
                 {
-                    centerDotImage.color = detectedColor;
+                    SetCrosshairColor(detectedColor);
                     return;
                 }
             }
         }
 
-        centerDotImage.color = normalColor;
+        SetCrosshairColor(normalColor);
     }
 
     // ==================== เข้า/ออกโหมดถ่ายรูป ====================
@@ -215,10 +230,12 @@ public class PhotoShooter : MonoBehaviour
     private void TakePhoto()
     {
         List<GameObject> subjects = DetectSubjects();
-        Texture2D photo = CaptureRenderTexture();
+        RenderTexture photo = RenderPhoto();
 
         if (transitionUI != null) transitionUI.PlayShutterFlash();
         AudioManager.Instance?.PlaySFX(shutterSound);
+        // ประกาศเสียงชัตเตอร์ให้สัตว์ในระยะได้ยิน (สัตว์เช็คระยะเองตามหูของสายพันธุ์)
+        CreatureNoise.EmitShutter(castOrigin != null ? castOrigin.position : transform.position);
 
         lastDetectedCount = subjects.Count;
         OnPhotoCaptured?.Invoke(photo, subjects);
@@ -255,29 +272,31 @@ public class PhotoShooter : MonoBehaviour
     }
 
     // ==================== Capture ภาพ ====================
-    private Texture2D CaptureRenderTexture()
+    // เรนเดอร์ภาพลง RenderTexture แล้วคืนตัว RenderTexture เลย — ไม่ ReadPixels ที่นี่ เพราะ ReadPixels บังคับให้ CPU รอ GPU เรนเดอร์จบ
+    // (เฟรมค้าง) และ Apply() ที่เคยตามมายังอัปโหลดภาพ 6 MB กลับขึ้น GPU โดยไม่จำเป็น การอ่านพิกเซลไปทำแบบ async ใน PhotoSaveHandler แทน
+    private RenderTexture RenderPhoto()
     {
         if (photoCamera == null) return null;
 
-        RenderTexture rt = photoRenderTexture != null
-            ? photoRenderTexture
-            : new RenderTexture(photoWidth, photoHeight, 24);
+        RenderTexture rt = photoRenderTexture;
+        if (rt == null)
+        {
+            if (ownedCaptureTexture == null) ownedCaptureTexture = new RenderTexture(photoWidth, photoHeight, 24);
+            rt = ownedCaptureTexture;
+        }
 
         RenderTexture previousTarget = photoCamera.targetTexture;
-        RenderTexture previousActive = RenderTexture.active;
 
         photoCamera.targetTexture = rt;
         photoCamera.Render();
-
-        RenderTexture.active = rt;
-        Texture2D result = new Texture2D(rt.width, rt.height, TextureFormat.RGB24, false);
-        result.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
-        result.Apply();
-
         photoCamera.targetTexture = previousTarget;
-        RenderTexture.active = previousActive;
 
-        return result;
+        return rt;
+    }
+
+    private void OnDestroy()
+    {
+        if (ownedCaptureTexture != null) ownedCaptureTexture.Release();
     }
 
     // ==================== Debug Gizmos ====================
