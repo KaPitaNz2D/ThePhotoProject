@@ -9,6 +9,7 @@ using UnityEngine.AI;
 //        ชนิดสัตว์ที่เกิดถูกสุ่มจากรายชื่อสัตว์ของโซนที่โหนดนั้นอยู่ (ตามน้ำหนัก)
 // Despawn: ต้องเคยวิ่งหนี (เข้า state Run) มาแล้ว + อยู่ไกลเกิน despawnDistance ต่อเนื่องนาน despawnDelay วินาที + ไม่อยู่ในสายตาผู้เล่น
 //          (ตัวเวลานับใหม่จากศูนย์ทันทีที่ผู้เล่นเข้าใกล้หรือมองเห็น)
+// โควตาต่อโซน: AISpawnZone.MaxAlive (ค่าเริ่มต้น 1) — กวางเกินจากวงนี้แล้ว วิ่งหนีไปแต่ยังไม่ Despawn โซนนั้นจะไม่เกินตัวใหม่ จนกว่าตัวแรกจะหายไป
 // สัตว์ที่วางไว้ในซีนเองไม่ถูกนับและไม่ถูก Despawn — คุมเฉพาะตัวที่ Spawner นี้สร้างเท่านั้น
 public class CreatureSpawner : MonoBehaviour
 {
@@ -54,6 +55,7 @@ public class CreatureSpawner : MonoBehaviour
     private class TrackedCreature
     {
         public GameObject gameObject;
+        public AISpawnZone zone; // โซนที่ตัวนี้เกิดมา ใช้นับโควตาต่อโซน
         public bool hasFled;
         public float farTime;
     }
@@ -120,7 +122,7 @@ public class CreatureSpawner : MonoBehaviour
         GameObject creature = Instantiate(creaturePrefab, point + Vector3.up * lift,
             Quaternion.Euler(0f, UnityEngine.Random.Range(0f, 360f), 0f), transform);
 
-        TrackedCreature entry = new TrackedCreature { gameObject = creature };
+        TrackedCreature entry = new TrackedCreature { gameObject = creature, zone = zone };
         tracked.Add(entry);
 
         CreatureAI ai = creature.GetComponent<CreatureAI>();
@@ -164,14 +166,27 @@ public class CreatureSpawner : MonoBehaviour
     }
 
     // โซนจะใช้ Spawn ได้ต่อเมื่อผู้เล่นยืนอยู่ในวงของโซนนั้นเอง — ผู้เล่นอยู่นอกโซน สัตว์ในโซนนั้นไม่เกิด
-    // โซนที่ซ้อนทับกัน: ใช้โซนแรกที่เจอ
+    // และโควตาของโซน (AISpawnZone.MaxAlive) ยังไม่เต็ม — ตัวที่เกิดจากโซนนี้ยังไม่ Despawn ก็ไม่เกินเพิ่ม
+    // โซนที่ซ้อนทับกัน: ใช้โซนแรกที่เจอ (ข้ามโซนที่เต็มไปลองโซนถัดไป)
     private AISpawnZone FindZoneContaining(Vector3 point)
     {
         foreach (AISpawnZone zone in zones)
         {
-            if (zone != null && zone.HasCreatures && zone.Contains(player.position) && zone.Contains(point)) return zone;
+            if (zone != null && zone.HasCreatures && zone.Contains(player.position) && zone.Contains(point) && !IsZoneFull(zone)) return zone;
         }
         return null;
+    }
+
+    private bool IsZoneFull(AISpawnZone zone)
+    {
+        if (zone.MaxAlive <= 0) return false;
+
+        int alive = 0;
+        foreach (TrackedCreature t in tracked)
+        {
+            if (t.gameObject != null && t.zone == zone) alive++;
+        }
+        return alive >= zone.MaxAlive;
     }
 
     // ตอนนี้เตือนผ่าน debug log + event — ต่อเสียงจริงทีหลังโดย Subscribe OnCreatureSpawned

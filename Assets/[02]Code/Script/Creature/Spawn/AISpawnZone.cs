@@ -21,6 +21,12 @@ public class AISpawnZone : MonoBehaviour
     [Tooltip("สัตว์ที่เกิดในโซนนี้ ถ้าใส่หลายชนิดจะสุ่มตามน้ำหนัก (Weight)")]
     [SerializeField] private List<SpawnEntry> creatures = new List<SpawnEntry>();
 
+    [Tooltip("จำนวนสัตว์จากโซนนี้ที่มีชีวิตอยู่พร้อมกันได้สูงสุด (นับรวมทุกชนิดในโซน) — เต็มแล้วโซนนี้ไม่เกินเพิ่ม จนกว่าตัวที่เกิดไปแล้วจะถูก Despawn (วิ่งหนีไกลพ้นสายตา) 0 = ไม่จำกัด (เหลือแค่ Max Alive รวมของ CreatureSpawner)")]
+    [SerializeField, Min(0)] private int maxAlive = 1;
+
+    /// <summary>จำนวนสัตว์จากโซนนี้ที่มีชีวิตพร้อมกันได้สูงสุด (0 = ไม่จำกัด)</summary>
+    public int MaxAlive => maxAlive;
+
     public bool HasCreatures
     {
         get
