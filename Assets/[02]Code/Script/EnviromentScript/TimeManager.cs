@@ -132,6 +132,23 @@ public class TimeManager : MonoBehaviour
         return result;
     }
 
+    /// <summary>
+    /// กระโดดไปชั่วโมงที่กำหนดทันที (เช่นนอนบนเตียงข้ามเวลา) — ท้องฟ้า/ดวงอาทิตย์/สีแสง snap ไปค่าของช่วงนั้นเลย ไม่ Lerp
+    /// ถ้าชั่วโมงเป้าหมายไม่มากกว่าตอนนี้ = ข้ามเที่ยงคืนไปแล้ว นับเป็นวันใหม่
+    /// ควรเรียกตอนจอดำอยู่ จะได้ไม่เห็นท้องฟ้ากระโดด
+    /// </summary>
+    public void JumpToHour(int hour)
+    {
+        hour = Mathf.Clamp(hour, 0, 23);
+        if (hour <= hours) days++;
+
+        StopAllCoroutines(); // หยุด Lerp ท้องฟ้า/สีที่ค้างอยู่ ไม่งั้นจะเขียนทับค่าที่เพิ่ง snap ไป
+        hours = hour;
+        minutes = 0;
+        tempSecond = 0f;
+        StartDay();
+    }
+
     private void UpdateSunRotation(int currentHours, int currentMinutes)
     {
         // dayFraction 0 -> X=-90 (nadir, sun at the bottom, i.e. hours=0/minutes=0 = midnight).

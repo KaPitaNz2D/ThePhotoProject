@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 /// <summary>
-/// Subscribe Event OnPhotoCaptured จาก PhotoShooter แล้วส่งต่อไปเก็บที่ PhotoStorage
-///
-/// ไม่เก็บ Texture2D ไว้เองเลย — Encode เป็น PNG bytes แล้ว Destroy Texture2D ทิ้งทันที
-/// เพื่อประหยัด RAM ตามที่ต้องการ (ปล่อยให้ PhotoStorage เก็บแค่ Path บนดิสก์แทน)
+/// Subscribe Event OnPhotoCaptured จาก PhotoShooter แล้วส่งต่อไปเก็บที่ PhotoStorage — แบบไม่ทำให้เฟรมค้าง:
+///   1) อ่านพิกเซลจาก RenderTexture ด้วย AsyncGPUReadback (ไม่บังคับ CPU รอ GPU) ได้ข้อมูลหลังจากนั้น 1-3 เฟรม
+///   2) ส่งพิกเซลให้ PhotoStorage.TryStorePhotoAsync เข้ารหัส PNG + เขียนไฟล์ + ย่อรูปย่อบน Thread เบื้องหลัง
+/// ไม่เก็บ Texture2D ตัวเต็มไว้เลย (ไม่สร้างด้วยซ้ำ) ประหยัด RAM ตามที่ออกแบบไว้ PhotoStorage เก็บแค่ Path ไฟล์ + รูปย่อเล็กๆ
 /// </summary>
 public class PhotoSaveHandler : MonoBehaviour
 {
@@ -41,7 +42,7 @@ public class PhotoSaveHandler : MonoBehaviour
         }
     }
 
-    private void HandlePhotoCaptured(Texture2D photo, List<GameObject> subjects)
+    private void HandlePhotoCaptured(RenderTexture photo, List<GameObject> subjects)
     {
         if (photo == null)
         {
@@ -52,11 +53,11 @@ public class PhotoSaveHandler : MonoBehaviour
         if (PhotoStorage.Instance == null)
         {
             Debug.LogError("[PhotoSaveHandler] หา PhotoStorage.Instance ไม่เจอ! วาง GameObject ที่มี PhotoStorage.cs ไว้ในซีนหรือยัง");
-            Destroy(photo);
             return;
         }
 
         // ดึง creatureId จากวัตถุที่ถ่ายติด ผ่าน CreatureProfile ที่ผูกไว้กับ PhotoSubject (กันพิมพ์ผิด)
+        // ทำตอนนี้เลย (ไม่รอ Readback) เพราะวัตถุอาจถูก Despawn ไปก่อนข้อมูลภาพจะมาถึง
         List<string> creatureIds = new List<string>();
         foreach (GameObject subject in subjects)
         {
@@ -72,22 +73,68 @@ public class PhotoSaveHandler : MonoBehaviour
             creatureIds.Add(id);
         }
 
-        byte[] pngBytes = photo.EncodeToPNG();
-        Destroy(photo); // Encode เสร็จแล้ว ไม่ต้องเก็บ Texture2D ไว้ใน RAM อีกต่อไป
-
-        bool success = PhotoStorage.Instance.TryStorePhoto(pngBytes, creatureIds);
-
-        string subjectNames = creatureIds.Count > 0 ? string.Join(", ", creatureIds) : "(ไม่เจอวัตถุที่ถ่ายติด)";
-
-        if (success)
+        // เช็คก่อนว่ายังมีที่ว่าง (ปกติ PhotoShooter เช็ค IsFull ก่อนให้ถ่ายอยู่แล้ว แต่กันไว้เผื่อมีการถ่ายซ้อนกัน/เรียกจากที่อื่น)
+        if (PhotoStorage.Instance.IsFull)
         {
-            Debug.Log($"[PhotoSaveHandler] บันทึกภาพสำเร็จ ({PhotoStorage.Instance.Photos.Count}/{PhotoStorage.Instance.maxCapacity}) — วัตถุ: {subjectNames}");
+            Debug.LogWarning("[PhotoSaveHandler] Storage เต็มแล้ว! บันทึกภาพไม่สำเร็จ ต้องลบภาพเก่าก่อนถึงจะถ่ายเพิ่มได้");
+            return;
+        }
+
+        int width = photo.width;
+        int height = photo.height;
+
+        if (SystemInfo.supportsAsyncGPUReadback)
+        {
+            AsyncGPUReadback.Request(photo, 0, TextureFormat.RGBA32,
+                request => OnReadbackFinished(request, width, height, creatureIds));
         }
         else
         {
-            // ปกติไม่ควรเกิดเคสนี้ เพราะ PhotoShooter เช็ค IsFull ก่อนให้ถ่ายอยู่แล้ว
-            // แต่กันไว้เผื่อกรณี Race Condition หรือมีการเรียก TryStorePhoto จากที่อื่นด้วย
+            // แพลตฟอร์มที่ไม่รองรับ Async Readback: ยอมอ่านแบบเดิม (เฟรมค้างครั้งเดียว) แต่ยังเข้ารหัส PNG เบื้องหลังอยู่
+            StorePixels(ReadPixelsBlocking(photo), width, height, creatureIds);
+        }
+    }
+
+    private void OnReadbackFinished(AsyncGPUReadbackRequest request, int width, int height, List<string> creatureIds)
+    {
+        if (request.hasError)
+        {
+            Debug.LogWarning("[PhotoSaveHandler] อ่านพิกเซลจาก GPU ไม่สำเร็จ — ข้ามการบันทึกรอบนี้");
+            return;
+        }
+
+        // ข้อมูลใน request ใช้ได้เฉพาะใน Callback นี้ — ต้องคัดลอกออกมาก่อนส่งให้ Thread เบื้องหลัง
+        StorePixels(request.GetData<byte>().ToArray(), width, height, creatureIds);
+    }
+
+    private void StorePixels(byte[] pixels, int width, int height, List<string> creatureIds)
+    {
+        if (PhotoStorage.Instance == null) return;
+
+        bool accepted = PhotoStorage.Instance.TryStorePhotoAsync(pixels, width, height, creatureIds);
+
+        if (accepted)
+        {
+            string subjectNames = creatureIds.Count > 0 ? string.Join(", ", creatureIds) : "(ไม่เจอวัตถุที่ถ่ายติด)";
+            Debug.Log($"[PhotoSaveHandler] กำลังบันทึกภาพเบื้องหลัง — วัตถุ: {subjectNames}");
+        }
+        else
+        {
             Debug.LogWarning("[PhotoSaveHandler] Storage เต็มแล้ว! บันทึกภาพไม่สำเร็จ ต้องลบภาพเก่าก่อนถึงจะถ่ายเพิ่มได้");
         }
+    }
+
+    private static byte[] ReadPixelsBlocking(RenderTexture source)
+    {
+        RenderTexture previousActive = RenderTexture.active;
+        RenderTexture.active = source;
+
+        Texture2D temp = new Texture2D(source.width, source.height, TextureFormat.RGBA32, false);
+        temp.ReadPixels(new Rect(0, 0, source.width, source.height), 0, 0);
+        byte[] pixels = temp.GetRawTextureData();
+
+        RenderTexture.active = previousActive;
+        Destroy(temp);
+        return pixels;
     }
 }

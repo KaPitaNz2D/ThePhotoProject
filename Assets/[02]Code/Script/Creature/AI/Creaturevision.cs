@@ -20,6 +20,12 @@ public class CreatureVision : MonoBehaviour
     [Tooltip("Log ใน Console ทุกครั้งที่ผู้เล่นสลับย่อ/ลุก บอกตัวเลขก่อน-หลังของ Vision Cone")]
     public bool logCrouchDetectionChange = true;
 
+    /// <summary>ตัวคูณขอบเขตการรับรู้ทั้งหมด (โคนสายตา + วงรอบตัว) CreatureAI ตั้งเป็น 0.5 ตอนก้มกินหญ้า</summary>
+    public float PerceptionMultiplier { get; set; } = 1f;
+
+    // ถ้าสัตว์มี CreatureHead โคนสายตาจะหมุนตามหัว (ใช้ตอน Look around / Idle หันมองข้างๆ)
+    private CreatureHead head;
+
     private bool cachedCrouchState;
     private bool crouchStateInitialized;
 
@@ -31,6 +37,8 @@ public class CreatureVision : MonoBehaviour
 
     private void Awake()
     {
+        head = GetComponent<CreatureHead>();
+
         if (profile == null)
         {
             Debug.LogError($"[CreatureVision] {gameObject.name} ไม่ได้ผูก CreatureProfile ไว้! " +
@@ -43,7 +51,13 @@ public class CreatureVision : MonoBehaviour
     {
         if (player == null || profile == null) return false;
         float distance = Vector3.Distance(transform.position, player.position);
-        return distance <= profile.awarenessRadius;
+        return distance <= profile.awarenessRadius * PerceptionMultiplier;
+    }
+
+    /// <summary>ทิศที่สายตามองจริง ณ ตอนนี้ = ทิศหน้าตัว หมุนตามหัวที่หันอยู่</summary>
+    public Vector3 GetLookForward()
+    {
+        return head != null ? Quaternion.AngleAxis(head.CurrentYaw, Vector3.up) * transform.forward : transform.forward;
     }
 
     /// <summary>เช็คเฉพาะ Vision Cone (ต้องอยู่ในระยะ, อยู่ในมุมมอง, และไม่มีอะไรบัง)</summary>
@@ -65,7 +79,7 @@ public class CreatureVision : MonoBehaviour
         }
 
         Vector3 directionToTarget = (targetPosition - eyePosition).normalized;
-        float angleToPlayer = Vector3.Angle(transform.forward, directionToTarget);
+        float angleToPlayer = Vector3.Angle(GetLookForward(), directionToTarget);
         if (angleToPlayer > effectiveViewAngle / 2f)
         {
             lastLOSChecked = false;
@@ -86,8 +100,8 @@ public class CreatureVision : MonoBehaviour
     private void GetEffectiveVisionParams(out float effectiveViewRadius, out float effectiveViewAngle)
     {
         bool playerCrouching = IsPlayerCrouchingNow();
-        effectiveViewRadius = playerCrouching ? profile.viewRadius * profile.crouchRangeMultiplier : profile.viewRadius;
-        effectiveViewAngle = playerCrouching ? profile.viewAngle * profile.crouchRangeMultiplier : profile.viewAngle;
+        effectiveViewRadius = (playerCrouching ? profile.viewRadius * profile.crouchRangeMultiplier : profile.viewRadius) * PerceptionMultiplier;
+        effectiveViewAngle = (playerCrouching ? profile.viewAngle * profile.crouchRangeMultiplier : profile.viewAngle) * PerceptionMultiplier;
     }
 
     private bool IsPlayerCrouchingNow()
@@ -138,7 +152,7 @@ public class CreatureVision : MonoBehaviour
         DrawVisionCone(effectiveViewAngle, effectiveViewRadius);
 
         Gizmos.color = new Color(1f, 0.3f, 0.3f);
-        DrawCircle(transform.position, profile.awarenessRadius);
+        DrawCircle(transform.position, profile.awarenessRadius * PerceptionMultiplier);
 
         // เส้น Line of Sight จริงที่ใช้เช็คล่าสุด — เขียว = เห็นผู้เล่น, แดง = โดนบัง
         if (lastLOSChecked)
@@ -151,7 +165,7 @@ public class CreatureVision : MonoBehaviour
 
     private void DrawVisionCone(float angle, float radius)
     {
-        Vector3 forward = transform.forward;
+        Vector3 forward = GetLookForward();
         Vector3 leftDir = Quaternion.AngleAxis(-angle / 2f, Vector3.up) * forward;
         Vector3 rightDir = Quaternion.AngleAxis(angle / 2f, Vector3.up) * forward;
 

@@ -1,0 +1,765 @@
+#o---All--- {
+}
+
+VisualElement:disabled {
+    opacity: var(--value-disabled-opacity);
+}
+
+.boxInFields {
+}
+
+.boxInFields > .unity-base-field {
+    border-top-left-radius: var(--boxInField-corner-radius);
+    border-top-right-radius: var(--boxInField-corner-radius);
+    border-bottom-right-radius: var(--boxInField-corner-radius);
+    border-bottom-left-radius: var(--boxInField-corner-radius);
+    padding-top: var(--boxInField-padding);
+    padding-right: var(--boxInField-padding);
+    padding-bottom: var(--boxInField-padding);
+    padding-left: var(--boxInField-padding);
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    background-color: rgba(46, 56, 59, 0.74);
+}
+
+.boxInFields > .unity-base-field:hover {
+    background-color: rgba(200, 240, 255, 0.15);
+}
+
+.stackLabelsAbove {
+}
+
+.stackLabelsAbove > .unity-base-field {
+    flex-direction: column;
+}
+
+#o---Text--- {
+}
+
+*.unity-text-element {
+    color: var(--base-text-color-default);
+    font-size: var(--base-text-size-default);
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+    min-width: 0;
+}
+
+#o---Field-Labels--- {
+}
+
+.stackLabelsAbove > * > .unity-label {
+    color: var(--label-text-color-default);
+    font-size: var(--label-text-size-default);
+    margin-bottom: var(--stackLabelsAbove-label-spacer);
+}
+
+#o---Button--- {
+}
+
+Button {
+    font-size: var(--button-text-size-default);
+    color: var(--button-text-color-default);
+    border-left-width: var(--button-border-width);
+    border-right-width: var(--button-border-width);
+    border-top-width: var(--button-border-width);
+    border-bottom-width: var(--button-border-width);
+    background-color: rgba(84, 168, 180, 0.25);
+    border-top-left-radius: var(--button-corner-radius);
+    border-top-right-radius: var(--button-corner-radius);
+    border-bottom-right-radius: var(--button-corner-radius);
+    border-bottom-left-radius: var(--button-corner-radius);
+    height: var(--base-element-height);
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+Button:hover {
+    background-color: rgba(84, 168, 180, 0.47);
+}
+
+Button:active {
+    background-color: rgba(184, 246, 255, 0.25);
+}
+
+#o---Text-Input-Fields--- {
+}
+
+#unity-text-input {
+    background-color: var(--text-input-background-color-default);
+    padding-left: var(--text-input-padding-horizontal);
+    padding-right: var(--text-input-padding-horizontal);
+    padding-top: var(--text-input-padding-vertical);
+    padding-bottom: var(--text-input-padding-vertical);
+    height: var(--base-element-height);
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    border-top-width: var(--text-input-border-width);
+    border-right-width: var(--text-input-border-width);
+    border-bottom-width: var(--text-input-border-width);
+    border-left-width: var(--text-input-border-width);
+    border-top-left-radius: var(--text-input-corner-radius);
+    border-top-right-radius: var(--text-input-corner-radius);
+    border-bottom-right-radius: var(--text-input-corner-radius);
+    border-bottom-left-radius: var(--text-input-corner-radius);
+}
+
+#unity-text-input:hover {
+    background-color: var(--text-input-background-color-hover);
+}
+
+#unity-text-input:active {
+    background-color: var(--text-input-background-color-active);
+}
+
+#o---Pop-Ups--- {
+}
+
+.unity-base-field .unity-base-popup-field__input {
+    height: var(--base-element-height);
+    background-color: var(--popup-color-default);
+    padding-right: var(--popup-padding-horizontal);
+    padding-left: var(--popup-padding-horizontal);
+    padding-top: var(--popup-padding-vertical);
+    padding-bottom: var(--popup-padding-vertical);
+    border-top-width: var(--popup-border-width);
+    border-bottom-width: var(--popup-border-width);
+    border-right-width: var(--popup-border-width);
+    border-left-width: var(--popup-border-width);
+    border-top-left-radius: var(--popup-corner-radius);
+    border-top-right-radius: var(--popup-corner-radius);
+    border-bottom-right-radius: var(--popup-corner-radius);
+    border-bottom-left-radius: var(--popup-corner-radius);
+}
+
+.unity-enum-field__input {
+    height: var(--base-element-height);
+    background-color: var(--popup-color-default);
+    padding-right: var(--popup-padding-horizontal);
+    padding-left: var(--popup-padding-horizontal);
+    padding-top: var(--popup-padding-vertical);
+    padding-bottom: var(--popup-padding-vertical);
+    border-top-width: var(--popup-border-width);
+    border-bottom-width: var(--popup-border-width);
+    border-right-width: var(--popup-border-width);
+    border-left-width: var(--popup-border-width);
+    border-top-left-radius: var(--popup-corner-radius);
+    border-top-right-radius: var(--popup-corner-radius);
+    border-bottom-right-radius: var(--popup-corner-radius);
+    border-bottom-left-radius: var(--popup-corner-radius);
+}
+
+#o---Object-Field--- {
+}
+
+.unity-object-field__input {
+    background-color: var(--button-color-default);
+    height: var(--base-element-height);
+    border-left-width: var(--button-border-width);
+    border-right-width: var(--button-border-width);
+    border-top-width: var(--button-border-width);
+    border-bottom-width: var(--button-border-width);
+    border-top-left-radius: var(--popup-corner-radius);
+    border-top-right-radius: var(--popup-corner-radius);
+    border-bottom-right-radius: var(--popup-corner-radius);
+    border-bottom-left-radius: var(--popup-corner-radius);
+    -unity-text-align: middle-left;
+}
+
+.unity-object-field__selector {
+    height: var(--base-element-height);
+    background-color: var(--button-color-default);
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+#o---Toggle--- {
+}
+
+.unity-toggle__input {
+    flex-shrink: 1;
+    flex-grow: 0;
+}
+
+.unity-base-field.unity-toggle {
+    flex-direction: row;
+    height: var(--base-element-height);
+    align-items: center;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.unity-base-field.unity-toggle > Label {
+    margin-bottom: 0;
+    flex-shrink: 1;
+    flex-grow: 1;
+}
+
+Toggle .unity-toggle__checkmark {
+    height: var(--toggle-backing-size-height);
+    width: var(--toggle-backing-size-height);
+    border-top-left-radius: var(--toggle-backing-corner-radius);
+    border-top-right-radius: var(--toggle-backing-corner-radius);
+    border-bottom-right-radius: var(--toggle-backing-corner-radius);
+    border-bottom-left-radius: var(--toggle-backing-corner-radius);
+    background-image: none;
+    background-color: var(--toggle-backing-color);
+}
+
+Toggle:hover .unity-toggle__checkmark {
+    background-color: var(--toggle-backing-color-hover);
+}
+
+Toggle:checked .unity-toggle__checkmark {
+    background-image: resource('icons/Toggle_Checkmark');
+    -unity-background-scale-mode: scale-to-fit;
+    background-color: rgb(46, 111, 120);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+}
+
+#o---Bounds-Field--- {
+}
+
+BoundsField .unity-composite-field__label.unity-label {
+    opacity: var(--bounds-fields-secondary-label-opacity);
+    margin-bottom: 1px;
+    margin-top: 1px;
+}
+
+BoundsField .unity-composite-field {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+BoundsIntField .unity-composite-field__label.unity-label {
+    opacity: var(--bounds-fields-secondary-label-opacity);
+    margin-bottom: 1px;
+    margin-top: 1px;
+}
+
+BoundsIntField .unity-composite-field {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    flex-direction: column;
+}
+
+#o---Composite-Fields-General--- {
+}
+
+.unity-composite-field__field-spacer {
+    display: none;
+}
+
+.unity-composite-field__input {
+    flex-direction: row;
+}
+
+.unity-composite-field__field > Label.unity-base-field__label--with-dragger {
+    margin-bottom: 0;
+    min-width: 0;
+    width: 10px;
+    flex-basis: auto;
+    -unity-text-align: middle-center;
+    font-size: 9px;
+    color: rgb(157, 157, 157);
+}
+
+#unity-x-input #unity-text-input {
+    border-bottom-width: 1px;
+    border-bottom-color: var(--x-input-color);
+}
+
+#unity-y-input #unity-text-input {
+    border-bottom-width: 1px;
+    border-bottom-color: var(--y-input-color);
+}
+
+#unity-z-input #unity-text-input {
+    border-bottom-width: 1px;
+    border-bottom-color: var(--z-input-color);
+}
+
+#unity-w-input #unity-text-input {
+    border-bottom-width: 1px;
+    border-bottom-color: var(--w-input-color);
+}
+
+#o---Radio-Button-- {
+}
+
+RadioButton.unity-base-field.unity-radio-button {
+    flex-direction: row;
+    height: var(--base-element-height);
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+RadioButton #unity-checkmark {
+    width: 8px;
+    height: 8px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    background-color: var(--toggle-checkmark-color-default);
+}
+
+RadioButton .unity-radio-button__checkmark-background {
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    background-color: var(--button-color-default);
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    justify-content: center;
+    height: 12px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+.unity-label.unity-radio-button__label {
+    margin-bottom: 0;
+    flex-grow: 1;
+    flex-shrink: 0;
+    -unity-text-align: middle-left;
+}
+
+.unity-radio-button__input {
+    flex-grow: 0;
+}
+
+RadioButton:hover .unity-radio-button__checkmark-background {
+    background-color: var(--button-color-hover);
+}
+
+#o---FoldOut--- {
+}
+
+#unity-checkmark.unity-foldout__checkmark {
+    width: 13px;
+    height: 13px;
+    -unity-background-scale-mode: scale-to-fit;
+    -unity-slice-left: 0;
+    -unity-slice-top: 0;
+    -unity-slice-right: 0;
+    -unity-slice-bottom: 0;
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(0, 0, 0, 0);
+    background-image: resource('icons/arrow-carret-right');
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+Toggle:checked #unity-checkmark.unity-foldout__checkmark {
+    background-image: resource('icons/arrow-carret-down');
+}
+
+Toggle:hover .unity-foldout__text {
+    color: rgb(108, 197, 210);
+}
+
+ScrollView {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    margin-top: 2px;
+}
+
+Scroller > .unity-repeat-button {
+    display: none;
+}
+
+Scroller.unity-scroller--horizontal {
+    background-color: rgba(0, 0, 0, 0);
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    height: 4px;
+}
+
+Scroller.unity-scroller--horizontal #unity-slider {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    height: 4px;
+}
+
+Scroller.unity-scroller--horizontal #unity-dragger {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    background-color: rgba(255, 255, 255, 0.4);
+    height: 2px;
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
+    border-bottom-right-radius: 1px;
+    border-bottom-left-radius: 1px;
+}
+
+Scroller.unity-scroller--horizontal #unity-tracker {
+    background-color: rgba(255, 255, 255, 0.05);
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 2px;
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
+    border-bottom-right-radius: 1px;
+    border-bottom-left-radius: 1px;
+    top: 1px;
+}
+
+Scroller.unity-scroller--horizontal #unity-drag-container {
+    height: 4px;
+    justify-content: center;
+}
+
+Scroller.unity-scroller--vertical {
+    background-color: rgba(0, 0, 0, 0);
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    width: 4px;
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+Scroller.unity-scroller--vertical #unity-slider {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    width: auto;
+}
+
+Scroller.unity-scroller--vertical #unity-dragger {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
+    border-bottom-right-radius: 1px;
+    border-bottom-left-radius: 1px;
+    width: 2px;
+}
+
+Scroller.unity-scroller--vertical #unity-tracker {
+    background-color: rgba(255, 255, 255, 0.05);
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
+    border-bottom-right-radius: 1px;
+    border-bottom-left-radius: 1px;
+    width: 2px;
+    left: 1px;
+}
+
+Scroller.unity-scroller--vertical #unity-drag-container {
+    width: 4px;
+    align-items: center;
+}
+
+Scroller.unity-scroller--horizontal:hover #unity-dragger {
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    height: 4px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+Scroller.unity-scroller--vertical:hover #unity-dragger {
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+    width: 4px;
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+.unity-foldout__text {
+    margin-left: 3px;
+    color: rgba(255, 255, 255, 0.46);
+    font-size: 9px;
+}
+
+.margin-and-padding-controller {
+}
+
+ScrollView.unity-scroll-view--vertical {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 3px;
+}
+
+ScrollView.unity-scroll-view--horizontal {
+    padding-top: 3px;
+    padding-right: 3px;
+    padding-left: 3px;
+}
+
+ScrollView.unity-scroll-view--horizontal > .unity-base-field {
+    margin-right: 2px;
+}
+
+.text-mode-wrap {
+}
+
+.text-mode-wrap TextElement {
+    flex-shrink: 1;
+    white-space: normal;
+}
+
+.text-mode-wrap #unity-text-input {
+    height: auto;
+    padding-top: 8px;
+    padding-right: 8px;
+    padding-bottom: 8px;
+    padding-left: 8px;
+}
+
+.unity-label {
+}
+
+#o---ACTION-PALETTE-ONLY--- {
+}
+
+#ActionLabel {
+    flex-shrink: 1;
+    flex-grow: 0;
+    margin-left: 3px;
+    font-size: 11px;
+}
+
+#ActionRow {
+    align-items: center;
+}
+
+#ActionRow:selected {
+    align-items: center;
+    background-color: rgb(54, 81, 91);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+#ActionRow:hover {
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+#MenuButton {
+    display: none;
+    margin-left: 3px;
+    background-image: resource('icons/menu-settings-options-kebab');
+    margin-right: 3px;
+    width: 16px;
+    height: 16px;
+}
+
+#MenuButton:hover {
+}
+
+#ActionRow:hover #MenuButton {
+    display: flex;
+}
+
+#SearchField #unity-text-input {
+    background-color: rgb(43, 43, 43);
+}
+
+#o---PINS-ONLY--- {
+}
+
+.text-mode-wrap {
+}
+
+.text-mode-wrap TextElement {
+    flex-shrink: 1;
+    white-space: normal;
+}
+
+.text-mode-wrap #unity-text-input {
+    height: auto;
+    padding-top: 8px;
+    padding-right: 8px;
+    padding-bottom: 8px;
+    padding-left: 8px;
+}
+
+.unity-label {
+}
+
+.hideFoldoutIcon {
+}
+
+.hideFoldoutIcon .unity-foldout__checkmark {
+    display: none;
+}
+
+.zeroMarginFoldout {
+}
+
+.zeroMarginFoldout #unity-content {
+    margin-left: 0;
+}
+
+#ObjectGroup {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.toolbar-button-left {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-right: 1px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.toolbar-button-center {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-right: 1px;
+}
+
+.toolbar-button-right {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.toolbar-button-on {
+}
+
+.unity-object-field-display__label {
+    margin-left: 3px;
+}
+
+.iconButton {
+    position: absolute;
+    background-color: rgb(61, 68, 69);
+    background-image: resource('icons/menu-settings-options-kebab');
+    width: 16px;
+    height: 16px;
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.28);
+    visibility: hidden;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+.iconButton:hover {
+    -unity-background-image-tint-color: rgb(108, 197, 210);
+    background-color: rgb(61, 68, 69);
+}
+
+#ObjectGroup:hover .iconButton {
+    visibility: visible;
+}
+
+.toolbar-button-on:hover {
+    background-color: rgb(59, 119, 127);
+}
+
+.unity-base-field__input {
+    flex-shrink: 1;
+    flex-grow: 1;
+}

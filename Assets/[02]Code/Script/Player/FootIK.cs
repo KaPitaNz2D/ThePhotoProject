@@ -56,6 +56,8 @@ public class FootIK : MonoBehaviour
 
     void Update()
     {
+        // Pause (Time.timeScale = 0) -> deltaTime = 0 หารแล้วได้ NaN ไหลไปที่สะโพก ตัวละครหายถาวร
+        if (Time.deltaTime <= 0f) return;
         characterSpeed = (transform.position - lastCharacterPos).magnitude / Time.deltaTime;
         lastCharacterPos = transform.position;
     }

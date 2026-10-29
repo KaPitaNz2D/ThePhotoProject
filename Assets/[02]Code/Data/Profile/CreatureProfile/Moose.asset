@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c2fe4745ff4fc54c95909550ccdcde4, type: 3}
+  m_Name: Moose
+  m_EditorClassIdentifier: Assembly-CSharp::CreatureProfile
+  creatureId: moose_01
+  journalEntry: {fileID: 11400000, guid: 22da5d86ffb8eaf46bac2491277f6157, type: 2}
+  viewAngle: 120
+  viewRadius: 40
+  awarenessRadius: 20
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  eyeHeight: 1.2
+  playerHeightOffset: 1.4
+  crouchRangeMultiplier: 0.6
+  wanderRadius: 20
+  idleMinDuration: 2
+  idleMaxDuration: 8
+  walkSpeed: 1.5
+  maxWalkDuration: 20
+  runSpeed: 16
+  fleeDistance: 30
+  safeDistance: 50
+  fleeRecalculateInterval: 0.5
+  fleeAngleVariance: 45
+  visionDetectionTime: 0.8
+  crouchDetectionTimeMultiplier: 1.5
+  shutterHearingRadius: 30
+  startleRadius: 15
+  sprintPanicRadius: 8
+  eatChance: 0.35
+  eatMinDuration: 8
+  eatMaxDuration: 15
+  eatPerceptionMultiplier: 0.5
+  grazeSurfaceKeyword: Grass
+  grazeMinCoverage: 0.5
+  headTurnSpeed: 150
+  idleLookChance: 0.3
+  idleLookAngle: 55
+  lookHoldTime: 0.6
+  stopDuration: 2.5
+  stopApproachDistance: 1
+  lookAroundDuration: 4
+  lookAroundAngle: 65
+  lookAroundSpotTime: 1
+  lookAroundTurnChance: 0.5
+  lookAroundTurnInterval: 2
+  lookAroundTurnMinAngle: 60
+  lookAroundTurnMaxAngle: 150
+  lookAroundTurnSpeed: 70
+  alertStillTime: 4
+  alertApproachDistance: 5
+  alertRetreatDistance: 10
+  alertTurnSpeed: 180
+  playerStillSpeed: 0.3

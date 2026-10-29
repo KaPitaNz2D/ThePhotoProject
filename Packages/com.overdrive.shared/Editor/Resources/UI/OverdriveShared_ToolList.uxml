@@ -1,0 +1,86 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Packages/com.overdrive.shared/Editor/Resources/UI/Overdrive_USS_ProjectSettings.uss?fileID=7433441132597879392&amp;guid=751eb7d26107a744695eb099be9bab25&amp;type=3#Overdrive_USS_ProjectSettings" />
+    <Style src="project://database/Packages/com.overdrive.shared/Editor/Resources/UI/Overdrive_GeneralStyles.uss?fileID=7433441132597879392&amp;guid=975ea3c222eca5749a8e2c9f7b65dcbb&amp;type=3#Overdrive_GeneralStyles" />
+    <ui:VisualElement name="Row" style="flex-direction: row; margin-top: 6px;">
+        <ui:VisualElement name="Pins" class="panel-base share-equal" style="flex-direction: row; margin-top: 0; margin-right: 6px; margin-bottom: 0; margin-left: 0;">
+            <ui:VisualElement name="Tool-Icon" style="background-image: resource(&apos;icons/pin-map&apos;); -unity-background-image-tint-color: rgb(223, 200, 76);" />
+            <ui:VisualElement class="info-block" style="flex-grow: 1;">
+                <ui:Label tabindex="-1" text="Pins" parse-escape-sequences="true" display-tooltip-when-elided="true" class="h3" />
+                <ui:Label tabindex="-1" text="Quick access to your frequently used variables, editor and runtime" parse-escape-sequences="true" display-tooltip-when-elided="true" class="package-info-text" />
+                <ui:Button text="More Info" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Btn-Web-Pins" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="SmartScenes" class="panel-base share-equal" style="flex-direction: row; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+            <ui:VisualElement name="Tool-Icon" style="background-image: resource(&apos;icons/source-control-fork-branch&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
+            <ui:VisualElement class="info-block" style="flex-grow: 1;">
+                <ui:Label tabindex="-1" text="Smart Scenes" parse-escape-sequences="true" display-tooltip-when-elided="true" class="h3" />
+                <ui:Label tabindex="-1" text="Seamless collaboration solution for Unity scenes" parse-escape-sequences="true" display-tooltip-when-elided="true" class="package-info-text" />
+                <ui:Button text="More Info" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Btn-Web-SmartScenes" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="Row" style="flex-direction: row; margin-top: 6px;">
+        <ui:VisualElement name="PrefabEditor" class="panel-base share-equal" style="flex-direction: row; margin-top: 0; margin-right: 6px; margin-bottom: 0; margin-left: 0;">
+            <ui:VisualElement name="Tool-Icon" style="background-image: resource(&apos;icons/window-multi-prefab&apos;); -unity-background-image-tint-color: rgb(104, 206, 242);" />
+            <ui:VisualElement class="info-block" style="flex-grow: 1;">
+                <ui:Label tabindex="-1" text="Prefab Editor" parse-escape-sequences="true" display-tooltip-when-elided="true" class="h3 no-really-though" />
+                <ui:Label tabindex="-1" text="Open and edit multiple Prefabs in separate windows" parse-escape-sequences="true" display-tooltip-when-elided="true" class="package-info-text" />
+                <ui:Button text="More Info" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Btn-Web-PrefabEditor" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Collections" class="panel-base share-equal" style="flex-direction: row; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+            <ui:VisualElement name="Tool-Icon" style="background-image: resource(&apos;icons/collections-window&apos;); -unity-background-image-tint-color: rgb(121, 194, 106);" />
+            <ui:VisualElement class="info-block" style="flex-grow: 1;">
+                <ui:Label tabindex="-1" text="Collections" parse-escape-sequences="true" display-tooltip-when-elided="true" class="h3 no-really-though" />
+                <ui:Label tabindex="-1" text="Selecting and editing a few things often? Add them to a Collection." parse-escape-sequences="true" display-tooltip-when-elided="true" class="package-info-text" />
+                <ui:Button text="More Info" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Btn-Web-Collections" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="Row" style="flex-direction: row; margin-top: 6px;">
+        <ui:VisualElement name="Todo" class="panel-base share-equal" style="flex-direction: row; margin-top: 0; margin-right: 6px; margin-bottom: 0; margin-left: 0;">
+            <ui:VisualElement name="Tool-Icon" style="background-image: resource(&apos;icons/todo-pencil-list&apos;); -unity-background-image-tint-color: rgb(203, 109, 210);" />
+            <ui:VisualElement class="info-block" style="flex-grow: 1;">
+                <ui:Label tabindex="-1" text="Todo" parse-escape-sequences="true" display-tooltip-when-elided="true" class="h3 no-really-though" />
+                <ui:Label tabindex="-1" text="Track your todo items and link them to scene objects and assets" parse-escape-sequences="true" display-tooltip-when-elided="true" class="package-info-text" />
+                <ui:Button text="More Info" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Btn-Web-Todo" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="ProBuilderPlus" class="panel-base share-equal" style="flex-direction: row; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+            <ui:VisualElement name="Tool-Icon" style="background-image: resource(&apos;icons/3d-cube-sphere-cylinder-shape-pb&apos;); -unity-background-image-tint-color: rgb(88, 217, 221);" />
+            <ui:VisualElement class="info-block" style="flex-grow: 1;">
+                <ui:Label tabindex="-1" text="ProBuilder Plus" parse-escape-sequences="true" display-tooltip-when-elided="true" class="h3 no-really-though" />
+                <ui:Label tabindex="-1" text="ProBuilder extension with more features &amp; upgraded UI" parse-escape-sequences="true" display-tooltip-when-elided="true" class="package-info-text" />
+                <ui:Button text="More Info" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Btn-Web-ProBuilderPlus" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="Row" style="flex-direction: row; margin-top: 6px;">
+        <ui:VisualElement name="KeyControl" class="panel-base share-equal" style="flex-direction: row; margin-top: 0; margin-right: 6px; margin-bottom: 0; margin-left: 0;">
+            <ui:VisualElement name="Tool-Icon" style="background-image: resource(&apos;icons/move-3d-cube-edit&apos;); -unity-background-image-tint-color: rgb(255, 158, 83);" />
+            <ui:VisualElement class="info-block" style="flex-grow: 1;">
+                <ui:Label tabindex="-1" text="Key Control" parse-escape-sequences="true" display-tooltip-when-elided="true" class="h3 no-really-though" />
+                <ui:Label tabindex="-1" text="Fast &amp; Precise manipulation with optional numeric input" parse-escape-sequences="true" display-tooltip-when-elided="true" class="package-info-text" />
+                <ui:Button text="More Info" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Btn-Web-KeyControl" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="ActionsPalette" class="panel-base share-equal" style="flex-direction: row; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+            <ui:VisualElement name="Tool-Icon" style="background-image: resource(&apos;icons/menu-list-actions-lines&apos;); -unity-background-image-tint-color: rgb(68, 220, 180);" />
+            <ui:VisualElement class="info-block" style="flex-grow: 1;">
+                <ui:Label tabindex="-1" text="Actions Palette" parse-escape-sequences="true" display-tooltip-when-elided="true" class="h3 no-really-though" />
+                <ui:Label tabindex="-1" text="Instant access to actions, favorites, macros." parse-escape-sequences="true" display-tooltip-when-elided="true" class="package-info-text" />
+                <ui:Button text="More Info" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Btn-Web-ActionsPalette" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="Row" style="flex-direction: row; margin-top: 6px; width: 50%;">
+        <ui:VisualElement name="SceneFocus" class="panel-base share-equal" style="flex-direction: row; margin-top: 0; margin-bottom: 0; margin-left: 0; margin-right: 2px;">
+            <ui:VisualElement name="Tool-Icon" style="background-image: resource(&apos;icons/scene-image-landscape&apos;); -unity-background-image-tint-color: rgb(74, 220, 68);" />
+            <ui:VisualElement class="info-block" style="flex-grow: 1;">
+                <ui:Label tabindex="-1" text="Scene Focus" parse-escape-sequences="true" display-tooltip-when-elided="true" class="h3 no-really-though" />
+                <ui:Label tabindex="-1" text="Work productively in full-screen Scene View" parse-escape-sequences="true" display-tooltip-when-elided="true" class="package-info-text" />
+                <ui:Button text="More Info" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Btn-Web-SceneFocus" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

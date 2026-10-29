@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ec11910910c8e947b96bb2f21f476d3, type: 3}
+  m_Name: Loon
+  m_EditorClassIdentifier: Assembly-CSharp::AmbientSoundSet
+  clips:
+  - {fileID: 8300000, guid: 59c2cb3505ad327489ff97780c03767b, type: 3}
+  - {fileID: 8300000, guid: 86dcea6666ac7ad42b6c8866de1deeca, type: 3}
+  intervalRange: {x: 40, y: 100}
+  playChance: 0.8
+  distanceRange: {x: 45, y: 90}
+  heightAboveGround: {x: 0, y: 3}
+  volumeRange: {x: 0.6, y: 1}
+  pitchRange: {x: 0.95, y: 1.05}
+  minDistance: 15
+  maxDistance: 130
+  lowPassAtMaxDistance: 4500
+  limitByHour: 1
+  fromHour: 0
+  toHour: 8
+  requiredTerrainLayerKeyword: 
+  terrainLayerMinCoverage: 0.4

@@ -7,7 +7,7 @@ using TMPro;
 
 /// <summary>
 /// ตัวควบคุม UI สมุดบันทึกทั้งหมด แบ่งเป็น 3 ชั้น:
-///   Category (เลือกพืช/สัตว์) -> Grid (กริด 9 ช่อง โชว์เงาดำเสมอ) -> Detail (ข้อมูล+รูปจริงถ้าปลดล็อกแล้ว)
+///   Category (เลือก Flora/Fungus/Animal) -> Grid (กริด 9 ช่อง โชว์เงาดำเสมอ) -> Detail (ข้อมูล+รูปจริงถ้าปลดล็อกแล้ว)
 ///
 /// ปุ่ม Toggle เปิด/ปิดทั้งชุด, ปุ่ม Cancel (Esc) ถอยกลับทีละชั้น — Pattern เดียวกับ StorageUI
 /// </summary>
@@ -31,7 +31,9 @@ public class JournalUI : MonoBehaviour
     public GameObject detailPanel;
 
     [Header("Category Panel")]
-    public Button plantCategoryButton;
+    [UnityEngine.Serialization.FormerlySerializedAs("plantCategoryButton")]
+    public Button floraCategoryButton;
+    public Button fungusCategoryButton;
     public Button animalCategoryButton;
 
     [Header("Grid Panel")]
@@ -60,6 +62,7 @@ public class JournalUI : MonoBehaviour
     private List<JournalEntry> currentCategoryEntries = new List<JournalEntry>();
     private int currentPage;
     private Coroutine photoRevealRoutine;
+    private Sprite detailPhotoSprite; // Sprite ที่ห่อรูปย่อใน Detail Panel (เป็นของ JournalUI เอง)
 
     // เก็บ creatureId ที่เคยเล่นเฟดเผยรูปไปแล้ว — เปิดดูซ้ำครั้งต่อไปโชว์รูปจริงทันทีไม่ต้องเฟดอีก
     private HashSet<string> revealedCreatureIds = new HashSet<string>();
@@ -77,8 +80,10 @@ public class JournalUI : MonoBehaviour
             cancelInput.action.performed += OnCancelPressed;
         }
 
-        if (plantCategoryButton != null)
-            plantCategoryButton.onClick.AddListener(() => SelectCategory(JournalEntry.JournalCategory.Plant));
+        if (floraCategoryButton != null)
+            floraCategoryButton.onClick.AddListener(() => SelectCategory(JournalEntry.JournalCategory.Flora));
+        if (fungusCategoryButton != null)
+            fungusCategoryButton.onClick.AddListener(() => SelectCategory(JournalEntry.JournalCategory.Fungus));
         if (animalCategoryButton != null)
             animalCategoryButton.onClick.AddListener(() => SelectCategory(JournalEntry.JournalCategory.Animal));
         if (nextPageButton != null) nextPageButton.onClick.AddListener(NextPage);
@@ -106,6 +111,7 @@ public class JournalUI : MonoBehaviour
         if (toggleJournalInput != null) toggleJournalInput.action.performed -= OnToggleJournal;
         if (cancelInput != null) cancelInput.action.performed -= OnCancelPressed;
         if (QuestManager.Instance != null) QuestManager.Instance.OnQuestStatusChanged -= HandleQuestStatusChanged;
+        if (detailPhotoSprite != null) Destroy(detailPhotoSprite);
     }
 
     // ==================== เปิด/ปิด ====================
@@ -308,12 +314,10 @@ public class JournalUI : MonoBehaviour
 
             if (detailPhotoImage != null && photoTexture != null)
             {
-                Sprite sprite = Sprite.Create(
-                    photoTexture,
-                    new Rect(0, 0, photoTexture.width, photoTexture.height),
-                    new Vector2(0.5f, 0.5f)
-                );
-                detailPhotoImage.sprite = sprite;
+                // ห่อรูปย่อเป็น Sprite ใหม่ทุกครั้งที่เปิด Detail เลยต้อง Destroy Sprite ตัวเก่า (Texture ยังเป็นของ JournalManager ห้ามแตะ)
+                if (detailPhotoSprite != null) Destroy(detailPhotoSprite);
+                detailPhotoSprite = PhotoThumbnail.ToSprite(photoTexture);
+                detailPhotoImage.sprite = detailPhotoSprite;
             }
 
             if (revealedCreatureIds.Contains(entry.creatureId))

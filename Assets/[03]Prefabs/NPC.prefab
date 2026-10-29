@@ -212,12 +212,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -491,6 +491,7 @@ GameObject:
   - component: {fileID: 866829094311623275}
   - component: {fileID: 1427818396605420764}
   - component: {fileID: 9051101821451562332}
+  - component: {fileID: 6694136888188184377}
   m_Layer: 0
   m_Name: NPC
   m_TagString: Untagged
@@ -614,6 +615,33 @@ MonoBehaviour:
   interactRange: 3
   player: {fileID: 0}
   interactPrompt: {fileID: 5462493791769500024}
+--- !u!114 &6694136888188184377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7774327152005852803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 208b53e97b26904408fe7b71a083968f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NPCRelocator
+  pointsRoot: {fileID: 0}
+  extraPoints: []
+  startPoint: {fileID: 0}
+  randomizeAtStart: 0
+  awayDistance: 40
+  rearmDistance: 20
+  minDistanceToDestination: 30
+  checkInterval: 0.5
+  allowStay: 1
+  viewCamera: {fileID: 0}
+  screenMargin: 0.2
+  npcHeight: 2
+  player: {fileID: 0}
+  drawGizmos: 1
+  logRelocations: 0
 --- !u!1 &7864963484767150543
 GameObject:
   m_ObjectHideFlags: 0

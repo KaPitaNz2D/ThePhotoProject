@@ -1,0 +1,164 @@
+#ActionsLabel {
+    margin-top: 8px;
+    font-size: 11px;
+    -unity-text-align: upper-center;
+    margin-bottom: 3px;
+    opacity: 0.5;
+    white-space: normal;
+}
+
+#EditorButtons {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.icon-only-button > Button > TextElement {
+    display: none;
+}
+
+Button {
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    flex-grow: 1;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-left-width: 2px;
+}
+
+Button > Image {
+    margin-top: 0;
+    margin-right: 2px;
+    margin-bottom: 0;
+    margin-left: 0;
+    width: 22px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.icon-only-button > Button {
+    margin-top: 1px;
+    margin-right: 1px;
+    margin-bottom: 1px;
+    margin-left: 1px;
+    justify-content: center;
+}
+
+.icon-only-button > Button > Image {
+    margin-right: 0;
+    width: 20px;
+    min-width: 20px;
+    max-width: 20px;
+}
+
+.icon-only-button {
+}
+
+#Main {
+    width: 120px;
+}
+
+#ActionButtons.icon-only-button {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#Main.slim {
+    width: 80px;
+}
+
+.slim {
+}
+
+.slim-box {
+}
+
+.slim-box Label {
+    width: 60px;
+    min-width: 60px;
+}
+
+.slim-box Toggle > Label {
+    flex-grow: 1;
+}
+
+.slim-box Toggle > .unity-toggle__input {
+    flex-grow: 0;
+}
+
+.instant-mode .dont-allow-instant {
+}
+
+.instant-mode #ActionButtons .allow-instant {
+    border-left-width: 2px;
+    border-left-color: rgb(38, 244, 234);
+    border-right-color: rgb(38, 244, 234);
+    border-top-color: rgb(38, 244, 234);
+    border-bottom-color: rgb(38, 244, 234);
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+}
+
+#ActionButtons > Button > Image {
+    width: 20px;
+    min-width: 20px;
+    margin-right: 2px;
+    max-width: 20px;
+}
+
+#ActionButtons > Button {
+    padding-left: 2px;
+}
+
+#BetaLabel {
+    -unity-text-align: upper-center;
+    -unity-font-style: italic;
+    color: rgb(80, 146, 157);
+    font-size: 10px;
+}
+
+#EditorButtons > Button {
+    padding-top: 0;
+    padding-right: 6px;
+    padding-bottom: 0;
+    padding-left: 6px;
+}
+
+#EditModeButtons > Button {
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    flex-grow: 0;
+}
+
+#EditModeButtons > #unity-toggle-button-group__container {
+    justify-content: center;
+}
+
+#EditModeButtons > Button:hover {
+    opacity: 0.8;
+}
+
+#EditModeButtons > Button:selected {
+}
+
+#EditModeButtons > Button:hover:selected {
+    opacity: 0.8;
+}
+
+#EditModeButtons > Button:disabled {
+    opacity: 0.1;
+}
+
+.slim #EditModeButtons > Button {
+    width: 18px;
+}
