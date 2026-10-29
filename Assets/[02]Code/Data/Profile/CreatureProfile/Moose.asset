@@ -20,7 +20,7 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 1
-  eyeHeight: 1
+  eyeHeight: 1.2
   playerHeightOffset: 1.4
   crouchRangeMultiplier: 0.6
   wanderRadius: 20
@@ -28,15 +28,15 @@ MonoBehaviour:
   idleMaxDuration: 8
   walkSpeed: 1.5
   maxWalkDuration: 20
-  runSpeed: 12
+  runSpeed: 16
   fleeDistance: 30
   safeDistance: 50
   fleeRecalculateInterval: 0.5
   fleeAngleVariance: 45
-  visionDetectionTime: 1
-  crouchDetectionTimeMultiplier: 2
-  shutterHearingRadius: 25
-  startleRadius: 10
+  visionDetectionTime: 0.8
+  crouchDetectionTimeMultiplier: 1.5
+  shutterHearingRadius: 30
+  startleRadius: 15
   sprintPanicRadius: 8
   eatChance: 0.35
   eatMinDuration: 8
@@ -44,21 +44,21 @@ MonoBehaviour:
   eatPerceptionMultiplier: 0.5
   grazeSurfaceKeyword: Grass
   grazeMinCoverage: 0.5
-  headTurnSpeed: 200
+  headTurnSpeed: 150
   idleLookChance: 0.3
   idleLookAngle: 55
   lookHoldTime: 0.6
-  stopDuration: 2
+  stopDuration: 2.5
   stopApproachDistance: 1
-  lookAroundDuration: 5
+  lookAroundDuration: 4
   lookAroundAngle: 65
-  lookAroundSpotTime: 1.5
+  lookAroundSpotTime: 1
   lookAroundTurnChance: 0.5
   lookAroundTurnInterval: 2
   lookAroundTurnMinAngle: 60
   lookAroundTurnMaxAngle: 150
-  lookAroundTurnSpeed: 100
-  alertStillTime: 5
+  lookAroundTurnSpeed: 70
+  alertStillTime: 4
   alertApproachDistance: 5
   alertRetreatDistance: 10
   alertTurnSpeed: 180
