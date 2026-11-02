@@ -120,7 +120,8 @@ public class CreatureAI : MonoBehaviour
 
         UpdatePlayerSpeed();
 
-        root.Tick();
+        if (IsScripted) UpdateScripted();
+        else root.Tick();
 
         heardShutter = false; // เหตุการณ์เสียงมีผลแค่เฟรมที่ได้ยิน
     }
@@ -222,6 +223,59 @@ public class CreatureAI : MonoBehaviour
 
         if (profile.startleRadius > 0f && distance <= profile.startleRadius * mult) return true;
         return IsPlayerSprinting() && distance <= profile.sprintPanicRadius * mult;
+    }
+
+    // ==================== Scripted (สั่งด้วยมือสำหรับอัดคลิป — CreatureDirector) ====================
+    // ระหว่างนี้ไม่รัน Behavior Tree เลย: ไม่รับรู้ผู้เล่น/เสียงชัตเตอร์ ไม่หนี ไม่สุ่มเปลี่ยน State เอง จนกว่าจะ ReleaseScripted()
+
+    /// <summary>true = กำลังถูกสั่งด้วยมือ (Behavior Tree หยุดทำงาน)</summary>
+    public bool IsScripted { get; private set; }
+    private bool scriptedEatOnArrive;
+
+    /// <summary>ก้มกินหญ้าค้างไว้จนกว่าจะสั่งอย่างอื่น (ไม่เช็คว่ายืนบนหญ้าไหม)</summary>
+    public void ScriptedEat()
+    {
+        IsScripted = true;
+        EnterEating();
+    }
+
+    /// <summary>ยืนเฉยๆ (อาจหันหัวมองข้างๆ ตามปกติ) ค้างไว้จนกว่าจะสั่งอย่างอื่น</summary>
+    public void ScriptedIdle()
+    {
+        IsScripted = true;
+        EnterIdle();
+    }
+
+    /// <summary>เดินไปจุดที่กำหนด ถึงแล้วยืนนิ่ง (หรือก้มกินหญ้าถ้า eatOnArrive) — คืน false ถ้าจุดนั้นไม่มี NavMesh ใกล้ๆ</summary>
+    public bool ScriptedWalkTo(Vector3 destination, bool eatOnArrive = false)
+    {
+        if (!NavMesh.SamplePosition(destination, out NavMeshHit hit, 5f, NavMesh.AllAreas)) return false;
+
+        IsScripted = true;
+        scriptedEatOnArrive = eatOnArrive;
+        ChangeState(CreatureState.Walking);
+        if (head != null) head.ResetLook();
+        agent.isStopped = false;
+        agent.speed = profile.walkSpeed;
+        agent.SetDestination(hit.position);
+        return true;
+    }
+
+    /// <summary>คืนการควบคุมให้ Behavior Tree (เริ่มจาก Idle)</summary>
+    public void ReleaseScripted()
+    {
+        if (!IsScripted) return;
+        IsScripted = false;
+        EnterIdle();
+    }
+
+    private void UpdateScripted()
+    {
+        if (CurrentState != CreatureState.Walking) return;
+        if (agent.pathPending || agent.remainingDistance > agent.stoppingDistance) return;
+
+        if (scriptedEatOnArrive) EnterEating();
+        else EnterIdle();
     }
 
     // ==================== Idle ====================

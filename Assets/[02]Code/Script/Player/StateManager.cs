@@ -22,7 +22,8 @@ public class StateManager : MonoBehaviour
         Pause,
         Journal,
         Storage,
-        Board
+        Board,
+        FreeCam // กล้องบินอิสระสำหรับอัดวิดีโอ (FreeCam.cs) — ผู้เล่นหยุด, HUD ซ่อน
     }
 
     [Header("Current States (Read-only ดูใน Inspector)")]
