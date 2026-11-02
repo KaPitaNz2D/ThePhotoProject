@@ -262,6 +262,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1783929917293972794, guid: 009c7b4102ef46741bba6e3117d9a59d, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4058108131079389227, guid: 009c7b4102ef46741bba6e3117d9a59d, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6290565982409762005, guid: 009c7b4102ef46741bba6e3117d9a59d, type: 3}
       propertyPath: m_Name
       value: HoneyMushroom_002 (3)
@@ -335,6 +343,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1783929917293972794, guid: 009c7b4102ef46741bba6e3117d9a59d, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4058108131079389227, guid: 009c7b4102ef46741bba6e3117d9a59d, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6290565982409762005, guid: 009c7b4102ef46741bba6e3117d9a59d, type: 3}
       propertyPath: m_Name
       value: HoneyMushroom_002 (1)
@@ -406,6 +422,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1471237623010935010, guid: 009c7b4102ef46741bba6e3117d9a59d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1783929917293972794, guid: 009c7b4102ef46741bba6e3117d9a59d, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4058108131079389227, guid: 009c7b4102ef46741bba6e3117d9a59d, type: 3}
+      propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6290565982409762005, guid: 009c7b4102ef46741bba6e3117d9a59d, type: 3}
