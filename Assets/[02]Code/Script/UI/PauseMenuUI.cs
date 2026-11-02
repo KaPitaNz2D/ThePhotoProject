@@ -171,11 +171,11 @@ public class PauseMenuUI : MonoBehaviour
         Select(firstPauseButton);
     }
 
-    /// <summary>ปุ่ม Back to Menu — ล้างเควส/รูปทั้งหมดเหมือนปุ่ม R แล้วโหลดเมนูหลัก</summary>
+    /// <summary>ปุ่ม Back to Menu — กลับเมนูหลักโดยเก็บความคืบหน้าไว้ (ล้างเซฟได้จากปุ่ม Reset ในเมนูหลัก)</summary>
     public void BackToMenu()
     {
         RestoreGameplay();
-        DebugGameReset.ResetToMainMenu(mainMenuSceneName);
+        DebugGameReset.ReturnToMainMenu(mainMenuSceneName);
     }
 
     private void RestoreGameplay()

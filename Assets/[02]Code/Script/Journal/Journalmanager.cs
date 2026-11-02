@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -9,14 +10,18 @@ using UnityEngine;
 ///
 /// สำคัญ: พอปลดล็อก Entry ไหนครั้งแรก จะ "ทำสำเนาถาวรของตัวเอง" ทันที (Subscribe PhotoStorage.OnPhotoAdded)
 /// ไม่อ้างอิงไฟล์ใน Storage อีกเลยหลังจากนั้น ต่อให้ผู้เล่นไปลบภาพต้นฉบับทิ้งจาก Storage ทีหลัง Journal จะไม่หายตามเด็ดขาด
-/// สำเนามี 2 ส่วน:
-///   1) รูปย่อ (Texture2D เล็กๆ ค้างใน RAM) — ใช้โชว์ในหน้า Journal ทันที ไม่ต้องอ่านไฟล์
-///   2) ไฟล์ภาพเต็มของ Journal เอง (copy ไว้ในโฟลเดอร์ JournalPhotos) — โหลดมาดูภาพใหญ่ได้เมื่อต้องการผ่าน LoadFullPhotoForEntry()
-///      (เตรียมไว้สำหรับกดดูรูปใหญ่/เปลี่ยนรูปใน Journal) ลบทิ้งตอน JournalManager ถูกทำลาย
+/// สำเนาเก็บในโฟลเดอร์ JournalPhotos 2 ไฟล์ต่อ Entry:
+///   1) รูปย่อ (_thumb.png) — โหลดเป็น Texture2D เล็กๆ ค้างใน RAM ตอนมีคนขอครั้งแรก ใช้โชว์ในหน้า Journal
+///   2) ไฟล์ภาพเต็ม — โหลดมาดูภาพใหญ่ได้เมื่อต้องการผ่าน LoadFullPhotoForEntry()
+///
+/// เซฟข้ามการปิดเกม: รายชื่อ Entry ที่ปลดล็อก (+ไฟล์ภาพ), creatureId ที่เคยเล่นเฟดเผยรูปแล้ว และหน้าสุดท้ายที่เปิด Journal ค้างไว้
+/// อยู่ใน Save/journal.json — เซฟทุกครั้งที่เปลี่ยน โหลดกลับตอน Awake
 /// </summary>
 public class JournalManager : MonoBehaviour
 {
-    private const string PhotoFolderName = "JournalPhotos";
+    private const string PhotoFolderName = SaveSystem.JournalPhotoFolderName;
+    private const string SaveFileName = "journal.json";
+    private const string ThumbnailSuffix = "_thumb.png";
 
     [Header("Data — ลาก JournalEntry Asset ทั้งหมดมาใส่ตรงนี้")]
     public List<JournalEntry> allEntries = new List<JournalEntry>();
@@ -24,30 +29,64 @@ public class JournalManager : MonoBehaviour
     /// <summary>ภาพของ Entry 1 ตัวที่ Journal เก็บไว้เอง</summary>
     private class JournalPhoto
     {
-        public Texture2D thumbnail;   // รูปย่อสำหรับแสดงผล (ของ Journal เอง ไม่ใช่ตัวเดียวกับ Storage)
+        public Texture2D thumbnail;   // รูปย่อสำหรับแสดงผล (ของ Journal เอง) — null จนกว่าจะมีคนขอครั้งแรก
         public string fullFilePath;   // ไฟล์ภาพเต็มสำเนาของ Journal เอง (null ถ้า copy ไม่สำเร็จ)
+        public string thumbnailFilePath;
+    }
+
+    /// <summary>หน้า Journal ที่เปิดค้างไว้ล่าสุด (JournalUI เป็นคนแปลความหมาย) — เซฟไว้ให้เปิดเกมใหม่แล้วเจอหน้าเดิม</summary>
+    [Serializable]
+    public class SavedPage
+    {
+        public int pageType;
+        public bool animals;
+        public string creatureId;
+        public int subPage;
+    }
+
+    [Serializable]
+    private class JournalSaveData
+    {
+        public List<EntryRecord> entries = new List<EntryRecord>();
+        public List<string> revealedCreatureIds = new List<string>();
+        public bool hasLastPage;
+        public SavedPage lastPage = new SavedPage();
+    }
+
+    [Serializable]
+    private class EntryRecord
+    {
+        public string creatureId;
+        public string fullFileName;
+        public string thumbnailFileName;
     }
 
     // creatureId -> ภาพของ Journal
     private Dictionary<string, JournalPhoto> unlockedPhotos = new Dictionary<string, JournalPhoto>();
 
+    // creatureId ที่เคยเล่นเฟดเผยรูปใน Detail ไปแล้ว (JournalUI ใช้) — เซฟด้วย เปิดเกมใหม่จะไม่เฟดซ้ำ
+    private HashSet<string> revealedCreatureIds = new HashSet<string>();
+    private SavedPage lastPage;
+
     // เลขรันชื่อไฟล์สำเนา — ไม่ใช้ unlockedPhotos.Count เพราะตอนเปลี่ยนรูป (SetPhotoForEntry) Count ไม่ขยับ ชื่อไฟล์จะชนของเดิม
+    // ใส่เวลาในชื่อไฟล์ด้วย กันชนไฟล์ที่โหลดกลับมาจากเซฟรอบก่อน
     private int photoFileCounter;
 
     private string FolderPath => Path.Combine(Application.persistentDataPath, PhotoFolderName);
 
     private void Awake()
     {
-        // เริ่มโฟลเดอร์ใหม่ทุกครั้ง กันไฟล์ค้างจากรอบก่อนที่เกมปิดผิดปกติ (ตอนนี้ยังไม่มีระบบ Save/Load ข้าม Session)
         try
         {
-            if (Directory.Exists(FolderPath)) Directory.Delete(FolderPath, true);
             Directory.CreateDirectory(FolderPath);
         }
         catch (IOException e)
         {
             Debug.LogWarning($"[JournalManager] เตรียมโฟลเดอร์ {FolderPath} ไม่สำเร็จ: {e.Message}");
         }
+
+        LoadFromDisk();
+        SaveSystem.OnSaveDeleted += ClearAll;
     }
 
     private void Start()
@@ -68,14 +107,107 @@ public class JournalManager : MonoBehaviour
         {
             PhotoStorage.Instance.OnPhotoAdded -= HandlePhotoAdded;
         }
+        SaveSystem.OnSaveDeleted -= ClearAll;
 
-        // ทำลายรูปย่อและลบไฟล์สำเนาที่ค้างไว้ทั้งหมดตอนปิดเกม/เปลี่ยนซีน ป้องกัน RAM/ดิสก์ค้าง
+        // ทำลายรูปย่อใน RAM เท่านั้น — ไฟล์บนดิสก์เก็บไว้ให้เปิดเกมรอบหน้า
+        DestroyThumbnails();
+    }
+
+    private void DestroyThumbnails()
+    {
         foreach (JournalPhoto photo in unlockedPhotos.Values)
         {
             if (photo.thumbnail != null) Destroy(photo.thumbnail);
-            DeleteFileQuietly(photo.fullFilePath);
+            photo.thumbnail = null;
         }
+    }
+
+    // ==================== Save / Load ====================
+    private void LoadFromDisk()
+    {
+        JournalSaveData data = SaveSystem.Load<JournalSaveData>(SaveFileName);
+        HashSet<string> keepFiles = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        if (data != null)
+        {
+            foreach (EntryRecord record in data.entries)
+            {
+                if (record == null || string.IsNullOrEmpty(record.creatureId)) continue;
+                JournalPhoto photo = new JournalPhoto
+                {
+                    fullFilePath = ToFullPath(record.fullFileName),
+                    thumbnailFilePath = ToFullPath(record.thumbnailFileName)
+                };
+                // ไม่มีไฟล์เหลือสักไฟล์ = ข้อมูลหาย ถือว่ายังไม่ปลดล็อก
+                if (!File.Exists(photo.fullFilePath ?? "") && !File.Exists(photo.thumbnailFilePath ?? "")) continue;
+
+                unlockedPhotos[record.creatureId] = photo;
+                if (photo.fullFilePath != null) keepFiles.Add(photo.fullFilePath);
+                if (photo.thumbnailFilePath != null) keepFiles.Add(photo.thumbnailFilePath);
+            }
+            foreach (string id in data.revealedCreatureIds)
+            {
+                if (!string.IsNullOrEmpty(id)) revealedCreatureIds.Add(id);
+            }
+            if (data.hasLastPage) lastPage = data.lastPage;
+        }
+
+        // ลบไฟล์ที่ไม่มีใครอ้างถึง (ค้างจากเกมแครช/เปลี่ยนรูป)
+        if (Directory.Exists(FolderPath))
+        {
+            foreach (string file in Directory.GetFiles(FolderPath))
+            {
+                if (!keepFiles.Contains(file)) DeleteFileQuietly(file);
+            }
+        }
+    }
+
+    private void SaveToDisk()
+    {
+        JournalSaveData data = new JournalSaveData();
+        foreach (KeyValuePair<string, JournalPhoto> pair in unlockedPhotos)
+        {
+            data.entries.Add(new EntryRecord
+            {
+                creatureId = pair.Key,
+                fullFileName = Path.GetFileName(pair.Value.fullFilePath),
+                thumbnailFileName = Path.GetFileName(pair.Value.thumbnailFilePath)
+            });
+        }
+        data.revealedCreatureIds.AddRange(revealedCreatureIds);
+        data.hasLastPage = lastPage != null;
+        if (lastPage != null) data.lastPage = lastPage;
+        SaveSystem.Save(SaveFileName, data);
+    }
+
+    private string ToFullPath(string fileName) => string.IsNullOrEmpty(fileName) ? null : Path.Combine(FolderPath, fileName);
+
+    // SaveSystem.DeleteAll() (ปุ่ม Reset / ปุ่ม R) — ล้างใน RAM ทั้งหมด ไฟล์ SaveSystem ลบให้เอง
+    private void ClearAll()
+    {
+        DestroyThumbnails();
         unlockedPhotos.Clear();
+        revealedCreatureIds.Clear();
+        lastPage = null;
+    }
+
+    /// <summary>JournalUI เช็คว่าเคยเล่นเฟดเผยรูปของ creatureId นี้ไปแล้วหรือยัง</summary>
+    public bool IsRevealed(string creatureId) => !string.IsNullOrEmpty(creatureId) && revealedCreatureIds.Contains(creatureId);
+
+    /// <summary>JournalUI บอกว่าเล่นเฟดเผยรูปของ creatureId นี้แล้ว (เซฟทันที)</summary>
+    public void MarkRevealed(string creatureId)
+    {
+        if (!string.IsNullOrEmpty(creatureId) && revealedCreatureIds.Add(creatureId)) SaveToDisk();
+    }
+
+    /// <summary>หน้าสุดท้ายที่เปิดค้างไว้ (null = ยังไม่เคยเปิด)</summary>
+    public SavedPage LastPage => lastPage;
+
+    /// <summary>JournalUI เรียกตอนปิด Journal — เซฟหน้าปัจจุบันไว้ให้เปิดเกมรอบหน้าเจอหน้าเดิม</summary>
+    public void SetLastPage(SavedPage page)
+    {
+        lastPage = page;
+        SaveToDisk();
     }
 
     /// <summary>
@@ -86,6 +218,7 @@ public class JournalManager : MonoBehaviour
     {
         if (photo.creatureIds == null) return;
 
+        bool changed = false;
         foreach (string creatureId in photo.creatureIds)
         {
             if (string.IsNullOrEmpty(creatureId) || unlockedPhotos.ContainsKey(creatureId)) continue;
@@ -94,8 +227,10 @@ public class JournalManager : MonoBehaviour
             if (journalPhoto != null)
             {
                 unlockedPhotos[creatureId] = journalPhoto;
+                changed = true;
             }
         }
+        if (changed) SaveToDisk();
     }
 
     private JournalPhoto CreateJournalPhoto(PhotoStorage.StoredPhoto photo, string creatureId)
@@ -106,11 +241,25 @@ public class JournalManager : MonoBehaviour
 
         JournalPhoto journalPhoto = new JournalPhoto { thumbnail = Instantiate(storageThumbnail) };
 
+        string safeId = string.Concat(creatureId.Select(c => Path.GetInvalidFileNameChars().Contains(c) ? '_' : c));
+        string baseName = $"journal_{DateTime.Now:yyyyMMdd_HHmmss_fff}_{photoFileCounter++}_{safeId}";
+
+        // รูปย่อลงไฟล์ด้วย ไว้โหลดกลับตอนเปิดเกมรอบหน้า (เล็กมาก เข้ารหัสเร็ว)
+        try
+        {
+            string thumbnailPath = Path.Combine(FolderPath, baseName + ThumbnailSuffix);
+            File.WriteAllBytes(thumbnailPath, journalPhoto.thumbnail.EncodeToPNG());
+            journalPhoto.thumbnailFilePath = thumbnailPath;
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning($"[JournalManager] เขียนรูปย่อของ '{creatureId}' ไม่สำเร็จ: {e.Message}");
+        }
+
         // ไฟล์ภาพเต็ม: copy ไว้เป็นของ Journal เอง (ไม่โหลดเข้า RAM) ไว้ใช้ดูภาพใหญ่ภายหลัง
         try
         {
-            string safeId = string.Concat(creatureId.Select(c => Path.GetInvalidFileNameChars().Contains(c) ? '_' : c));
-            string destination = Path.Combine(FolderPath, $"journal_{photoFileCounter++}_{safeId}.png");
+            string destination = Path.Combine(FolderPath, baseName + ".png");
             File.Copy(photo.filePath, destination, true);
             journalPhoto.fullFilePath = destination;
         }
@@ -131,7 +280,7 @@ public class JournalManager : MonoBehaviour
         }
         catch (IOException)
         {
-            // ลบไม่ได้ก็ปล่อย โฟลเดอร์จะถูกล้างตอน Awake ครั้งหน้า
+            // ลบไม่ได้ก็ปล่อย จะถูกล้างตอนโหลดรอบหน้า (ไฟล์ที่ไม่มีใครอ้างถึง)
         }
     }
 
@@ -150,8 +299,10 @@ public class JournalManager : MonoBehaviour
         {
             if (oldPhoto.thumbnail != null) Destroy(oldPhoto.thumbnail);
             DeleteFileQuietly(oldPhoto.fullFilePath);
+            DeleteFileQuietly(oldPhoto.thumbnailFilePath);
         }
         unlockedPhotos[entry.creatureId] = newPhoto;
+        SaveToDisk();
         return true;
     }
 
@@ -185,11 +336,37 @@ public class JournalManager : MonoBehaviour
     /// <summary>
     /// คืน "รูปย่อ" ของ Entry สำหรับแสดงผลในหน้า Journal — "ยืม" มาใช้เท่านั้น ห้าม Destroy()
     /// เพราะเป็น Object เดียวกับที่ JournalManager ถืออยู่ตลอด Session ไม่ใช่ Texture ชั่วคราว
+    /// Entry ที่โหลดกลับมาจากเซฟ: อ่านไฟล์รูปย่อครั้งแรกที่ขอ (ไม่มีไฟล์รูปย่อก็ย่อจากภาพเต็มแทน)
     /// </summary>
     public Texture2D LoadPhotoForEntry(JournalEntry entry)
     {
         if (entry == null) return null;
-        return unlockedPhotos.TryGetValue(entry.creatureId, out JournalPhoto photo) ? photo.thumbnail : null;
+        if (!unlockedPhotos.TryGetValue(entry.creatureId, out JournalPhoto photo)) return null;
+
+        if (photo.thumbnail == null)
+        {
+            if (!string.IsNullOrEmpty(photo.thumbnailFilePath) && File.Exists(photo.thumbnailFilePath))
+            {
+                Texture2D thumbnail = new Texture2D(2, 2, TextureFormat.RGB24, false);
+                if (thumbnail.LoadImage(File.ReadAllBytes(photo.thumbnailFilePath)))
+                {
+                    thumbnail.wrapMode = TextureWrapMode.Clamp;
+                    photo.thumbnail = thumbnail;
+                }
+                else Destroy(thumbnail);
+            }
+            if (photo.thumbnail == null)
+            {
+                Texture2D full = LoadFullPhotoForEntry(entry);
+                if (full != null)
+                {
+                    int maxSize = PhotoStorage.Instance != null ? PhotoStorage.Instance.thumbnailMaxSize : 384;
+                    photo.thumbnail = PhotoThumbnail.Create(full, maxSize);
+                    Destroy(full);
+                }
+            }
+        }
+        return photo.thumbnail;
     }
 
     /// <summary>

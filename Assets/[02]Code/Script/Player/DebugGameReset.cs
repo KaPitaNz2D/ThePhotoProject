@@ -16,22 +16,19 @@ public class DebugGameReset : MonoBehaviour
 
     private void ResetGame() => ResetToMainMenu(mainMenuSceneName);
 
-    /// <summary>ล้างเควส/รูปทั้งหมดแล้วกลับเมนูหลัก — ใช้ทั้งปุ่ม R (Debug) และปุ่ม Back to Menu ในหน้า Pause</summary>
+    /// <summary>ปุ่ม R (Debug) — ลบเซฟทั้งหมด (รูป/เควส/Journal/บอร์ด/ตัวแปร Yarn) แล้วกลับเมนูหลัก เหมือนกดปุ่ม Reset ในเมนู</summary>
     public static void ResetToMainMenu(string mainMenuSceneName)
+    {
+        SaveSystem.DeleteAll();
+        ReturnToMainMenu(mainMenuSceneName);
+    }
+
+    /// <summary>กลับเมนูหลักโดยเก็บความคืบหน้าไว้ (ทุกระบบเซฟทันทีที่ข้อมูลเปลี่ยนอยู่แล้ว) — ปุ่ม Back to Menu ในหน้า Pause</summary>
+    public static void ReturnToMainMenu(string mainMenuSceneName)
     {
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-
-        if (QuestManager.Instance != null)
-        {
-            QuestManager.Instance.ResetAllQuests();
-        }
-
-        if (PhotoStorage.Instance != null)
-        {
-            PhotoStorage.Instance.ClearAllPhotos();
-        }
 
         SceneManager.LoadScene(mainMenuSceneName);
     }

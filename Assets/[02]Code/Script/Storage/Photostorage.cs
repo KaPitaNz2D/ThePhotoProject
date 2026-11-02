@@ -9,6 +9,10 @@ using UnityEngine;
 /// ส่วนหน้า Storage Grid / Journal ใช้ "รูปย่อ" (thumbnailMaxSize) ที่สร้างไว้ตอนถ่ายและเก็บค้างใน RAM (เล็กมาก) ผ่าน GetThumbnailSprite()
 /// เปิดหน้าคลังภาพจึงไม่ต้องอ่าน/ถอดรหัส PNG ขนาดจริงทุกภาพอีก
 ///
+/// เซฟข้ามการปิดเกม: ไฟล์ PNG อยู่บนดิสก์ถาวร (ไม่ลบตอนปิดเกมแล้ว) + รูปย่อเก็บเป็นไฟล์ "_thumb.png" คู่กัน
+/// รายชื่อภาพ (ชื่อไฟล์ + creatureIds + เวลาถ่าย) เซฟลง Save/photos.json ทุกครั้งที่เพิ่ม/ลบ แล้วโหลดกลับตอน Awake
+/// ภาพที่โหลดกลับมายังไม่มีรูปย่อใน RAM — สร้างตอนมีคนขอครั้งแรก (อ่านจากไฟล์ _thumb.png เล็กๆ ไม่ต้องถอดรหัสภาพเต็ม)
+///
 /// จำกัดจำนวนภาพสูงสุด (maxCapacity) — เต็มแล้วต้องลบภาพเก่าเองผ่าน UI Storage ก่อนถึงจะถ่ายเพิ่มได้
 /// (PhotoShooter เป็นคนเช็ค IsFull ก่อนอนุญาตให้กดชัตเตอร์)
 /// </summary>
@@ -62,6 +66,24 @@ public class PhotoStorage : MonoBehaviour
     private List<StoredPhoto> storedPhotos = new List<StoredPhoto>();
     private string FolderPath => Path.Combine(Application.persistentDataPath, saveFolderName);
 
+    private const string SaveFileName = "photos.json";
+    private const string ThumbnailSuffix = "_thumb.png";
+
+    // ข้อมูลที่เซฟลง photos.json — เก็บแค่ชื่อไฟล์ (ไม่ใช่ Path เต็ม) เผื่อ persistentDataPath เปลี่ยน
+    [Serializable]
+    private class PhotoSaveData
+    {
+        public List<PhotoRecord> photos = new List<PhotoRecord>();
+    }
+
+    [Serializable]
+    private class PhotoRecord
+    {
+        public string fileName;
+        public List<string> creatureIds = new List<string>();
+        public long capturedAtTicks;
+    }
+
     // จำนวนภาพที่กำลังเข้ารหัส/เขียนไฟล์อยู่เบื้องหลัง (นับรวมเข้า IsFull) และรอบการล้างคลัง
     // ClearAllPhotos() เพิ่มรอบ งานที่เริ่มก่อนล้างและเพิ่งเสร็จจะถูกทิ้ง ไม่โผล่กลับเข้าคลังที่เพิ่งล้าง
     private int pendingSaves;
@@ -82,14 +104,87 @@ public class PhotoStorage : MonoBehaviour
         {
             Directory.CreateDirectory(FolderPath);
         }
+
+        LoadFromDisk();
+        SaveSystem.OnSaveDeleted += ClearAllPhotos;
     }
 
-    private void OnApplicationQuit()
+    private void OnDestroy()
     {
-        // ลบไฟล์ภาพทั้งหมดออกจากดิสก์ทุกครั้งที่ปิดเกม/หยุด Play Mode
-        // (เรียกทำงานทั้งตอนกด Stop ใน Editor และตอนปิด Build จริง)
-        // ตอนนี้ยังไม่มีระบบ Save/Load ข้าม Session เลยไม่จำเป็นต้องเก็บภาพเก่าไว้ข้ามรอบเล่น
-        ClearAllPhotosFromDisk();
+        if (Instance != this) return;
+        SaveSystem.OnSaveDeleted -= ClearAllPhotos;
+        foreach (StoredPhoto photo in storedPhotos) DestroyThumbnail(photo);
+    }
+
+    private static string GetThumbnailPath(string photoPath) => Path.ChangeExtension(photoPath, null) + ThumbnailSuffix;
+
+    /// <summary>โหลดรายชื่อภาพจาก photos.json (ข้ามภาพที่ไฟล์หายไปแล้ว) แล้วลบไฟล์ PNG ที่ไม่มีใครอ้างถึงทิ้ง (ค้างจากเกมแครช)</summary>
+    private void LoadFromDisk()
+    {
+        PhotoSaveData data = SaveSystem.Load<PhotoSaveData>(SaveFileName);
+        HashSet<string> keepFiles = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        if (data != null)
+        {
+            foreach (PhotoRecord record in data.photos)
+            {
+                if (record == null || string.IsNullOrEmpty(record.fileName)) continue;
+                string fullPath = Path.Combine(FolderPath, record.fileName);
+                if (!File.Exists(fullPath)) continue;
+
+                storedPhotos.Add(new StoredPhoto
+                {
+                    filePath = fullPath,
+                    creatureIds = record.creatureIds ?? new List<string>(),
+                    capturedAt = new DateTime(record.capturedAtTicks)
+                });
+                keepFiles.Add(fullPath);
+                keepFiles.Add(GetThumbnailPath(fullPath));
+            }
+        }
+
+        foreach (string file in Directory.GetFiles(FolderPath, "*.png"))
+        {
+            if (!keepFiles.Contains(file)) DeleteFileQuietly(file);
+        }
+    }
+
+    private void SaveToDisk()
+    {
+        PhotoSaveData data = new PhotoSaveData();
+        foreach (StoredPhoto photo in storedPhotos)
+        {
+            data.photos.Add(new PhotoRecord
+            {
+                fileName = Path.GetFileName(photo.filePath),
+                creatureIds = photo.creatureIds,
+                capturedAtTicks = photo.capturedAt.Ticks
+            });
+        }
+        SaveSystem.Save(SaveFileName, data);
+    }
+
+    /// <summary>หาภาพจากชื่อไฟล์ (ใช้ตอนโหลดเซฟของระบบอื่นที่อ้างถึงภาพใน Storage เช่น PhotoBoard) คืน null ถ้าไม่มีแล้ว</summary>
+    public StoredPhoto FindByFileName(string fileName)
+    {
+        if (string.IsNullOrEmpty(fileName)) return null;
+        foreach (StoredPhoto photo in storedPhotos)
+        {
+            if (string.Equals(Path.GetFileName(photo.filePath), fileName, StringComparison.OrdinalIgnoreCase)) return photo;
+        }
+        return null;
+    }
+
+    private static void DeleteFileQuietly(string path)
+    {
+        try
+        {
+            if (File.Exists(path)) File.Delete(path);
+        }
+        catch (IOException e)
+        {
+            Debug.LogWarning($"[PhotoStorage] ลบไฟล์ {path} ไม่สำเร็จ: {e.Message}");
+        }
     }
 
     private void ClearAllPhotosFromDisk()
@@ -99,7 +194,7 @@ public class PhotoStorage : MonoBehaviour
         string[] files = Directory.GetFiles(FolderPath, "*.png");
         foreach (string file in files)
         {
-            File.Delete(file);
+            DeleteFileQuietly(file);
         }
     }
 
@@ -134,8 +229,10 @@ public class PhotoStorage : MonoBehaviour
         {
             newPhoto.thumbnail = PhotoThumbnail.Create(sourceTexture, thumbnailMaxSize);
             newPhoto.thumbnailSprite = PhotoThumbnail.ToSprite(newPhoto.thumbnail);
+            File.WriteAllBytes(GetThumbnailPath(fullPath), newPhoto.thumbnail.EncodeToPNG());
         }
         storedPhotos.Add(newPhoto);
+        SaveToDisk();
 
         OnStorageChanged?.Invoke();
         OnPhotoAdded?.Invoke(newPhoto);
@@ -218,7 +315,8 @@ public class PhotoStorage : MonoBehaviour
         if (generation != clearGeneration)
         {
             // ระหว่างบันทึกมีการล้างคลัง (Debug Reset) ภาพนี้ไม่ต้องโผล่กลับมาแล้ว
-            if (File.Exists(fullPath)) File.Delete(fullPath);
+            DeleteFileQuietly(fullPath);
+            DeleteFileQuietly(GetThumbnailPath(fullPath));
             return;
         }
 
@@ -231,6 +329,7 @@ public class PhotoStorage : MonoBehaviour
         };
         newPhoto.thumbnailSprite = PhotoThumbnail.ToSprite(newPhoto.thumbnail);
         storedPhotos.Add(newPhoto);
+        SaveToDisk();
 
         OnStorageChanged?.Invoke();
         OnPhotoAdded?.Invoke(newPhoto);
@@ -248,6 +347,11 @@ public class PhotoStorage : MonoBehaviour
         byte[] png = ImageConversion.EncodeArrayToPNG(
             pixels, UnityEngine.Experimental.Rendering.GraphicsFormat.R8G8B8A8_SRGB, (uint)width, (uint)height, 0);
         File.WriteAllBytes(fullPath, png);
+
+        // รูปย่อเก็บเป็นไฟล์เล็กๆ คู่กัน — เปิดเกมรอบหน้าโหลดรูปย่อได้เลยโดยไม่ต้องถอดรหัสภาพเต็ม
+        byte[] thumbnailPng = ImageConversion.EncodeArrayToPNG(
+            thumbnailRgb, UnityEngine.Experimental.Rendering.GraphicsFormat.R8G8B8_SRGB, (uint)thumbWidth, (uint)thumbHeight, 0);
+        File.WriteAllBytes(GetThumbnailPath(fullPath), thumbnailPng);
 
         return new EncodedPhoto { thumbnailRgb = thumbnailRgb, thumbnailWidth = thumbWidth, thumbnailHeight = thumbHeight };
     }
@@ -273,12 +377,29 @@ public class PhotoStorage : MonoBehaviour
     {
         if (storedPhoto == null || storedPhoto.thumbnail != null) return;
 
+        // ภาพที่โหลดกลับมาจากเซฟ: อ่านไฟล์ _thumb.png เล็กๆ ก่อน ไม่ต้องถอดรหัสภาพเต็ม
+        string thumbnailPath = GetThumbnailPath(storedPhoto.filePath);
+        if (File.Exists(thumbnailPath))
+        {
+            Texture2D thumbnail = new Texture2D(2, 2, TextureFormat.RGB24, false);
+            if (thumbnail.LoadImage(File.ReadAllBytes(thumbnailPath)))
+            {
+                thumbnail.wrapMode = TextureWrapMode.Clamp;
+                storedPhoto.thumbnail = thumbnail;
+                storedPhoto.thumbnailSprite = PhotoThumbnail.ToSprite(thumbnail);
+                return;
+            }
+            Destroy(thumbnail);
+        }
+
         Texture2D full = LoadPhotoTexture(storedPhoto);
         if (full == null) return;
 
         storedPhoto.thumbnail = PhotoThumbnail.Create(full, thumbnailMaxSize);
         storedPhoto.thumbnailSprite = PhotoThumbnail.ToSprite(storedPhoto.thumbnail);
         Destroy(full);
+        // เขียนไฟล์รูปย่อไว้ใช้รอบหน้า
+        if (storedPhoto.thumbnail != null) File.WriteAllBytes(thumbnailPath, storedPhoto.thumbnail.EncodeToPNG());
     }
 
     private static void DestroyThumbnail(StoredPhoto storedPhoto)
@@ -295,24 +416,24 @@ public class PhotoStorage : MonoBehaviour
         if (index < 0 || index >= storedPhotos.Count) return false;
 
         string path = storedPhotos[index].filePath;
-        if (File.Exists(path))
-        {
-            File.Delete(path);
-        }
+        DeleteFileQuietly(path);
+        DeleteFileQuietly(GetThumbnailPath(path));
 
         DestroyThumbnail(storedPhotos[index]);
         storedPhotos.RemoveAt(index);
+        SaveToDisk();
         OnStorageChanged?.Invoke();
         return true;
     }
 
-    /// <summary>ลบภาพทั้งหมดทั้งไฟล์บนดิสก์และ Metadata ทันที — ใช้กับ Debug Reset เพื่อเริ่ม Storage ใหม่โดยไม่ต้องปิดเกม</summary>
+    /// <summary>ลบภาพทั้งหมดทั้งไฟล์บนดิสก์และ Metadata ทันที — SaveSystem.DeleteAll() เรียกให้เอง (ปุ่ม Reset ในเมนู / ปุ่ม R)</summary>
     public void ClearAllPhotos()
     {
         clearGeneration++;
         ClearAllPhotosFromDisk();
         foreach (StoredPhoto photo in storedPhotos) DestroyThumbnail(photo);
         storedPhotos.Clear();
+        SaveToDisk();
         OnStorageChanged?.Invoke();
     }
 }

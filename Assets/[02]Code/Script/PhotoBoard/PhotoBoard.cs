@@ -7,6 +7,7 @@ using UnityEngine;
 ///
 /// รูปที่แขวนยังเป็นของ PhotoStorage เหมือนเดิม (แค่ "อ้างอิง" ไป ไม่ย้าย/ไม่ลบออกจาก Storage) แขวนรูปเดียวกันได้หลายบอร์ด
 /// ถ้ารูปถูกลบออกจาก Storage จากที่อื่น (เช่นหน้า Storage UI) ช่องที่แขวนรูปนั้นอยู่จะว่างอัตโนมัติ
+/// รูปที่แขวน (ชื่อไฟล์ใน Storage ต่อช่อง) เซฟลง Save/boards.json ทุกครั้งที่แขวน/เอาออก แล้วแขวนกลับคืนตอน Start
 ///
 /// ช่องที่ยังไม่มีรูป = ปิด Renderer ไว้เฉยๆ (ไม่มีอะไรขึ้นบนบอร์ด) ต้องลาก Renderer ของกรอบรูปแต่ละช่องมาใส่ไว้ใน slots ที่ Inspector
 /// </summary>
@@ -28,7 +29,67 @@ public class PhotoBoard : MonoBehaviour
     [Tooltip("กล้องที่ซูมมาเล็งหน้าบอร์ดนี้ตอนกด Interact (CinemachineCamera ลูกของบอร์ดนี้เอง — แต่ละบอร์ดจัดมุมกล้องของตัวเองได้อิสระ) ปล่อยว่างได้ถ้าไม่ต้องการตัดกล้อง")]
     public CinemachineCamera boardCam;
 
+    [Tooltip("ชื่อที่ใช้เซฟรูปที่แขวนของบอร์ดนี้ (Save/boards.json) — ปล่อยว่างได้ จะใช้ path ใน Hierarchy แทน " +
+             "ตั้งเองถ้ามีหลายบอร์ดชื่อซ้ำกัน หรือกลัวย้าย/เปลี่ยนชื่อใน Hierarchy แล้วรูปที่เซฟไว้หาย")]
+    public string saveId;
+
     public int SlotCount => slots.Length;
+
+    private const string SaveFileName = "boards.json";
+
+    [Serializable]
+    private class BoardSaveData
+    {
+        public System.Collections.Generic.List<BoardRecord> boards = new System.Collections.Generic.List<BoardRecord>();
+    }
+
+    [Serializable]
+    private class BoardRecord
+    {
+        public string boardId;
+        public string[] slotFileNames; // ชื่อไฟล์ภาพใน PhotoStorage ต่อช่อง ("" = ช่องว่าง)
+    }
+
+    private string BoardId
+    {
+        get
+        {
+            if (!string.IsNullOrEmpty(saveId)) return saveId;
+            string path = name;
+            for (Transform t = transform.parent; t != null; t = t.parent) path = t.name + "/" + path;
+            return gameObject.scene.name + ":" + path;
+        }
+    }
+
+    private void Start()
+    {
+        // แขวนรูปที่เซฟไว้กลับคืน (PhotoStorage โหลดรายชื่อภาพเสร็จตั้งแต่ Awake แล้ว) ภาพที่ถูกลบไปแล้วจะข้าม
+        BoardRecord record = LoadData().boards.Find(b => b.boardId == BoardId);
+        if (record?.slotFileNames == null || PhotoStorage.Instance == null) return;
+
+        for (int i = 0; i < slots.Length && i < record.slotFileNames.Length; i++)
+        {
+            PhotoStorage.StoredPhoto photo = PhotoStorage.Instance.FindByFileName(record.slotFileNames[i]);
+            if (photo != null) ShowPhoto(i, photo);
+        }
+    }
+
+    private static BoardSaveData LoadData() => SaveSystem.Load<BoardSaveData>(SaveFileName) ?? new BoardSaveData();
+
+    private void SaveToDisk()
+    {
+        BoardSaveData data = LoadData();
+        string id = BoardId;
+        data.boards.RemoveAll(b => b.boardId == id);
+
+        string[] fileNames = new string[slots.Length];
+        for (int i = 0; i < slots.Length; i++)
+        {
+            fileNames[i] = slots[i].hungPhoto != null ? System.IO.Path.GetFileName(slots[i].hungPhoto.filePath) : "";
+        }
+        data.boards.Add(new BoardRecord { boardId = id, slotFileNames = fileNames });
+        SaveSystem.Save(SaveFileName, data);
+    }
 
     private void OnEnable()
     {
@@ -59,6 +120,12 @@ public class PhotoBoard : MonoBehaviour
     {
         if (slotIndex < 0 || slotIndex >= slots.Length || photo == null || PhotoStorage.Instance == null) return;
 
+        ShowPhoto(slotIndex, photo);
+        SaveToDisk();
+    }
+
+    private void ShowPhoto(int slotIndex, PhotoStorage.StoredPhoto photo)
+    {
         BoardSlot slot = slots[slotIndex];
         ReleaseSlotTexture(slot);
 
@@ -79,6 +146,7 @@ public class PhotoBoard : MonoBehaviour
         ReleaseSlotTexture(slot);
         slot.hungPhoto = null;
         SetSlotVisible(slot, false);
+        SaveToDisk();
     }
 
     // เปิด/ปิดตัวรูป + ทุกอย่างที่เป็นลูก (กรอบขาวแบบรูปปริ้นท์) ไปพร้อมกัน

@@ -121,8 +121,7 @@ public class JournalUI : MonoBehaviour
     private Coroutine photoRevealRoutine;
     private Sprite detailPhotoSprite; // Sprite ที่ห่อรูปย่อใน Detail (เป็นของ JournalUI เอง)
 
-    // เก็บ creatureId ที่เคยเล่นเฟดเผยรูปไปแล้ว — เปิดดูซ้ำครั้งต่อไปโชว์รูปจริงทันทีไม่ต้องเฟดอีก
-    private HashSet<string> revealedCreatureIds = new HashSet<string>();
+    // creatureId ที่เคยเล่นเฟดเผยรูปไปแล้วเก็บใน JournalManager (IsRevealed/MarkRevealed) เพื่อเซฟข้ามการปิดเกม
 
     private bool IsOpen => journalRootPanel != null && journalRootPanel.activeSelf;
 
@@ -176,6 +175,29 @@ public class JournalUI : MonoBehaviour
         }
 
         if (journalRootPanel != null) journalRootPanel.SetActive(false);
+        RestoreLastPage();
+    }
+
+    // เปิดเกมใหม่แล้วเจอหน้าเดิมที่ปิดสมุดไว้ (JournalManager เซฟไว้ตอน CloseJournal)
+    private void RestoreLastPage()
+    {
+        JournalManager.SavedPage saved = journalManager != null ? journalManager.LastPage : null;
+        if (saved == null || !System.Enum.IsDefined(typeof(PageType), saved.pageType)) return;
+
+        JournalEntry entry = journalManager.allEntries.Find(e => e != null && e.creatureId == saved.creatureId);
+        currentPage = new PageState { type = (PageType)saved.pageType, animals = saved.animals, entry = entry, subPage = saved.subPage };
+    }
+
+    private void SaveLastPage()
+    {
+        if (journalManager == null) return;
+        journalManager.SetLastPage(new JournalManager.SavedPage
+        {
+            pageType = (int)currentPage.type,
+            animals = currentPage.animals,
+            creatureId = currentPage.entry != null ? currentPage.entry.creatureId : null,
+            subPage = currentPage.subPage
+        });
     }
 
     private void OnDestroy()
@@ -236,6 +258,7 @@ public class JournalUI : MonoBehaviour
 
         StopPhotoRevealFade();
         PlayBookSound();
+        SaveLastPage();
 
         if (journalRootPanel != null) journalRootPanel.SetActive(false);
         StateManager.Instance.SetSystemState(StateManager.SystemState.Normal);
@@ -505,7 +528,7 @@ public class JournalUI : MonoBehaviour
         detailPhotoSprite = PhotoThumbnail.ToSprite(photoTexture);
         if (detailPhotoImage != null) detailPhotoImage.sprite = detailPhotoSprite;
 
-        if (revealedCreatureIds.Contains(entry.creatureId))
+        if (journalManager.IsRevealed(entry.creatureId))
         {
             // เคยเฟดให้ดูไปแล้ว -> โชว์รูปจริงทันที
             ShowDetailImages(photo: true, silhouette: false);
@@ -513,7 +536,7 @@ public class JournalUI : MonoBehaviour
         else
         {
             // เปิดดู Entry นี้เป็นครั้งแรกหลังปลดล็อก -> เฟดจากรูปเงา (หรือกรอบมืด + "?" ถ้ายังไม่มีรูปเงา) ไปเป็นรูปที่ถ่ายจริง
-            revealedCreatureIds.Add(entry.creatureId);
+            journalManager.MarkRevealed(entry.creatureId);
             if (detailSilhouetteImage != null) detailSilhouetteImage.sprite = entry.silhouette;
             photoRevealRoutine = StartCoroutine(RevealPhotoFade(entry.silhouette != null));
         }
@@ -576,7 +599,7 @@ public class JournalUI : MonoBehaviour
         if (journalManager.SetPhotoForEntry(currentPage.entry, changePhotoCandidates[photoIndex]))
         {
             // เลือกเสร็จกลับไปหน้า Detail ของ Entry นี้ (ไม่ต้องเล่นเฟดเผยรูปซ้ำ)
-            revealedCreatureIds.Add(currentPage.entry.creatureId);
+            journalManager.MarkRevealed(currentPage.entry.creatureId);
             NavigateTo(new PageState { type = PageType.Detail, animals = currentPage.animals, entry = currentPage.entry });
         }
     }

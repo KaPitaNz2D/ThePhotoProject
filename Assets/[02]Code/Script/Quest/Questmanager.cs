@@ -43,6 +43,85 @@ public class QuestManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         SceneManager.sceneLoaded += HandleSceneLoaded;
+        SaveSystem.OnSaveDeleted += ResetAllQuests;
+        LoadFromDisk();
+    }
+
+    private void Start()
+    {
+        // ตัวแปรใน Yarn ($intro_done, <<once>> ฯลฯ) ต้องเซฟด้วย ไม่งั้นเปิดเกมใหม่ NPC จะเล่น Intro ซ้ำทั้งที่เควสไปถึงไหนแล้ว
+        dialogueRunner = FindFirstObjectByType<DialogueRunner>();
+        if (dialogueRunner == null) return;
+
+        if (System.IO.File.Exists(SaveSystem.GetPath(YarnSaveFileName)))
+        {
+            dialogueRunner.LoadStateFromPersistentStorage(YarnSavePath);
+        }
+        dialogueRunner.onDialogueComplete?.AddListener(SaveYarnState);
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance != this) return;
+        SceneManager.sceneLoaded -= HandleSceneLoaded;
+        SaveSystem.OnSaveDeleted -= ResetAllQuests;
+        if (dialogueRunner != null) dialogueRunner.onDialogueComplete?.RemoveListener(SaveYarnState);
+    }
+
+    // ==================== Save / Load ====================
+    private const string SaveFileName = "quests.json";
+    private const string YarnSaveFileName = "yarn.json";
+    // DialogueRunner เซฟ/โหลดเองโดยรับ Path ต่อจาก persistentDataPath
+    private static string YarnSavePath => System.IO.Path.Combine(SaveSystem.SaveFolderName, YarnSaveFileName);
+
+    private DialogueRunner dialogueRunner;
+
+    [Serializable]
+    private class QuestSaveData
+    {
+        public List<QuestRecord> quests = new List<QuestRecord>();
+        public List<string> informedCreatureIds = new List<string>();
+    }
+
+    [Serializable]
+    private class QuestRecord
+    {
+        public string creatureId;
+        public QuestStatus status;
+    }
+
+    private void LoadFromDisk()
+    {
+        QuestSaveData data = SaveSystem.Load<QuestSaveData>(SaveFileName);
+        if (data == null) return;
+
+        foreach (QuestRecord record in data.quests)
+        {
+            if (record != null && !string.IsNullOrEmpty(record.creatureId)) questStates[record.creatureId] = record.status;
+        }
+        foreach (string id in data.informedCreatureIds)
+        {
+            if (!string.IsNullOrEmpty(id)) informedCreatureIds.Add(id);
+        }
+    }
+
+    private void SaveToDisk()
+    {
+        QuestSaveData data = new QuestSaveData();
+        foreach (KeyValuePair<string, QuestStatus> pair in questStates)
+        {
+            data.quests.Add(new QuestRecord { creatureId = pair.Key, status = pair.Value });
+        }
+        data.informedCreatureIds.AddRange(informedCreatureIds);
+        SaveSystem.Save(SaveFileName, data);
+    }
+
+    // เซฟตัวแปร Yarn ทุกครั้งที่บทสนทนาจบ (ตัวแปรเปลี่ยนได้เฉพาะระหว่างคุยอยู่แล้ว)
+    private void SaveYarnState()
+    {
+        if (dialogueRunner == null) return;
+        System.IO.Directory.CreateDirectory(SaveSystem.SaveFolder);
+        dialogueRunner.SaveStateToPersistentStorage(YarnSavePath);
     }
 
     // journalManager ถูกผูกไว้ตอน Edit-time กับ Instance ในซีนเดิม พอ Reload Scene (เช่นจาก Debug Reset)
@@ -57,11 +136,17 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    /// <summary>รีเซ็ตสถานะ Quest + ความรู้ที่ NPC เคยเล่าให้ฟังทั้งหมด — ใช้กับ Debug Reset เพื่อเริ่มใหม่โดยไม่ต้องปิดเกม</summary>
+    /// <summary>รีเซ็ตสถานะ Quest + ความรู้ที่ NPC เคยเล่าให้ฟัง + ตัวแปร Yarn ทั้งหมด — SaveSystem.DeleteAll() เรียกให้เอง</summary>
     public void ResetAllQuests()
     {
         questStates.Clear();
         informedCreatureIds.Clear();
+        if (dialogueRunner != null && dialogueRunner.VariableStorage != null)
+        {
+            dialogueRunner.VariableStorage.SetAllVariables(
+                new Dictionary<string, float>(), new Dictionary<string, string>(), new Dictionary<string, bool>());
+        }
+        SaveToDisk();
     }
 
     public QuestStatus GetStatus(string creatureId)
@@ -78,6 +163,7 @@ public class QuestManager : MonoBehaviour
         if (Instance.GetStatus(creatureId) != QuestStatus.NotStarted) return; // กันรับซ้ำ/รับทับ Quest ที่เสร็จไปแล้ว
 
         Instance.questStates[creatureId] = QuestStatus.Active;
+        Instance.SaveToDisk();
         Instance.OnQuestStatusChanged?.Invoke(creatureId, QuestStatus.Active);
     }
 
@@ -89,6 +175,7 @@ public class QuestManager : MonoBehaviour
         if (Instance.GetStatus(creatureId) != QuestStatus.Active) return; // ต้อง Active อยู่ก่อนถึงจะ Complete ได้
 
         Instance.questStates[creatureId] = QuestStatus.Completed;
+        Instance.SaveToDisk();
         Instance.OnQuestStatusChanged?.Invoke(creatureId, QuestStatus.Completed);
     }
 
@@ -121,7 +208,7 @@ public class QuestManager : MonoBehaviour
     public static void MarkInformed(string creatureId)
     {
         if (Instance == null || string.IsNullOrEmpty(creatureId)) return;
-        Instance.informedCreatureIds.Add(creatureId);
+        if (Instance.informedCreatureIds.Add(creatureId)) Instance.SaveToDisk();
     }
 
     /// <summary>เรียกจาก Yarn Node: &lt;&lt;if is_informed("Chan")&gt;&gt; — กันไม่ให้ NPC เล่าเรื่องเดิมซ้ำอีก</summary>
