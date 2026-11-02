@@ -505,18 +505,17 @@ public class JournalUI : MonoBehaviour
         detailPhotoSprite = PhotoThumbnail.ToSprite(photoTexture);
         if (detailPhotoImage != null) detailPhotoImage.sprite = detailPhotoSprite;
 
-        if (revealedCreatureIds.Contains(entry.creatureId) || entry.silhouette == null)
+        if (revealedCreatureIds.Contains(entry.creatureId))
         {
-            // เคยเฟดให้ดูไปแล้ว (หรือไม่มีรูปเงาให้เฟดจาก) -> โชว์รูปจริงทันที
-            revealedCreatureIds.Add(entry.creatureId);
+            // เคยเฟดให้ดูไปแล้ว -> โชว์รูปจริงทันที
             ShowDetailImages(photo: true, silhouette: false);
         }
         else
         {
-            // เปิดดู Entry นี้เป็นครั้งแรกหลังปลดล็อก -> เฟดจากรูปเงาไปเป็นรูปที่ถ่ายจริง
+            // เปิดดู Entry นี้เป็นครั้งแรกหลังปลดล็อก -> เฟดจากรูปเงา (หรือกรอบมืด + "?" ถ้ายังไม่มีรูปเงา) ไปเป็นรูปที่ถ่ายจริง
             revealedCreatureIds.Add(entry.creatureId);
             if (detailSilhouetteImage != null) detailSilhouetteImage.sprite = entry.silhouette;
-            photoRevealRoutine = StartCoroutine(RevealPhotoFade());
+            photoRevealRoutine = StartCoroutine(RevealPhotoFade(entry.silhouette != null));
         }
     }
 
@@ -583,27 +582,39 @@ public class JournalUI : MonoBehaviour
     }
 
     // ==================== เฟดรูปเงา -> รูปจริง (Detail) ====================
-    private IEnumerator RevealPhotoFade()
+    // ไม่มีรูปเงา -> รูปถ่ายค่อยๆ ทับกรอบมืด + "?" แทน แล้วซ่อน "?" ตอนจบ
+    private IEnumerator RevealPhotoFade(bool fromSilhouette)
     {
-        if (detailSilhouetteImage == null || detailPhotoImage == null) yield break;
+        if (detailPhotoImage == null) yield break;
+        bool useSilhouette = fromSilhouette && detailSilhouetteImage != null;
 
-        detailSilhouetteImage.gameObject.SetActive(true);
         detailPhotoImage.gameObject.SetActive(true);
-        SetImageAlpha(detailSilhouetteImage, 1f);
         SetImageAlpha(detailPhotoImage, 0f);
+        if (useSilhouette)
+        {
+            detailSilhouetteImage.gameObject.SetActive(true);
+            SetImageAlpha(detailSilhouetteImage, 1f);
+        }
+        else
+        {
+            if (detailSilhouetteImage != null) detailSilhouetteImage.gameObject.SetActive(false);
+            if (detailUnknownMark != null) detailUnknownMark.SetActive(true);
+        }
 
+        // unscaled — เผื่อมีระบบไหนหยุดเวลาตอนเปิดสมุด
         float elapsed = 0f;
         while (elapsed < photoRevealFadeDuration)
         {
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
             float t = Mathf.Clamp01(elapsed / photoRevealFadeDuration);
-            SetImageAlpha(detailSilhouetteImage, 1f - t);
+            if (useSilhouette) SetImageAlpha(detailSilhouetteImage, 1f - t);
             SetImageAlpha(detailPhotoImage, t);
             yield return null;
         }
 
         SetImageAlpha(detailPhotoImage, 1f);
-        detailSilhouetteImage.gameObject.SetActive(false);
+        if (detailSilhouetteImage != null) detailSilhouetteImage.gameObject.SetActive(false);
+        if (detailUnknownMark != null) detailUnknownMark.SetActive(false);
         photoRevealRoutine = null;
     }
 

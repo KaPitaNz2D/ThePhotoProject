@@ -15,7 +15,7 @@ MonoBehaviour:
   clips:
   - {fileID: 8300000, guid: 59c2cb3505ad327489ff97780c03767b, type: 3}
   - {fileID: 8300000, guid: 86dcea6666ac7ad42b6c8866de1deeca, type: 3}
-  intervalRange: {x: 40, y: 100}
+  intervalRange: {x: 40, y: 60}
   playChance: 0.8
   distanceRange: {x: 45, y: 90}
   heightAboveGround: {x: 0, y: 3}
@@ -25,7 +25,7 @@ MonoBehaviour:
   maxDistance: 130
   lowPassAtMaxDistance: 4500
   limitByHour: 1
-  fromHour: 0
-  toHour: 8
+  fromHour: 9
+  toHour: 16
   requiredTerrainLayerKeyword: 
   terrainLayerMinCoverage: 0.4

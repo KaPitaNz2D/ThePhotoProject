@@ -16,8 +16,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 98baf9b59a03ad748b648eb8644d62af, type: 3}
   - {fileID: 8300000, guid: de2181901c5b40e40bc2f529c08db7b9, type: 3}
   - {fileID: 8300000, guid: ddb0729e7dae679498d0ce99a6b484bb, type: 3}
-  intervalRange: {x: 3, y: 9}
-  playChance: 1
+  intervalRange: {x: 5, y: 9}
+  playChance: 0.9
   distanceRange: {x: 10, y: 40}
   heightAboveGround: {x: 5, y: 18}
   volumeRange: {x: 0.5, y: 0.95}
