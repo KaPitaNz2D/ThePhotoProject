@@ -4923,7 +4923,7 @@ MonoBehaviour:
   castRadius: 1
   detectableLayer:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 2147483649
   photographableTag: Photographable
   photoZoom: {fileID: 0}
   maxZoomCastDistanceMultiplier: 5

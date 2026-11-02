@@ -181,6 +181,7 @@ GameObject:
   - component: {fileID: 3440992790290158642}
   - component: {fileID: 1811153385024998938}
   - component: {fileID: 5558861706041822103}
+  - component: {fileID: 2600902775337495550}
   m_Layer: 6
   m_Name: Terrain
   m_TagString: Untagged
@@ -1206,6 +1207,33 @@ MonoBehaviour:
   _renderDetailsWithNatureRenderer: 1
   _optimizePatchSize: 1
   _format: 202200
+--- !u!114 &2600902775337495550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4586824400925579008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7024725b2bd1fa41999d5d0fb429096, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TerrainPhotoSubjects
+  minTreeTargetSize: 0.35
+  detailSubjects:
+  - detailPrefab: {fileID: 1107643797492511077, guid: 9f32d30097e2d4743a19ddeb960aca16, type: 3}
+    profile: {fileID: 11400000, guid: 95ec0816dca005546b21b47418d19250, type: 2}
+  - detailPrefab: {fileID: 1389954832399401006, guid: 9a74728e817f38648a6be936db11d6f5, type: 3}
+    profile: {fileID: 11400000, guid: 95ec0816dca005546b21b47418d19250, type: 2}
+  - detailPrefab: {fileID: 5920495927012761637, guid: 629d3ab107f5dc042b7a49f9c5178d0b, type: 3}
+    profile: {fileID: 11400000, guid: 33fbbb05f10c522418ec2dc508f4fcb8, type: 2}
+  - detailPrefab: {fileID: 3047925821020204491, guid: 265fabda4fd9d6e44802521b5819235b, type: 3}
+    profile: {fileID: 11400000, guid: 33fbbb05f10c522418ec2dc508f4fcb8, type: 2}
+  blockSize: 3
+  detailTargetHeight: 1.5
+  photographableTag: Photographable
+  photographableLayer: Photographable
+  logSummary: 1
 --- !u!1 &4877992946197157361
 GameObject:
   m_ObjectHideFlags: 0
