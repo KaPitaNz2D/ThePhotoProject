@@ -274,7 +274,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineDeoccluder
   CollideAgainst:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 65
   IgnoreTag: Player
   TransparentLayers:
     serializedVersion: 2

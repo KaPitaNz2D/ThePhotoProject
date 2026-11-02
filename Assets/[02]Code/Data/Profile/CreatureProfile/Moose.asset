@@ -16,7 +16,7 @@ MonoBehaviour:
   journalEntry: {fileID: 11400000, guid: 22da5d86ffb8eaf46bac2491277f6157, type: 2}
   viewAngle: 120
   viewRadius: 40
-  awarenessRadius: 20
+  awarenessRadius: 12
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 1
@@ -36,7 +36,7 @@ MonoBehaviour:
   visionDetectionTime: 0.8
   crouchDetectionTimeMultiplier: 1.5
   shutterHearingRadius: 30
-  startleRadius: 15
+  startleRadius: 5
   sprintPanicRadius: 8
   eatChance: 0.35
   eatMinDuration: 8

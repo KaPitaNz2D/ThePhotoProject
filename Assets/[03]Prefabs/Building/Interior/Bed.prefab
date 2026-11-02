@@ -74,6 +74,7 @@ MonoBehaviour:
   fadeOutDuration: 0.6
   holdDuration: 1.5
   fadeInDuration: 0.8
+  bedCollider: {fileID: 0}
 --- !u!1 &4997863549113184839
 GameObject:
   m_ObjectHideFlags: 0
@@ -141,8 +142,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Press E to sleep
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a3306e04b1fdbae4aad3fb622b6c24a0, type: 2}
+  m_sharedMaterial: {fileID: 2216565759508754761, guid: a3306e04b1fdbae4aad3fb622b6c24a0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

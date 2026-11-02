@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Fungus
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a3306e04b1fdbae4aad3fb622b6c24a0, type: 2}
+  m_sharedMaterial: {fileID: 2216565759508754761, guid: a3306e04b1fdbae4aad3fb622b6c24a0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -374,7 +374,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5182332271650353947}
-  m_Father: {fileID: 2622434710730029785}
+  m_Father: {fileID: 1661140483224391287}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -889,8 +889,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 5494992140077732701, guid: b2c8e39c1446ba746a902c536e93f61d, type: 3}
-      insertIndex: 1
+    - targetCorrespondingSourceObject: {fileID: 9163539030322604019, guid: b2c8e39c1446ba746a902c536e93f61d, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1495926316493250110}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2c8e39c1446ba746a902c536e93f61d, type: 3}
@@ -915,11 +915,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9534517e0b9789949a3d623d7284ffe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCrouch
---- !u!224 &2622434710730029785 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 5494992140077732701, guid: b2c8e39c1446ba746a902c536e93f61d, type: 3}
-  m_PrefabInstance: {fileID: 7504932418085857668}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4071076995679444893 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5789868460157629977, guid: b2c8e39c1446ba746a902c536e93f61d, type: 3}

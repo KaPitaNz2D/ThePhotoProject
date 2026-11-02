@@ -584,6 +584,7 @@ GameObject:
   - component: {fileID: 5690309917369328606}
   - component: {fileID: 1409637616912434165}
   - component: {fileID: 2798016929109129203}
+  - component: {fileID: 2308238854113885584}
   m_Layer: 0
   m_Name: Deer
   m_TagString: Photographable
@@ -702,6 +703,8 @@ MonoBehaviour:
   normalInterval: {x: 8, y: 20}
   normalPitch: {x: 0.9, y: 1.1}
   normalVolume: 0.8
+  spawnCallVolume: 1
+  spawnCallMaxDistance: 120
   snortClip: {fileID: 8300000, guid: e342c1a9dbe5c2d4484bbe685613e3ef, type: 3}
   stopSnortPitch: {x: 0.95, y: 1.05}
   alertSnortPitch: {x: 1.15, y: 1.3}
@@ -711,6 +714,31 @@ MonoBehaviour:
   runAlertVolume: 1
   minDistance: 5
   maxDistance: 60
+--- !u!114 &2308238854113885584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3293762268181601916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc4adb9f6af56c942a54b6babe36aede, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CreatureFootsteps
+  grassClips: []
+  dirtClips: []
+  waterClips: []
+  grassLayerKeyword: Grass
+  waterMinDepth: 0.05
+  walkStepDistance: 0.7
+  runStepDistance: 2
+  minMoveSpeed: 0.2
+  volume: 0.6
+  runVolumeMultiplier: 1.3
+  pitchRange: {x: 0.95, y: 1.1}
+  minDistance: 2
+  maxDistance: 25
 --- !u!1 &3790233413121252864
 GameObject:
   m_ObjectHideFlags: 0

@@ -6296,8 +6296,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Yes
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a3306e04b1fdbae4aad3fb622b6c24a0, type: 2}
+  m_sharedMaterial: {fileID: 2216565759508754761, guid: a3306e04b1fdbae4aad3fb622b6c24a0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6765,6 +6765,9 @@ MonoBehaviour:
   - {fileID: 886484038723370976}
   - {fileID: 4264210994795839313}
   - {fileID: 2751885951404934444}
+  bookClip: {fileID: 8300000, guid: 889fd7e1e858ac54a8f7c813d799403a, type: 3}
+  bookVolume: 0.8
+  bookPitch: {x: 0.95, y: 1.05}
 --- !u!1 &4527317901956361176
 GameObject:
   m_ObjectHideFlags: 0
@@ -6832,8 +6835,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Camera Controls
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 0}
-  m_sharedMaterial: {fileID: 0}
+  m_fontAsset: {fileID: 11400000, guid: a3306e04b1fdbae4aad3fb622b6c24a0, type: 2}
+  m_sharedMaterial: {fileID: 2216565759508754761, guid: a3306e04b1fdbae4aad3fb622b6c24a0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -10433,7 +10436,7 @@ GameObject:
   - component: {fileID: 3087827244312939421}
   - component: {fileID: 2269381328041826007}
   - component: {fileID: 3901203472953092505}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PlayerObj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12304,8 +12307,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Delete photo
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a3306e04b1fdbae4aad3fb622b6c24a0, type: 2}
+  m_sharedMaterial: {fileID: 2216565759508754761, guid: a3306e04b1fdbae4aad3fb622b6c24a0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -13004,8 +13007,8 @@ MonoBehaviour:
     <b>F</b><pos=40%>Exit
     photo mode'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 0}
-  m_sharedMaterial: {fileID: 0}
+  m_fontAsset: {fileID: 11400000, guid: a3306e04b1fdbae4aad3fb622b6c24a0, type: 2}
+  m_sharedMaterial: {fileID: 2216565759508754761, guid: a3306e04b1fdbae4aad3fb622b6c24a0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -16755,8 +16758,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Press <b>Tab</b> to toggle
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 0}
-  m_sharedMaterial: {fileID: 0}
+  m_fontAsset: {fileID: 11400000, guid: a3306e04b1fdbae4aad3fb622b6c24a0, type: 2}
+  m_sharedMaterial: {fileID: 2216565759508754761, guid: a3306e04b1fdbae4aad3fb622b6c24a0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -17042,8 +17045,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: No
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a3306e04b1fdbae4aad3fb622b6c24a0, type: 2}
+  m_sharedMaterial: {fileID: 2216565759508754761, guid: a3306e04b1fdbae4aad3fb622b6c24a0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

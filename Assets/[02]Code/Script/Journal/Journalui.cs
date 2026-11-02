@@ -91,6 +91,13 @@ public class JournalUI : MonoBehaviour
     [Tooltip("รูปในแต่ละช่อง เรียงตรงกับ changePhotoSlots")]
     public Image[] changePhotoImages = new Image[0];
 
+    [Header("Sound")]
+    [Tooltip("เสียงหนังสือ เล่นตอนเปิด/ปิดสมุด และทุกครั้งที่เปลี่ยนหน้า (แท็บ, ◀ ▶, กดเข้าหน้าย่อย)")]
+    public AudioClip bookClip;
+    [Range(0f, 1f)] public float bookVolume = 0.8f;
+    [Tooltip("สุ่ม Pitch ในช่วงนี้ทุกครั้ง ไม่ให้เสียงซ้ำจนน่าเบื่อ")]
+    public Vector2 bookPitch = new Vector2(0.95f, 1.05f);
+
     private enum PageType { Tasks, Contents, Grid, Detail, ChangePhoto }
 
     /// <summary>หน้าที่เปิดอยู่ — Grid ใช้ animals + subPage, Detail ใช้ entry, ChangePhoto ใช้ entry + subPage</summary>
@@ -218,6 +225,7 @@ public class JournalUI : MonoBehaviour
         Cursor.visible = true;
 
         if (journalRootPanel != null) journalRootPanel.SetActive(true);
+        PlayBookSound();
         // ไม่รีเซ็ตหน้า — เปิดมาเจอหน้าล่าสุดที่เปิดค้างไว้ (ครั้งแรกสุด currentPage เริ่มที่ Tasks)
         RenderCurrentPage();
     }
@@ -227,6 +235,7 @@ public class JournalUI : MonoBehaviour
         if (StateManager.Instance == null || !StateManager.Instance.IsSystemState(StateManager.SystemState.Journal)) return;
 
         StopPhotoRevealFade();
+        PlayBookSound();
 
         if (journalRootPanel != null) journalRootPanel.SetActive(false);
         StateManager.Instance.SetSystemState(StateManager.SystemState.Normal);
@@ -248,7 +257,14 @@ public class JournalUI : MonoBehaviour
         if (SamePage(page, currentPage)) return;
 
         currentPage = page;
+        PlayBookSound();
         RenderCurrentPage();
+    }
+
+    private void PlayBookSound()
+    {
+        if (AudioManager.Instance == null) return;
+        AudioManager.Instance.PlaySFX(bookClip, bookVolume, Random.Range(bookPitch.x, bookPitch.y));
     }
 
     /// <summary>◀ / Esc — ย้อนหน้าย่อยก่อน แล้วขึ้นไปหน้าแม่ตามลำดับชั้น อยู่หน้า Tasks แล้วกดอีก = ปิดสมุด</summary>

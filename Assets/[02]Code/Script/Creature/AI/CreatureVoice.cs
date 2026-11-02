@@ -5,7 +5,9 @@ using UnityEngine;
 ///   - Normal (Idle/Walking/Eating): สุ่มเล่นเสียงเป็นระยะ สุ่ม Clip ตามน้ำหนัก + สุ่ม Pitch
 ///   - Stop / Alert: เล่น Snort ตอนเข้า State (Alert pitch สูงกว่า)
 ///   - Run: เล่นเสียงตื่นตระหนกตอนเข้า State
-/// ใช้ AudioSource ของตัวเอง (3D ตามตัวสัตว์) ส่งเข้า SFX group ของ AudioManager
+///   - Spawn: CreatureSpawner เรียก PlaySpawnCall() ตอนเกิด ร้อง 1 ครั้งทันที (สุ่มจาก normalClips) บอกผู้เล่นว่ามีสัตว์แถวนี้
+///     ใช้ AudioSource แยกที่ได้ยินไกลกว่า (spawnCallMaxDistance)
+/// ใช้ AudioSource ของตัวเอง 2 ตัว (3D ตามตัวสัตว์: เสียงทั่วไป + เสียงตอนเกิด) ส่งเข้า SFX group ของ AudioManager
 /// </summary>
 [RequireComponent(typeof(CreatureAI))]
 public class CreatureVoice : MonoBehaviour
@@ -25,6 +27,12 @@ public class CreatureVoice : MonoBehaviour
     public Vector2 normalPitch = new Vector2(0.9f, 1.1f);
     [Range(0f, 1f)] public float normalVolume = 0.8f;
 
+    [Header("Spawn — ร้อง 1 ครั้งตอนเกิด (ใช้ normalClips)")]
+    [Tooltip("ดังกว่าเสียงร้องปกติได้ เพราะสัตว์เกิดไกลผู้เล่น (40m ขึ้นไป)")]
+    [Range(0f, 1f)] public float spawnCallVolume = 1f;
+    [Tooltip("ระยะได้ยินเสียงร้องตอนเกิด (เมตร) แยกจาก Max Distance ของเสียงอื่น — สัตว์เกิดห่างผู้เล่น 40m ขึ้นไป ค่าต้องเกินระยะนั้นพอสมควรถึงจะได้ยิน")]
+    public float spawnCallMaxDistance = 120f;
+
     [Header("Snort — เล่นตอนเข้า Stop และ Alert")]
     public AudioClip snortClip;
     public Vector2 stopSnortPitch = new Vector2(0.95f, 1.05f);
@@ -43,18 +51,26 @@ public class CreatureVoice : MonoBehaviour
 
     private CreatureAI ai;
     private AudioSource source;
+    private AudioSource spawnSource; // แยกจาก source เพราะระยะได้ยินไกลกว่า
     private float normalTimer;
 
     private void Awake()
     {
         ai = GetComponent<CreatureAI>();
 
-        source = gameObject.AddComponent<AudioSource>();
-        source.playOnAwake = false;
-        source.spatialBlend = 1f;
-        source.rolloffMode = AudioRolloffMode.Linear;
-        source.minDistance = minDistance;
-        source.maxDistance = maxDistance;
+        source = CreateSource(maxDistance);
+        spawnSource = CreateSource(spawnCallMaxDistance);
+    }
+
+    private AudioSource CreateSource(float range)
+    {
+        AudioSource s = gameObject.AddComponent<AudioSource>();
+        s.playOnAwake = false;
+        s.spatialBlend = 1f;
+        s.rolloffMode = AudioRolloffMode.Linear;
+        s.minDistance = minDistance;
+        s.maxDistance = range;
+        return s;
     }
 
     private void OnEnable()
@@ -70,7 +86,22 @@ public class CreatureVoice : MonoBehaviour
 
     private void Start()
     {
-        if (AudioManager.Instance != null) source.outputAudioMixerGroup = AudioManager.Instance.sfxGroup;
+        AssignMixerGroup();
+    }
+
+    /// <summary>ร้อง 1 ครั้งตอนเกิด — เรียกจาก CreatureSpawner (เรียกได้ก่อน Start ของตัวนี้)</summary>
+    public void PlaySpawnCall()
+    {
+        Play(spawnSource, PickWeighted(normalClips), normalPitch, spawnCallVolume);
+        ResetNormalTimer(); // เพิ่งร้องไป ไม่ต้องร้องซ้ำเร็วเกิน
+    }
+
+    // ตอนเกิดจาก Spawner เสียงแรกเล่นก่อน Start เลยต้องผูก SFX group ตรงนี้ด้วย ไม่งั้นข้าม Volume ของ Settings
+    private void AssignMixerGroup()
+    {
+        if (AudioManager.Instance == null) return;
+        if (source.outputAudioMixerGroup == null) source.outputAudioMixerGroup = AudioManager.Instance.sfxGroup;
+        if (spawnSource.outputAudioMixerGroup == null) spawnSource.outputAudioMixerGroup = AudioManager.Instance.sfxGroup;
     }
 
     private void Update()
@@ -80,7 +111,7 @@ public class CreatureVoice : MonoBehaviour
         normalTimer -= Time.deltaTime;
         if (normalTimer > 0f) return;
 
-        PlayWeighted(normalClips, normalPitch, normalVolume);
+        Play(source, PickWeighted(normalClips), normalPitch, normalVolume);
         ResetNormalTimer();
     }
 
@@ -89,13 +120,13 @@ public class CreatureVoice : MonoBehaviour
         switch (newState)
         {
             case CreatureAI.CreatureState.Stop:
-                Play(snortClip, stopSnortPitch, snortVolume);
+                Play(source, snortClip, stopSnortPitch, snortVolume);
                 break;
             case CreatureAI.CreatureState.Alert:
-                Play(snortClip, alertSnortPitch, snortVolume);
+                Play(source, snortClip, alertSnortPitch, snortVolume);
                 break;
             case CreatureAI.CreatureState.Run:
-                Play(runAlertClip, runAlertPitch, runAlertVolume);
+                Play(source, runAlertClip, runAlertPitch, runAlertVolume);
                 break;
         }
 
@@ -115,31 +146,29 @@ public class CreatureVoice : MonoBehaviour
         normalTimer = Random.Range(normalInterval.x, normalInterval.y);
     }
 
-    private void PlayWeighted(WeightedClip[] clips, Vector2 pitchRange, float volume)
+    private static AudioClip PickWeighted(WeightedClip[] clips)
     {
-        if (clips == null || clips.Length == 0) return;
+        if (clips == null || clips.Length == 0) return null;
 
         float total = 0f;
         foreach (WeightedClip c in clips) if (c != null && c.clip != null) total += Mathf.Max(0f, c.weight);
-        if (total <= 0f) return;
+        if (total <= 0f) return null;
 
         float roll = Random.value * total;
         foreach (WeightedClip c in clips)
         {
             if (c == null || c.clip == null) continue;
             roll -= Mathf.Max(0f, c.weight);
-            if (roll <= 0f)
-            {
-                Play(c.clip, pitchRange, volume);
-                return;
-            }
+            if (roll <= 0f) return c.clip;
         }
+        return null;
     }
 
-    private void Play(AudioClip clip, Vector2 pitchRange, float volume)
+    private void Play(AudioSource target, AudioClip clip, Vector2 pitchRange, float volume)
     {
         if (clip == null) return;
-        source.pitch = Random.Range(pitchRange.x, pitchRange.y);
-        source.PlayOneShot(clip, volume);
+        AssignMixerGroup();
+        target.pitch = Random.Range(pitchRange.x, pitchRange.y);
+        target.PlayOneShot(clip, volume);
     }
 }

@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a3306e04b1fdbae4aad3fb622b6c24a0, type: 2}
+  m_sharedMaterial: {fileID: 2216565759508754761, guid: a3306e04b1fdbae4aad3fb622b6c24a0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -848,6 +848,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3193203250615546887, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3889377443532011150}
+    - targetCorrespondingSourceObject: {fileID: 3193203250615546887, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4102787005846014975}
   m_SourcePrefab: {fileID: 100100000, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}
 --- !u!1 &2592297371846685406 stripped
 GameObject:
@@ -877,6 +880,21 @@ MonoBehaviour:
   staminaDrainRate: 1
   staminaRegenRate: 0.75
   staminaRegenThreshold: 0.3
+--- !u!114 &4102787005846014975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2592297371846685406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c93408a737498a4b84e3400e61b090d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueSpeaker
+  characterName: Player
+  headAnchor: {fileID: 0}
+  headOffset: 0.25
 --- !u!114 &4431662856431456515 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3614512718938478554, guid: 3ffe645aba80bca43a106ff1b7d6827a, type: 3}

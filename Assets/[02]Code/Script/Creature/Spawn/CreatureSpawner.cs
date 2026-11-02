@@ -189,11 +189,13 @@ public class CreatureSpawner : MonoBehaviour
         return alive >= zone.MaxAlive;
     }
 
-    // ตอนนี้เตือนผ่าน debug log + event — ต่อเสียงจริงทีหลังโดย Subscribe OnCreatureSpawned
+    // เตือนผู้เล่นด้วยเสียงร้องของสัตว์ตัวนั้น (CreatureVoice) + event ให้ระบบอื่นต่อเพิ่มได้
     private void NotifySpawn(GameObject creature, Vector3 point)
     {
         float distance = Vector3.Distance(point, player.position);
         Debug.Log($"[CreatureSpawner] (เสียงเตือน) {creature.name} เกิดใหม่ที่ {point} ห่างผู้เล่น {distance:F0} หน่วย");
+        CreatureVoice voice = creature.GetComponent<CreatureVoice>();
+        if (voice != null) voice.PlaySpawnCall();
         OnCreatureSpawned?.Invoke(creature, point);
     }
 

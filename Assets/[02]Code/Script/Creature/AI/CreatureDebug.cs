@@ -6,6 +6,7 @@ using UnityEngine;
 ///   2) วงระยะบนพื้นใน Scene view (หรือ Game view ถ้าเปิด Gizmos): Awareness (แดง), ได้ยินชัตเตอร์ (ฟ้า), Sprint Panic (ส้ม), Startle ประชิดตัว (เหลือง), Safe Distance (เขียว)
 ///      และตอน Alert มีวงระยะอ้างอิง: ตอนเข้า Alert (ขาว), ระยะเข้าใกล้แล้วหนี (แดงเข้ม), ระยะถอยแล้วกลับ Stop (น้ำเงิน)
 ///   3) Log ทุกครั้งที่ State เปลี่ยน
+///   4) ป้าย State ใน Scene view — เปิด/ปิดจากปุ่ม "AI State" / "Detail" บน Overlay "Creature Debug" ของ Scene view (ต้องเปิด Gizmos)
 /// โคนสายตายังวาดโดย CreatureVision (เลือกตัวสัตว์ใน Hierarchy ถึงจะเห็น)
 /// </summary>
 [RequireComponent(typeof(CreatureAI))]
@@ -22,6 +23,13 @@ public class CreatureDebug : MonoBehaviour
 
     [Header("Log")]
     public bool logStateChanges = true;
+
+#if UNITY_EDITOR
+    // ค่ารวมทุกตัว ตั้งจากปุ่มบน Overlay ของ Scene view (CreatureDebugSceneOverlay) ไม่ใช่ค่าต่อตัว
+    public static bool SceneLabels;
+    public static bool SceneLabelDetail;
+    private static GUIStyle sceneLabelStyle;
+#endif
 
     private CreatureAI ai;
     private CreatureVision vision;
@@ -125,6 +133,9 @@ public class CreatureDebug : MonoBehaviour
     // ==================== วงระยะ ====================
     private void OnDrawGizmos()
     {
+#if UNITY_EDITOR
+        DrawSceneLabel();
+#endif
         if (!showRanges) return;
         if (ai == null) ai = GetComponent<CreatureAI>();
         if (vision == null) vision = GetComponent<CreatureVision>();
@@ -154,6 +165,44 @@ public class CreatureDebug : MonoBehaviour
             Gizmos.DrawLine(c, ai.player.position + Vector3.up * 0.1f);
         }
     }
+
+#if UNITY_EDITOR
+    // ==================== ป้ายใน Scene view ====================
+    private void DrawSceneLabel()
+    {
+        if (!SceneLabels || !Application.isPlaying || ai == null || ai.profile == null) return;
+
+        // ป้ายสั้น (แค่ชื่อ State) โชว์ทุกระยะ เผื่อซูมออกดูทั้งแมพ ส่วนป้ายละเอียดตัดตาม labelMaxDistance
+        Camera cam = Camera.current;
+        Vector3 worldPos = transform.position + Vector3.up * labelHeight;
+        bool detail = SceneLabelDetail && cam != null
+            && (worldPos - cam.transform.position).sqrMagnitude <= labelMaxDistance * labelMaxDistance;
+
+        if (sceneLabelStyle == null || sceneLabelStyle.normal.background == null)
+        {
+            // พื้นหลังดำโปร่ง ให้อ่านออกบนพื้นทุกสี (GUI.skin.box ใน Scene view จางจนแทบมองไม่เห็น)
+            Texture2D bg = new Texture2D(1, 1) { hideFlags = HideFlags.HideAndDontSave };
+            bg.SetPixel(0, 0, new Color(0f, 0f, 0f, 0.85f));
+            bg.Apply();
+
+            sceneLabelStyle = new GUIStyle
+            {
+                alignment = TextAnchor.UpperLeft,
+                fontSize = 14,
+                richText = true,
+                wordWrap = false,
+                padding = new RectOffset(6, 6, 3, 3)
+            };
+            sceneLabelStyle.normal.textColor = Color.white;
+            sceneLabelStyle.normal.background = bg;
+        }
+
+        string text = detail
+            ? BuildLabel()
+            : $"<b><color={StateColor(ai.CurrentState)}>{ai.CurrentState}</color></b>";
+        UnityEditor.Handles.Label(worldPos, text, sceneLabelStyle);
+    }
+#endif
 
     private static void DrawCircle(Vector3 center, float radius)
     {

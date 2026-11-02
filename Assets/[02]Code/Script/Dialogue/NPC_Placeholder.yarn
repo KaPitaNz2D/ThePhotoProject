@@ -18,6 +18,16 @@ title: NPC_Start
 <<elseif quest_status("deer_01") == "Active">>
     <<detour Deer_Waiting>>
     <<set $talked to true>>
+// เควสมูสปลดหลังส่งเควสกวางเสร็จเท่านั้น (ปกติ Deer_Turnin ให้ต่อทันที กิ่งนี้กันกรณีหลุดไป)
+<<elseif quest_status("moose_01") == "NotStarted">>
+    <<detour Moose_Offer>>
+    <<set $talked to true>>
+<<elseif quest_status("moose_01") == "Active" && has_photo("moose_01")>>
+    <<detour Moose_Turnin>>
+    <<set $talked to true>>
+<<elseif quest_status("moose_01") == "Active">>
+    <<detour Moose_Waiting>>
+    <<set $talked to true>>
 <<endif>>
 
 <<detour Discoveries>>
@@ -48,11 +58,9 @@ title: Deer_Offer
 ---
 NPC: There's a deer that lives around these parts. Could you go find it and take a nice close-up photo for me?
 NPC: And hey, while you're out there, feel free to snap pictures of any other interesting plants or mushrooms you come across too. I'd love to see what you find.
--> Sure, I'll go take a look.
-    <<start_quest "deer_01">>
-    NPC: Great, thank you! Take it slow, the deer spooks easily.
--> Maybe later.
-    NPC: No rush. I'll be right here whenever you're ready.
+// คุยแล้วรับเควสเลย ไม่มีตัวเลือกตอบรับ/ปฏิเสธ
+<<start_quest "deer_01">>
+NPC: Take it slow, the deer spooks easily.
 ===
 
 title: Deer_Waiting
@@ -67,6 +75,32 @@ NPC: A nice close-up of the deer - exactly what I was hoping for. Thank you!
 <<complete_quest "deer_01">>
 <<mark_informed "deer_01">>
 NPC: Thank you very much, this will help our research a lot.
+<<detour Moose_Offer>>
+===
+
+title: Moose_Offer
+---
+// ได้ต่อทันทีหลังส่งเควสกวาง — เช็คซ้ำกันเผลอ detour มาก่อนกวางเสร็จ
+<<if quest_status("deer_01") == "Completed">>
+    NPC: Since you've got such a good eye, there's one more animal I'd love a photo of.
+    NPC: A moose has been spotted wandering around the park. Could you find it and get a good photo for me?
+    <<start_quest "moose_01">>
+    NPC: Keep your distance, though. A moose looks calm, but it's far bigger and more dangerous than a deer.
+<<endif>>
+===
+
+title: Moose_Waiting
+---
+NPC: No luck with the moose yet? They like wet, marshy spots where they can munch on water plants.
+===
+
+title: Moose_Turnin
+---
+NPC: You found the moose? Let me see!
+NPC: What a big one - look at the size of those antlers. Great photo!
+<<complete_quest "moose_01">>
+<<mark_informed "moose_01">>
+NPC: Thank you, this is a wonderful record for the park.
 ===
 
 title: Discoveries
@@ -115,7 +149,7 @@ title: Chat
     <<once>>
         NPC: Placeholder chat topic 2.
     <<else>>
-        NPC: Thanks again for your help with the deer earlier.
+        NPC: Thanks again for all your help with the animals.
     <<endonce>>
 <<endonce>>
 ===

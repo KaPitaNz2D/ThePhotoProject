@@ -104,6 +104,30 @@ PrefabInstance:
       propertyPath: profile
       value: 
       objectReference: {fileID: 11400000, guid: a3d2971cd8c81824aaeff01bcd6de9ea, type: 2}
+    - target: {fileID: 1410302513872121997, guid: 823460e9a6d93d54cb13a43ab6b37b63, type: 3}
+      propertyPath: volume
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410302513872121997, guid: 823460e9a6d93d54cb13a43ab6b37b63, type: 3}
+      propertyPath: maxDistance
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410302513872121997, guid: 823460e9a6d93d54cb13a43ab6b37b63, type: 3}
+      propertyPath: pitchRange.x
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410302513872121997, guid: 823460e9a6d93d54cb13a43ab6b37b63, type: 3}
+      propertyPath: pitchRange.y
+      value: 0.88
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410302513872121997, guid: 823460e9a6d93d54cb13a43ab6b37b63, type: 3}
+      propertyPath: runStepDistance
+      value: 2.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410302513872121997, guid: 823460e9a6d93d54cb13a43ab6b37b63, type: 3}
+      propertyPath: walkStepDistance
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1535279123949320942, guid: 823460e9a6d93d54cb13a43ab6b37b63, type: 3}
       propertyPath: snortClip
       value: 
