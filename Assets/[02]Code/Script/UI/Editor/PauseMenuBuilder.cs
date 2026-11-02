@@ -18,7 +18,7 @@ public static class PauseMenuBuilder
     private const string Folder = "Assets/[03]Prefabs/UI prefeb";
     private const string PrefabPath = Folder + "/PauseMenu.prefab";
     private const string ProfilePath = Folder + "/PauseBlurProfile.asset";
-    private const string GameSystemsPath = "Assets/[03]Prefabs/GameSystems.prefab";
+    private const string GameSystemsPath = "Assets/[03]Prefabs/System/GameSystems.prefab";
     private const string PlayerRigPath = "Assets/[03]Prefabs/PlayerRig.prefab";
     private const string InputActionsPath = "Assets/[02]Code/Script/PlayerControls.inputactions";
 
