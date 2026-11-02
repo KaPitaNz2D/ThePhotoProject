@@ -1013,7 +1013,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c93408a737498a4b84e3400e61b090d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialogueSpeaker
-  characterName: NPC
+  characterName: Mia
   headAnchor: {fileID: 1643513700692811939}
   headOffset: 0.25
 --- !u!114 &3657865651607917016

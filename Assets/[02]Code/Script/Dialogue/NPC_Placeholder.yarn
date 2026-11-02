@@ -4,8 +4,8 @@ title: NPC_Start
 // ลำดับ: เรื่องเควส -> เห็ด/ดอกไม้ที่เพิ่งถ่ายมา -> (ถ้ายังไม่มีอะไรให้พูดในรอบนี้) คุยเล่น
 <<declare $intro_done = false>>
 <<declare $talked = false>>
-// ชื่อ NPC — ยังไม่ได้ตั้ง แก้ตรงนี้ที่เดียว บทพูดทุกบรรทัดดึงชื่อจากตัวแปรนี้
-<<declare $npc_name = "(name)">>
+// ชื่อ NPC ที่ใช้ในบทพูด — ชื่อหน้าบรรทัด "Mia:" ต้องตรงกับ DialogueSpeaker.characterName ของ NPC ด้วย (บับเบิลหาตัวพูดจากชื่อนี้)
+<<declare $npc_name = "Mia">>
 <<set $talked to false>>
 
 <<if !$intro_done>>
@@ -41,50 +41,50 @@ title: NPC_Start
 
 title: Intro
 ---
-NPC: Oh! Footsteps on the trail. My, it's been a long time since I heard those.
-NPC: You must be the new trainee they said they were sending. I wasn't sure anyone would actually come.
+Mia: Oh! Footsteps on the trail. My, it's been a long time since I heard those.
+Mia: You must be the new trainee they said they were sending. I wasn't sure anyone would actually come.
 Player: That's me. I'm here to survey the park - photograph what lives here and bring the records up to date.
-NPC: Well then, welcome. My name is {$npc_name}. I've looked after this old park for longer than I care to count.
-NPC: You'll find it's quiet work. Not many people come out here anymore. Once the new road went in, folks just sort of... forgot about the place.
-NPC: Lonely, some days. But the forest never really empties out. You just have to sit still long enough to notice who's around.
-NPC: These old legs don't carry me very far these days, so the survey's been left alone. The records haven't been touched in years.
+Mia: Well then, welcome. My name is {$npc_name}. I've looked after this old park for longer than I care to count.
+Mia: You'll find it's quiet work. Not many people come out here anymore. Once the new road went in, folks just sort of... forgot about the place.
+Mia: Lonely, some days. But the forest never really empties out. You just have to sit still long enough to notice who's around.
+Mia: These old legs don't carry me very far these days, so the survey's been left alone. The records haven't been touched in years.
 Player: Then I'll start filling them in.
-NPC: Good. It's been a long time since anyone cared about this place but me.
-NPC: After all these years, it doesn't feel like a park to me anymore. It feels like home.
-NPC: Maybe one day it'll feel a bit like home to you too.
+Mia: Good. It's been a long time since anyone cared about this place but me.
+Mia: After all these years, it doesn't feel like a park to me anymore. It feels like home.
+Mia: Maybe one day it'll feel a bit like home to you too.
 <<set $intro_done to true>>
-NPC: Well, no sense standing around. How about we start with an old friend of mine?
+Mia: Well, no sense standing around. How about we start with an old friend of mine?
 <<detour Deer_Offer>>
 ===
 
 title: Deer_Offer_Again
 ---
-NPC: Oh, you're back. Let me tell you about that deer again.
+Mia: Oh, you're back. Let me tell you about that deer again.
 <<detour Deer_Offer>>
 ===
 
 title: Deer_Offer
 ---
-NPC: There's a deer that lives around these parts. I'd love to have a nice close-up of it in the records - think you could find it for me?
-NPC: Oh, and if anything else catches your eye out there - a mushroom, a pretty flower, whatever - snap a picture and bring it back. We can figure out what it is together.
-NPC: I can't get out on the trails much anymore, so it'd be a real treat to see what's out there through your camera.
+Mia: There's a deer that lives around these parts. I'd love to have a nice close-up of it in the records - think you could find it for me?
+Mia: Oh, and if anything else catches your eye out there - a mushroom, a pretty flower, whatever - snap a picture and bring it back. We can figure out what it is together.
+Mia: I can't get out on the trails much anymore, so it'd be a real treat to see what's out there through your camera.
 // คุยแล้วรับเควสเลย ไม่มีตัวเลือกตอบรับ/ปฏิเสธ
 <<start_quest "deer_01">>
-NPC: Just take it slow, alright? That deer spooks easily.
+Mia: Just take it slow, alright? That deer spooks easily.
 ===
 
 title: Deer_Waiting
 ---
-NPC: Still haven't found the deer? Try checking around the lake, it likes to graze there.
+Mia: Still haven't found the deer? Try checking around the lake, it likes to graze there.
 ===
 
 title: Deer_Turnin
 ---
-NPC: Oh, you're back! Let's see what you got.
-NPC: A nice close-up of the deer - exactly what I was hoping for. Thank you!
+Mia: Oh, you're back! Let's see what you got.
+Mia: A nice close-up of the deer - exactly what I was hoping for. Thank you!
 <<complete_quest "deer_01">>
 <<mark_informed "deer_01">>
-NPC: That's the first new entry in the records in years. You did wonderfully.
+Mia: That's the first new entry in the records in years. You did wonderfully.
 <<detour Moose_Offer>>
 ===
 
@@ -92,72 +92,72 @@ title: Moose_Offer
 ---
 // ได้ต่อทันทีหลังส่งเควสกวาง — เช็คซ้ำกันเผลอ detour มาก่อนกวางเสร็จ
 <<if quest_status("deer_01") == "Completed">>
-    NPC: You've got a good eye, you know that? Let me tell you about another one.
-    NPC: I've heard there's a moose wandering around the park. Nobody's managed to get one in the records for ages - if you happen to spot it, I'd love a good photo.
+    Mia: You've got a good eye, you know that? Let me tell you about another one.
+    Mia: I've heard there's a moose wandering around the park. Nobody's managed to get one in the records for ages - if you happen to spot it, I'd love a good photo.
     <<start_quest "moose_01">>
-    NPC: Do keep your distance, though. A moose looks calm, but it's a lot bigger than a deer, and a lot grumpier.
+    Mia: Do keep your distance, though. A moose looks calm, but it's a lot bigger than a deer, and a lot grumpier.
 <<endif>>
 ===
 
 title: Moose_Waiting
 ---
-NPC: No luck with the moose yet? They like wet, marshy spots where they can munch on water plants.
+Mia: No luck with the moose yet? They like wet, marshy spots where they can munch on water plants.
 ===
 
 title: Moose_Turnin
 ---
-NPC: You found the moose? Let me see!
-NPC: What a big one - look at the size of those antlers. Great photo!
+Mia: You found the moose? Let me see!
+Mia: What a big one - look at the size of those antlers. Great photo!
 <<complete_quest "moose_01">>
 <<mark_informed "moose_01">>
-NPC: Wonderful. That's a record this park hasn't had in a very long time.
+Mia: Wonderful. That's a record this park hasn't had in a very long time.
 ===
 
 title: Discoveries
 ---
 // เห็ด/ดอกไม้: ไม่ต้องรับเควส ถ่ายมาเมื่อไหร่ก็ได้ — NPC เล่าให้ฟังครั้งเดียวต่อชนิด (is_informed)
 <<if has_photo("Chan") && !is_informed("Chan")>>
-    NPC: Ah, a chanterelle too, I see. That golden color gives it away.
-    NPC: See the ridges underneath? Those aren't real gills - and it only grows near tree roots like oak or birch.
+    Mia: Ah, a chanterelle too, I see. That golden color gives it away.
+    Mia: See the ridges underneath? Those aren't real gills - and it only grows near tree roots like oak or birch.
     <<mark_informed "Chan">>
     <<set $talked to true>>
 <<endif>>
 <<if has_photo("FlyAgaric") && !is_informed("FlyAgaric")>>
-    NPC: And a fly agaric - hard to miss that red cap with the white warts.
-    NPC: Pretty to look at, but never eat one raw.
+    Mia: And a fly agaric - hard to miss that red cap with the white warts.
+    Mia: Pretty to look at, but never eat one raw.
     <<mark_informed "FlyAgaric">>
     <<set $talked to true>>
 <<endif>>
 <<if has_photo("Honey") && !is_informed("Honey")>>
-    NPC: Honey fungus, growing right on that old stump.
-    NPC: It's slowly feeding on the wood underneath - its threads can spread for miles underground.
+    Mia: Honey fungus, growing right on that old stump.
+    Mia: It's slowly feeding on the wood underneath - its threads can spread for miles underground.
     <<mark_informed "Honey">>
     <<set $talked to true>>
 <<endif>>
 <<if has_photo("Turkey") && !is_informed("Turkey")>>
-    NPC: Turkey tail, with those banded rings of color.
-    NPC: It breaks down dead wood bit by bit. Too tough to eat, but good for tea.
+    Mia: Turkey tail, with those banded rings of color.
+    Mia: It breaks down dead wood bit by bit. Too tough to eat, but good for tea.
     <<mark_informed "Turkey">>
     <<set $talked to true>>
 <<endif>>
 <<if has_photo("Goldenrod") && !is_informed("Goldenrod")>>
-    NPC: Goldenrod! Those little yellow plumes light up the whole meadow this time of year.
-    NPC: People blame it for hay fever, but that's usually ragweed. Goldenrod's pollen is too heavy to blow around - the bees carry it instead.
-    NPC: It blooms late, after most flowers are gone, so it's one of the last good meals for bees and butterflies before winter.
+    Mia: Goldenrod! Those little yellow plumes light up the whole meadow this time of year.
+    Mia: People blame it for hay fever, but that's usually ragweed. Goldenrod's pollen is too heavy to blow around - the bees carry it instead.
+    Mia: It blooms late, after most flowers are gone, so it's one of the last good meals for bees and butterflies before winter.
     <<mark_informed "Goldenrod">>
     <<set $talked to true>>
 <<endif>>
 <<if has_photo("JoePyeWeed") && !is_informed("JoePyeWeed")>>
-    NPC: Ah, Joe-Pye weed. Those dusty pink domes can grow taller than you are.
-    NPC: It likes its feet wet, so you'll find it in damp spots and along the stream.
-    NPC: The story goes it was named after a healer who used it to treat fevers. Get close and the flowers smell a little like vanilla.
-    NPC: Swallowtails and monarchs love it. On a sunny afternoon it's covered in butterflies.
+    Mia: Ah, Joe-Pye weed. Those dusty pink domes can grow taller than you are.
+    Mia: It likes its feet wet, so you'll find it in damp spots and along the stream.
+    Mia: The story goes it was named after a healer who used it to treat fevers. Get close and the flowers smell a little like vanilla.
+    Mia: Swallowtails and monarchs love it. On a sunny afternoon it's covered in butterflies.
     <<mark_informed "JoePyeWeed">>
     <<set $talked to true>>
 <<endif>>
 <<if has_photo("puffball") && !is_informed("puffball")>>
-    NPC: Oh, a puffball! Careful giving that one a poke once it's fully grown.
-    NPC: It'll puff out a cloud of spores if you brush against it. Only good to eat while it's still young and white inside.
+    Mia: Oh, a puffball! Careful giving that one a poke once it's fully grown.
+    Mia: It'll puff out a cloud of spores if you brush against it. Only good to eat while it's still young and white inside.
     <<mark_informed "puffball">>
     <<set $talked to true>>
 <<endif>>
@@ -169,13 +169,13 @@ title: Chat
 // <<once>> = แต่ละหัวข้อเล่นครั้งเดียว พอหมดทุกหัวข้อจะตกไปที่ <<else>> สุดท้าย
 // ตอนมีสัตว์ตัวใหม่ ให้เพิ่ม Offer/Turnin ของตัวนั้นใน NPC_Start และแยก Chat ตามความคืบหน้าที่นี่
 <<once>>
-    NPC: Funny thing. I've spent most of my life in this park, and it still surprises me.
+    Mia: Funny thing. I've spent most of my life in this park, and it still surprises me.
 <<else>>
     <<once>>
-        NPC: When I was younger this place was full of families. Picnics, kids yelling down by the water...
-        NPC: Now it's mostly me and the birds. Still, I wouldn't want to be anywhere else.
+        Mia: When I was younger this place was full of families. Picnics, kids yelling down by the water...
+        Mia: Now it's mostly me and the birds. Still, I wouldn't want to be anywhere else.
     <<else>>
-        NPC: You're doing good work out there. The records haven't looked this full in years.
+        Mia: You're doing good work out there. The records haven't looked this full in years.
     <<endonce>>
 <<endonce>>
 ===
