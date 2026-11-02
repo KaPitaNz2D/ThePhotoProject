@@ -3,7 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
-    public string gameSceneName = "Level_Prototype";
+    [Tooltip("ชื่อซีนที่ปุ่ม Play โหลด — ต้องอยู่ใน Build Settings")]
+    public string gameSceneName = "PlayTest_Final";
 
     public void StartGame()
     {
